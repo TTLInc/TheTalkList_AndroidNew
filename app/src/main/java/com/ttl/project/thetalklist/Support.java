@@ -51,6 +51,7 @@ public class Support extends Fragment {
         supports_howitworks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentStack.getInstance().push(new Support());
                 getFragmentManager().beginTransaction().replace(R.id.viewpager,new Supports_howitworks()).commit();
             }
         });
@@ -90,7 +91,8 @@ public class Support extends Fragment {
                     faqs_btn.setImageResource(R.drawable.side_aerrow);
                     faqs_bits=0;
                 }
-
+                FragmentStack.getInstance().push(new Support());
+                getFragmentManager().beginTransaction().replace(R.id.viewpager,new Supports_howitworks()).commit();
                 video_layout.toggle();
                 if (video_bits== 0) {
                    video_btn.setImageResource(R.drawable.down_aerrow);

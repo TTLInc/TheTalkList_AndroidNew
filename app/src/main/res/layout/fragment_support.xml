@@ -28,7 +28,7 @@
                     android:background="#EAEDED"
                     android:gravity="fill_horizontal">
 
-                    <TextView      
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-               <!-- <TextView
+                <!-- <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -56,7 +56,7 @@
                     android:text="If you have problems, email  "
                     android:textColor="#566573" />  -->
 
-              <!--  <Button
+                <!--  <Button
                     android:id="@+id/supportEmailButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <TextView      
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -128,7 +128,7 @@
                          android:text="View Video to learn the ABCs of TheTalkList."
                          android:textColor="#566573" />-->
 
-                   <!-- <VideoView
+                    <!-- <VideoView
                         android:id="@+id/videoView"
                         android:layout_width="match_parent"
                         android:layout_height="260dp"
@@ -169,7 +169,7 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <TextView      
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -185,13 +185,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/faqs_btn"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/side_aerrow" />
-                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/faqs_btn"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/side_aerrow" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <com.github.aakira.expandablelayout.ExpandableLinearLayout
@@ -210,7 +210,7 @@
 
                     </LinearLayout>
                     <!--<include layout="@layout/biography_biography_layout" />-->
-                  <!--  <ImageView
+                    <!--  <ImageView
                         android:id="@+id/contactus_bt"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -236,7 +236,7 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <TextView      
+                    <TextView
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -246,19 +246,20 @@
                         android:text="Contact Us"
                         android:textSize="17dp"
                         android:textStyle="bold" />
+
                     <Button
-                        android:layout_weight="0.5"
                         android:id="@+id/supportEmailButton"
                         android:layout_width="match_parent"
-                        android:layout_marginStart="25dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_weight="0.5"
                         android:background="#00000000"
                         android:clickable="true"
-                        android:textSize="15dp"
-                        android:textAllCaps="false"
-                        android:textAlignment="viewEnd"
                         android:text="support@thetalklist.com"
-                        android:textColor="#5499C7" />
+                        android:textAlignment="viewEnd"
+                        android:textAllCaps="false"
+                        android:textColor="#5499C7"
+                        android:textSize="15dp" />
                     <!--<LinearLayout
                         android:id="@+id/contactus_btn_layout"
                         android:layout_width="wrap_content"
@@ -274,7 +275,7 @@
                     </LinearLayout>-->
                 </LinearLayout>
 
-              <!--  <com.github.aakira.expandablelayout.ExpandableLinearLayout
+                <!--  <com.github.aakira.expandablelayout.ExpandableLinearLayout
                     android:id="@+id/contactus_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -293,7 +294,6 @@
                 </com.github.aakira.expandablelayout.ExpandableLinearLayout>-->
 
 
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -301,7 +301,6 @@
                     android:background="#BDBDBD" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>

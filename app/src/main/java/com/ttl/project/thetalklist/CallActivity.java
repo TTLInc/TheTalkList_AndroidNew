@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.opentok.android.OpentokError;
 import com.opentok.android.PublisherKit;
 import com.opentok.android.Stream;
@@ -45,7 +49,7 @@ public class CallActivity extends AppCompatActivity implements PublisherKit.Publ
 //    CameraView cameraView;
 
     TextView incomingCall_CallerName;
-
+ImageView call_activity_image;
 
     BroadcastReceiver callEnd;
 
@@ -76,8 +80,37 @@ public class CallActivity extends AppCompatActivity implements PublisherKit.Publ
         registerReceiver(callEnd,new IntentFilter("callEnd"));
 
         incomingCall_CallerName = (TextView) findViewById(R.id.incomingCall_CallerName);
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+        call_activity_image = (ImageView) findViewById(R.id.call_activity_image);
+        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
         incomingCall_CallerName.setText(preferences.getString("callSenderName", ""));
+
+
+      /*  new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (!preferences.getString("image","").equals("")){
+                    Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + preferences.getString("image",""))
+                            .crossFade()
+                            .thumbnail(0.5f)
+                            .bitmapTransform(new CircleTransform(getApplicationContext()))
+                            .placeholder(R.drawable.process)
+                            .error(R.drawable.black_person)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(call_activity_image);
+                } else {
+                    Glide.with(getApplicationContext()).load("https://www.thetalklist.com/images/header.jpg")
+                            .crossFade()
+                            .thumbnail(0.5f)
+                            .bitmapTransform(new CircleTransform(getApplicationContext()))
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(call_activity_image);
+                }
+
+                return null;
+            }
+        }.execute();*/
+
+
 
         mp = MediaPlayer.create(this, R.raw.incoming);
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);

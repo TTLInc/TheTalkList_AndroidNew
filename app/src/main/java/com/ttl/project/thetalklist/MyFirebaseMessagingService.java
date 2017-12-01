@@ -387,7 +387,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
             resultIntent.putExtra("message", message);
 
-            if (TextUtils.isEmpty(imageUrl)) {
+//            if (TextUtils.isEmpty(imageUrl)) {
                 Log.e("yyyyyyyyyyyyyyyyyy", "messaging service");
 
 
@@ -413,6 +413,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putInt("classId", cid);
                     editor.putString("callSenderName", name);
+                    editor.putString("image", imageUrl);
                     editor.putInt("studentId", getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0));
                     editor.putInt("tutorId", id).apply();
 
@@ -454,8 +455,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mNotificationManager.notify(100, mBuilder.build());
                 }
-            } else {
-            }
+           /* } else {
+            }*/
         } catch (JSONException e) {
             Log.e(TAG, "Json Exception: " + e.getMessage());
         } catch (Exception e) {

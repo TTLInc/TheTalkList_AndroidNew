@@ -418,9 +418,9 @@ public class MyDetailsB extends Fragment {
 
                             DesiredTutor desiredTutor = new DesiredTutor();
 
-                            ((Switch)getActivity().findViewById(R.id.switch1)).setChecked(false);
+                          /*  ((Switch)getActivity().findViewById(R.id.switch1)).setChecked(false);
                             ((Switch)getActivity().findViewById(R.id.switch1)).setClickable(false);
-                            ((Switch)getActivity().findViewById(R.id.switch1)).setFocusable(false);
+                            ((Switch)getActivity().findViewById(R.id.switch1)).setFocusable(false);*/
 
                          /*   LoginService loginService=new LoginService();
                             loginService.login(pref111.getString("email",""),pref111.getString("pass",""),getApplicationContext());
@@ -435,7 +435,7 @@ public class MyDetailsB extends Fragment {
                             fragmentTransaction.commit();*/
 
                             popupWindow.dismiss();
-getActivity().finish();
+//getActivity().finish();
 
                             TabBackStack.getInstance().setTabPosition(1);
                             fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();

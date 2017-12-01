@@ -125,7 +125,7 @@ public class SettingFlyout extends AppCompatActivity {
     private ListView mDrawerList;
     LinearLayout return_to_call;
     private CharSequence mDrawerTitle;
-    int notification;
+    boolean notification=false;
     private CharSequence mTitle;
     private String[] mNavigationDrawerItemTitles;
     ActionBarDrawerToggle mDrawerToggle;
@@ -869,8 +869,8 @@ public class SettingFlyout extends AppCompatActivity {
                                     if (info.getInt(dayOfTheWeek.toLowerCase())==1){
                                         talkNow.setChecked(true);
                                         Log.e("availability", "yes");
-                                        if (to==t && notification==0){
-                                            notification=1;
+                                        if (to==t && !notification){
+                                            notification=true;
                                             Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
                                             NotificationCompat.BigTextStyle inboxStyle = new NotificationCompat.BigTextStyle();
                                             final int icon = R.mipmap.ttlg2;
@@ -1392,6 +1392,11 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
 
                         credits.setText(resultObj.getString("money"));
                         TVuserName.setText(resultObj.getString("usernm"));
+                        int rewardPoints=Integer.parseInt(resultObj.getString("ttl_points").substring(0,resultObj.getString("ttl_points").indexOf(".")));
+                        if (rewardPoints<0)
+                            num_ttlScore.setText("0");
+                        else
+                        num_ttlScore.setText(String.valueOf(rewardPoints));
                         String pic = resultObj.getString("pic");
                         if (!pic.equals("")) {
                             Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + pic)

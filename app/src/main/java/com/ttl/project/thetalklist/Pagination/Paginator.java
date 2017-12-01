@@ -137,7 +137,7 @@ public class Paginator {
 
                                   if (!o.getString("fee").equals(""))
                                         History_model.setRate(String.format("%.02f",Float.parseFloat(o.getString("fee"))));
-                                    else History_model.setRate("");
+                                    else History_model.setRate("0.00");
 //                                    }
 
 
