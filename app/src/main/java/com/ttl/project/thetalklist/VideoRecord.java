@@ -261,19 +261,28 @@ public class VideoRecord extends Fragment {
         upload_video_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (subject.getSelectedItem().toString().equalsIgnoreCase("select subject")) {
-                    Toast.makeText(getContext(), "Please select subject ", Toast.LENGTH_SHORT).show();
-                } else if (videoRecord_title.getText().toString().matches("")) {
-                    Toast.makeText(getContext(), "Please fill Title ", Toast.LENGTH_SHORT).show();
-                } else if (videoRecord_desc.getText().toString().matches("")) {
 
-                    Toast.makeText(getContext(), "Please fill Description ", Toast.LENGTH_SHORT).show();
-                } else {
+
+                if (!bio_videoPref.getBoolean("biography", false)) {
+                    if (subject.getSelectedItem().toString().equalsIgnoreCase("select subject")) {
+                        Toast.makeText(getContext(), "Please select subject ", Toast.LENGTH_SHORT).show();
+                    } else if (videoRecord_title.getText().toString().matches("")) {
+                        Toast.makeText(getContext(), "Please fill Title ", Toast.LENGTH_SHORT).show();
+                    } else if (videoRecord_desc.getText().toString().matches("")) {
+
+                        Toast.makeText(getContext(), "Please fill Description ", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setType("video/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(intent, "Select a Video "), SELECT_VIDEO);
+
+                    }
+                }else {
                     Intent intent = new Intent();
                     intent.setType("video/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     startActivityForResult(Intent.createChooser(intent, "Select a Video "), SELECT_VIDEO);
-
                 }
             }
         });
@@ -439,7 +448,7 @@ public class VideoRecord extends Fragment {
                 launchUploadActivity(generatePath(image_uri, getContext()));
 
             }
-            getActivity().onBackPressed();
+//            getActivity().onBackPressed();
         }
 
     }

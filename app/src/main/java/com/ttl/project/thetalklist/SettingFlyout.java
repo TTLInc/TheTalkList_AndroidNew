@@ -1392,11 +1392,14 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
 
                         credits.setText(resultObj.getString("money"));
                         TVuserName.setText(resultObj.getString("usernm"));
-                        int rewardPoints=Integer.parseInt(resultObj.getString("ttl_points").substring(0,resultObj.getString("ttl_points").indexOf(".")));
-                        if (rewardPoints<0)
-                            num_ttlScore.setText("0");
-                        else
-                        num_ttlScore.setText(String.valueOf(rewardPoints));
+
+                        if (!resultObj.getString("ttl_points").equals("")) {
+                            int rewardPoints = Integer.parseInt(resultObj.getString("ttl_points").substring(0, resultObj.getString("ttl_points").indexOf(".")));
+                            if (rewardPoints < 0)
+                                num_ttlScore.setText("0");
+                            else
+                                num_ttlScore.setText(String.valueOf(rewardPoints));
+                        }else  num_ttlScore.setText("0");
                         String pic = resultObj.getString("pic");
                         if (!pic.equals("")) {
                             Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + pic)

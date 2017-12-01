@@ -180,6 +180,7 @@ public class Fragment_cropImage extends AppCompatActivity {
 
 //                Toast.makeText(context, "Some error occurred! " + s, Toast.LENGTH_LONG).show();
 
+                Log.e("image upload response",s);
                 try {
                     JSONObject res=new JSONObject(s);
                     if (res.getInt("status")==0){

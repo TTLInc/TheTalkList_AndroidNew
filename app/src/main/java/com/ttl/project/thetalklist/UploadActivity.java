@@ -215,8 +215,9 @@ public class UploadActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            onBackPressed();
+//            onBackPressed();
 
+            finish();
             super.onPostExecute(result);
         }
 
