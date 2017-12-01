@@ -144,7 +144,7 @@ android:background="#42A1CF"
                     android:text="Sign In"
                     android:textAllCaps="false"
                     android:textColor="#fff"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
