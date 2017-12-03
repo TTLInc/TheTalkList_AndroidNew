@@ -374,7 +374,7 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                             sta.putExtra("status", status);
                             sta.putExtra("roleId", 1);
                             sta.putExtra("username", UserName);
-                            sta.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            sta.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(sta);
                         }
                     }, new Response.ErrorListener() {

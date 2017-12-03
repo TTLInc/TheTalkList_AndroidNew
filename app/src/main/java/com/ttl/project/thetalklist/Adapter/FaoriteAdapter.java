@@ -126,6 +126,13 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                 }
             }
 
+
+
+
+            if (object.getInt("readytotalk")==0){
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
+            }
+
            /* if (object.getInt("isMyFavourite")==1){
                 holder.favoriteTag.setVisibility(View.VISIBLE);
 

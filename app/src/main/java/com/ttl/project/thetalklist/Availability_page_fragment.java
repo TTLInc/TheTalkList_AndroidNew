@@ -73,8 +73,8 @@ public class Availability_page_fragment extends Fragment {
         friday_root = (LinearLayout) view.findViewById(R.id.friday_root);
         saturday_root = (LinearLayout) view.findViewById(R.id.saturday_root);
 
-        startTime.setText("9:20 AM");
-        endTime.setText("2:20 PM");
+        startTime.setText("5:00 PM");
+        endTime.setText("10:00 PM");
 
 
 
