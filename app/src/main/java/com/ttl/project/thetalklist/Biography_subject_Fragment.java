@@ -145,7 +145,7 @@ public class Biography_subject_Fragment extends Fragment {
 
 
                                             biography_biography_save_button.setVisibility(View.VISIBLE);
-                                            final Biography_subject_adapter subjectAdapter = new Biography_subject_adapter(getContext(), languageAry, selectedAry, getFragmentManager(),biography_biography_save_button);
+                                            final Biography_subject_adapter subjectAdapter = new Biography_subject_adapter(getContext(), languageAry, selectedAry, getFragmentManager(),biography_biography_save_button,getActivity());
 
 
                                             biography_subject_recyclerview.setAdapter(subjectAdapter);

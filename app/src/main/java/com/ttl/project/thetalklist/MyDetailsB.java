@@ -409,8 +409,10 @@ public class MyDetailsB extends Fragment {
                         public void onClick(View v) {
 
 
+                            if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
-                            fragmentStack.push(new Available_tutor());
+                                fragmentStack.push(new Tablayout_with_viewpager());
+                            }else fragmentStack.push(new Available_tutor());
                             roleIdChange(email_id, 0);
 
                             editor111.putInt("status",0);
@@ -452,6 +454,10 @@ public class MyDetailsB extends Fragment {
                             editor111.putInt("status",0);
                             editor111.putInt("roleId",1).apply();
                             roleIdChange(email_id, 1);
+                            if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
+
+                                fragmentStack.push(new Tablayout_with_viewpager());
+                            }else
                             fragmentStack.push(new Available_tutor());
 
                         /*    LoginService loginService=new LoginService();

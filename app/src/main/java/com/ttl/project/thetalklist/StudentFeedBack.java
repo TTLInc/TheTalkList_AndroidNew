@@ -69,7 +69,7 @@ public class StudentFeedBack extends AppCompatActivity {
                     final String URL = "https://www.thetalklist.com/api/student_feedback_form?cid=" + preferences.getInt("classId", 0) + "&sid=" +
                             preferences.getInt("studentId", 0) + "&tid=" + preferences.getInt("tutorId", 0) + "&user_given_rating=" +
                             student_feedback_ratingBar.getRating() + "&report_inappropriate=" + bit +
-                            "&feedback_msg=" + student_feedback_msg.getText().toString().replace(" ", "%20")+"d&session_id="+Sessionpref.getString("sessionId","");
+                            "&feedback_msg=" + student_feedback_msg.getText().toString().replace(" ", "%20")+"&session_id="+Sessionpref.getString("sessionId","");
                     StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

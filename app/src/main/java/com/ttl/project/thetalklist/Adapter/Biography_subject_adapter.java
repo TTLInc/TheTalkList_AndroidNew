@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -20,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.ttl.project.thetalklist.Biography_subject_Fragment;
 import com.ttl.project.thetalklist.R;
 import com.ttl.project.thetalklist.Tablayout_with_viewpager;
 
@@ -40,14 +42,16 @@ public class Biography_subject_adapter extends BaseAdapter {
     JSONArray selectedAry;
     android.support.v4.app.FragmentManager fragmentManager;
     Button button;
+    Activity activity;
 
-    public Biography_subject_adapter(Context context, JSONArray array, JSONArray selectedAry, android.support.v4.app.FragmentManager fragmentManager,Button button) {
+    public Biography_subject_adapter(Context context, JSONArray array, JSONArray selectedAry, android.support.v4.app.FragmentManager fragmentManager,Button button, Activity activity) {
         this.context = context;
         this.array = array;
         notifyDataSetChanged();
         this.selectedAry = selectedAry;
         this.fragmentManager = fragmentManager;
         this.button=button;
+        this.activity=activity;
     }
 
 
@@ -147,7 +151,12 @@ public class Biography_subject_adapter extends BaseAdapter {
                                         notifyDataSetChanged();
                                                         Toast.makeText(context, "Saved ", Toast.LENGTH_SHORT).show();
                                                         android.support.v4.app.FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                                                        fragmentTransaction.replace(R.id.viewpager, new Tablayout_with_viewpager()).commit();
+
+                                        if (activity.getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
+
+                                            fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
+                                        }else
+                                        fragmentTransaction.replace(R.id.viewpager, new Tablayout_with_viewpager()).commit();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

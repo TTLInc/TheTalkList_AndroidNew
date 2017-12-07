@@ -33,7 +33,10 @@ public class IntroScreen4 extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),MyDetailsNotRegistered.class));
+
+                Intent i=new Intent(getContext(),MyDetailsNotRegistered.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
                 FragmentManager fragmentManager=getFragmentManager();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(R.anim.set_left_in,R.anim.set_left_out);
