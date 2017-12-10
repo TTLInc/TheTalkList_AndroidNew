@@ -102,7 +102,7 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
         tabBackStack.setClassName("class Tablayout_with_viewpager");
 
 
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#BDBDBD"));
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#4DB806"));
         tabLayout.getTabAt(tabBackStack.getTabPosition()).select();
 
     }
@@ -117,7 +117,7 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("roleAndStatus", 0);
         sharedPreferences.contains("roleId");
         sharedPreferences.contains("status");
-                    adapter.addFragment(new MyDetailsB(), "My Details");
+                    adapter.addFragment(new MyDetailsB(), "Details");
                     adapter.addFragment(new Biography(), "Biography");
                     viewPager.setAdapter(adapter);
 
