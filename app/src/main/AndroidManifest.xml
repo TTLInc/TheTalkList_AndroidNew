@@ -165,7 +165,6 @@
         <activity
             android:name=".New_videocall_activity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity" />
         <activity
             android:name=".UploadActivity"
             android:screenOrientation="portrait" />
@@ -181,7 +180,6 @@
             android:name=".Exoplayer_fullscreen"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-        <activity android:name=".ProcessActivity" />
         <activity android:name=".Registration"></activity>
     </application>
 

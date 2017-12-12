@@ -71,7 +71,7 @@ public class VideoRecord extends Fragment {
 
 
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 20000;
-    public static final MainActivity ActivityContext = null;
+    public static final SettingFlyout ActivityContext = null;
 
 
     Spinner subject;

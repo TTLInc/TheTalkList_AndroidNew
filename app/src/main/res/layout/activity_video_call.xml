@@ -10,6 +10,7 @@
         android:id="@+id/videoCallRootLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
@@ -22,19 +23,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
-                android:padding="10dp"
                 android:id="@+id/veesession_timer"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="#ffffff"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="10dp"
                 android:text="00:00"
-                />
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -66,107 +67,107 @@
 
 
                 <LinearLayout
-                    android:layout_gravity="center"
-                    android:gravity="bottom"
-                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:gravity="bottom"
                     android:orientation="vertical">
 
 
-                     <ImageView
-                         android:layout_marginRight="30dp"
-                         android:layout_marginBottom="20dp"
-                          android:layout_gravity="end"
-                          android:layout_width="38dp"
-                          android:layout_height="30dp"
-                         android:visibility="gone"
-                          android:id="@+id/msg_during_call"
-                          android:src="@drawable/message"/>
-
-                <LinearLayout
-                    android:gravity="center"
-                    android:id="@+id/videocontrols1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
                     <ImageView
-                        android:id="@+id/callend"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#00000000"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/callend" />
+                        android:id="@+id/msg_during_call"
+                        android:layout_width="38dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="30dp"
+                        android:src="@drawable/message"
+                        android:visibility="gone" />
 
-                    <ImageView
-                        android:id="@+id/callmute"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                    <LinearLayout
+                        android:id="@+id/videocontrols1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#00000000"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/unmute" />
+                        android:gravity="center">
 
-                    <ImageView
-                        android:id="@+id/callchangecamera"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        <ImageView
+                            android:id="@+id/callend"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#00000000"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/callend" />
+
+                        <ImageView
+                            android:id="@+id/callmute"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#00000000"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/unmute" />
+
+                        <ImageView
+                            android:id="@+id/callchangecamera"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#00000000"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/changecamera" />
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/videocontrols2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#00000000"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/changecamera" />
-                </LinearLayout>
+                        android:gravity="bottom"
+                        android:visibility="gone">
 
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/videocontrols2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="bottom"
-                    android:visibility="gone">
+                        <ImageView
+                            android:id="@+id/callendMessage"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#0098DA"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/mg" />
 
-                    <ImageView
-                        android:id="@+id/callendMessage"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#0098DA"
-                        android:padding="8dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/mg" />
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#0098DA"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/gal" />
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#0098DA"
-                        android:padding="8dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/gal" />
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:background="#0098DA"
-                        android:padding="9dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/doc" />
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="true"
+                            android:background="#0098DA"
+                            android:padding="9dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/doc" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -186,6 +187,8 @@
         android:id="@+id/outgoingCallRootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="#455A64"
         android:orientation="vertical"
         tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.OutgoingCallActivity">
@@ -206,61 +209,120 @@
                 android:layout_height="70dp"
                 android:layout_weight="1"
                 android:src="@drawable/nointernet"/>-->
-            <ImageView
-                android:id="@+id/outgoing_mute"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_weight="1"
-                android:src="@drawable/mute" />
+            <!--  <ImageView
+                  android:id="@+id/outgoing_mute"
+                  android:layout_width="70dp"
+                  android:layout_height="70dp"
+                  android:layout_weight="1"
+                  android:src="@drawable/mute" />-->
 
             <ImageView
                 android:id="@+id/outgoing_cutcall"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:src="@drawable/cutcall" />
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/outgoing_speaker"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:src="@drawable/speakersoff" />
+                android:src="@drawable/speakersoff" />-->
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/callerImg"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/black_person" />
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/callerImg"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/black_person" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center"
+                        android:text="Calling..."
+                        android:textColor="#ffffff"
+                        android:textSize="30dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/callerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:textAlignment="viewStart"
+                        android:textColor="#ffffff"
+                        android:textSize="30dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/veesession_logo"
+                android:textAlignment="viewEnd" />
 
             <TextView
-                android:id="@+id/callerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                
                 android:gravity="center"
+                android:text="our community approach"
                 android:textColor="#ffffff"
-                android:textSize="30dp"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                
+                android:layout_marginTop="40dp"
                 android:gravity="center"
-                android:text="Calling..."
+                android:text="Hi, i'm..."
+                android:textColor="#ffffff"
+                android:textSize="25dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="I need help with..."
+                android:textColor="#ffffff"
+                android:textSize="25dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Let's learn togather!"
                 android:textColor="#ffffff"
                 android:textSize="25dp" />
 
@@ -272,13 +334,48 @@
                 android:layout_marginBottom="80dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:gravity="center"
+
+                android:text=""
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                tools:layout_marginTop="20dp" />
+            <!-- <TextView
+                 android:id="@+id/callerName"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_marginTop="20dp"
+
+                 android:gravity="center"
+                 android:textColor="#ffffff"
+                 android:textSize="30dp"
+                 android:textStyle="bold" />-->
+
+            <!-- <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+
+                 android:gravity="center"
+                 android:text="Calling..."
+                 android:textColor="#ffffff"
+                 android:textSize="25dp" />-->
+
+            <!--<TextView
+                android:id="@+id/outgoungCallToast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="160dp"
                 
-                android:background="#000000"
                 android:gravity="center"
                 android:text=""
                 android:textColor="#ffffff"
-                android:textSize="15dp" />
+                android:textSize="15dp" />-->
         </LinearLayout>
 
     </FrameLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#fff"
-    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.StudentFeedBack">
+    tools:context="com.ttl.project.thetalklist.StudentFeedBack">
 
     <LinearLayout
         android:id="@+id/feedBackStudent"

@@ -275,10 +275,7 @@ public class Biography extends Fragment {
             });
         }
 
-<<<<<<< HEAD
-=======
         final FragmentStack fragmentStack = FragmentStack.getInstance();
->>>>>>> origin/master
         final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
         videoPlay_VideoCallBtn.setOnClickListener(new View.OnClickListener()
@@ -288,22 +285,16 @@ public class Biography extends Fragment {
             public void onClick(View v) {
                 VideoRecord videoRecord = new VideoRecord();
 
-<<<<<<< HEAD
                 TabBackStack.getInstance().setTabPosition(1);
                 FragmentStack.getInstance().push(new Tablayout_with_viewpager());
-=======
                 TabBackStack tabBackStack = TabBackStack.getInstance();
                 tabBackStack.setTabPosition(1);
                 fragmentStack.push(new Tablayout_with_viewpager());
->>>>>>> origin/master
                 SharedPreferences bio_videoPref = getContext().getSharedPreferences("bio_video", Context.MODE_PRIVATE);
                 SharedPreferences.Editor bio_Editor = bio_videoPref.edit();
                 bio_Editor.putBoolean("biography", true).apply();
                 if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
-<<<<<<< HEAD
                     fragmentTransaction.addToBackStack(getClass().toString());
-=======
->>>>>>> origin/master
                     fragmentTransaction.replace(R.id.registration_viewpager, videoRecord).commit();
                 } else
                     fragmentTransaction.replace(R.id.viewpager, videoRecord).commit();
@@ -682,15 +673,12 @@ public class Biography extends Fragment {
 
         final int entry = 10;
 
-<<<<<<< HEAD
         biography_11 = (LinearLayout) view.findViewById(R.id.biography_11);
         myBioLinearLayout = (LinearLayout) view.findViewById(R.id.myBioLinearLayout);
-=======
         rate_11 = (LinearLayout) view.findViewById(R.id.rate_11);
         biography_11 = (LinearLayout) view.findViewById(R.id.biography_11);
         myBioLinearLayout = (LinearLayout) view.findViewById(R.id.myBioLinearLayout);
         rateLinearLayout = (LinearLayout) view.findViewById(R.id.rateLinearLayout);
->>>>>>> origin/master
         tutorSubLinearLayout = (LinearLayout) view.findViewById(R.id.tutorSubLinearLayout);
         videoLinearLayout = (LinearLayout) view.findViewById(R.id.videoLinearLayout);
         video_11 = (LinearLayout) view.findViewById(R.id.video_11);
@@ -705,7 +693,6 @@ public class Biography extends Fragment {
 
 
         final int height = biography_biographyfrag_layout.getHeight();
-<<<<<<< HEAD
 
 
         if (biography_biographyfrag_layout.getVisibility() == View.VISIBLE)
@@ -714,29 +701,24 @@ public class Biography extends Fragment {
             biography_btn.setImageResource(R.drawable.down_aerrow);
 
         }
-=======
 
 
         if (biography_biographyfrag_layout.getVisibility() == View.VISIBLE)
 
         {
             biography_btn.setImageResource(R.drawable.down_aerrow);
->>>>>>> origin/master
 
         }
 
-<<<<<<< HEAD
-        {
-            @Override
-            public void onClick(View v) {
+
+          /*  @Override
+            public void onClick (View v){
 
 
-                if (biography_biographyfrag_layout.getVisibility() == View.VISIBLE) {
-                    biography_biographyfrag_layout.animate().translationY(0);
-                    biography_biographyfrag_layout.setVisibility(View.GONE);
-                    biography_btn.setImageResource(R.drawable.side_aerrow);
-
-=======
+            if (biography_biographyfrag_layout.getVisibility() == View.VISIBLE) {
+                biography_biographyfrag_layout.animate().translationY(0);
+                biography_biographyfrag_layout.setVisibility(View.GONE);
+                biography_btn.setImageResource(R.drawable.side_aerrow);*/
 
 
         myBioLinearLayout.setOnClickListener(new View.OnClickListener()
@@ -749,7 +731,6 @@ public class Biography extends Fragment {
                     biography_biographyfrag_layout.setVisibility(View.GONE);
                     biography_btn.setImageResource(R.drawable.side_aerrow);
 
->>>>>>> origin/master
                 } else {
                     biography_biographyfrag_layout.animate().translationY(height);
                     biography_biographyfrag_layout.setVisibility(View.VISIBLE);
@@ -764,7 +745,7 @@ public class Biography extends Fragment {
         rateLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rate.getVisibility() == View.VISIBLE) {
+                if (rate.getVisibility() == View.VISIBLE) {
                     rate.animate().translationY(0);
                     rate.setVisibility(View.GONE);
                     rate_btn.setImageResource(R.drawable.side_aerrow);
@@ -802,18 +783,39 @@ public class Biography extends Fragment {
         tutorSubLinearLayout.setOnClickListener(new View.OnClickListener()
 
         {
-<<<<<<< HEAD
 
             @Override
             public void onClick(View v) {
 
+                TabBackStack.getInstance().setTabPosition(1);
+                FragmentStack.getInstance().push(new Tablayout_with_viewpager());
                 TabBackStack tabBackStack = TabBackStack.getInstance();
                 tabBackStack.setTabPosition(1);
+                fragmentStack.push(new Tablayout_with_viewpager());
                 FragmentTransaction t = fragmentManager.beginTransaction();
                 FragmentStack.getInstance().push(new Tablayout_with_viewpager());
 
 
+                if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
+                    t.replace(R.id.registration_viewpager, new Biography_subject_Fragment()).commit();
+                } else
+                    t.replace(R.id.viewpager, new Biography_subject_Fragment()).commit();
+            }
+        });
+        id =
+
+                getContext().
+
+                        getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
+
+        biography_subject_11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TabBackStack tabBackStack = TabBackStack.getInstance();
+                tabBackStack.setTabPosition(1);
+                FragmentTransaction t = fragmentManager.beginTransaction();
+                FragmentStack.getInstance().push(new Tablayout_with_viewpager());
                 if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
                     t.replace(R.id.registration_viewpager, new Biography_subject_Fragment()).commit();
@@ -821,28 +823,16 @@ public class Biography extends Fragment {
                 t.replace(R.id.viewpager, new Biography_subject_Fragment()).commit();
             }
         });
-        id =
 
-                getContext().
+               /* @Override
+                public void onClick (View v){
 
-                        getSharedPreferences("loginStatus", Context.MODE_PRIVATE).
 
-=======
-
-            @Override
-            public void onClick(View v) {
-
-                TabBackStack tabBackStack = TabBackStack.getInstance();
-                tabBackStack.setTabPosition(1);
-                FragmentTransaction t = fragmentManager.beginTransaction();
-                FragmentStack.getInstance().push(new Tablayout_with_viewpager());
-                t.replace(R.id.viewpager, new Biography_subject_Fragment()).commit();
-            }
-        });
+                }
+            });*/
         id =
                 getContext().
                         getSharedPreferences("loginStatus", Context.MODE_PRIVATE).
->>>>>>> origin/master
                         getInt("userId", 0);
         return view;
     }
@@ -1269,30 +1259,13 @@ public class Biography extends Fragment {
 
         }
     }
-<<<<<<< HEAD
-=======
 
     private class VideoUrlHandler extends AsyncTask<Void, Void, Void> {
->>>>>>> origin/master
-
-    private class VideoUrlHandler extends AsyncTask<Void, Void, Void> {
-
-<<<<<<< HEAD
-
         @Override
         protected Void doInBackground(Void... params) {
-
             String URL = "https://www.thetalklist.com/api/tutoring_video?tutor_id=" + preferences.getInt("userId", 0);
 
 
-=======
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            String URL = "https://www.thetalklist.com/api/tutoring_video?tutor_id=" + preferences.getInt("userId", 0);
-
-
->>>>>>> origin/master
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -1345,9 +1318,11 @@ public class Biography extends Fragment {
                 }
             });
             Volley.newRequestQueue(getContext()).add(sr);
+
             return null;
         }
     }
-
-
 }
+
+
+

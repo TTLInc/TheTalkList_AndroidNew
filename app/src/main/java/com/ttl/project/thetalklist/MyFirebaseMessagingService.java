@@ -199,7 +199,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 i.putExtra("firstName", data.getString("uname"));
                 this.sendBroadcast(i);
 
-            } else if (title.equalsIgnoreCase("studentFav")) {
+            }/* else if (title.equalsIgnoreCase("studentFav")) {
                 NotificationManager mNotifyMgr =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
@@ -246,7 +246,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 i.putExtra("firstName", data.getString("uname"));
                 this.sendBroadcast(i);
 
-            }
+            }*/
             else if(title.equalsIgnoreCase("criticalBal"))
             {
                 Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
@@ -384,8 +384,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
             // app is in background, show the notification in notification tray
-            Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-            resultIntent.putExtra("message", message);
+
 
 //            if (TextUtils.isEmpty(imageUrl)) {
                 Log.e("yyyyyyyyyyyyyyyyyy", "messaging service");
