@@ -30,7 +30,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="Upload a 1 min video to show your knowledge. \nIt will be connected to your profile."
+                    android:text="Upload a 1 min video and tell everyone why you are an awesome tutor."
                     android:textColor="#000000" />
 
                 <TextView
