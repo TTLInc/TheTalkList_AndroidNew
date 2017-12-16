@@ -141,6 +141,9 @@ public class Biography_subject_Fragment extends Fragment {
                                             JSONArray jsonArray = jsonObject.getJSONArray("subjects");
                                             JSONObject obj = jsonArray.getJSONObject(0);
                                             String nativeLang = obj.getString("tutoring_subjects");
+                                            if (nativeLang.equals("")){
+                                                nativeLang="[]";
+                                            }
                                             JSONArray selectedAry = new JSONArray(nativeLang);
 
 

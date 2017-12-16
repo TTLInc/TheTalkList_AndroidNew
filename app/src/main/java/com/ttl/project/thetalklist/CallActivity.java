@@ -180,9 +180,11 @@ ImageView call_activity_image;
                 TTL ttl=new TTL();
                 ttl.Callfrom="callActivity";
 
+                finish();
+
                 New_videocall_activity videoCall = new New_videocall_activity();
                 i.setClass(getApplicationContext(), videoCall.getClass());
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                 getApplication().startActivity(i);
             }

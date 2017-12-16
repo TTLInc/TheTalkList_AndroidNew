@@ -534,7 +534,7 @@ public class Login extends Activity {
                             }
 
 
-                            Log.d("error", error.toString());
+                            Log.e("error", error.toString());
                             Toast.makeText(Login.this, error.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });

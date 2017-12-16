@@ -304,7 +304,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:gravity="center"
-                android:text="Hi, i'm..."
+                android:text=" Hi, I’m…"
                 android:textColor="#ffffff"
                 android:textSize="25dp" />
 
@@ -313,7 +313,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="I need help with..."
+                android:text="I need help with…"
                 android:textColor="#ffffff"
                 android:textSize="25dp" />
 
@@ -322,7 +322,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Let's learn togather!"
+                android:text="Let’s learn together!"
                 android:textColor="#ffffff"
                 android:textSize="25dp" />
 

@@ -136,9 +136,11 @@ public class VideoRecord extends Fragment {
 
         final SharedPreferences bio_videoPref = getContext().getSharedPreferences("bio_video", Context.MODE_PRIVATE);
 
-        if (bio_videoPref.getBoolean("biography", false))
+        if (bio_videoPref.getBoolean("biography", false)) {
             view.findViewById(R.id.video_upload_control).setVisibility(View.GONE);
-
+        }else {
+            ((TextView)view.findViewById(R.id.videorecord_txt)).setText("Upload your 1 min video to be connected to your profile.");
+        }
 
         progressBar = new ProgressBar(getContext());
 

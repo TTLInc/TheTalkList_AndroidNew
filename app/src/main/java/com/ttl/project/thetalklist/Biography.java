@@ -227,7 +227,7 @@ public class Biography extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    /*Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/profile_complete?uid=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0), new Response.Listener<String>() {
+                    Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/profile_complete?uid=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0), new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
@@ -268,9 +268,9 @@ public class Biography extends Fragment {
                     public void onErrorResponse (VolleyError error){
 
                 }
-                }));*/
+                }));
 
-                    getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Availability_page_fragment()).commit();
+//                    getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Availability_page_fragment()).commit();
                 }
             });
         }

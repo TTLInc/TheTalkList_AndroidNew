@@ -2010,7 +2010,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         } else
 
               if (pref.getInt("roleId",0)==0){
-                  getSupportFragmentManager().beginTransaction().replace(R.id.viewpager,new DesiredTutor()).commit();
+                  getSupportFragmentManager().beginTransaction().replace(R.id.viewpager,new Available_tutor()).commit();
               editor.clear().apply();
 
         }else
