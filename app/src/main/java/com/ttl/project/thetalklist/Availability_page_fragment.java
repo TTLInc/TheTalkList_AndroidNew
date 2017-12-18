@@ -383,6 +383,7 @@ public class Availability_page_fragment extends Fragment {
                                     startActivity(i);
 
                                 }
+                                else getFragmentManager().beginTransaction().replace(R.id.viewpager, new Available_tutor()).commit();
                             }
 
 
