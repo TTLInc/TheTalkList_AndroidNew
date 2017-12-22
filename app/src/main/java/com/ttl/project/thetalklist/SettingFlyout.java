@@ -203,7 +203,7 @@ public class SettingFlyout extends AppCompatActivity {
         settingFlyout_bottomcontrol_payments = (LinearLayout) findViewById(R.id.settingFlyout_bottomcontrol_payments);
         settingFlyout_bottomcontrol_favorites = (LinearLayout) findViewById(R.id.settingFlyout_bottomcontrol_favorites);
         settingFlyout_bottomcontrol = (LinearLayout) findViewById(R.id.settingFlyout_bottomcontrol);
-
+        pref = getSharedPreferences("loginStatus", MODE_PRIVATE);
         displayFirebaseRegId();
 
 
@@ -238,7 +238,7 @@ public class SettingFlyout extends AppCompatActivity {
         switch_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (roleId!=0) {
+                if (pref.getInt("roleId",0)!=0) {
                     manuallyTurnOn = 1;
                     if (talkNow.isChecked()) {
                         talkNow.setChecked(false);
@@ -266,7 +266,7 @@ public class SettingFlyout extends AppCompatActivity {
                 }
             }
         });
-        pref = getSharedPreferences("loginStatus", MODE_PRIVATE);
+
 
         MessageCountService messageCountService = new MessageCountService();
         messageCountService.MessageCount(this, pref);

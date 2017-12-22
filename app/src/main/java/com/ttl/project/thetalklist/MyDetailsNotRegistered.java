@@ -58,11 +58,11 @@ import java.util.Map;
 public class MyDetailsNotRegistered extends AppCompatActivity {
 
     ImageView myDetailsNotRegisteredTutorImg;
-    EditText Age,  City, Email;
-    Spinner Gender,State, Language1, Language2, Language3, Country;
+    EditText Age, City, Email;
+    Spinner Gender, State, Language1, Language2, Language3, Country;
     Button Submit;
-    private  String uploadURL;
-    private  Bitmap bitmap;
+    private String uploadURL;
+    private Bitmap bitmap;
 
     int gen111;
     String firstName, lastName;
@@ -78,6 +78,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
 
     String userChoosenTask;
     Typeface typeface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,17 +101,18 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
 
         Submit = (Button) findViewById(R.id.submitButtonNotmyDetails);
         Submit.setTypeface(typeface);
-        String gender[]=getResources().getStringArray(R.array.Gender);
-        ArrayAdapter genderAdapter=new ArrayAdapter(this,R.layout.custom_spinner_textview,gender);
+        String gender[] = getResources().getStringArray(R.array.Gender);
+        ArrayAdapter genderAdapter = new ArrayAdapter(this, R.layout.custom_spinner_textview, gender);
         Gender.setAdapter(genderAdapter);
 
 
-final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
-        stateLayout.setVisibility(View.GONE);
-        Country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final LinearLayout stateLayout = (LinearLayout) findViewById(R.id.llsec4);
+//        stateLayout.setVisibility(View.GONE);
+       /* Country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (Country.getSelectedItem().toString().equalsIgnoreCase("USA")) {
+                Toast.makeText(getApplicationContext(), "country " + Country.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                if (Country.getSelectedItem().toString().equals("USA")) {
                     stateLayout.setVisibility(View.VISIBLE);
                 } else stateLayout.setVisibility(View.GONE);
             }
@@ -120,18 +122,31 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
 
             }
         });
+*/
+
+
+       /*Country.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               if (Country.getSelectedItem().toString().equalsIgnoreCase("USA")) {
+                   ((LinearLayout) findViewById(R.id.llsec4)).setVisibility(View.VISIBLE);
+               } else ((LinearLayout)findViewById(R.id.llsec4)).setVisibility(View.GONE);
+           }
+       });*/
 
 
 
-        String languages[]=getResources().getStringArray(R.array.Language);
-        ArrayAdapter langAdapter=new ArrayAdapter(this,R.layout.custom_spinner_textview,languages);
+
+
+        String languages[] = getResources().getStringArray(R.array.Language);
+        ArrayAdapter langAdapter = new ArrayAdapter(this, R.layout.custom_spinner_textview, languages);
         Language1.setAdapter(langAdapter);
         String languages1[] = getResources().getStringArray(R.array.Language1);
         ArrayAdapter langAdapter1 = new ArrayAdapter(this, R.layout.custom_spinner_textview, languages1);
         Language2.setAdapter(langAdapter1);
 
 
-        final Dialog dialog=new Dialog(MyDetailsNotRegistered.this);
+        final Dialog dialog = new Dialog(MyDetailsNotRegistered.this);
         dialog.setContentView(R.layout.threedotprogressbar);
         dialog.show();
 
@@ -150,7 +165,7 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Log.e("countries",response.toString());
+                    Log.e("countries", response.toString());
                     try {
                         JSONArray ary = response.getJSONArray("countries");
                         ArrayList<String> coun = new ArrayList<>();
@@ -160,7 +175,23 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                             coun.add(data.getString("country"));
                         }
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_spinner_textview, coun);
+
                         Country.setAdapter(arrayAdapter);
+
+                        Country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                                Toast.makeText(getApplicationContext(), "country " + Country.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                                if (Country.getSelectedItem().toString().equalsIgnoreCase("USA")) {
+                                    stateLayout.setVisibility(View.VISIBLE);
+                                } else stateLayout.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -174,8 +205,8 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
             queue.add(getRequest);
 
 
-        }
 
+        }
 
 
         {
@@ -188,13 +219,13 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                     try {
                         JSONArray ary = response.getJSONArray("states");
                         ArrayList<String> coun = new ArrayList<>();
-                        coun.add("state");
+                        coun.add("State");
                         for (int i = 0; i < ary.length(); i++) {
                             JSONObject data = ary.getJSONObject(i);
                             coun.add(data.getString("provice"));
                         }
-                            ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_spinner_textview, coun);
-                            State.setAdapter(arrayAdapter);
+                        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_spinner_textview, coun);
+                        State.setAdapter(arrayAdapter);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -264,7 +295,6 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                     data.setLoginServResponse(response);
 
 
-
                     try {
 
                         dialog.dismiss();
@@ -273,9 +303,9 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                         String email = (String) resultObj.get("email");
                         UserName = (String) resultObj.get("username");
 
-                        firstName=resultObj.getString("firstName");
-                        lastName=resultObj.getString("lastName");
-                        id=resultObj.getInt("id");
+                        firstName = resultObj.getString("firstName");
+                        lastName = resultObj.getString("lastName");
+                        id = resultObj.getInt("id");
 
                         Email.setText(email);
                     } catch (JSONException e) {
@@ -292,7 +322,6 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                 }
             });
             queue.add(sr);
-
 
 
         }
@@ -312,30 +341,27 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
             @Override
             public void onClick(View view) {
 
-                InputMethodManager imm = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
-                Log.e("gender not registered",Gender.getSelectedItem().toString() );
+                Log.e("gender not registered", Gender.getSelectedItem().toString());
                 if (Age.getText().toString().equals("")) {
                     Age.setError("Required");
-                }
-
-                else if (City.getText().toString().equals("")) {
+                } else if (City.getText().toString().equals("")) {
                     City.setError("Required");
-                }
-                else if (Email.getText().toString().equals("")) {
+                } else if (Email.getText().toString().equals("")) {
                     Email.setError("Required");
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(Email.getText().toString()).matches()) {
                     Email.setError("Invalid Email Address");
-                } else if (Language1.getSelectedItem().toString().equalsIgnoreCase("Select Language 1") && Language2.getSelectedItem().toString().equalsIgnoreCase("Select Language 2") ){
+                } else if (Language1.getSelectedItem().toString().equalsIgnoreCase("Select Language 1") && Language2.getSelectedItem().toString().equalsIgnoreCase("Select Language 2")) {
                     Toast.makeText(getApplicationContext(), "Please select Languages..", Toast.LENGTH_SHORT).show();
-                }else if (Language1.getSelectedItem().toString().equalsIgnoreCase("Select Language 1")){
+                } else if (Language1.getSelectedItem().toString().equalsIgnoreCase("Select Language 1")) {
                     Toast.makeText(getApplicationContext(), "Please select Languages 1..", Toast.LENGTH_SHORT).show();
-                }else if (Language2.getSelectedItem().toString().equalsIgnoreCase("Select Language 2")){
+                } else if (Language2.getSelectedItem().toString().equalsIgnoreCase("Select Language 2")) {
                     Toast.makeText(getApplicationContext(), "Please select Languages 2..", Toast.LENGTH_SHORT).show();
-                }else if (Country.getSelectedItem().toString().equalsIgnoreCase("Select country")){
+                } else if (Country.getSelectedItem().toString().equalsIgnoreCase("Select country")) {
                     Toast.makeText(getApplicationContext(), "Should select country.", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     final int status = 1;
 
 
@@ -344,33 +370,33 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                         gen1111 = 1;
                     else gen1111 = 0;
 
-                    String URL="https://www.thetalklist.com/api/updateProfile?userid="+id+
-                            "&country="+Country.getSelectedItem().toString().replace(" ","%20")+
-                            "&state="+State.getSelectedItem().toString().replace(" ","%20")+
-                            "&city="+City.getText().toString().replace(" ","%20")+
-                            "&gender="+gen1111+
-                            "&language1="+Language1.getSelectedItem().toString().replace(" ","%20")+
-                            "&language2="+Language2.getSelectedItem().toString().replace(" ","%20")+
-                            "&age="+Age.getText().toString()+
-                            "&firstName="+firstName.replace(" ","%20")+
-                            "&lastName="+lastName.replace(" ","%20") ;
+                    String URL = "https://www.thetalklist.com/api/updateProfile?userid=" + id +
+                            "&country=" + Country.getSelectedItem().toString().replace(" ", "%20") +
+                            "&state=" + State.getSelectedItem().toString().replace(" ", "%20") +
+                            "&city=" + City.getText().toString().replace(" ", "%20") +
+                            "&gender=" + gen1111 +
+                            "&language1=" + Language1.getSelectedItem().toString().replace(" ", "%20") +
+                            "&language2=" + Language2.getSelectedItem().toString().replace(" ", "%20") +
+                            "&age=" + Age.getText().toString() +
+                            "&firstName=" + firstName.replace(" ", "%20") +
+                            "&lastName=" + lastName.replace(" ", "%20");
 
 
-                    Log.e("not reg Url",URL);
+                    Log.e("not reg Url", URL);
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
                     StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
-                            Log.e("mysetails not reg resp",response);
+                            Log.e("mysetails not reg resp", response);
 
-                            LoginService loginService=new LoginService();
-                            loginService.login(getSharedPreferences("loginStatus",MODE_PRIVATE).getString("email",""),getSharedPreferences("loginStatus",MODE_PRIVATE).getString("pass",""),getApplicationContext());
+                            LoginService loginService = new LoginService();
+                            loginService.login(getSharedPreferences("loginStatus", MODE_PRIVATE).getString("email", ""), getSharedPreferences("loginStatus", MODE_PRIVATE).getString("pass", ""), getApplicationContext());
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
                             Intent sta = new Intent(getApplicationContext(), Registration.class);
                             SharedPreferences pref1 = getApplicationContext().getSharedPreferences("firstTime", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor=pref1.edit();
-                            editor.putInt("fromSignUp",1).apply();
+                            SharedPreferences.Editor editor = pref1.edit();
+                            editor.putInt("fromSignUp", 1).apply();
                             sta.putExtra("status", status);
                             sta.putExtra("roleId", 1);
                             sta.putExtra("username", UserName);
@@ -383,22 +409,22 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                             dialog.dismiss();
                             Log.d("error", error.toString());
                         }
-                    }){
+                    }) {
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> params = new HashMap<String, String>();
 
 
-                            params.put("age",Age.getText().toString());
-                            params.put("userid",String.valueOf(id));
-                            params.put("firstName",firstName);
-                            params.put("lastName",lastName);
-                            params.put("language2",Language2.getSelectedItem().toString());
-                            params.put("city",City.getText().toString());
-                            params.put("language1",Language1.getSelectedItem().toString());
-                            params.put("gender",Gender.getSelectedItem().toString());
-                            params.put("country",Country.getSelectedItem().toString());
-                            params.put("state",State.getSelectedItem().toString());
+                            params.put("age", Age.getText().toString());
+                            params.put("userid", String.valueOf(id));
+                            params.put("firstName", firstName);
+                            params.put("lastName", lastName);
+                            params.put("language2", Language2.getSelectedItem().toString());
+                            params.put("city", City.getText().toString());
+                            params.put("language1", Language1.getSelectedItem().toString());
+                            params.put("gender", Gender.getSelectedItem().toString());
+                            params.put("country", Country.getSelectedItem().toString());
+                            params.put("state", State.getSelectedItem().toString());
                             return params;
                         }
                     };
@@ -468,14 +494,13 @@ final LinearLayout stateLayout= (LinearLayout) findViewById(R.id.llsec4);
                 assert imageBitmap != null;
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImageString = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                ImageUploadClass imageUploadClass=new ImageUploadClass(encodedImageString,imageBitmap,getApplication(),getSharedPreferences("loginStatus",MODE_PRIVATE).getInt("id",0));
+                ImageUploadClass imageUploadClass = new ImageUploadClass(encodedImageString, imageBitmap, getApplication(), getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0));
                 imageUploadClass.execute();
 
             }
 
         }
     }
-
 
 
     @SuppressWarnings("deprecation")

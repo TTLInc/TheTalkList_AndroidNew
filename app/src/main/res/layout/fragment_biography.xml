@@ -32,7 +32,7 @@
 
                 <ImageView
                     android:id="@+id/bio_image"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
@@ -1188,9 +1188,10 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/capt"
                 android:text="Finish"
-                android:textAllCaps="true"
+                android:textAllCaps="false"
                 android:textColor="#ffffff"
                 android:textSize="20dp"
                 />

@@ -190,17 +190,17 @@ public class Biography extends Fragment {
         new VideoUrlHandler().execute();
 
 
-        loginpref=getApplicationContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-        bioImage= (ImageView) view.findViewById(R.id.bio_image);
-        if (loginpref.getString("pic","").equals("")) {
+        loginpref = getApplicationContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+        bioImage = (ImageView) view.findViewById(R.id.bio_image);
+        if (loginpref.getString("pic", "").equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(bioImage);
-        }else {
-            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/"+loginpref.getString("pic",""))
+        } else {
+            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/" + loginpref.getString("pic", ""))
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
@@ -273,6 +273,7 @@ public class Biography extends Fragment {
             biography_review_layout.setVisibility(View.GONE);
         }
 //            view.findViewById(R.id.biography_registration_finish).setVisibility(View.VISIBLE);
+        if ((loginpref.getInt("roleId", 0) == 0 && getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.SettingFlyout")) || getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
             view.findViewById(R.id.biography_registration_finish).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -283,13 +284,13 @@ public class Biography extends Fragment {
 
                             try {
                                 JSONObject resObj = new JSONObject(response);
-                                JSONArray resAry = resObj.getJSONArray("result");
-                                JSONObject o = resAry.getJSONObject(0);
+                                JSONObject o = resObj.getJSONObject("result");
+//                                JSONObject o = resAry.getJSONObject(0);
 
                                 if (o.getInt("pic_upload") == 0 && o.getInt("pic_upload") == 0 && o.getInt("pic_upload") == 0) {
                                     Toast.makeText(getContext(), "Please complete profile first", Toast.LENGTH_SHORT).show();
-                                }else if (o.getInt("pic_upload") == 0) {
-                                    Toast.makeText(getContext(), "Please upload Image.", Toast.LENGTH_SHORT).show();
+                                } else if (o.getInt("pic_upload") == 0) {
+                                    Toast.makeText(getContext(), "Please add your photo.", Toast.LENGTH_SHORT).show();
                                     TabBackStack.getInstance().setTabPosition(0);
                                     getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
                                 } else if (o.getInt("vid_upload") == 0) {
@@ -297,34 +298,38 @@ public class Biography extends Fragment {
                                     Toast.makeText(getContext(), "Please upload video.", Toast.LENGTH_SHORT).show();
                                 } else if (o.getInt("BioGraphy") == 0) {
                                     Toast.makeText(getContext(), "Please enter Biography.", Toast.LENGTH_SHORT).show();
-                                }  else if (o.getInt("pic_upload") == 1 && o.getInt("pic_upload") == 1 && o.getInt("pic_upload") == 1) {
+                                } else if (o.getInt("tutoring_subjects") == 0) {
+                                    Toast.makeText(getContext(), "Please enter Tutoring Subjects.", Toast.LENGTH_SHORT).show();
+                                }  else if (o.getInt("pic_upload") == 1 && o.getInt("vid_upload") == 1 && o.getInt("BioGraphy") == 1 && o.getInt("tutoring_subjects")==1) {
                                     biography_biographyfrag_layout.setVisibility(View.VISIBLE);
                                     if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
                                         getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Availability_page_fragment()).commit();
-                                    }else getFragmentManager().beginTransaction().replace(R.id.viewpager, new Availability_page_fragment()).commit();
+                                    } else
+                                        getFragmentManager().beginTransaction().replace(R.id.viewpager, new Availability_page_fragment()).commit();
                                 }
 
 
-                        } catch(
-                        JSONException e)
+                            } catch (
+                                    JSONException e)
 
-                        {
-                            e.printStackTrace();
+                            {
+                                e.printStackTrace();
+                            }
+
                         }
+                    }, new Response.ErrorListener()
 
-                    }
-                },new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
 
-                {
-                    @Override
-                    public void onErrorResponse (VolleyError error){
-
-                }
-                }));
+                        }
+                    }));
 
 //                    getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Availability_page_fragment()).commit();
                 }
             });
+        } else view.findViewById(R.id.biography_registration_finish).setVisibility(View.GONE);
 
 
         final FragmentStack fragmentStack = FragmentStack.getInstance();
@@ -871,8 +876,8 @@ public class Biography extends Fragment {
                 if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
                     t.replace(R.id.registration_viewpager, new Biography_subject_Fragment()).commit();
-                }else
-                t.replace(R.id.viewpager, new Biography_subject_Fragment()).commit();
+                } else
+                    t.replace(R.id.viewpager, new Biography_subject_Fragment()).commit();
             }
         });
 
@@ -1047,15 +1052,15 @@ public class Biography extends Fragment {
 
         loginService();
 
-        if (loginpref.getString("pic","").equals("")) {
+        if (loginpref.getString("pic", "").equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(bioImage);
-        }else {
-            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/"+loginpref.getString("pic",""))
+        } else {
+            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/" + loginpref.getString("pic", ""))
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
@@ -1393,10 +1398,12 @@ public class Biography extends Fragment {
             return null;
         }
     }
+
     String userChoosenTask;
     final int CAMERA_REQUEST = 1323;
     final int GALLERY_REQUEST = 1342;
     final int CROP_REQUEST = 1352;
+
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library",
                 "Cancel"};
@@ -1493,23 +1500,20 @@ public class Biography extends Fragment {
         }*/
 //        imageView1.setImageBitmap(bm);
 
-        Bitmap bb=getResizedBitmap(thumbnail,500);
+        Bitmap bb = getResizedBitmap(thumbnail, 500);
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
 
 
-        Intent ui=new Intent(getApplicationContext(), Fragment_cropImage.class);
-        ui.putExtra("bitmap",byteArray);
+        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
+        ui.putExtra("bitmap", byteArray);
         startActivity(ui);
 
 //        galleryIntent();
     }
 
     public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
-
-
-
 
 
         String uploadURL = "https://www.thetalklist.com/api/profile_pic"/*?uid=17430"&image="+encodedImageString*/;
@@ -1527,9 +1531,9 @@ public class Biography extends Fragment {
             @Override
             public void onResponse(String s) {
 
-                Toast.makeText(getContext(), "response" +s, Toast.LENGTH_SHORT).show();
-                LoginService loginService=new LoginService();
-                loginService.login(context.getSharedPreferences("loginStatus",Context.MODE_PRIVATE).getString("email",""),context.getSharedPreferences("loginStatus",Context.MODE_PRIVATE).getString("pass",""),context);
+                Toast.makeText(getContext(), "response" + s, Toast.LENGTH_SHORT).show();
+                LoginService loginService = new LoginService();
+                loginService.login(context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), context);
 
             }
         }, new Response.ErrorListener() {
@@ -1563,7 +1567,7 @@ public class Biography extends Fragment {
         }
 //        imageView1.setImageBitmap(bm);
 
-        Bitmap bb=getResizedBitmap(bm,500);
+        Bitmap bb = getResizedBitmap(bm, 500);
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
@@ -1576,16 +1580,17 @@ public class Biography extends Fragment {
                 .bitmapTransform(new CircleTransform(getContext()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView1);*/
-        Intent ui=new Intent(getApplicationContext(), Fragment_cropImage.class);
-        ui.putExtra("bitmap",byteArray);
+        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
+        ui.putExtra("bitmap", byteArray);
         startActivity(ui);
 
     }
+
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -1601,15 +1606,14 @@ public class Biography extends Fragment {
 //                final String url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getInt("facebook_id", 0) + "&firstname=" + pref.getString("first_name", "") + "&lastname=" + pref.getString("last_name", "") + "&gender=" + pref.getString("gender", "") + "&birthdate=" + pref.getString("birthday", "");
         final SharedPreferences.Editor editor = pref.edit();
 
-        if (loginpref.getString("LoginWay","").equals("FacebookLogin")){
+        if (loginpref.getString("LoginWay", "").equals("FacebookLogin")) {
 
 
-
-            String url="";
-            if (pref.getInt("gender", 0)==0)
-                url="https://www.thetalklist.com/api/fblogin?email="+pref.getString("email", "")+"&facebook_id="+pref.getString("facebook_id", "")+"&firstname="+pref.getString("firstName", "")+"&lastname="+pref.getString("lastName", "")+"&gender=female&birthdate="+"";
+            String url = "";
+            if (pref.getInt("gender", 0) == 0)
+                url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getString("facebook_id", "") + "&firstname=" + pref.getString("firstName", "") + "&lastname=" + pref.getString("lastName", "") + "&gender=female&birthdate=" + "";
             else
-                url="https://www.thetalklist.com/api/fblogin?email="+pref.getString("email", "")+"&facebook_id="+pref.getString("facebook_id", "")+"&firstname="+pref.getString("firstName", "")+"&lastname="+pref.getString("lastName", "")+"&gender=male&birthdate="+"";
+                url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getString("facebook_id", "") + "&firstname=" + pref.getString("firstName", "") + "&lastname=" + pref.getString("lastName", "") + "&gender=male&birthdate=" + "";
             //            final String url="https://www.thetalklist.com/api/fblogin?email="+email+"&facebook_id="+loginResult.getAccessToken().getUserId()+"&firstname="+first_name+"&lastname="+last_name+"&gender="+gender+"&birthdate="+"";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -1618,9 +1622,9 @@ public class Biography extends Fragment {
 
 
                     try {
-                        JSONObject obj=new JSONObject(response);
-                        if (obj.getInt("status")==0) {
-                            JSONObject resObj=obj.getJSONObject("result");
+                        JSONObject obj = new JSONObject(response);
+                        if (obj.getInt("status") == 0) {
+                            JSONObject resObj = obj.getJSONObject("result");
 
                             final int roleId = resObj.getInt("roleId");
                             editor.putString("LoginWay", "FacebookLogin");
@@ -1645,8 +1649,8 @@ public class Biography extends Fragment {
                                 editor.putFloat("ttl_points", Float.parseFloat(resObj.getString("ttl_points")));
                             editor.putString("nativeLanguage", resObj.getString("nativeLanguage"));
                             editor.putString("otherLanguage", resObj.getString("otherLanguage"));
-                            editor.putInt("roleId",roleId);
-                            editor.putInt("status",0);
+                            editor.putInt("roleId", roleId);
+                            editor.putInt("status", 0);
                             editor.apply();
 
                             Toast.makeText(getApplicationContext(), "Login Sucessfully..!", Toast.LENGTH_SHORT).show();
@@ -1664,16 +1668,17 @@ public class Biography extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     Toast.makeText(getApplicationContext(), "Login Unsucessful..!", Toast.LENGTH_SHORT).show();
-                    Log.e("fb login error",volleyError.toString());
+                    Log.e("fb login error", volleyError.toString());
                     editor.clear().apply();
                 }
             });
 
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             queue.add(stringRequest);
-        }else {
+        } else {
 
-           String URL = "https://www.thetalklist.com/api/login?email=" + loginpref.getString("email","") + "&password=" + loginpref.getString("pass", "");;
+            String URL = "https://www.thetalklist.com/api/login?email=" + loginpref.getString("email", "") + "&password=" + loginpref.getString("pass", "");
+            ;
 
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
