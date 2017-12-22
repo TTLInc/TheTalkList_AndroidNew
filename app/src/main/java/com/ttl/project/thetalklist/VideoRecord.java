@@ -58,6 +58,7 @@ public class VideoRecord extends Fragment {
     View view;
     android.widget.VideoView VDOView;
     Dialog dialog;
+    SharedPreferences bio_videoPref;
 
 
     private SharedPreferences permissionStatus;
@@ -71,7 +72,7 @@ public class VideoRecord extends Fragment {
 
 
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 20000;
-    public static final MainActivity ActivityContext = null;
+    public static final SettingFlyout ActivityContext = null;
 
 
     Spinner subject;
@@ -134,11 +135,13 @@ public class VideoRecord extends Fragment {
         videoRecord_desc.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
 
-        final SharedPreferences bio_videoPref = getContext().getSharedPreferences("bio_video", Context.MODE_PRIVATE);
+        bio_videoPref = getContext().getSharedPreferences("bio_video", Context.MODE_PRIVATE);
 
-        if (bio_videoPref.getBoolean("biography", false))
+        if (bio_videoPref.getBoolean("biography", false)) {
             view.findViewById(R.id.video_upload_control).setVisibility(View.GONE);
-
+        } else {
+            ((TextView) view.findViewById(R.id.videorecord_txt)).setText("Upload your 1 min video to be connected to your profile.");
+        }
 
         progressBar = new ProgressBar(getContext());
 
@@ -208,7 +211,7 @@ public class VideoRecord extends Fragment {
                     } else if (videoRecord_desc.getText().toString().matches("")) {
 
                         Toast.makeText(getContext(), "Please fill Description ", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                         File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ns/");
                         if (!mediaStorageDir.exists()) {
@@ -278,7 +281,7 @@ public class VideoRecord extends Fragment {
                         startActivityForResult(Intent.createChooser(intent, "Select a Video "), SELECT_VIDEO);
 
                     }
-                }else {
+                } else {
                     Intent intent = new Intent();
                     intent.setType("video/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -462,8 +465,19 @@ public class VideoRecord extends Fragment {
         i.putExtra("title", videoRecord_title.getText().toString());
         i.putExtra("description", videoRecord_desc.getText().toString());
 
+        Toast.makeText(getContext(), "biography " + bio_videoPref.getBoolean("biography", false), Toast.LENGTH_SHORT).show();
 
-        startActivity(i);
+
+        if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
+            startActivity(i);
+        } else {
+            if (bio_videoPref.getBoolean("biography", false)) {
+                if (getActivity() != null)
+                    getActivity().onBackPressed();
+                startActivity(i);
+            } else startActivity(i);
+        }
+//            startActivity(i);
     }
 
 

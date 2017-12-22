@@ -35,7 +35,7 @@ import rx.subscriptions.CompositeSubscription;
 public class StripePaymentActivity extends AppCompatActivity {
 
 //        public static final String  PUBLISHABLE_KEY = "pk_test_m2095bSj8vVA0n55nBjcBRDH";
-    public static final String  PUBLISHABLE_KEY = "pk_live_cZQHiFEshZyEHQrIzyqc2rA9";
+    public static final String  PUBLISHABLE_KEY = "pk_live_ERuUHGMtI96h5FOLEy0NrU4C";
     public static final String APPLICATION_ID = "RKNck9SdN6sqcznBvy5lqnN2ln1FrrSabNcq8YEK";
     public static final String CLIENT_KEY = "zWtkaYFS0Ia91jKkgmIHJql30cARcrDmKUGAXLTY";
     public static final String BACK4PAPP_API = "https://parseapi.back4app.com/";

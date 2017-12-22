@@ -135,9 +135,12 @@ public class New_videocall_activity extends AppCompatActivity
         Log.d(LOG_TAG, "onPause");
         audioManager.setMicrophoneMute(false);
         super.onPause();
+
 //        callEnd.performClick();
 
         if (mSession != null) {
+//            mSession.unpublish(mPublisher);
+//            mSession.disconnect();
             mSession.onPause();
         }
         unregisterReceiver(callEndReceiver);
@@ -153,6 +156,7 @@ public class New_videocall_activity extends AppCompatActivity
     FrameLayout outgoingCallRootLayout;
 
     View videocontrols;
+    View videocontrols2;
     //    ViewGroup parent;
     ImageView btn_cutcall;
     FrameLayout surfaceView;
@@ -260,6 +264,7 @@ public class New_videocall_activity extends AppCompatActivity
         outgoingCallRootLayout = (FrameLayout) findViewById(R.id.outgoingCallRootLayout);
         videoCallRootLayout = (FrameLayout) findViewById(R.id.videoCallRootLayout);
         videocontrols = findViewById(R.id.videocontrols1);
+        videocontrols2 = findViewById(R.id.videocontrols2);
 //        parent = (ViewGroup) videocontrols.getParent();
 
 
@@ -376,7 +381,8 @@ public class New_videocall_activity extends AppCompatActivity
                     mSession.disconnect();
                     onDisconnected(mSession);
                 }
-
+//                mSession.unpublish(mPublisher);
+//                mSession.disconnect();
 
                 queue222 = Volley.newRequestQueue(getApplicationContext());
                 SharedPreferences preferences = getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE);
@@ -388,6 +394,7 @@ public class New_videocall_activity extends AppCompatActivity
                 StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         finish();
                     }
                 }, new Response.ErrorListener() {
@@ -440,9 +447,9 @@ public class New_videocall_activity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 onDisconnected(mSession);
-                mSession.disconnect();
 
-
+//                mSession.unpublish(mPublisher);
+//                mSession.disconnect();
                 ttl.isCall = false;
 
                 String URL = "https://www.thetalklist.com/api/veesession_disconnect?cid=" + preferences.getInt("classId", 0);
@@ -630,9 +637,10 @@ public class New_videocall_activity extends AppCompatActivity
                 View videocontrols = findViewById(R.id.videocontrols1);
                 ViewGroup parent = (ViewGroup) videocontrols.getParent();
                 parent.removeView(videocontrols);
-                View videocontrols1 = (LinearLayout) getLayoutInflater().inflate(R.layout.videocontrol2, parent, false);
+                final View videocontrols1 = (LinearLayout) getLayoutInflater().inflate(R.layout.videocontrol2, parent, false);
                 parent.addView(videocontrols1);
-
+//                mSession.unpublish(mPublisher);
+//                mSession.disconnect();
                 mPublisher = null;
                 mSubscriber = null;
 
@@ -649,19 +657,24 @@ public class New_videocall_activity extends AppCompatActivity
 
                 if (i.getStringExtra("from").equalsIgnoreCase("callActivity")) {
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+
+
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
                             if (mSession != null) {
-                                mSession.disconnect();
+//                                mSession.disconnect();
                                 onDisconnected(mSession);
-                            }
-//                            finish();
+                            }videocontrols1.setVisibility(View.GONE);
+                            videocontrols2.setVisibility(View.VISIBLE);
+
+                            new CallActivity().finish();
+
                             Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(i);
-                        }
-                    }, 5000);
+//                        }
+//                    }, 5000);
                 } else {
                     onDisconnected(mSession);
                 }
@@ -678,7 +691,8 @@ public class New_videocall_activity extends AppCompatActivity
 
     @Override
     public void onDisconnected(Session session) {
-
+        mSession.unpublish(mPublisher);
+        mSession.disconnect();
         Log.d(LOG_TAG, "onDisconnected: Disconnected from session: " + session.getSessionId());
         if (!i.getStringExtra("from").equalsIgnoreCase("callActivity") && TimeCount > 0) {
 
@@ -784,7 +798,8 @@ public class New_videocall_activity extends AppCompatActivity
     public void onStreamDropped(Session session, Stream stream) {
 
         Log.d(LOG_TAG, "onStreamDropped: Stream Dropped: " + stream.getStreamId() + " in session: " + session.getSessionId());
-
+//        mSession.unpublish(mPublisher);
+//        mSession.disconnect();
         if (mSubscriber != null) {
             mSubscriber = null;
             mSubscriberViewContainer.removeAllViews();
@@ -812,6 +827,8 @@ public class New_videocall_activity extends AppCompatActivity
     public void onStreamDestroyed(PublisherKit publisherKit, Stream stream) {
 
         Log.d(LOG_TAG, "onStreamDestroyed: Publisher Stream Destroyed. Own stream " + stream.getStreamId());
+//        mSession.unpublish(mPublisher);
+//        mSession.disconnect();
         if (!i.getStringExtra("from").equals("callActivity")) {
 //            callEnd.performClick();
 
@@ -845,7 +862,8 @@ public class New_videocall_activity extends AppCompatActivity
 
     @Override
     public void onDisconnected(SubscriberKit subscriberKit) {
-
+//        mSession.unpublish(mPublisher);
+//        mSession.disconnect();
         Log.d(LOG_TAG, "onDisconnected: Subscriber disconnected. Stream: " + subscriberKit.getStream().getStreamId());
     }
 

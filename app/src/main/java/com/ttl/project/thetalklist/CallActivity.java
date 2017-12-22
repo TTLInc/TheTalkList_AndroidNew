@@ -36,7 +36,7 @@ import com.opentok.android.Stream;
 
 public class CallActivity extends AppCompatActivity implements PublisherKit.PublisherListener {
 
-    Button ans, reject;
+    ImageView ans, reject;
 
     FrameLayout frameCameraPreview;
     private Vibrator vib;
@@ -85,9 +85,7 @@ ImageView call_activity_image;
         incomingCall_CallerName.setText(preferences.getString("callSenderName", ""));
 
 
-      /*  new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
+
                 if (!preferences.getString("image","").equals("")){
                     Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + preferences.getString("image",""))
                             .crossFade()
@@ -106,9 +104,7 @@ ImageView call_activity_image;
                             .into(call_activity_image);
                 }
 
-                return null;
-            }
-        }.execute();*/
+
 
 
 
@@ -169,8 +165,8 @@ ImageView call_activity_image;
         }
 
 
-        ans = (Button) findViewById(R.id.ansbutton);
-        reject = (Button) findViewById(R.id.rejectbutton);
+        ans = (ImageView) findViewById(R.id.ansbutton);
+        reject = (ImageView) findViewById(R.id.rejectbutton);
 
         ans.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,9 +180,11 @@ ImageView call_activity_image;
                 TTL ttl=new TTL();
                 ttl.Callfrom="callActivity";
 
+                finish();
+
                 New_videocall_activity videoCall = new New_videocall_activity();
                 i.setClass(getApplicationContext(), videoCall.getClass());
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                 getApplication().startActivity(i);
             }

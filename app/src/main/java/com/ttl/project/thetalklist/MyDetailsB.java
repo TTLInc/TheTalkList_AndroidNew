@@ -409,10 +409,10 @@ public class MyDetailsB extends Fragment {
                         public void onClick(View v) {
 
 
-                            if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
+                          /*  if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
                                 fragmentStack.push(new Tablayout_with_viewpager());
-                            }else fragmentStack.push(new Available_tutor());
+                            }else fragmentStack.push(new Available_tutor());*/
                             roleIdChange(email_id, 0);
 
                             editor111.putInt("status",0);
@@ -440,12 +440,12 @@ public class MyDetailsB extends Fragment {
 //getActivity().finish();
 
                             TabBackStack.getInstance().setTabPosition(1);
-                            fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
+//                            fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
 
-                           /* Intent ix=new Intent(getApplicationContext(),ProcessActivity.class);
-                            ix.putExtra("role",0);
-                            ix.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(ix);*/
+
+                            Intent ix=new Intent(getApplicationContext(),SettingFlyout.class);
+                            ix.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(ix);
                         }
                     });
                     tutor.setOnClickListener(new View.OnClickListener() {

@@ -36,7 +36,7 @@ import com.ttl.project.thetalklist.util.AndroidMultiPartEntity;
 
 public class UploadActivity extends Activity {
     // LogCat tag
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = UploadActivity.class.getSimpleName();
 
     private ProgressBar progressBar;
     private String filePath = null;

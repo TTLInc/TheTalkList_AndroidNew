@@ -12,6 +12,15 @@ public class History_model {
     String rate;
     int sid;
     int tid;
+    String hRate;
+
+    public String gethRate() {
+        return hRate;
+    }
+
+    public void sethRate(String hRate) {
+        this.hRate = hRate;
+    }
 
     public int getSid() {
         return sid;

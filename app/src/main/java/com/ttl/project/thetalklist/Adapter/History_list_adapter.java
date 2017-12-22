@@ -74,7 +74,7 @@ public class History_list_adapter extends RecyclerView.Adapter<History_list_adap
 
         if (pref.getInt("id",0)==history_model.getTid()){
 //         holder.history_image.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_credit_up));
-            holder.credit_TV.setText(String.valueOf("+"+history_model.getRate()));
+            holder.credit_TV.setText(String.valueOf("+"+history_model.gethRate()));
         }else {
 //            holder.history_image.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_credit_down));
             holder.credit_TV.setText(String.valueOf("-"+history_model.getRate()));
