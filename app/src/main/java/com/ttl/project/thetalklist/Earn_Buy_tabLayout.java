@@ -57,7 +57,7 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#BDBDBD"));
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#4DB806"));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
