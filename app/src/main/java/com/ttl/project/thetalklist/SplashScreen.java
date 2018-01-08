@@ -22,6 +22,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.ttl.project.thetalklist.Analytics.AnalyticsTrackers;
 import com.ttl.project.thetalklist.Config.Config;
 import com.ttl.project.thetalklist.util.NotificationUtils;
 import com.android.volley.Request;
@@ -34,6 +38,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+
 public class SplashScreen extends AppCompatActivity implements Animation.AnimationListener {
 
     private static final String TAG = SplashScreen.class.getSimpleName();
@@ -45,7 +51,7 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
     int Desty;
     LinearLayout SplashRootView;
 
-   
+
     SharedPreferences pref;
 
     SharedPreferences.Editor editor;
@@ -68,8 +74,58 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        TTL app = (TTL) getApplication();
+        Tracker t = app.getGoogleAnalyticsTracker();
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+t.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
+        t.setScreenName("Main Splash Screen");
+        t.setPage("/SplashScreen");
+        t.send(new HitBuilders.EventBuilder().setCategory("Starting Screen").setAction("Landing Screen").setLabel("Landed").build());
+
+//String campaignData="https://play.google.com/store/apps/details?id=com.ttl.project.thetalklist&hl=en&utm_source=Google%20play%20store&utm_medium=cpc&utm_campaign=Spring_sale&utm_term=TheTalkList&utm_content=Learn%20not%20alone%2C%20Learn%20togather";
+/*String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium=testing&utm_campaign=Demo%20Test&utm_term=Testing&utm_content=Demo";
+        t.send(new HitBuilders.ScreenViewBuilder()
+                        .setCampaignParamsFromUrl(campaignData)
+                        .build());*/
+
+        Intent ie = getIntent();
+
+     /*   ie.putExtra("utm_source", "email");
+        ie.putExtra("utm_medium", "email marketing");
+        ie.putExtra("utm_term", "summer_campaign");
+        ie.putExtra("utm_content", "email_variation_1");*/
+
+        Uri uri = ie.getData();
+//        Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.ttl.project.thetalklist&hl=en&utm_source=Google%20play%20store&utm_medium=cpc&utm_campaign=Spring_sale&utm_term=TheTalkList&utm_content=Learn%20not%20alone%2C%20Learn%20togather");
+
+//                AnalyticsTrackers.initialize(getApplicationContext());
+//        Tracker tracker=AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+
+        if (uri != null) {
+            if (uri.getQueryParameter("utm_source") != null) {
+                t.setCampaignParamsOnNextHit(uri);
+                /*t.send(new HitBuilders.ScreenViewBuilder()
+                        .setCampaignParamsFromUrl(uri.getPath())
+                        .build());*/
+            }
+        }else {
+            Toast.makeText(getApplicationContext(), "uri is null", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(com.ttl.project.thetalklist.R.layout.activity_splash_screen);
         CheckInternetConn checkInternetConn = new CheckInternetConn();
         if (!checkInternetConn.isOnline(getApplicationContext())) {
@@ -80,7 +136,6 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
                 getApplicationContext().startActivity(i);
             }
         }
-
 
 
         permissionStatus = getApplicationContext().getSharedPreferences("permission status", 0);
@@ -164,14 +219,9 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
         }
     }
 
- 
-
 
     private void proceedAfterPermission() {
     }
-
-
-
 
 
     @Override
@@ -257,16 +307,14 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
             y = imageView.getTop();
             Desty = x - 400;
 
-            FinishActivityReceiver=new BroadcastReceiver() {
+            FinishActivityReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
-                    if (intent.getAction().equals("close.Application"));
+                    if (intent.getAction().equals("close.Application")) ;
                     finish();
                 }
             };
-
-            
 
 
             editor = pref.edit();
@@ -280,7 +328,7 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
             SplashRootView = (LinearLayout) findViewById(R.id.SplashRootView);
 
             final SharedPreferences firebase_pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-            final SharedPreferences.Editor prefEdit=firebase_pref.edit();
+            final SharedPreferences.Editor prefEdit = firebase_pref.edit();
             if (pref.contains("user") && pref.getString("LoginWay", "").equals("InternalLogin")) {
 
 
@@ -306,81 +354,81 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
                             if (status == 1) {
                                 String Err = (String) jsonObject.get("error");
                                 Toast.makeText(getApplicationContext(), Err, Toast.LENGTH_SHORT).show();
-                                Login login=new Login();
+                                Login login = new Login();
                                 Intent i = new Intent(getApplicationContext(), login.getClass());
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 editor.clear();
                                 editor.apply();
                                 startActivity(i);
-                                if (dialog!=null)
+                                if (dialog != null)
                                     dialog.dismiss();
 
-                            }
-                          else if (status==10 && !firebase_pref.getString("firebase id","").equals(jsonObject.getString("firebase_id"))){
-                                    Toast.makeText(splashScreen, "firebase id different", Toast.LENGTH_SHORT).show();
-                                    editor.clear().apply();
+                            } else if (status == 10 && !firebase_pref.getString("firebase id", "").equals(jsonObject.getString("firebase_id"))) {
+                                Toast.makeText(splashScreen, "firebase id different", Toast.LENGTH_SHORT).show();
+                                editor.clear().apply();
                                 prefEdit.clear().apply();
-                                    Intent i = new Intent(getApplicationContext(), Login.class);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(i);
+                                Intent i = new Intent(getApplicationContext(), Login.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(i);
                             }
-                            /*if (status == 0)*/ else if (status==0 ){
+                            /*if (status == 0)*/
+                            else if (status == 0) {
 
 //                                if (firebase_pref.getString("firebase id","").equals(jsonObject.getString("firebase_id"))) {
 //                                Toast.makeText(splashScreen, "firebase id same", Toast.LENGTH_SHORT).show();
-                                    JSONObject resultObj = (JSONObject) jsonObject.get("result");
-                                    int roleId = resultObj.getInt("roleId");
-                                    String UserName = (String) resultObj.get("username");
-                                    editor.putString("loginResponse", response);
-                                    editor.putString("user", UserName);
-                                    editor.putInt("roleId", roleId);
-                                    editor.putBoolean("logSta", true);
-                                    editor.putInt("userId", resultObj.getInt("id"));
-                                    editor.putString("credit_balance", resultObj.getString("credit_balance"));
-                                    editor.putString("usernm", resultObj.getString("usernm"));
-                                    editor.putString("pic", resultObj.getString("pic"));
-                                    editor.putString("firstName", resultObj.getString("firstName"));
-                                    editor.putString("lastName", resultObj.getString("lastName"));
-                                    editor.putString("city", resultObj.getString("city"));
-                                    editor.putString("nativeLanguage", resultObj.getString("nativeLanguage"));
-                                    editor.putString("otherLanguage", resultObj.getString("otherLanguage"));
-                                    editor.putInt("id", resultObj.getInt("id"));
-                                    editor.putInt("coupon_credits", resultObj.getInt("coupon_credits"));
-                                    editor.putInt("gender", resultObj.getInt("gender"));
-                                    editor.putInt("country", resultObj.getInt("country"));
-                                    editor.putInt("province", resultObj.getInt("province"));
-                                    editor.putString("cell", resultObj.getString("cell"));
-                                    editor.putFloat("hRate", Float.parseFloat(resultObj.getString("hRate")));
-                                    if (resultObj.getString("avgRate").equals(""))
-                                        editor.putFloat("avgRate", 0.0f);
-                                    else
-                                        editor.putFloat("avgRate", Float.parseFloat(resultObj.getString("avgRate")));
+                                JSONObject resultObj = (JSONObject) jsonObject.get("result");
+                                int roleId = resultObj.getInt("roleId");
+                                String UserName = (String) resultObj.get("username");
+                                editor.putString("loginResponse", response);
+                                editor.putString("user", UserName);
+                                editor.putInt("roleId", roleId);
+                                editor.putBoolean("logSta", true);
+                                editor.putInt("userId", resultObj.getInt("id"));
+                                editor.putString("credit_balance", resultObj.getString("credit_balance"));
+                                editor.putString("usernm", resultObj.getString("usernm"));
+                                editor.putString("pic", resultObj.getString("pic"));
+                                editor.putString("firstName", resultObj.getString("firstName"));
+                                editor.putString("lastName", resultObj.getString("lastName"));
+                                editor.putString("city", resultObj.getString("city"));
+                                editor.putString("nativeLanguage", resultObj.getString("nativeLanguage"));
+                                editor.putString("otherLanguage", resultObj.getString("otherLanguage"));
+                                editor.putInt("id", resultObj.getInt("id"));
+                                editor.putInt("coupon_credits", resultObj.getInt("coupon_credits"));
+                                editor.putInt("gender", resultObj.getInt("gender"));
+                                editor.putInt("country", resultObj.getInt("country"));
+                                editor.putInt("province", resultObj.getInt("province"));
+                                editor.putString("cell", resultObj.getString("cell"));
+                                editor.putFloat("hRate", Float.parseFloat(resultObj.getString("hRate")));
+                                if (resultObj.getString("avgRate").equals(""))
+                                    editor.putFloat("avgRate", 0.0f);
+                                else
+                                    editor.putFloat("avgRate", Float.parseFloat(resultObj.getString("avgRate")));
 
-                                    if (resultObj.getString("ttl_points").equals(""))
-                                        editor.putFloat("ttl_points", 0.0f);
-                                    else
-                                        editor.putFloat("ttl_points", Float.parseFloat(resultObj.getString("ttl_points")));
-                                    editor.putInt("status", 0);
-                                    editor.putFloat("money", Float.parseFloat(String.format("%.02f",Float.parseFloat(resultObj.getString("money")))));
-                                    editor.putFloat("frMoney", (float) resultObj.getDouble("frMoney"));
-                                    editor.putString("email", resultObj.getString("email"));
-                                    editor.apply();
-                                    Log.e("result obj", resultObj.toString());
+                                if (resultObj.getString("ttl_points").equals(""))
+                                    editor.putFloat("ttl_points", 0.0f);
+                                else
+                                    editor.putFloat("ttl_points", Float.parseFloat(resultObj.getString("ttl_points")));
+                                editor.putInt("status", 0);
+                                editor.putFloat("money", Float.parseFloat(String.format("%.02f", Float.parseFloat(resultObj.getString("money")))));
+                                editor.putFloat("frMoney", (float) resultObj.getDouble("frMoney"));
+                                editor.putString("email", resultObj.getString("email"));
+                                editor.apply();
+                                Log.e("result obj", resultObj.toString());
 
-                                    SharedPreferences sharedPreferences = getSharedPreferences("roleAndStatus", 0);
-                                    SharedPreferences.Editor editor1 = sharedPreferences.edit();
-                                    editor1.putInt("roleId", roleId);
-                                    editor1.apply();
+                                SharedPreferences sharedPreferences = getSharedPreferences("roleAndStatus", 0);
+                                SharedPreferences.Editor editor1 = sharedPreferences.edit();
+                                editor1.putInt("roleId", roleId);
+                                editor1.apply();
 
 
-                                    Intent i = new Intent(getApplicationContext(), SettingFlyout/*navigationDrawer*/.class);
-                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    i.putExtra("status", 0);
-                                    i.putExtra("roleId", roleId);
-                                    i.putExtra("username", UserName);
-                                    startActivity(i);
-                                    if (dialog != null)
-                                        dialog.dismiss();
+                                Intent i = new Intent(getApplicationContext(), SettingFlyout/*navigationDrawer*/.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                i.putExtra("status", 0);
+                                i.putExtra("roleId", roleId);
+                                i.putExtra("username", UserName);
+                                startActivity(i);
+                                if (dialog != null)
+                                    dialog.dismiss();
                                 /* }
                                else {
                                     Toast.makeText(splashScreen, "firebase id different", Toast.LENGTH_SHORT).show();
@@ -403,21 +451,19 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
 
                         SharedPreferences pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 
-                        String URL="https://www.thetalklist.com/api/signout?uid="+pref.getInt("id",0);
+                        String URL = "https://www.thetalklist.com/api/signout?uid=" + pref.getInt("id", 0);
                         StringRequest sr1 = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Toast.makeText(getApplicationContext(), "status "+response, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "status " + response, Toast.LENGTH_SHORT).show();
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "status "+error, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "status " + error, Toast.LENGTH_SHORT).show();
                             }
                         });
                         Volley.newRequestQueue(getApplicationContext()).add(sr1);
-
-
 
 
                         Log.d("error", error.toString());
@@ -437,14 +483,14 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
                 // Code here when the LoginWay is FacebookLogin
                 SharedPreferences pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 //                final String url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getInt("facebook_id", 0) + "&firstname=" + pref.getString("first_name", "") + "&lastname=" + pref.getString("last_name", "") + "&gender=" + pref.getString("gender", "") + "&birthdate=" + pref.getString("birthday", "");
-                String url="";
-                if (pref.getInt("gender", 0)==0)
-                    url="https://www.thetalklist.com/api/fblogin?email="+pref.getString("email", "")+"&facebook_id="+pref.getString("facebook_id", "")+"&firstname="+pref.getString("firstName", "")+"&lastname="+pref.getString("lastName", "")+"&gender=female&birthdate="+"";
+                String url = "";
+                if (pref.getInt("gender", 0) == 0)
+                    url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getString("facebook_id", "") + "&firstname=" + pref.getString("firstName", "") + "&lastname=" + pref.getString("lastName", "") + "&gender=female&birthdate=" + "";
                 else
-                    url="https://www.thetalklist.com/api/fblogin?email="+pref.getString("email", "")+"&facebook_id="+pref.getString("facebook_id", "")+"&firstname="+pref.getString("firstName", "")+"&lastname="+pref.getString("lastName", "")+"&gender=male&birthdate="+"";
+                    url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getString("facebook_id", "") + "&firstname=" + pref.getString("firstName", "") + "&lastname=" + pref.getString("lastName", "") + "&gender=male&birthdate=" + "";
 
 
-                Log.e("splash fb login url",url);
+                Log.e("splash fb login url", url);
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -452,9 +498,9 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
                         SharedPreferences.Editor editor = pref.edit();
 
                         try {
-                            JSONObject obj=new JSONObject(response);
-                            if (obj.getInt("status")==0) {
-                                JSONObject resObj=obj.getJSONObject("result");
+                            JSONObject obj = new JSONObject(response);
+                            if (obj.getInt("status") == 0) {
+                                JSONObject resObj = obj.getJSONObject("result");
 
                                 final int roleId = resObj.getInt("roleId");
                                 editor.putString("LoginWay", "FacebookLogin");
@@ -481,8 +527,8 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
                                 editor.putString("nativeLanguage", resObj.getString("nativeLanguage"));
                                 editor.putString("otherLanguage", resObj.getString("otherLanguage"));
                                 editor.putFloat("frMoney", (float) resObj.getDouble("frMoney"));
-                                editor.putInt("roleId",roleId);
-                                editor.putInt("status",0);
+                                editor.putInt("roleId", roleId);
+                                editor.putInt("status", 0);
                                 editor.apply();
 
                                 Toast.makeText(getApplicationContext(), "Login Sucessfully..!", Toast.LENGTH_SHORT).show();
@@ -556,9 +602,6 @@ public class SplashScreen extends AppCompatActivity implements Animation.Animati
     public void onAnimationRepeat(Animation animation) {
 
     }
-
-
-   
 
 
 }

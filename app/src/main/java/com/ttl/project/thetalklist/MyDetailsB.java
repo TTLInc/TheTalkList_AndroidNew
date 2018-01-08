@@ -677,7 +677,7 @@ public class MyDetailsB extends Fragment {
                 loginService();
             }
         }, 5000);*/
-        loginService();
+//        loginService();
 
         if (loginpref.getString("pic","").equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")
@@ -846,7 +846,7 @@ public class MyDetailsB extends Fragment {
         String uploadURL = "https://www.thetalklist.com/api/profile_pic"/*?uid=17430"&image="+encodedImageString*/;
         Log.e("image uploading url", uploadURL);
         Log.e("image uploading url", uploadURL);
-        Log.e("encoded image string ", encodedImageString);
+        Log.e("encoded image string ", encodedImageString.replace("\n","%0A").replace(" ","%20"));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -936,11 +936,11 @@ public class MyDetailsB extends Fragment {
                             editor.putInt("status",0);
                             editor.apply();
 
-                            Toast.makeText(getApplicationContext(), "Login Sucessfully..!", Toast.LENGTH_SHORT).show();
+                          /*  Toast.makeText(getApplicationContext(), "Login Sucessfully..!", Toast.LENGTH_SHORT).show();
                             SettingFlyout settingFlyout = new SettingFlyout();
                             Intent i = new Intent(getApplicationContext(), settingFlyout.getClass());
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(i);
+                            startActivity(i);*/
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Display;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import butterknife.ButterKnife;
 
 
@@ -52,7 +54,7 @@ public class SignUp extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         setContentView(R.layout.activity_sign_up);
 
 
@@ -65,30 +67,30 @@ public class SignUp extends Activity {
         ButterKnife.bind(SignUp.this);
         typeface = Typeface.createFromAsset(getAssets(), "fonts/GothamBookRegular.ttf");
 
-        checkBox= (CheckBox) findViewById(R.id.termsNconCheck);
+        checkBox = (CheckBox) findViewById(R.id.termsNconCheck);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         preferences = getApplicationContext().getSharedPreferences("userDaTa", MODE_PRIVATE);
 
         typeface = Typeface.createFromAsset(getAssets(), "fonts/GothamBookRegular.ttf");
 
-        firstname= (EditText) findViewById(R.id.signupET1);
+        firstname = (EditText) findViewById(R.id.signupET1);
         firstname.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         firstname.setTypeface(typeface);
         firstname.setVisibility(View.VISIBLE);
-        lastname= (EditText) findViewById(R.id.signupET2);
+        lastname = (EditText) findViewById(R.id.signupET2);
         lastname.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         lastname.setVisibility(View.VISIBLE);
         lastname.setTypeface(typeface);
-        phone= (EditText) findViewById(R.id.signupET3);
+        phone = (EditText) findViewById(R.id.signupET3);
         phone.setVisibility(View.VISIBLE);
         phone.setTypeface(typeface);
         email = (EditText) findViewById(R.id.signupET4);
-        password= (EditText) findViewById(R.id.signupET5);
+        password = (EditText) findViewById(R.id.signupET5);
         password.setVisibility(View.VISIBLE);
         password.setTypeface(typeface);
-        signin= (TextView) findViewById(R.id.signupTT2);
-        term_and_condition= (TextView) findViewById(R.id.term_and_condition);
+        signin = (TextView) findViewById(R.id.signupTT2);
+        term_and_condition = (TextView) findViewById(R.id.term_and_condition);
         signin.setTypeface(typeface);
         signUp = (Button) findViewById(R.id.signupButton);
     }
@@ -111,7 +113,6 @@ public class SignUp extends Activity {
         signin.setWidth(width);
 
         signUp.setTypeface(typeface);
-
 
 
         term_and_condition.setOnClickListener(new View.OnClickListener() {
@@ -137,24 +138,17 @@ public class SignUp extends Activity {
 
                 if (first1.equals("")) {
                     firstname.setError("Required");
-                }
-                else if (last1.equals("")) {
+                } else if (last1.equals("")) {
                     lastname.setError("Required");
-                }
-                else if (phone.getText().toString().length() == 0) {
+                } else if (phone.getText().toString().length() == 0) {
                     phone.setError("Required");
-                }
-                else if (emailadd1.equals("")) {
+                } else if (emailadd1.equals("")) {
                     email.setError("Required");
-                }
-                else if (pass1.equals("")) {
+                } else if (pass1.equals("")) {
                     password.setError("Required");
-                }
-                else if (pass1.length()<6){
+                } else if (pass1.length() < 6) {
                     password.setError("Length must be more than 6 characters.");
-                }
-
-                else if (!checkBox.isChecked()) {
+                } else if (!checkBox.isChecked()) {
                     checkBox.setError("Please check if you agree..!");
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailadd1).matches()) {
                     email.setError("Invalid Email Address..!");
@@ -166,38 +160,41 @@ public class SignUp extends Activity {
 
 
                     SharedPreferences pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor1=pref.edit();
-                    editor1.putString("email",emailadd1);
-                    editor1.putString("user",first1+" "+last1);
-                    editor1.putInt("status",1);
-                    editor1.putString("pass",pass1).apply();
+                    SharedPreferences.Editor editor1 = pref.edit();
+                    editor1.putString("email", emailadd1);
+                    editor1.putString("user", first1 + " " + last1);
+                    editor1.putInt("status", 1);
+                    editor1.putString("pass", pass1).apply();
 
                     session.createLoginSession(emailadd1, pass1);
 
-                    dialog=new Dialog(SignUp.this);
+                    dialog = new Dialog(SignUp.this);
                     dialog.setContentView(R.layout.threedotprogressbar);
                     dialog.setCanceledOnTouchOutside(false);
                     dialog.show();
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
 
-                    Log.e("phone numhber",phone.getText().toString());
+                    Log.e("phone numhber", phone.getText().toString());
                     String URL = "https://www.thetalklist.com/api/signup" +
-                            "?firstName=" + first1.replace(" ","%20") +
+                            "?firstName=" + first1.replace(" ", "%20") +
                             "&password=" + pass1 +
                             "&roleId=" + "0" +
-                            "&lastName=" + last1.replace(" ","%20") +
+                            "&lastName=" + last1.replace(" ", "%20") +
                             "&email=" + emailadd1 +
-                            "&cell=" + phone.getText().toString();
+                            "&cell=" + phone.getText().toString()+
+                            "&device_id="+Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-                    Log.e("signup url",URL);
+
+
+                    Log.e("signup url", URL);
 
                     JsonObjectRequest getRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, URL, null, new com.android.volley.Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             dialog.dismiss();
 
-Log.e("signup response",response.toString());
+                            Log.e("signup response", response.toString());
                             try {
                                 int a = response.getInt("status");
                                 if (a == 0) {

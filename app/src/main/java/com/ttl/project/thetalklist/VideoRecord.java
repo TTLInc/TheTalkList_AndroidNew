@@ -464,6 +464,7 @@ public class VideoRecord extends Fragment {
         i.putExtra("subject", subject.getSelectedItem().toString());
         i.putExtra("title", videoRecord_title.getText().toString());
         i.putExtra("description", videoRecord_desc.getText().toString());
+        i.putExtra("activity", getActivity().getClass().toString());
 
         SharedPreferences.Editor editor=bio_videoPref.edit();
 
@@ -471,14 +472,14 @@ public class VideoRecord extends Fragment {
 
         if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 //            getFragmentManager().beginTransaction().remove(new VideoRecord()).commit();
-            editor.putBoolean("fromReg",true).apply();
+//            editor.putBoolean("fromReg",true).apply();
             startActivity(i);
 //            if (getActivity() != null)
 //                getActivity().onBackPressed();
         } else {
             if (bio_videoPref.getBoolean("biography", false)) {
-                if (getActivity() != null)
-                    getActivity().onBackPressed();
+//                if (getActivity() != null)
+//                    getActivity().onBackPressed();
                 startActivity(i);
             } else startActivity(i);
         }

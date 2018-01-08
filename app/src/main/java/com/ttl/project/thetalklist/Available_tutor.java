@@ -643,7 +643,7 @@ public class Available_tutor extends Fragment {
 
             String keyword = keyword_search.replace(" ", "");
             Log.e("keyword", keyword_search);
-            String URL = "https://www.thetalklist.com/api/tutorsearch?keyword=" + keyword + "&id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
+            String URL = "https://www.thetalklist.com/api/desired_tutor?subject=&language1=&gender=&country=&state=&keyword=&id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
             Log.e("Available tutor url", URL);
             RequestQueue queue1 = Volley.newRequestQueue(getApplicationContext());
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {

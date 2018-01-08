@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Nice! You've got 10 free credits. Click any tutor to talk now.\nOr swipe right to add to Favorites."
+            android:text="Nice! You've got 10 free credits. Click any tutor to talk now. Or swipe right to add to Favorites."
             android:textSize="13dp"
             android:visibility="gone" />
 

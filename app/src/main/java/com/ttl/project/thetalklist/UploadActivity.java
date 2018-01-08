@@ -51,6 +51,7 @@ public class UploadActivity extends Activity {
     String subject;
     String title;
     String description;
+    String activity;
 
     @SuppressLint("ResourceType")
     @Override
@@ -69,6 +70,8 @@ public class UploadActivity extends Activity {
         subject = i.getStringExtra("subject");
         title = i.getStringExtra("title");
         description = i.getStringExtra("description");
+        activity=i.getStringExtra("activity");
+
 
         previewMedia();
 
@@ -78,7 +81,9 @@ public class UploadActivity extends Activity {
             public void onClick(View v) {
                 finish();
 //                new SettingFlyout().onBackPressed();
-                onBackPressed();
+//                onBackPressed();
+
+
             }
         });
 
@@ -218,7 +223,20 @@ public class UploadActivity extends Activity {
             }
 //            onBackPressed();
 
-            finish();
+            if (activity.equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
+
+                Intent i = new Intent(getApplicationContext(), Registration.class);
+                i.putExtra("back", true);
+                startActivity(i);
+                finish();
+            } else {
+
+
+                Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
+                i.putExtra("back", true);
+                startActivity(i);
+                finish();
+            }
             super.onPostExecute(result);
         }
 

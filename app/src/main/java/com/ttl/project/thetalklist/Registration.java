@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,6 +60,15 @@ public class Registration extends AppCompatActivity {
                 new Login().onBackPressed();
                 new SplashScreen().onBackPressed();
             }
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.hasExtra("back")){
+            if (intent.getBooleanExtra("back", true))
+                onBackPressed();
         }
     }
 }

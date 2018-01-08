@@ -7,6 +7,7 @@ package com.ttl.project.thetalklist.Analytics;
 import android.content.Context;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.ttl.project.thetalklist.R;
 
@@ -66,6 +67,10 @@ public final class AnalyticsTrackers {
             switch (target) {
                 case APP:
                     tracker = GoogleAnalytics.getInstance(mContext).newTracker(R.xml.app_tracker);
+                 /*   String campaignData = "https://play.google.com/store/apps/details?id=com.ttl.project.thetalklist&hl=en&utm_source=Google%20play%20store&utm_medium=cpc&utm_campaign=Spring_sale&utm_term=TheTalkList&utm_content=Learn%20not%20alone%2C%20Learn%20togather";
+                    tracker.send(new HitBuilders.ScreenViewBuilder()
+                            .setCampaignParamsFromUrl(campaignData)
+                            .build());*/
                     break;
                 default:
                     throw new IllegalArgumentException("Unhandled analytics target " + target);

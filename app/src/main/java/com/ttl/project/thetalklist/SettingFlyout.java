@@ -52,6 +52,10 @@ import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.ttl.project.thetalklist.Analytics.AnalyticsTrackers;
 import com.ttl.project.thetalklist.Config.Config;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -125,7 +129,7 @@ public class SettingFlyout extends AppCompatActivity {
     private ListView mDrawerList;
     LinearLayout return_to_call;
     private CharSequence mDrawerTitle;
-    boolean notification=false;
+    boolean notification = false;
     private CharSequence mTitle;
     private String[] mNavigationDrawerItemTitles;
     ActionBarDrawerToggle mDrawerToggle;
@@ -169,13 +173,45 @@ public class SettingFlyout extends AppCompatActivity {
         }
     }
 
+    Tracker t;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_setting_flyout);
 
+
+//        Tracker t= AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+        TTL app = (TTL) getApplication();
+        Tracker t = app.getGoogleAnalyticsTracker();
+        t.send(new HitBuilders.ScreenViewBuilder().build());
+/*t.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());*/
+        t.setScreenName("Main Setting Flyout");
+        t.setPage("/SettingFlyOut");
+        t.send(new HitBuilders.EventBuilder().setCategory("Main Screen").setAction("Landing Screen").setLabel("Landed").build());
+/*
+//String campaignData="https://play.google.com/store/apps/details?id=com.ttl.project.thetalklist&hl=en&utm_source=Google%20play%20store&utm_medium=cpc&utm_campaign=Spring_sale&utm_term=TheTalkList&utm_content=Learn%20not%20alone%2C%20Learn%20togather";
+String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium=testing&utm_campaign=Demo%20Test&utm_term=Testing&utm_content=Demo";
+        t.send(new HitBuilders.ScreenViewBuilder()
+                        .setCampaignParamsFromUrl(campaignData)
+                        .build());*/
+
+
+        Intent i = this.getIntent();
+        Uri uri = i.getData();
+
+//                AnalyticsTrackers.initialize(getApplicationContext());
+//        Tracker tracker=AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+
+        if (uri != null && uri.getQueryParameter("utm_source") != null) {
+            t.setCampaignParamsOnNextHit(uri);
+        }
+
+        setContentView(R.layout.activity_setting_flyout);
         preferences = getSharedPreferences("loginStatus", MODE_PRIVATE);
         v = getLayoutInflater().inflate(R.layout.tutor_actionbar_layout, null);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -229,7 +265,7 @@ public class SettingFlyout extends AppCompatActivity {
 
         manuallyTurnOn = 0;
 
-        if (roleId==0){
+        if (roleId == 0) {
             talkNow.setChecked(false);
             talkNow.setClickable(false);
             talkNow.setFocusable(false);
@@ -238,12 +274,12 @@ public class SettingFlyout extends AppCompatActivity {
         switch_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pref.getInt("roleId",0)!=0) {
+                if (pref.getInt("roleId", 0) != 0) {
                     manuallyTurnOn = 1;
                     if (talkNow.isChecked()) {
                         talkNow.setChecked(false);
                     } else talkNow.setChecked(true);
-                }else {
+                } else {
                 }
             }
         });
@@ -636,49 +672,18 @@ public class SettingFlyout extends AppCompatActivity {
         });
         if (status == 1) {
 
-            roleId = 1;
-        } else roleId = preferences.getInt("roleId", 0);
-
-
-        prefAvailableTutor = getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
-        ed = prefAvailableTutor.edit();
-
-        prefVideoList = getSharedPreferences("videoListResponse", Context.MODE_PRIVATE);
-        edvideo = prefVideoList.edit();
-
-
-        tabBackStack = TabBackStack.getInstance();
-
-        if (preferences.getInt("roleId", 0) == 0) {
-            talkNow.setChecked(false);
-            talkNow.setClickable(false);
-            talkNow.setFocusable(false);
-
-        }
-
-        fragmentTransaction.addToBackStack(null);
-        if (status == 0) {
-
-           /* if (getIntent().hasExtra("payment")){
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
-            }*/
-
+//            roleId = 1;
+            Tablayout_with_viewpager withViewpager = new Tablayout_with_viewpager();
+            fragmentTransaction.replace(R.id.viewpager, withViewpager);
+            fragmentTransaction.commit();
+        } else {
+            roleId = preferences.getInt("roleId", 0);
             String ofMessage = getIntent().getStringExtra("message");
             String firstName = getIntent().getStringExtra("uname");
             int uid = getIntent().getIntExtra("senderId", 0);
 
-
-
-
-          /*  if (ofpayment !=null){
-                FragmentStack.getInstance().push(new Available_tutor());
-
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
-            }*/
-            SharedPreferences pref123=getSharedPreferences("roleChange",MODE_PRIVATE);
-            SharedPreferences.Editor editor123=pref123.edit();
+            SharedPreferences pref123 = getSharedPreferences("roleChange", MODE_PRIVATE);
+            SharedPreferences.Editor editor123 = pref123.edit();
             if (ofMessage != null) {
                 Log.e("message", ofMessage);
                 Log.e("uid", String.valueOf(uid));
@@ -702,20 +707,38 @@ public class SettingFlyout extends AppCompatActivity {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.viewpager, new MessageOneToOne()).commit();
                 }
-            } else
-
-            if (pref123.getInt("roleId",0)==0){
-                editor123.putInt("roleId",-1).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.viewpager,new DesiredTutor()).commit();
+            } else if (pref123.getInt("roleId", 0) == 0) {
+                editor123.putInt("roleId", -1).apply();
+                getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new DesiredTutor()).commit();
 
             } else
                 fragmentTransaction.replace(R.id.viewpager, new Available_tutor()).commit();
+        }
+
+
+        prefAvailableTutor = getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
+        ed = prefAvailableTutor.edit();
+
+        prefVideoList = getSharedPreferences("videoListResponse", Context.MODE_PRIVATE);
+        edvideo = prefVideoList.edit();
+
+
+        tabBackStack = TabBackStack.getInstance();
+
+        if (preferences.getInt("roleId", 0) == 0) {
+            talkNow.setChecked(false);
+            talkNow.setClickable(false);
+            talkNow.setFocusable(false);
+
+        }
+
+/*        fragmentTransaction.addToBackStack(null);
+        if (status == 0) {
+
         } else {
 
-            Tablayout_with_viewpager withViewpager = new Tablayout_with_viewpager();
-            fragmentTransaction.replace(R.id.viewpager, withViewpager);
-            fragmentTransaction.commit();
-        }
+
+        }*/
 
 
         drawer.setDrawerListener(new DrawerLayout.DrawerListener() {
@@ -777,10 +800,6 @@ public class SettingFlyout extends AppCompatActivity {
                             JSONObject info = res.getJSONObject("info");
 
 
-
-
-
-
                             String string1 = info.getString("start_time");
                             if (string1.contains("AM")) {
                                 string1 = string1.replace(" AM", "");
@@ -802,12 +821,6 @@ public class SettingFlyout extends AppCompatActivity {
                                     string1 = String.valueOf(Integer.parseInt(hx)) + ":" + remainder;
                                 string1 = string1.replace("PM", "");
                             }
-
-
-
-
-
-
 
 
                             String string2 = info.getString("end_time");
@@ -847,13 +860,12 @@ public class SettingFlyout extends AppCompatActivity {
                             int t = c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
                             Log.e("cur", String.valueOf(t));
                             Log.e("Manually", String.valueOf(manuallyTurnOn));
-                            Log.e("dayofweek",dayOfTheWeek.toLowerCase());
+                            Log.e("dayofweek", dayOfTheWeek.toLowerCase());
 
 
                             if (to <= t && t <= from) {
                                 //checkes whether the current time is between 14:49:00 and 20:11:13.
-                                        Log.e("in if condition","yes");
-
+                                Log.e("in if condition", "yes");
 
 
                                 if (info.getInt("sunday") == 1 ||
@@ -866,11 +878,11 @@ public class SettingFlyout extends AppCompatActivity {
                                         ) {
 
 
-                                    if (info.getInt(dayOfTheWeek.toLowerCase())==1){
+                                    if (info.getInt(dayOfTheWeek.toLowerCase()) == 1) {
                                         talkNow.setChecked(true);
                                         Log.e("availability", "yes");
-                                        if (to==t && !notification){
-                                            notification=true;
+                                        if (to == t && !notification) {
+                                            notification = true;
                                             Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
                                             NotificationCompat.BigTextStyle inboxStyle = new NotificationCompat.BigTextStyle();
                                             final int icon = R.mipmap.ttlg2;
@@ -903,7 +915,7 @@ public class SettingFlyout extends AppCompatActivity {
                                             mNotificationManager.notify(100, notification);
                                         }
 //                                        Notify(Integer.parseInt(string1.substring(0, string1.indexOf(":"))), Integer.parseInt(string1.substring(string1.indexOf(":") + 1, string1.length())));
-                                    }else {
+                                    } else {
                                         Log.e("availability", "No");
                                         if (manuallyTurnOn != 1)
                                             talkNow.setChecked(false);
@@ -972,8 +984,8 @@ public class SettingFlyout extends AppCompatActivity {
                                         if (manuallyTurnOn != 1)
                                             talkNow.setChecked(false);
                                     }*/
-                                }else {
-                                            Log.e("availability", "No");
+                                } else {
+                                    Log.e("availability", "No");
                                     if (manuallyTurnOn != 1)
                                         talkNow.setChecked(false);
                                 }
@@ -982,8 +994,7 @@ public class SettingFlyout extends AppCompatActivity {
                                     talkNow.setChecked(false);
                             }
 
-                        }
-                        else {
+                        } else {
 //                            talkNow.setChecked(false);
                         }
 
@@ -1004,9 +1015,9 @@ public class SettingFlyout extends AppCompatActivity {
     }
 
 
-    public void Notify(int h,int min) {
+    public void Notify(int h, int min) {
 
-        Intent notifyIntent = new Intent(getApplicationContext(),MyReceiver.class);
+        Intent notifyIntent = new Intent(getApplicationContext(), MyReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast
                 (context, 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -1153,6 +1164,13 @@ public class SettingFlyout extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        GoogleAnalytics.getInstance(getApplicationContext()).reportActivityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        GoogleAnalytics.getInstance(getApplicationContext()).reportActivityStop(this);
     }
 
     private Handler mHandler;
@@ -1163,6 +1181,7 @@ public class SettingFlyout extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
 
 /*            MyDetailsB myDetailsB=new MyDetailsB();
 if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
@@ -1262,7 +1281,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(100, notification);
         }*/
-        credits.setText(String.format("%.02f",pref.getFloat("money", 0.0f)));
+        credits.setText(String.format("%.02f", pref.getFloat("money", 0.0f)));
         Log.e("money", String.valueOf(pref.getFloat("money", 0.0f)));
         credits.setTypeface(typeface);
         credits.setOnClickListener(new View.OnClickListener() {
@@ -1290,44 +1309,44 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    if (isChecked) {
-                        online = 1;
-                    } else {
-                        online = 0;
-                    }
-                    String Url = "https://www.thetalklist.com/api/tutor_online?uid=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&bit=" + online;
-
-                    Log.e("tutor online url", Url);
-
-                    StringRequest strRequest = new StringRequest(Request.Method.POST, Url,
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-
-                                    Log.e("tutor online res", response);
-
-                                    try {
-                                        JSONObject obj = new JSONObject(response);
-
-                                        if (obj.getInt("status") != 0) {
-                                            Toast.makeText(getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-
-                    Volley.newRequestQueue(getApplicationContext()).add(strRequest);
+                if (isChecked) {
+                    online = 1;
+                } else {
+                    online = 0;
                 }
+                String Url = "https://www.thetalklist.com/api/tutor_online?uid=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&bit=" + online;
+
+                Log.e("tutor online url", Url);
+
+                StringRequest strRequest = new StringRequest(Request.Method.POST, Url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                Log.e("tutor online res", response);
+
+                                try {
+                                    JSONObject obj = new JSONObject(response);
+
+                                    if (obj.getInt("status") != 0) {
+                                        Toast.makeText(getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
+                Volley.newRequestQueue(getApplicationContext()).add(strRequest);
+            }
 
 //            }
         });
@@ -1399,7 +1418,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                                 num_ttlScore.setText("0");
                             else
                                 num_ttlScore.setText(String.valueOf(rewardPoints));
-                        }else  num_ttlScore.setText("0");
+                        } else num_ttlScore.setText("0");
                         String pic = resultObj.getString("pic");
                         if (!pic.equals("")) {
                             Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + pic)
@@ -1509,7 +1528,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                         AccessToken.setCurrentAccessToken(null);
                         finish();
                     }*/
-                    final Dialog dialog=new Dialog(SettingFlyout.this);
+                    final Dialog dialog = new Dialog(SettingFlyout.this);
                     dialog.setContentView(R.layout.threedotprogressbar);
                     dialog.setCanceledOnTouchOutside(false);
                     Handler mHandler = new Handler(Looper.getMainLooper());
@@ -1535,8 +1554,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                                 if (obj.getInt("status") != 0) {
                                     Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                                 } else {
-
-
 
 
                                     pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
@@ -1964,10 +1981,10 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         String firstName = intent.getStringExtra("uname");
         int uid = intent.getIntExtra("senderId", 0);
 
-        SharedPreferences pref=getSharedPreferences("roleChange",MODE_PRIVATE);
-        SharedPreferences.Editor editor=pref.edit();
+        SharedPreferences pref = getSharedPreferences("roleChange", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
 
-            FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
           /*  if (ofpayment !=null){
                 FragmentStack.getInstance().push(new Available_tutor());
 
@@ -1976,15 +1993,12 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
             }*/
 //        Toast.makeText(getApplicationContext(), "role "+ intent.hasExtra("role"), Toast.LENGTH_SHORT).show();
 
-          if (intent.hasExtra("roll")){
-              talkNow.setChecked(false);
-              talkNow.setClickable(false);
-              talkNow.setFocusable(false);
+        if (intent.hasExtra("roll")) {
+            talkNow.setChecked(false);
+            talkNow.setClickable(false);
+            talkNow.setFocusable(false);
 //              getSupportFragmentManager().beginTransaction().replace(R.id.viewpager,new DesiredTutor()).commit();
-          }
-
-
-        else if (ofMessage != null) {
+        } else if (ofMessage != null) {
             Log.e("message", ofMessage);
             Log.e("uid", String.valueOf(uid));
 
@@ -2007,13 +2021,14 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.viewpager, new MessageOneToOne()).commit();
             }
+        } else if (pref.getInt("roleId", 0) == 0) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new Available_tutor()).commit();
+            editor.clear().apply();
+
+        } else if (intent.hasExtra("back")) {
+            if (intent.getBooleanExtra("back", true))
+                onBackPressed();
         } else
-
-              if (pref.getInt("roleId",0)==0){
-                  getSupportFragmentManager().beginTransaction().replace(R.id.viewpager,new Available_tutor()).commit();
-              editor.clear().apply();
-
-        }else
 
             ft1.replace(R.id.viewpager, new Available_tutor()).commit();
     }

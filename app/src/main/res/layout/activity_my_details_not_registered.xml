@@ -88,7 +88,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/calender" />
+                    android:src="@drawable/calender" />
 
                 <EditText
                     android:id="@+id/ageNotDetails"
@@ -134,7 +134,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/gender" />
+                    android:src="@drawable/gender" />
 
                 <Spinner
                     android:id="@+id/genderNotDetails"
@@ -171,7 +171,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/country" />
+                    android:src="@drawable/country" />
 
                 <Spinner
                     android:id="@+id/countryNotDetails"
@@ -243,7 +243,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/navigationcity" />
+                    android:src="@drawable/navigationcity" />
 
                 <EditText
                     android:id="@+id/cityNotDetails"
@@ -329,7 +329,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/language" />
+                    android:src="@drawable/language" />
 
                 <Spinner
                     android:id="@+id/lang1NotDetails"
@@ -368,7 +368,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/language" />
+                    android:src="@drawable/language" />
 
                 <Spinner
                     android:id="@+id/lang2NotDetails"

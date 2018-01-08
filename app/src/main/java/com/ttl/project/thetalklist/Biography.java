@@ -287,12 +287,12 @@ public class Biography extends Fragment {
                                 JSONObject o = resObj.getJSONObject("result");
 //                                JSONObject o = resAry.getJSONObject(0);
 
-                                if (o.getInt("pic_upload") == 0 && o.getInt("pic_upload") == 0 && o.getInt("pic_upload") == 0) {
+                                if (o.getInt("pic_upload") == 0 && o.getInt("vid_upload") == 0 && o.getInt("BioGraphy") == 0 && o.getInt("tutoring_subjects") == 0) {
                                     Toast.makeText(getContext(), "Please complete profile first", Toast.LENGTH_SHORT).show();
                                 } else if (o.getInt("pic_upload") == 0) {
                                     Toast.makeText(getContext(), "Please add your photo.", Toast.LENGTH_SHORT).show();
-                                    TabBackStack.getInstance().setTabPosition(0);
-                                    getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
+//                                    TabBackStack.getInstance().setTabPosition(0);
+//                                    getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
                                 } else if (o.getInt("vid_upload") == 0) {
                                     biography_video.setVisibility(View.VISIBLE);
                                     Toast.makeText(getContext(), "Please upload video.", Toast.LENGTH_SHORT).show();
@@ -662,9 +662,9 @@ public class Biography extends Fragment {
                                         biography_educational.setText(response.getString("academic"));
                                         biography_educational_edit.setText(response.getString("academic"));
                                     } else {
-                                        biography_educational.setText("I attend school at…");
-                                        biography_educational_edit.setHint("I attend school at…");
-                                        biography_educational_edit.setText("I attend school at…");
+                                        biography_educational.setText("I have attended school at... ");
+                                        biography_educational_edit.setHint("I have attended school at... ");
+                                        biography_educational_edit.setText("I have attended school at... ");
                                     }
 
 
@@ -910,6 +910,8 @@ public class Biography extends Fragment {
                         JSONArray biography_video_ary = resultObj.getJSONArray("biography_video");
                         biography_video_thum_recycle.setAdapter(new Biography_videoThumb_adapter(getContext(), biography_video_ary, playerView, biography_video_thum_recycle));
 
+                    }else if(resultObj.getInt("status") == 0 && resultObj.getString("message").equals("No Video Available.")){
+                        biography_video_thum_recycle.setAdapter(new Biography_videoThumb_adapter(getContext(), new JSONArray(), playerView, biography_video_thum_recycle));
                     }
 
                 } catch (JSONException e) {
@@ -1050,7 +1052,7 @@ public class Biography extends Fragment {
         Log.e("subjects url", URL);
 
 
-        loginService();
+//        loginService();
 
         if (loginpref.getString("pic", "").equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")

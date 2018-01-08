@@ -80,6 +80,17 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
         return new MyViewHolder(view);
     }
 
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     JSONObject object;
     String FirstName;
 
@@ -99,6 +110,11 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 holder.ratingBar.setRating(Float.parseFloat(object.getString("avgRate")));
             else holder.ratingBar.setRating(0f);
             Log.e("available tutor obj", object.toString());
+
+            if (object.getInt("readytotalk")==0){
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
+            }
+
             final String picPath = object.getString("pic");
             final int tutorId = object.getInt("uid");
             if (withPos == 1) {
@@ -172,6 +188,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
 
             SharedPreferences chatPref = context.getSharedPreferences("chatPref", Context.MODE_PRIVATE);
             final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
+
+
 
             holder.msgButton.setOnClickListener(new View.OnClickListener() {
                 @Override

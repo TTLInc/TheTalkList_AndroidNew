@@ -188,6 +188,8 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
                                 public void onClick(View v) {
                                     popupWindow7.dismiss();
                                     try {
+
+                                        Log.e("delete video url", "https://www.thetalklist.com/api/delete_bio_video?video_id=" + thumbObj.getInt("id") + "&user_id=" + context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0));
                                         Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/delete_bio_video?video_id=" + thumbObj.getInt("id") + "&user_id=" + context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0), new Response.Listener<String>() {
                                             @Override
                                             public void onResponse(String response) {
@@ -197,10 +199,19 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
                                                     JSONObject resultObj = new JSONObject(response);
 
                                                     if (resultObj.getInt("status") == 0) {
-                                                        JSONArray biography_video_ary = resultObj.getJSONArray("biography_video");
 
-                                                        biography_video_thum_recycle.setAdapter(new Biography_videoThumb_adapter(context, biography_video_ary, playerView, biography_video_thum_recycle));
+                                                        if (resultObj.getString("message").equals("No Video Found For this User.")) {
+                                                            JSONArray biography_video_ary = resultObj.getJSONArray("biography_video");
 
+                                                            biography_video_thum_recycle.setAdapter(new Biography_videoThumb_adapter(context, null, playerView, biography_video_thum_recycle));
+
+                                                        } else {
+
+                                                            JSONArray biography_video_ary = resultObj.getJSONArray("biography_video");
+
+                                                            biography_video_thum_recycle.setAdapter(new Biography_videoThumb_adapter(context, biography_video_ary, playerView, biography_video_thum_recycle));
+
+                                                        }
                                                     }
 
                                                 } catch (JSONException e) {
@@ -234,42 +245,41 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
                         }
 
 
-
-                },10);
-
-
-            }
-        });
+                    }, 10);
 
 
-    } catch(
-    JSONException e)
+                }
+            });
 
-    {
-        e.printStackTrace();
+
+        } catch (
+                JSONException e)
+
+        {
+            e.printStackTrace();
+        }
     }
-}
 
     @Override
     public int getItemCount() {
         return biography_video_ary.length();
     }
 
-public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-    ImageView thumb;
-    ImageView delete;
+        ImageView thumb;
+        ImageView delete;
 
-    public MyViewHolder(View itemView) {
-        super(itemView);
+        public MyViewHolder(View itemView) {
+            super(itemView);
 
-        thumb = (ImageView) itemView.findViewById(R.id.thumb);
-        delete = (ImageView) itemView.findViewById(R.id.video_delete);
+            thumb = (ImageView) itemView.findViewById(R.id.thumb);
+            delete = (ImageView) itemView.findViewById(R.id.video_delete);
 
 
+        }
     }
-}
 
     private void InitializePLayer(String link) throws ParseException {
         if (player == null) {
@@ -295,131 +305,131 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener, AudioRendererEventListener {
-    @Override
-    public void onTimelineChanged(Timeline timeline, Object o) {
+    private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener, AudioRendererEventListener {
+        @Override
+        public void onTimelineChanged(Timeline timeline, Object o) {
 
-    }
-
-    @Override
-    public void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
-
-    }
-
-    @Override
-    public void onLoadingChanged(boolean b) {
-
-    }
-
-    @Override
-    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
-        String stateString;
-        switch (playbackState) {
-            case ExoPlayer.STATE_IDLE:
-                stateString = "ExoPlayer.STATE_IDLE   -";
-                break;
-
-
-            case ExoPlayer.STATE_BUFFERING:
-                stateString = "ExoPlayer.STATE_BUFFERING   -";
-                break;
-
-
-            case ExoPlayer.STATE_READY:
-                stateString = "ExoPlayer.STATE_READY  -";
-                break;
-            case ExoPlayer.STATE_ENDED:
-                stateString = "ExoPlayer.STATE_ENDED  -";
-                break;
-
-            default:
-                stateString = "Unknown State  -";
-                break;
         }
 
-        Log.e(TAG, "changed state to " + stateString + "PLay when ready " + playWhenReady);
+        @Override
+        public void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
 
+        }
+
+        @Override
+        public void onLoadingChanged(boolean b) {
+
+        }
+
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+
+            String stateString;
+            switch (playbackState) {
+                case ExoPlayer.STATE_IDLE:
+                    stateString = "ExoPlayer.STATE_IDLE   -";
+                    break;
+
+
+                case ExoPlayer.STATE_BUFFERING:
+                    stateString = "ExoPlayer.STATE_BUFFERING   -";
+                    break;
+
+
+                case ExoPlayer.STATE_READY:
+                    stateString = "ExoPlayer.STATE_READY  -";
+                    break;
+                case ExoPlayer.STATE_ENDED:
+                    stateString = "ExoPlayer.STATE_ENDED  -";
+                    break;
+
+                default:
+                    stateString = "Unknown State  -";
+                    break;
+            }
+
+            Log.e(TAG, "changed state to " + stateString + "PLay when ready " + playWhenReady);
+
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException e) {
+
+        }
+
+        @Override
+        public void onPositionDiscontinuity() {
+
+        }
+
+        @Override
+        public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+        }
+
+        @Override
+        public void onVideoEnabled(DecoderCounters decoderCounters) {
+
+        }
+
+        @Override
+        public void onVideoDecoderInitialized(String s, long l, long l1) {
+
+        }
+
+        @Override
+        public void onVideoInputFormatChanged(Format format) {
+
+        }
+
+        @Override
+        public void onDroppedFrames(int i, long l) {
+
+        }
+
+        @Override
+        public void onVideoSizeChanged(int i, int i1, int i2, float v) {
+
+        }
+
+        @Override
+        public void onRenderedFirstFrame(Surface surface) {
+
+        }
+
+        @Override
+        public void onVideoDisabled(DecoderCounters decoderCounters) {
+
+        }
+
+        @Override
+        public void onAudioEnabled(DecoderCounters decoderCounters) {
+
+        }
+
+        @Override
+        public void onAudioSessionId(int i) {
+
+        }
+
+        @Override
+        public void onAudioDecoderInitialized(String s, long l, long l1) {
+
+        }
+
+        @Override
+        public void onAudioInputFormatChanged(Format format) {
+
+        }
+
+        @Override
+        public void onAudioTrackUnderrun(int i, long l, long l1) {
+
+        }
+
+        @Override
+        public void onAudioDisabled(DecoderCounters decoderCounters) {
+
+        }
     }
-
-    @Override
-    public void onPlayerError(ExoPlaybackException e) {
-
-    }
-
-    @Override
-    public void onPositionDiscontinuity() {
-
-    }
-
-    @Override
-    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-
-    }
-
-    @Override
-    public void onVideoEnabled(DecoderCounters decoderCounters) {
-
-    }
-
-    @Override
-    public void onVideoDecoderInitialized(String s, long l, long l1) {
-
-    }
-
-    @Override
-    public void onVideoInputFormatChanged(Format format) {
-
-    }
-
-    @Override
-    public void onDroppedFrames(int i, long l) {
-
-    }
-
-    @Override
-    public void onVideoSizeChanged(int i, int i1, int i2, float v) {
-
-    }
-
-    @Override
-    public void onRenderedFirstFrame(Surface surface) {
-
-    }
-
-    @Override
-    public void onVideoDisabled(DecoderCounters decoderCounters) {
-
-    }
-
-    @Override
-    public void onAudioEnabled(DecoderCounters decoderCounters) {
-
-    }
-
-    @Override
-    public void onAudioSessionId(int i) {
-
-    }
-
-    @Override
-    public void onAudioDecoderInitialized(String s, long l, long l1) {
-
-    }
-
-    @Override
-    public void onAudioInputFormatChanged(Format format) {
-
-    }
-
-    @Override
-    public void onAudioTrackUnderrun(int i, long l, long l1) {
-
-    }
-
-    @Override
-    public void onAudioDisabled(DecoderCounters decoderCounters) {
-
-    }
-}
 }

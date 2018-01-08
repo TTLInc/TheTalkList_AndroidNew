@@ -174,7 +174,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/calender" />
+                        android:src="@drawable/calender" />
 
                     <EditText
                         android:id="@+id/age"
@@ -218,7 +218,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
                         android:layout_marginStart="10dp"
-                        android:src="@mipmap/gender" />
+                        android:src="@drawable/gender" />
 
                     <Spinner
                         android:id="@+id/genderMyDetails"
@@ -258,7 +258,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
                         android:layout_marginStart="10dp"
-                        android:src="@mipmap/country" />
+                        android:src="@drawable/country" />
 
                     <Spinner
                         android:id="@+id/countryMyDetails"
@@ -298,7 +298,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
                         android:layout_marginStart="10dp"
-                        android:src="@mipmap/city" />
+                        android:src="@drawable/city" />
 
                     <Spinner
                         android:id="@+id/state"
@@ -339,7 +339,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/navigationcity" />
+                        android:src="@drawable/navigationcity" />
 
                     <EditText
                         android:id="@+id/city"
@@ -382,7 +382,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/emailia" />
+                        android:src="@drawable/emailia" />
 
                     <EditText
                         android:id="@+id/email"
@@ -424,7 +424,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/firstname" />
+                        android:src="@drawable/phone" />
 
                     <EditText
                         android:id="@+id/phone"
@@ -512,7 +512,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
                         android:layout_marginStart="10dp"
-                        android:src="@mipmap/langlogo" />
+                        android:src="@drawable/language" />
 
                     <Spinner
                         android:id="@+id/lang1MyDetails"
@@ -553,7 +553,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
                         android:layout_marginStart="10dp"
-                        android:src="@mipmap/langlogo" />
+                        android:src="@drawable/language" />
 
                     <Spinner
                         android:id="@+id/lang2MyDetails"

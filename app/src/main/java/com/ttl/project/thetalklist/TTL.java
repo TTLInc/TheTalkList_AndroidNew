@@ -2401,8 +2401,15 @@ public class TTL extends Application {
 
         mInstance = this;
 
+
+
+
         AnalyticsTrackers.initialize(this);
+
         AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+
+
+
     }
 
     public static synchronized TTL getInstance() {
