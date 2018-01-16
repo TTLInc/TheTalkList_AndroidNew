@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 android:background="#42A1CF"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.SplashScreen">
+    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.SplashScreen">
     <!--android:background="@drawable/ttlbgimage"-->
     <ImageView
         android:id="@+id/splashImg"

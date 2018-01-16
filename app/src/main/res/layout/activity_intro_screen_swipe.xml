@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.IntroScreenSwipe">
+    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.IntroScreenSwipe">
 
 
 

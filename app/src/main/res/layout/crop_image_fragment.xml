@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <com.edmodo.cropper.CropImageView
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/CropImageView"
         android:layout_width="match_parent"
         android:layout_gravity="center"

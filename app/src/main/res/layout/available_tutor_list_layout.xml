@@ -12,6 +12,13 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
+        <LinearLayout
+            android:id="@+id/expandable_layout"
+            android:layout_weight="1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
         <FrameLayout
             android:layout_width="90dp"
             android:layout_height="match_parent"
@@ -143,7 +150,7 @@
 
             </LinearLayout>
         </LinearLayout>
-
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

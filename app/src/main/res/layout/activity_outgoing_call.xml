@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="#455A64"
-    tools:context="com.example.saubhagyam.thetalklist.OutgoingCallActivity">
+    tools:context="com.ttl.project.thetalklist.OutgoingCallActivity">
 
     <FrameLayout
         android:id="@+id/outgoingCallSurfaceView"

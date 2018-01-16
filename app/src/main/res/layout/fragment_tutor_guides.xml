@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.TutorGuides">
+    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.TutorGuides">
 
     <LinearLayout
         android:layout_width="match_parent"

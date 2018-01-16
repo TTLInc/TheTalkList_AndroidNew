@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.MyDetailsB">
+    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.MyDetailsB">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,15 +24,15 @@
                 android:orientation="horizontal"
                 android:weightSum="3">
 
-                <TextView      
+                <TextView
                     android:id="@+id/MydetailsB_typeTalkist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:visibility="gone"
-                    android:text="" />
+                    android:text=""
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/imageView1"
@@ -43,15 +43,15 @@
                     android:layout_weight="1"
                     android:src="@drawable/black_person" />
 
-                <TextView      
+                <TextView
                     android:id="@+id/MydetailsB_tutorName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:visibility="gone"
                     android:gravity="start"
-                    android:text="" />
+                    android:text=""
+                    android:visibility="gone" />
             </LinearLayout>
 
             <View
@@ -59,7 +59,7 @@
                 android:layout_height="1dip"
                 android:background="#F8F9F9" />
 
-            <TextView      
+            <TextView
                 android:id="@+id/myDetailsB_info_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,13 +96,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="13dp"
-                        android:textSize="15dp"
                         android:backgroundTint="#00000000"
                         android:hint="Firstname"
                         android:inputType="textPersonName"
                         android:maxLines="1"
                         android:textColor="#000000"
-                        android:textColorHint="#000000" />
+                        android:textColorHint="#000000"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -139,13 +139,13 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="13dp"
-                        android:textSize="15dp"
                         android:backgroundTint="#00000000"
                         android:hint="Lastname"
                         android:inputType="textPersonName"
                         android:maxLines="1"
                         android:textColor="#000000"
-                        android:textColorHint="#000000" />
+                        android:textColorHint="#000000"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -174,7 +174,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/calender" />
+                        android:src="@drawable/calender" />
 
                     <EditText
                         android:id="@+id/age"
@@ -184,11 +184,11 @@
                         android:layout_marginStart="13dp"
                         android:backgroundTint="#00000000"
                         android:hint="Age"
-                        android:textSize="15dp"
                         android:inputType="numberDecimal"
                         android:maxLength="2"
                         android:textColor="#000000"
-                        android:textColorHint="#000000" />
+                        android:textColorHint="#000000"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -207,18 +207,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/gender" />
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/gender" />
 
                     <Spinner
                         android:id="@+id/genderMyDetails"
@@ -255,10 +255,10 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/country" />
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/country" />
 
                     <Spinner
                         android:id="@+id/countryMyDetails"
@@ -295,10 +295,10 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/city" />
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/city" />
 
                     <Spinner
                         android:id="@+id/state"
@@ -339,7 +339,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/navigationcity" />
+                        android:src="@drawable/navigationcity" />
 
                     <EditText
                         android:id="@+id/city"
@@ -351,9 +351,9 @@
                         android:hint="City"
                         android:inputType="textPersonName"
                         android:maxLines="1"
-                        android:textSize="15dp"
                         android:textColor="#000000"
-                        android:textColorHint="#000000" />
+                        android:textColorHint="#000000"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -382,7 +382,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/emailia" />
+                        android:src="@drawable/emailia" />
 
                     <EditText
                         android:id="@+id/email"
@@ -392,10 +392,10 @@
                         android:layout_marginStart="13dp"
                         android:backgroundTint="#00000000"
                         android:hint="Email"
-                        android:textSize="15dp"
                         android:maxLines="1"
                         android:textColor="#000000"
-                        android:textColorHint="#000000" />
+                        android:textColorHint="#000000"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -424,7 +424,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/firstname" />
+                        android:src="@drawable/phone" />
 
                     <EditText
                         android:id="@+id/phone"
@@ -435,11 +435,11 @@
                         android:backgroundTint="#00000000"
                         android:hint="Phone"
                         android:inputType="numberDecimal"
-                        android:textSize="15dp"
                         android:maxLength="10"
                         android:maxLines="1"
                         android:textColor="#000000"
-                        android:textColorHint="#000000" />
+                        android:textColorHint="#000000"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -500,8 +500,8 @@
                     android:id="@+id/lls11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -509,10 +509,10 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_marginStart="10dp"
                         android:layout_gravity="center"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/language" />
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/language" />
 
                     <Spinner
                         android:id="@+id/lang1MyDetails"
@@ -541,19 +541,19 @@
                     android:id="@+id/lls12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:gravity="center"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:layout_marginStart="10dp"
                         android:layout_marginRight="20dp"
-                        android:src="@mipmap/language" />
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/language" />
 
                     <Spinner
                         android:id="@+id/lang2MyDetails"

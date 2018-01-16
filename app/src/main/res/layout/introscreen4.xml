@@ -71,7 +71,7 @@
             android:layout_height="50dp"
             android:text="Start Here"
             android:textColor="#fff"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:textAllCaps="false"/>

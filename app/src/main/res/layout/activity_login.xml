@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 android:background="#42A1CF"
     android:padding="5dp"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.Login">
+    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.Login">
     <!--android:background="@drawable/ttlbgimage"-->
     <ScrollView
         android:id="@+id/scrollLogin"
@@ -144,7 +144,7 @@ android:background="#42A1CF"
                     android:text="Sign In"
                     android:textAllCaps="false"
                     android:textColor="#fff"
-                    android:textSize="15sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

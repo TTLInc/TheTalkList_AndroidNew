@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#fff"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.StudentFeedBack">
+    tools:context="com.ttl.project.thetalklist.StudentFeedBack">
 
     <LinearLayout
         android:id="@+id/feedBackStudent"
@@ -61,8 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:isIndicator="false"
-                android:maxHeight="20dp"
-                android:minHeight="5dp"
+                android:maxHeight="30dp"
+                android:minHeight="10dp"
                 android:numStars="5"
                 android:progressTint="@color/yellow"/>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.MyDetailsNotRegistered"
+    tools:context="com.ttl.project.thetalklist.MyDetailsNotRegistered"
     android:orientation="vertical">
 
     <LinearLayout
@@ -58,6 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="140dp"
+                    android:visibility="gone"
                     android:src="@drawable/black_person" />
 
             </LinearLayout>
@@ -87,7 +88,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/calender" />
+                    android:src="@drawable/calender" />
 
                 <EditText
                     android:id="@+id/ageNotDetails"
@@ -96,13 +97,13 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="13dp"
                     android:backgroundTint="#00000000"
-                    android:textSize="15dp"
                     android:hint="Age"
                     android:inputType="numberDecimal"
                     android:maxLength="2"
                     android:maxLines="1"
                     android:textColor="#000000"
-                    android:textColorHint="#000000" />
+                    android:textColorHint="#000000"
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -133,7 +134,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/gender" />
+                    android:src="@drawable/gender" />
 
                 <Spinner
                     android:id="@+id/genderNotDetails"
@@ -170,7 +171,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/country" />
+                    android:src="@drawable/country" />
 
                 <Spinner
                     android:id="@+id/countryNotDetails"
@@ -198,6 +199,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -241,7 +243,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/navigationcity" />
+                    android:src="@drawable/navigationcity" />
 
                 <EditText
                     android:id="@+id/cityNotDetails"
@@ -252,10 +254,10 @@
                     android:backgroundTint="#00000000"
                     android:hint="City"
                     android:inputType="textPersonName"
-                    android:textSize="15dp"
                     android:maxLines="1"
                     android:textColor="#000000"
-                    android:textColorHint="#000000"/>
+                    android:textColorHint="#000000"
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -276,6 +278,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -292,13 +295,13 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="13dp"
                     android:backgroundTint="#00000000"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:hint="Email"
                     android:maxLines="1"
                     android:textColor="#000000"
-                    android:focusable="false"
-                    android:clickable="false"
-                    android:textSize="15dp"
-                    android:textColorHint="#000000" />
+                    android:textColorHint="#000000"
+                    android:textSize="15dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -326,7 +329,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/language" />
+                    android:src="@drawable/language" />
 
                 <Spinner
                     android:id="@+id/lang1NotDetails"
@@ -365,7 +368,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:src="@mipmap/language" />
+                    android:src="@drawable/language" />
 
                 <Spinner
                     android:id="@+id/lang2NotDetails"

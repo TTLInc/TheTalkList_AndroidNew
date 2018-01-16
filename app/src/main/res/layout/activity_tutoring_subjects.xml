@@ -291,8 +291,8 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/capt"
-                android:text="Save"
-                android:textAllCaps="false"
+                android:text="SAVE"
+                android:textAllCaps="true"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
 

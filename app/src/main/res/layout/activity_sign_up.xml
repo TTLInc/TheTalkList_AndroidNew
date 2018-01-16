@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#42A1CF"
     android:padding="5dp"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.SignUp">
+    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.SignUp">
     <!--android:background="@drawable/ttlbgimage"-->
     <ScrollView
         android:id="@+id/scrollSignUp"
@@ -299,6 +299,7 @@
                         android:textColor="#85929E" />
 
                     <TextView
+                        android:id="@+id/term_and_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -329,7 +330,7 @@
                     android:text="Sign Up"
                     android:textAllCaps="false"
                     android:textColor="#fff"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

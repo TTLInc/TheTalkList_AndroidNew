@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.saubhagyam.thetalklist.TTL_Score">
+    tools:context="com.ttl.project.thetalklist.TTL_Score">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -215,8 +215,9 @@
                         android:layout_height="29dp"
                         android:weightSum="1">
 
-                        <TextView      
+                        <TextView
 
+                            android:id="@+id/textView13"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"

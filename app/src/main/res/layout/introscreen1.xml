@@ -23,20 +23,19 @@
             android:id="@+id/txts1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't learn alone"
+            android:text="Don't learn alone..."
             android:textSize="28sp"
             android:textColor="#fff"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp" />
+            />
 
         <TextView      
             android:id="@+id/txts2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Learn Together!"
+            android:text="Learn together!"
             android:textSize="28sp"
             android:textColor="#fff"
             android:layout_below="@+id/txts1"

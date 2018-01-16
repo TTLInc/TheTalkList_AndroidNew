@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.IntroScreenSwipe">
+    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.IntroScreenSwipe">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

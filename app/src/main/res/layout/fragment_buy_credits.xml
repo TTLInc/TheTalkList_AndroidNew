@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.saubhagyam.thetalklist.BuyCredits">
+    tools:context="com.ttl.project.thetalklist.BuyCredits">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
@@ -42,15 +42,14 @@
                         autofit:minTextSize="16sp" />
 
                     <me.grantland.widget.AutofitTextView
-                        android:singleLine="true"
                         android:id="@+id/buyCredit_currentBalance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:text="(2.65)"
                         android:textColor="#AEB6BF"
                         android:textSize="20sp"
-                        autofit:minTextSize="12sp"
-                        />
+                        autofit:minTextSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -71,7 +70,6 @@
                         autofit:minTextSize="12sp" />
 
                     <me.grantland.widget.AutofitTextView
-                        autofit:minTextSize="12sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="30dp"
@@ -81,7 +79,8 @@
                         android:text="@string/buycredit"
                         android:textAlignment="center"
                         android:textColor="#AEB6BF"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        autofit:minTextSize="12sp" />
 
                 </LinearLayout>
 
@@ -115,7 +114,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="54dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
@@ -125,29 +124,32 @@
 
                         <LinearLayout
                             android:layout_width="167dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:orientation="vertical">
 
                             <me.grantland.widget.AutofitTextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="10"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginStart="15dp"
+                                android:gravity=""
+                                android:text="Problem Solver"
                                 android:textColor="#AEB6BF"
-
                                 android:textSize="15sp"
+                                android:textStyle="bold"
                                 autofit:minTextSize="16sp" />
 
                             <me.grantland.widget.AutofitTextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:gravity="center"
-                                android:text="Credits $10.00"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginStart="15dp"
+                                android:gravity=""
+                                android:text="10 Credits - $10"
                                 android:textColor="#AEB6BF"
-
                                 android:textSize="15sp"
                                 autofit:minTextSize="16sp" />
                         </LinearLayout>
@@ -164,9 +166,9 @@
                                 android:layout_width="70dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
+                                android:layout_marginLeft="23dp"
                                 android:background="@drawable/capt"
                                 android:gravity="center"
-                                android:layout_marginLeft="20dp"
                                 android:text="Buy"
                                 android:textAllCaps="false"
                                 android:textColor="#ffffff" />
@@ -186,43 +188,57 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="54dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
-                        android:orientation="horizontal"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp">
 
                         <LinearLayout
-                            android:layout_width="165dp"
-                            android:layout_height="match_parent"
+                            android:layout_width="167dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:orientation="vertical">
+
 
                             <me.grantland.widget.AutofitTextView
-                                android:layout_width="wrap_content"
+                                android:id="@+id/cramCred"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="55"
+                                android:layout_marginStart="15dp"
+                                android:gravity="left|center"
+                                android:text="Cram for the Exam"
                                 android:textColor="#AEB6BF"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                autofit:minTextSize="16sp" />
 
+                            <me.grantland.widget.AutofitTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:gravity="left|center"
+                                android:text="52 Credits - $50"
+                                android:textColor="#AEB6BF"
                                 android:textSize="15sp"
                                 autofit:minTextSize="16sp" />
 
                             <me.grantland.widget.AutofitTextView
-                                android:layout_width="wrap_content"
+                                android:id="@+id/autofitTextView2"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:gravity="center"
-                                android:text="Credits $50.00"
-                                android:textColor="#AEB6BF"
-
-                                android:textSize="15sp"
+                                android:layout_marginStart="15dp"
+                                android:gravity="left|center"
+                                android:text="Most Popular"
+                                android:textColor="#E67E22"
+                                android:textSize="12sp"
                                 autofit:minTextSize="16sp" />
+
                         </LinearLayout>
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -236,9 +252,9 @@
                                 android:layout_width="70dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
+                                android:layout_marginLeft="23dp"
                                 android:background="@drawable/capt"
                                 android:gravity="center"
-                                android:layout_marginLeft="23dp"
                                 android:text="Buy"
                                 android:textAllCaps="false"
                                 android:textColor="#ffffff" />
@@ -258,7 +274,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="65dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="20dp"
                         android:layout_marginTop="15dp"
@@ -266,67 +282,60 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="181dp"
-                            android:layout_height="match_parent"
+                            android:layout_width="167dp"
+                            android:layout_height="79dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_gravity="center"
                             android:gravity="center">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="9dp"
                                 android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
+                                <me.grantland.widget.AutofitTextView
+                                    android:id="@+id/autofitTextView4"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+                                    android:layout_marginLeft="0dp"
+                                    android:gravity="left|center"
+                                    android:text="Skill Builder"
+                                    android:textColor="#AEB6BF"
+                                    android:textSize="15sp"
 
-                                    <me.grantland.widget.AutofitTextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="110"
+                                    android:textStyle="bold"
+                                    autofit:minTextSize="16sp" />
 
-                                        android:textColor="#AEB6BF"
-                                        android:textSize="15sp"
-                                        autofit:minTextSize="16sp" />
 
-                                    <!--android:textColor="#5DADE2"-->
-
-                                    <me.grantland.widget.AutofitTextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="5dp"
-                                        android:gravity="center"
-                                        android:text="Credits $100.00"
-                                        android:textColor="#AEB6BF"
-                                        android:textSize="15sp"
-
-                                        autofit:minTextSize="16sp" />
-                                </LinearLayout>
+                                <!--android:textColor="#5DADE2"-->
 
                                 <me.grantland.widget.AutofitTextView
+                                    android:id="@+id/autofitTextView5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="center"
-                                    android:text="1 Free Session"
+                                    android:layout_marginLeft="0dp"
+                                    android:gravity="left|center"
+                                    android:text="105 Credits - $100"
+                                    android:textColor="#AEB6BF"
+
+                                    android:textSize="15sp"
+                                    autofit:minTextSize="16sp" />
+
+
+                                <me.grantland.widget.AutofitTextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="0dp"
+                                    android:gravity="left|center"
+                                    android:text="Best Value"
                                     android:textColor="#E67E22"
 
                                     android:textSize="12sp"
                                     autofit:minTextSize="16sp" />
 
-                                <me.grantland.widget.AutofitTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:gravity="center"
-                                    android:text="TheTalkList Recommends"
-                                    android:textColor="#AEB6BF"
-                                    android:textSize="10sp"
 
-                                    autofit:minTextSize="16sp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -343,10 +352,10 @@
                                 android:layout_width="70dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
+                                android:layout_marginLeft="23dp"
                                 android:background="@drawable/capt"
                                 android:gravity="center"
                                 android:text="Buy"
-                                android:layout_marginLeft="17dp"
                                 android:textAllCaps="false"
                                 android:textColor="#ffffff" />
                         </LinearLayout>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.example.saubhagyam.thetalklist.SettingFlyout">
+    tools:context="com.ttl.project.thetalklist.SettingFlyout">
 
 
     <LinearLayout
@@ -171,7 +171,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:layout_marginRight="23dp"
+                                android:layout_marginRight="20dp"
                                 android:layout_marginTop="-2dp"
                                 android:layout_marginBottom="15dp"
                                 android:background="@drawable/roundcornered_orange"
