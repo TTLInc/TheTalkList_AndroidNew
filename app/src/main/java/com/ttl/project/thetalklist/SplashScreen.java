@@ -114,7 +114,7 @@ t.send(new HitBuilders.EventBuilder()
                         .build());*/
             }
         }else {
-            Toast.makeText(getApplicationContext(), "uri is null", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "uri is null", Toast.LENGTH_SHORT).show();
         }
     }
 
