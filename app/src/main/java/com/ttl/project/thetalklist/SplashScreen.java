@@ -87,6 +87,11 @@ t.send(new HitBuilders.EventBuilder()
         t.setPage("/SplashScreen");
         t.send(new HitBuilders.EventBuilder().setCategory("Starting Screen").setAction("Landing Screen").setLabel("Landed").build());
 
+
+
+
+// Enable Display Features.
+        t.enableAdvertisingIdCollection(true);
 //String campaignData="https://play.google.com/store/apps/details?id=com.ttl.project.thetalklist&hl=en&utm_source=Google%20play%20store&utm_medium=cpc&utm_campaign=Spring_sale&utm_term=TheTalkList&utm_content=Learn%20not%20alone%2C%20Learn%20togather";
 /*String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium=testing&utm_campaign=Demo%20Test&utm_term=Testing&utm_content=Demo";
         t.send(new HitBuilders.ScreenViewBuilder()
