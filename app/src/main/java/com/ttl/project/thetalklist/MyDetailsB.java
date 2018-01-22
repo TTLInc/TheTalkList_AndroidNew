@@ -384,41 +384,46 @@ public class MyDetailsB extends Fragment {
                 SessionManager session = new SessionManager(getActivity());
 
                 if (session.isLoggedIn()) {
-                    Map<String, String> User = new HashMap<>();
-                    User = session.getUserDetails();
 
-                    List<String> UserDetail = new ArrayList<String>();
 
-                    Iterator iterator = User.keySet().iterator();
-                    while (iterator.hasNext()) {
 
-                        String key = (String) iterator.next();
-                        String value = User.get(key);
-                        UserDetail.add(value);
 
-                    }
 
-                    final String email_id = UserDetail.get(0);
+                }
+                Map<String, String> User = new HashMap<>();
+                User = session.getUserDetails();
 
-                    ImageView student, tutor;
-                    student = (ImageView) view.findViewById(R.id.student);
-                    tutor = (ImageView) view.findViewById(R.id.tutor);
-                    final FragmentStack fragmentStack = FragmentStack.getInstance();
-                    student.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                List<String> UserDetail = new ArrayList<String>();
+
+                Iterator iterator = User.keySet().iterator();
+                while (iterator.hasNext()) {
+
+                    String key = (String) iterator.next();
+                    String value = User.get(key);
+                    UserDetail.add(value);
+
+                }
+                final String email_id = UserDetail.get(0);
+
+                ImageView student, tutor;
+                student = (ImageView) view.findViewById(R.id.student);
+                tutor = (ImageView) view.findViewById(R.id.tutor);
+                final FragmentStack fragmentStack = FragmentStack.getInstance();
+                student.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
 
                           /*  if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
                                 fragmentStack.push(new Tablayout_with_viewpager());
                             }else fragmentStack.push(new Available_tutor());*/
-                            roleIdChange(email_id, 0);
+                        roleIdChange(email_id, 0);
 
-                            editor111.putInt("status",0);
-                            editor111.putInt("roleId",0).apply();
+                        editor111.putInt("status",0);
+                        editor111.putInt("roleId",0).apply();
 
-                            DesiredTutor desiredTutor = new DesiredTutor();
+                        DesiredTutor desiredTutor = new DesiredTutor();
 
                           /*  ((Switch)getActivity().findViewById(R.id.switch1)).setChecked(false);
                             ((Switch)getActivity().findViewById(R.id.switch1)).setClickable(false);
@@ -427,37 +432,37 @@ public class MyDetailsB extends Fragment {
                          /*   LoginService loginService=new LoginService();
                             loginService.login(pref111.getString("email",""),pref111.getString("pass",""),getApplicationContext());
 */
-                            SharedPreferences pref=getContext().getSharedPreferences("fromSignup",Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editorpref=pref.edit();
-                            editorpref.putBoolean("fromSignup",true).apply();
-                            backbtn = 1;
+                        SharedPreferences pref=getContext().getSharedPreferences("fromSignup",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editorpref=pref.edit();
+                        editorpref.putBoolean("fromSignup",true).apply();
+                        backbtn = 1;
                           /*  fragmentStack.push(desiredTutor);
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.replace(R.id.viewpager, desiredTutor);
                             fragmentTransaction.commit();*/
 
-                            popupWindow.dismiss();
+                        popupWindow.dismiss();
 //getActivity().finish();
 
-                            TabBackStack.getInstance().setTabPosition(1);
+                        TabBackStack.getInstance().setTabPosition(1);
 //                            fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
 
 
-                            Intent ix=new Intent(getApplicationContext(),SettingFlyout.class);
-                            ix.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(ix);
-                        }
-                    });
-                    tutor.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            editor111.putInt("status",0);
-                            editor111.putInt("roleId",1).apply();
-                            roleIdChange(email_id, 1);
-                            if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
+                        Intent ix=new Intent(getApplicationContext(),SettingFlyout.class);
+                        ix.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(ix);
+                    }
+                });
+                tutor.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editor111.putInt("status",0);
+                        editor111.putInt("roleId",1).apply();
+                        roleIdChange(email_id, 1);
+                        if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
-                                fragmentStack.push(new Tablayout_with_viewpager());
-                            }else
+                            fragmentStack.push(new Tablayout_with_viewpager());
+                        }else
                             fragmentStack.push(new Available_tutor());
 
                         /*    LoginService loginService=new LoginService();
@@ -465,22 +470,19 @@ public class MyDetailsB extends Fragment {
 */
 
 //                            startActivity(new Intent(getApplicationContext(),ProcessActivity.class));
-                            backbtn = 1;
+                        backbtn = 1;
                            /* FragmentTransaction f=fragmentManager.beginTransaction();
                             f.replace(R.id.viewpager,new Tablayout_with_viewpager()).commit();*/
-                            popupWindow.dismiss();
+                        popupWindow.dismiss();
                             /*getActivity().finish();
                             Intent ix=new Intent(getApplicationContext(),ProcessActivity.class);
                             ix.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(ix);*/
 
-                            TabBackStack.getInstance().setTabPosition(1);
-                            fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
-                        }
-                    });
-
-
-                }
+                        TabBackStack.getInstance().setTabPosition(1);
+                        fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
+                    }
+                });
             }
 
 

@@ -188,6 +188,8 @@ public class Fragment_cropImage extends AppCompatActivity {
                         loginService.login(context.getSharedPreferences("loginStatus",Context.MODE_PRIVATE).getString("email",""),context.getSharedPreferences("loginStatus",Context.MODE_PRIVATE).getString("pass",""),context);
 
                         Toast.makeText(context, "Image uploaded!", Toast.LENGTH_SHORT).show();
+
+
                         onBackPressed();
 
 

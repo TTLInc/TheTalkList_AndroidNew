@@ -460,7 +460,7 @@ t.send(new HitBuilders.EventBuilder()
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(), "status " + error, Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "status " + error, Toast.LENGTH_SHORT).show();
                             }
                         });
                         Volley.newRequestQueue(getApplicationContext()).add(sr1);
@@ -545,7 +545,7 @@ t.send(new HitBuilders.EventBuilder()
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        Toast.makeText(SplashScreen.this, "Login Unsucessful..!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(SplashScreen.this, "Login Unsucessful..!", Toast.LENGTH_SHORT).show();
                         editor.clear().apply();
                     }
                 });

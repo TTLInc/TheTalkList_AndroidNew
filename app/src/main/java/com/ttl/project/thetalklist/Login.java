@@ -248,7 +248,7 @@ public class Login extends Activity {
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError volleyError) {
-                                    Toast.makeText(Login.this, "Something wemt wrong..!", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(Login.this, "Something wemt wrong..!", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -528,7 +528,7 @@ public class Login extends Activity {
 
 
                             Log.e("error", error.toString());
-                            Toast.makeText(Login.this, error.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Login.this, error.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });
                     sr.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));

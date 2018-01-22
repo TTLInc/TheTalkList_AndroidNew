@@ -1006,7 +1006,7 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), "error " + error, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "error " + error, Toast.LENGTH_SHORT).show();
                 }
             });
 
