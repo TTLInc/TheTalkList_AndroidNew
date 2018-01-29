@@ -473,7 +473,12 @@ public class New_videocall_activity extends AppCompatActivity
                         @Override
                         public void onResponse(final String response) {
                             Log.e("total cost response", response);
-
+                            Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            i.putExtra("name",callerName.getText().toString());
+                            i.putExtra("cost",getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)   );
+//            i.putExtra("cost",)
+                            startActivity(i);
 
 //                                mNotificationManager.cancel(200);
 
@@ -488,6 +493,7 @@ public class New_videocall_activity extends AppCompatActivity
                     sr.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                     Volley.newRequestQueue(getApplicationContext()).add(sr);
                 }
+
 
 
             }
@@ -701,6 +707,12 @@ public class New_videocall_activity extends AppCompatActivity
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         } else {
+
+          /*  Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            i.putExtra("name",callerName.getText().toString());
+//            i.putExtra("cost",)
+            startActivity(i);*/
         }
     }
 

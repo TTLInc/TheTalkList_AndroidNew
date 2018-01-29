@@ -238,6 +238,8 @@ public class Login extends Activity {
                                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                 startActivity(i);
                                             }
+                                        }else{
+                                            Toast.makeText(Login.this, obj.getString("error"), Toast.LENGTH_SHORT).show();
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();

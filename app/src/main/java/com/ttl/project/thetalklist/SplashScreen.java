@@ -504,6 +504,7 @@ t.send(new HitBuilders.EventBuilder()
 
                         try {
                             JSONObject obj = new JSONObject(response);
+                            Log.e("splash fb login response",response);
                             if (obj.getInt("status") == 0) {
                                 JSONObject resObj = obj.getJSONObject("result");
 
@@ -541,6 +542,8 @@ t.send(new HitBuilders.EventBuilder()
                                 Intent i = new Intent(getApplicationContext(), settingFlyout.getClass());
                                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
+                            }else{
+                                Toast.makeText(SplashScreen.this, obj.getString("error"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -80,13 +80,15 @@ public class MyDetailsB extends Fragment {
     ArrayList<String> states;
     SharedPreferences loginpref;
     SharedPreferences.Editor editor111;
+
     public MyDetailsB() {
     }
-     EditText fname, lname, age,  city, email, phone;
 
-     Spinner state,gender, country, lang1, lang2;
-     ImageView imageView1,imagesettingflyoutheader;
-     TextView myDetailsB_info_txt,MydetailsB_typeTalkist,MydetailsB_tutorName;
+    EditText fname, lname, age, city, email, phone;
+
+    Spinner state, gender, country, lang1, lang2;
+    ImageView imageView1, imagesettingflyoutheader;
+    TextView myDetailsB_info_txt, MydetailsB_typeTalkist, MydetailsB_tutorName;
     Button submitButtonNotmyDetails;
     View convertview;
 
@@ -97,27 +99,27 @@ public class MyDetailsB extends Fragment {
 
     SharedPreferences pref;
     SharedPreferences.Editor editorpref;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the studentlayout for this fragment
-         convertview = inflater.inflate(R.layout.fragment_my_details_b, container, false);
+        convertview = inflater.inflate(R.layout.fragment_my_details_b, container, false);
 
         view = inflater.inflate(R.layout.popupscreen, null);
         view1 = inflater.inflate(R.layout.tab_layout_and_viewpager, null);
 
 
-
-        pref111=getActivity().getSharedPreferences("loginStatus",Context.MODE_PRIVATE);
-        editor111=pref111.edit();
-        URL = "https://www.thetalklist.com/api/login?email=" + pref111.getString("email","") + "&password=" + pref111.getString("pass", "");;
+        pref111 = getActivity().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+        editor111 = pref111.edit();
+        URL = "https://www.thetalklist.com/api/login?email=" + pref111.getString("email", "") + "&password=" + pref111.getString("pass", "");
+        ;
         int status = 0;
 
         status = pref111.getInt("status", 1);
 
         convertview.setVisibility(View.GONE);
         convertview.setVisibility(View.VISIBLE);
-
 
 
         final FragmentManager fragmentManager = getFragmentManager();
@@ -138,35 +140,36 @@ public class MyDetailsB extends Fragment {
         lang2 = (Spinner) convertview.findViewById(R.id.lang2MyDetails);
         gender = (Spinner) convertview.findViewById(R.id.genderMyDetails);
         country = (Spinner) convertview.findViewById(R.id.countryMyDetails);
-        imageView1= (ImageView) convertview.findViewById(R.id.imageView1);
-        imagesettingflyoutheader=(ImageView)getActivity().findViewById(R.id.imagesettingflyoutheader);
-        myDetailsB_info_txt= (TextView) convertview.findViewById(R.id.myDetailsB_info_txt);
-        MydetailsB_typeTalkist= (TextView) convertview.findViewById(R.id.MydetailsB_typeTalkist);
-        MydetailsB_tutorName= (TextView) convertview.findViewById(R.id.MydetailsB_tutorName);
+        imageView1 = (ImageView) convertview.findViewById(R.id.imageView1);
+        imagesettingflyoutheader = (ImageView) getActivity().findViewById(R.id.imagesettingflyoutheader);
+        myDetailsB_info_txt = (TextView) convertview.findViewById(R.id.myDetailsB_info_txt);
+        MydetailsB_typeTalkist = (TextView) convertview.findViewById(R.id.MydetailsB_typeTalkist);
+        MydetailsB_tutorName = (TextView) convertview.findViewById(R.id.MydetailsB_tutorName);
 
-        MydetailsB_tutorName.setText(pref111.getString("usernm",""));
-        if (pref111.getInt("roleId",0)==1)
+        MydetailsB_tutorName.setText(pref111.getString("usernm", ""));
+        if (pref111.getInt("roleId", 0) == 1)
             MydetailsB_typeTalkist.setText("Bronze Talk-ist");
-        if (pref111.getInt("roleId",0)==2)
+        if (pref111.getInt("roleId", 0) == 2)
             MydetailsB_typeTalkist.setText("Silver Talk-ist");
-        if (pref111.getInt("roleId",0)==3)
+        if (pref111.getInt("roleId", 0) == 3)
             MydetailsB_typeTalkist.setText("Gold Talk-ist");
-        if (pref111.getInt("roleId",0)==0)
+        if (pref111.getInt("roleId", 0) == 0)
             MydetailsB_typeTalkist.setText("Student Talk-ist");
 
 
-        if (pref111.getString("email","").equals("")){
+        if (pref111.getString("email", "").equals("")) {
             email.setFocusable(true);
-        }else
-        email.setText(pref111.getString("email",""));
-        city.setText(pref111.getString("city",""));
+        } else
+            email.setText(pref111.getString("email", ""));
+        city.setText(pref111.getString("city", ""));
 
         country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (country.getSelectedItem().toString().equalsIgnoreCase("USA")) {
                     ((LinearLayout) convertview.findViewById(R.id.lls6)).setVisibility(View.VISIBLE);
-                } else ((LinearLayout)convertview.findViewById(R.id.lls6)).setVisibility(View.GONE);
+                } else
+                    ((LinearLayout) convertview.findViewById(R.id.lls6)).setVisibility(View.GONE);
             }
 
             @Override
@@ -176,29 +179,26 @@ public class MyDetailsB extends Fragment {
         });
 
 
-
-
-
-        SharedPreferences pref=getApplicationContext().getSharedPreferences("firstTime", Context.MODE_PRIVATE);
-        loginpref=getApplicationContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor ed=pref.edit();
-        if (!pref.contains("firstTime")){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("firstTime", Context.MODE_PRIVATE);
+        loginpref = getApplicationContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor ed = pref.edit();
+        if (!pref.contains("firstTime")) {
             myDetailsB_info_txt.setVisibility(View.VISIBLE);
-            if (loginpref.getInt("roleId",0)==1)
-            myDetailsB_info_txt.setText("Nice! The world sees your updated profile. Your tutoring light is ON by default but toggle anytime.");
+            if (loginpref.getInt("roleId", 0) == 1)
+                myDetailsB_info_txt.setText("Nice! The world sees your updated profile. Your tutoring light is ON by default but toggle anytime.");
             else myDetailsB_info_txt.setVisibility(View.GONE);
             /*ed.putBoolean("firstTime",false);
             ed.apply();*/
         }
-        if (loginpref.getString("pic","").equals("")) {
+        if (loginpref.getString("pic", "").equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView1);
-        }else {
-            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/"+loginpref.getString("pic",""))
+        } else {
+            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/" + loginpref.getString("pic", ""))
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
@@ -216,25 +216,23 @@ public class MyDetailsB extends Fragment {
         submitButtonNotmyDetails = (Button) convertview.findViewById(R.id.submitButtonNotmyDetails);
 
 
-
         String gen[] = getResources().getStringArray(R.array.Gender);
         final ArrayAdapter genderAdapter = new ArrayAdapter(getContext(), R.layout.custom_spinner_textview, gen);
         gender.setAdapter(genderAdapter);
 
-        if (pref111.getInt("gender",0)==0)
+        if (pref111.getInt("gender", 0) == 0)
             gender.setSelection(genderAdapter.getPosition("Female"));
         else gender.setSelection(genderAdapter.getPosition("Male"));
-
 
 
         String languages[] = getResources().getStringArray(R.array.Language);
         ArrayAdapter langAdapter = new ArrayAdapter(getContext(), R.layout.custom_spinner_textview, languages);
         lang1.setAdapter(langAdapter);
-        lang1.setSelection(langAdapter.getPosition(pref111.getString("nativeLanguage","")));
+        lang1.setSelection(langAdapter.getPosition(pref111.getString("nativeLanguage", "")));
         String languages1[] = getResources().getStringArray(R.array.Language1);
         final ArrayAdapter langAdapter1 = new ArrayAdapter(getContext(), R.layout.custom_spinner_textview, languages1);
         lang2.setAdapter(langAdapter1);
-        lang2.setSelection(langAdapter1.getPosition(pref111.getString("otherLanguage","")));
+        lang2.setSelection(langAdapter1.getPosition(pref111.getString("otherLanguage", "")));
 
         {
             RequestQueue queue1 = Volley.newRequestQueue(getContext());
@@ -262,8 +260,8 @@ public class MyDetailsB extends Fragment {
                             for (int i = 0; i < ary.length(); i++) {
                                 JSONObject data = ary.getJSONObject(i);
 
-                                int selectedPos=data.getInt("id");
-                                if (selectedPos==pref111.getInt("country",0)){
+                                int selectedPos = data.getInt("id");
+                                if (selectedPos == pref111.getInt("country", 0)) {
                                     country.setSelection(countryAdapter.getPosition(data.getString("country")));
                                 }
                             }
@@ -294,7 +292,7 @@ public class MyDetailsB extends Fragment {
 
                     try {
                         JSONArray ary = response.getJSONArray("states");
-                        states= new ArrayList<>();
+                        states = new ArrayList<>();
                         states.add("Select state");
                         for (int i = 0; i < ary.length(); i++) {
                             JSONObject data = ary.getJSONObject(i);
@@ -307,8 +305,8 @@ public class MyDetailsB extends Fragment {
                             for (int i = 0; i < ary.length(); i++) {
                                 JSONObject data = ary.getJSONObject(i);
 
-                                int selectedPos=data.getInt("id");
-                                if (selectedPos==pref111.getInt("province",0)){
+                                int selectedPos = data.getInt("id");
+                                if (selectedPos == pref111.getInt("province", 0)) {
                                     state.setSelection(stateAdapter.getPosition(data.getString("provice")));
                                 }
                             }
@@ -326,33 +324,24 @@ public class MyDetailsB extends Fragment {
             }
             );
             queue1.add(getRequest);
-            SharedPreferences preferences1=getContext().getSharedPreferences("loginStatus",Context.MODE_PRIVATE);
+            SharedPreferences preferences1 = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 
-            fname.setText(preferences1.getString("firstName",""));
-            lname.setText(preferences1.getString("lastName",""));
-            age.setText(String.valueOf(preferences1.getInt("age",0)));
-            phone.setText(preferences1.getString("cell",""));
-            city.setText(preferences1.getString("city",""));
-            lang1.setSelection(langAdapter1.getPosition(preferences1.getString("nativeLanguage","")));
-            lang2.setSelection(langAdapter1.getPosition(preferences1.getString("otherLanguage","")));
-            if (preferences1.getInt("gender",0)==0)
+            fname.setText(preferences1.getString("firstName", ""));
+            lname.setText(preferences1.getString("lastName", ""));
+            age.setText(String.valueOf(preferences1.getInt("age", 0)));
+            phone.setText(preferences1.getString("cell", ""));
+            city.setText(preferences1.getString("city", ""));
+            lang1.setSelection(langAdapter1.getPosition(preferences1.getString("nativeLanguage", "")));
+            lang2.setSelection(langAdapter1.getPosition(preferences1.getString("otherLanguage", "")));
+            if (preferences1.getInt("gender", 0) == 0)
                 gender.setSelection(genderAdapter.getPosition("Female"));
             else gender.setSelection(genderAdapter.getPosition("Male"));
 
         }
 
 
-
-
         SharedPreferences preferences = getActivity().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
         String response = preferences.getString("loginResponse", "No Response");
-
-
-
-
-
-
-
 
 
         if (popupWindow == null)
@@ -386,9 +375,6 @@ public class MyDetailsB extends Fragment {
                 if (session.isLoggedIn()) {
 
 
-
-
-
                 }
                 Map<String, String> User = new HashMap<>();
                 User = session.getUserDetails();
@@ -420,8 +406,8 @@ public class MyDetailsB extends Fragment {
                             }else fragmentStack.push(new Available_tutor());*/
                         roleIdChange(email_id, 0);
 
-                        editor111.putInt("status",0);
-                        editor111.putInt("roleId",0).apply();
+                        editor111.putInt("status", 0);
+                        editor111.putInt("roleId", 0).apply();
 
                         DesiredTutor desiredTutor = new DesiredTutor();
 
@@ -432,9 +418,9 @@ public class MyDetailsB extends Fragment {
                          /*   LoginService loginService=new LoginService();
                             loginService.login(pref111.getString("email",""),pref111.getString("pass",""),getApplicationContext());
 */
-                        SharedPreferences pref=getContext().getSharedPreferences("fromSignup",Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editorpref=pref.edit();
-                        editorpref.putBoolean("fromSignup",true).apply();
+                        SharedPreferences pref = getContext().getSharedPreferences("fromSignup", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editorpref = pref.edit();
+                        editorpref.putBoolean("fromSignup", true).apply();
                         backbtn = 1;
                           /*  fragmentStack.push(desiredTutor);
                             fragmentTransaction.addToBackStack(null);
@@ -448,7 +434,7 @@ public class MyDetailsB extends Fragment {
 //                            fragmentTransaction.replace(R.id.registration_viewpager, new Tablayout_with_viewpager()).commit();
 
 
-                        Intent ix=new Intent(getApplicationContext(),SettingFlyout.class);
+                        Intent ix = new Intent(getApplicationContext(), SettingFlyout.class);
                         ix.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(ix);
                     }
@@ -456,13 +442,13 @@ public class MyDetailsB extends Fragment {
                 tutor.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        editor111.putInt("status",0);
-                        editor111.putInt("roleId",1).apply();
+                        editor111.putInt("status", 0);
+                        editor111.putInt("roleId", 1).apply();
                         roleIdChange(email_id, 1);
                         if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
 
                             fragmentStack.push(new Tablayout_with_viewpager());
-                        }else
+                        } else
                             fragmentStack.push(new Available_tutor());
 
                         /*    LoginService loginService=new LoginService();
@@ -486,14 +472,8 @@ public class MyDetailsB extends Fragment {
             }
 
 
-
-
-
-
-
-
         try {
-            Log.e("login response ","in my detailsB "+response);
+            Log.e("login response ", "in my detailsB " + response);
             JSONObject jsonObject = new JSONObject(response);
             JSONObject obj = (JSONObject) jsonObject.get("result");
             Log.e("res ", obj.toString());
@@ -514,31 +494,31 @@ public class MyDetailsB extends Fragment {
             public void onClick(View v) {
 
 
-                ed.putBoolean("firstTime",false);
+                ed.putBoolean("firstTime", false);
                 ed.apply();
                 myDetailsB_info_txt.setVisibility(View.GONE);
 
 
-                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(convertview.getWindowToken(), 0);
                 final String fn = fname.getText().toString();
                 final String ln = lname.getText().toString();
                 final String ageStr = age.getText().toString();
                 final String stateStr = state.getSelectedItem().toString();
                 final String cityStr = city.getText().toString();
-                final String phoneStr= phone.getText().toString();
+                final String phoneStr = phone.getText().toString();
                 final String genderStr = gender.getSelectedItem().toString();
                 final String countryStr = country.getSelectedItem().toString();
                 final String lang1Str = lang1.getSelectedItem().toString();
                 final String lang2Str = lang2.getSelectedItem().toString();
 
-                if (lang1Str.equalsIgnoreCase("Select Language 1")/* && lang2Str.equalsIgnoreCase("Select Language 2")*/ ){
+                if (lang1Str.equalsIgnoreCase("Select Language 1")/* && lang2Str.equalsIgnoreCase("Select Language 2")*/) {
                     Toast.makeText(getContext(), "Please select Languages..", Toast.LENGTH_SHORT).show();
-                }else if (lang1Str.equalsIgnoreCase("Select Language 1")){
+                } else if (lang1Str.equalsIgnoreCase("Select Language 1")) {
                     Toast.makeText(getContext(), "Please select Languages 1..", Toast.LENGTH_SHORT).show();
-                }else if (phoneStr.length()<10){
+                } else if (phoneStr.length() < 10) {
                     phone.setError("Enter Valid Ph. Number");
-                }else {
+                } else {
 
 
                     if (genderStr.equalsIgnoreCase("male"))
@@ -546,40 +526,31 @@ public class MyDetailsB extends Fragment {
                     else gen1111 = 0;
 
 
-
-
-                    Log.e("age",ageStr);
-                    Log.e("userid",String.valueOf(pref11.getInt("id", 0)));
-                    Log.e("firstName",fn);
-                    Log.e("lastName",ln);
-                    Log.e("language2",lang2Str);
-                    Log.e("city",cityStr);
-                    Log.e("cell",phone.getText().toString());
-                    Log.e("language1",lang1Str);
-                    Log.e("gender",genderStr);
-                    Log.e("country",countryStr);
-                    Log.e("state",stateStr);
-
-
-
-
+                    Log.e("age", ageStr);
+                    Log.e("userid", String.valueOf(pref11.getInt("id", 0)));
+                    Log.e("firstName", fn);
+                    Log.e("lastName", ln);
+                    Log.e("language2", lang2Str);
+                    Log.e("city", cityStr);
+                    Log.e("cell", phone.getText().toString());
+                    Log.e("language1", lang1Str);
+                    Log.e("gender", genderStr);
+                    Log.e("country", countryStr);
+                    Log.e("state", stateStr);
 
 
                     String URL = "https://www.thetalklist.com/api/updateProfile?" +
                             "userid=" + pref11.getInt("id", 0) +
-                            "&country=" + countryStr.replace(" ","%20")
-                            + "&state=" + stateStr.replace(" ","%20")
-                            + "&city=" +cityStr.replace(" ","%20")
+                            "&country=" + countryStr.replace(" ", "%20")
+                            + "&state=" + stateStr.replace(" ", "%20")
+                            + "&city=" + cityStr.replace(" ", "%20")
                             + "&gender=" + gen1111 +
-                            "&language1=" + lang1Str.replace(" ","%20")
-                            + "&language2=" + lang2Str.replace(" ","%20")
+                            "&language1=" + lang1Str.replace(" ", "%20")
+                            + "&language2=" + lang2Str.replace(" ", "%20")
                             + "&age=" + ageStr
-                            + "&firstName=" + fn.replace(" ","%20") +
-                            "&lastName=" + ln.replace(" ","%20")
+                            + "&firstName=" + fn.replace(" ", "%20") +
+                            "&lastName=" + ln.replace(" ", "%20")
                             + "&cell=" + phone.getText().toString();
-
-
-
 
 
                     Log.e("updateProf url", URL);
@@ -588,10 +559,10 @@ public class MyDetailsB extends Fragment {
                         @Override
                         public void onResponse(String response) {
 
-                            Log.e("update Profile",response);
+                            Log.e("update Profile", response);
 
                             try {
-                                JSONObject resObj=new JSONObject(response);
+                                JSONObject resObj = new JSONObject(response);
 
                                 if (resObj.getInt("status") == 0) {
                                     age.setText(ageStr);
@@ -606,23 +577,39 @@ public class MyDetailsB extends Fragment {
                                     country.setSelection(countryAdapter.getPosition(countryStr));
 
                                     Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
-                                    LoginService loginService=new LoginService();
-                                    loginService.login(pref111.getString("email",""),pref111.getString("pass",""),getContext());
+                                    LoginService loginService = new LoginService();
+                                    loginService.login(pref111.getString("email", ""), pref111.getString("pass", ""), getContext());
 
-                                    TextView personTextsettingflyout= (TextView) getActivity().findViewById(R.id.personTextsettingflyout);
+                                    TextView personTextsettingflyout = (TextView) getActivity().findViewById(R.id.personTextsettingflyout);
 
-                                    personTextsettingflyout.setText(fn+" "+ln);
+                                    personTextsettingflyout.setText(fn + " " + ln);
 
 
-                                    if(loginpref.getInt("roleId",0)==0){
-                                        fragmentTransaction.replace(R.id.viewpager,new Available_tutor()).commit();
-                                    }else {
-                                        TabBackStack tabBackStack=TabBackStack.getInstance();
-                                        tabBackStack.setTabPosition(1);
-                                        fragmentTransaction.replace(R.id.viewpager,new Tablayout_with_viewpager()).commit();
+                                    if (loginpref.getInt("roleId", 0) == 0) {
+                                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor()).commit();
+                                    } else {
+                                        if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
+                                            TabBackStack tabBackStack = TabBackStack.getInstance();
+                                            tabBackStack.setTabPosition(1);
+                                            fragmentTransaction.replace(R.id.viewpager, new Tablayout_with_viewpager()).commit();
+                                        } else {
+
+                                            LoginService loginService1 = new LoginService();
+                                            loginService1.login(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getApplicationContext());
+                                          /*  final Handler handler = new Handler();
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    //Do something after 100ms
+
+//                                                    fragmentTransaction.replace(R.id.viewpager, new Tablayout_with_viewpager()).commit();
+                                                }
+                                            }, 100);*/
+
+                                        }
                                     }
 
-                                }else if (resObj.getInt("status") == 1 &&resObj.getString("error") .equalsIgnoreCase("please fill up")){
+                                } else if (resObj.getInt("status") == 1 && resObj.getString("error").equalsIgnoreCase("please fill up")) {
                                     Toast.makeText(getContext(), "Make sure all fields are filled..!", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -642,16 +629,16 @@ public class MyDetailsB extends Fragment {
                             Map<String, String> params = new HashMap<String, String>();
 
 
-                            params.put("age",ageStr);
-                            params.put("userid",String.valueOf(pref11.getInt("id", 0)));
-                            params.put("firstName",fn);
-                            params.put("lastName",ln);
-                            params.put("language2",lang2Str);
-                            params.put("city",cityStr);
-                            params.put("language1",lang1Str);
-                            params.put("gender",genderStr);
-                            params.put("country",countryStr);
-                            params.put("state",stateStr);
+                            params.put("age", ageStr);
+                            params.put("userid", String.valueOf(pref11.getInt("id", 0)));
+                            params.put("firstName", fn);
+                            params.put("lastName", ln);
+                            params.put("language2", lang2Str);
+                            params.put("city", cityStr);
+                            params.put("language1", lang1Str);
+                            params.put("gender", genderStr);
+                            params.put("country", countryStr);
+                            params.put("state", stateStr);
                             return params;
                         }
                     };
@@ -670,6 +657,9 @@ public class MyDetailsB extends Fragment {
     public void onResume() {
         super.onResume();
 
+        LoginService loginService1 = new LoginService();
+        loginService1.login(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getApplicationContext());
+
         final Handler handler = new Handler();
 
 /*        handler.postDelayed(new Runnable() {
@@ -681,15 +671,15 @@ public class MyDetailsB extends Fragment {
         }, 5000);*/
 //        loginService();
 
-        if (loginpref.getString("pic","").equals("")) {
+        if (loginpref.getString("pic", "").equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView1);
-        }else {
-            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/"+loginpref.getString("pic",""))
+        } else {
+            Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/" + loginpref.getString("pic", ""))
                     .crossFade()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
@@ -795,6 +785,7 @@ public class MyDetailsB extends Fragment {
 
         }
     }
+
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
         if (data != null) {
@@ -806,7 +797,7 @@ public class MyDetailsB extends Fragment {
         }
 //        imageView1.setImageBitmap(bm);
 
-        Bitmap bb=getResizedBitmap(bm,500);
+        Bitmap bb = getResizedBitmap(bm, 500);
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
@@ -819,16 +810,17 @@ public class MyDetailsB extends Fragment {
                 .bitmapTransform(new CircleTransform(getContext()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView1);*/
-        Intent ui=new Intent(getApplicationContext(), Fragment_cropImage.class);
-        ui.putExtra("bitmap",byteArray);
+        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
+        ui.putExtra("bitmap", byteArray);
         startActivity(ui);
 
     }
+
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -842,13 +834,10 @@ public class MyDetailsB extends Fragment {
     public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
 
 
-
-
-
         String uploadURL = "https://www.thetalklist.com/api/profile_pic"/*?uid=17430"&image="+encodedImageString*/;
         Log.e("image uploading url", uploadURL);
         Log.e("image uploading url", uploadURL);
-        Log.e("encoded image string ", encodedImageString.replace("\n","%0A").replace(" ","%20"));
+        Log.e("encoded image string ", encodedImageString.replace("\n", "%0A").replace(" ", "%20"));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -860,9 +849,9 @@ public class MyDetailsB extends Fragment {
             @Override
             public void onResponse(String s) {
 
-                Toast.makeText(getContext(), "response" +s, Toast.LENGTH_SHORT).show();
-                LoginService loginService=new LoginService();
-                loginService.login(context.getSharedPreferences("loginStatus",Context.MODE_PRIVATE).getString("email",""),context.getSharedPreferences("loginStatus",Context.MODE_PRIVATE).getString("pass",""),context);
+                Toast.makeText(getContext(), "response" + s, Toast.LENGTH_SHORT).show();
+                LoginService loginService = new LoginService();
+                loginService.login(context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), context);
 
             }
         }, new Response.ErrorListener() {
@@ -888,17 +877,17 @@ public class MyDetailsB extends Fragment {
     public void loginService() {
 
 
-        if (pref111.getString("LoginWay","").equals("FacebookLogin")){
+        if (pref111.getString("LoginWay", "").equals("FacebookLogin")) {
             final SharedPreferences pref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 //                final String url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getInt("facebook_id", 0) + "&firstname=" + pref.getString("first_name", "") + "&lastname=" + pref.getString("last_name", "") + "&gender=" + pref.getString("gender", "") + "&birthdate=" + pref.getString("birthday", "");
             final SharedPreferences.Editor editor = pref.edit();
 
 
-            String url="";
-            if (pref.getInt("gender", 0)==0)
-                url="https://www.thetalklist.com/api/fblogin?email="+pref.getString("email", "")+"&facebook_id="+pref.getString("facebook_id", "")+"&firstname="+pref.getString("firstName", "")+"&lastname="+pref.getString("lastName", "")+"&gender=female&birthdate="+"";
+            String url = "";
+            if (pref.getInt("gender", 0) == 0)
+                url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getString("facebook_id", "") + "&firstname=" + pref.getString("firstName", "") + "&lastname=" + pref.getString("lastName", "") + "&gender=female&birthdate=" + "";
             else
-                url="https://www.thetalklist.com/api/fblogin?email="+pref.getString("email", "")+"&facebook_id="+pref.getString("facebook_id", "")+"&firstname="+pref.getString("firstName", "")+"&lastname="+pref.getString("lastName", "")+"&gender=male&birthdate="+"";
+                url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getString("facebook_id", "") + "&firstname=" + pref.getString("firstName", "") + "&lastname=" + pref.getString("lastName", "") + "&gender=male&birthdate=" + "";
             //            final String url="https://www.thetalklist.com/api/fblogin?email="+email+"&facebook_id="+loginResult.getAccessToken().getUserId()+"&firstname="+first_name+"&lastname="+last_name+"&gender="+gender+"&birthdate="+"";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -907,9 +896,9 @@ public class MyDetailsB extends Fragment {
 
 
                     try {
-                        JSONObject obj=new JSONObject(response);
-                        if (obj.getInt("status")==0) {
-                            JSONObject resObj=obj.getJSONObject("result");
+                        JSONObject obj = new JSONObject(response);
+                        if (obj.getInt("status") == 0) {
+                            JSONObject resObj = obj.getJSONObject("result");
 
                             final int roleId = resObj.getInt("roleId");
                             editor.putString("LoginWay", "FacebookLogin");
@@ -934,8 +923,8 @@ public class MyDetailsB extends Fragment {
                                 editor.putFloat("ttl_points", Float.parseFloat(resObj.getString("ttl_points")));
                             editor.putString("nativeLanguage", resObj.getString("nativeLanguage"));
                             editor.putString("otherLanguage", resObj.getString("otherLanguage"));
-                            editor.putInt("roleId",roleId);
-                            editor.putInt("status",0);
+                            editor.putInt("roleId", roleId);
+                            editor.putInt("status", 0);
                             editor.apply();
 
                           /*  Toast.makeText(getApplicationContext(), "Login Sucessfully..!", Toast.LENGTH_SHORT).show();
@@ -953,15 +942,14 @@ public class MyDetailsB extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
                     Toast.makeText(getApplicationContext(), "Login Unsucessful..!", Toast.LENGTH_SHORT).show();
-                    Log.e("fb login error",volleyError.toString());
+                    Log.e("fb login error", volleyError.toString());
                     editor.clear().apply();
                 }
             });
 
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             queue.add(stringRequest);
-        }else {
-
+        } else {
 
 
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -1095,19 +1083,18 @@ public class MyDetailsB extends Fragment {
         }*/
 //        imageView1.setImageBitmap(bm);
 
-        Bitmap bb=getResizedBitmap(thumbnail,500);
+        Bitmap bb = getResizedBitmap(thumbnail, 500);
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
         byte[] byteArray = bStream.toByteArray();
 
 
-        Intent ui=new Intent(getApplicationContext(), Fragment_cropImage.class);
-        ui.putExtra("bitmap",byteArray);
+        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
+        ui.putExtra("bitmap", byteArray);
         startActivity(ui);
 
 //        galleryIntent();
     }
-
 
 
 }
