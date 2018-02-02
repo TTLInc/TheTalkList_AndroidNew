@@ -369,7 +369,7 @@ t.send(new HitBuilders.EventBuilder()
                                     dialog.dismiss();
 
                             } else if (status == 10 && !firebase_pref.getString("firebase id", "").equals(jsonObject.getString("firebase_id"))) {
-                                Toast.makeText(splashScreen, "firebase id different", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "firebase id different", Toast.LENGTH_SHORT).show();
                                 editor.clear().apply();
                                 prefEdit.clear().apply();
                                 Intent i = new Intent(getApplicationContext(), Login.class);

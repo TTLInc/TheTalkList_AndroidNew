@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -269,7 +270,8 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
 
         final EmojiconTextView user_msg, sender_msg;
         TextView sender_time, receiver_time;
-        final LinearLayout senderLayout, userLayout;
+        final LinearLayout senderLayout;
+                RelativeLayout userLayout;
         final ImageView senderImg, userImg;
 
         public MyViewHolder(View itemView) {
@@ -277,7 +279,7 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
 
 
             senderLayout = (LinearLayout) itemView.findViewById(R.id.chat_sender_layout);
-            userLayout = (LinearLayout) itemView.findViewById(R.id.chat_user_layout);
+            userLayout = (RelativeLayout) itemView.findViewById(R.id.chat_user_layout);
             senderImg = (ImageView) itemView.findViewById(R.id.chat_sender_img);
             userImg = (ImageView) itemView.findViewById(R.id.chat_user_img);
             sender_msg = (EmojiconTextView) itemView.findViewById(R.id.chat_sender_text);

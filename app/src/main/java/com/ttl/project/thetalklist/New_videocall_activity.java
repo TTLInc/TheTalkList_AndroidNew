@@ -281,7 +281,7 @@ public class New_videocall_activity extends AppCompatActivity
                 findViewById(R.id.outgoingCallSurfaceView);
 
 
-        final WebServiceCoordinator mWebServiceCoordinator = new WebServiceCoordinator(this, this);
+        final WebServiceCoordinator mWebServiceCoordinator = new WebServiceCoordinator(this,this);
         i = getIntent();
 
         time = i.getIntExtra("min", 0);

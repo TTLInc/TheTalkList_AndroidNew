@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,8 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     View msgDisplayLayoutview;
     EmojiconEditText message_editText_msg;
     EmojiconTextView user_msg, sender_msg;
-    LinearLayout senderLayout, userLayout;
+    LinearLayout senderLayout;
+    RelativeLayout userLayout;
     ImageView message_sendBtn, message_searchBtn, senderImg, userImg/*, message_onetoone_backbtn*/;
     public RecyclerView recyclerView;
     public List<MessageModel> messageModelList;
@@ -262,7 +264,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
         msgDisplayLayoutview = inflater.inflate(R.layout.message_sender_user_layout, null);
         senderLayout = (LinearLayout) msgDisplayLayoutview.findViewById(R.id.chat_sender_layout);
-        userLayout = (LinearLayout) msgDisplayLayoutview.findViewById(R.id.chat_user_layout);
+        userLayout = (RelativeLayout) msgDisplayLayoutview.findViewById(R.id.chat_user_layout);
         senderImg = (ImageView) msgDisplayLayoutview.findViewById(R.id.chat_sender_img);
         userImg = (ImageView) msgDisplayLayoutview.findViewById(R.id.chat_user_img);
         sender_msg = (EmojiconTextView) msgDisplayLayoutview.findViewById(R.id.chat_sender_text);

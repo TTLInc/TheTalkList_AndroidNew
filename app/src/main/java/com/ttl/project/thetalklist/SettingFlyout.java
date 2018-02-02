@@ -329,8 +329,8 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
 
         queue111 = Volley.newRequestQueue(getApplicationContext());
 
-
-        new firebase_regId_store().execute();
+//        Toast.makeText(getApplicationContext(), "Firebase reg id: "+firebase_regId, Toast.LENGTH_SHORT).show();
+//        new firebase_regId_store().execute();
 
         LoginService loginService = new LoginService();
         loginService.login(pref.getString("email", ""), pref.getString("pass", ""), getApplicationContext());
@@ -1104,11 +1104,13 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
         @Override
         protected Void doInBackground(Void... params) {
 
-
+//            Toast.makeText(getApplicationContext(), "firebase id: "+firebase_regId, Toast.LENGTH_SHORT).show();
+//            Log.e("Firebase_regId",firebase_regId);
             String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + firebase_regId;
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+
 
                     try {
                         JSONObject jsonObject = new JSONObject(response);
@@ -1139,7 +1141,7 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
 
     private void displayFirebaseRegId() {
 
-        if (pref == null) {
+//        if (pref == null) {
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
             MyFirebaseInstanceIDService myFirebaseInstanceIDService = new MyFirebaseInstanceIDService();
@@ -1151,8 +1153,35 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
             prefEdit.putString("firebase id", refreshedToken).apply();
             firebase_regId = refreshedToken;
             Log.e("firebase reg id 1111111", "Firebase reg id: " + refreshedToken);
+//            Toast.makeText(getApplicationContext(), "registration tyoken: "+refreshedToken, Toast.LENGTH_SHORT).show();
+            String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + refreshedToken;
+            StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
-        }
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+
+                        int status = jsonObject.getInt("status");
+
+                        if (status == 0) {
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            Volley.newRequestQueue(getApplicationContext()).add(sr);
+
+//        }
     }
 
     @Override
