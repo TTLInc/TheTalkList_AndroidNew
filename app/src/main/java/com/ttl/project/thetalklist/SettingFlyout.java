@@ -1441,8 +1441,10 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                         credits.setText(resultObj.getString("money"));
                         TVuserName.setText(resultObj.getString("usernm"));
 
+//                        Log.e("reward_points_",resultObj.getString("ttl_points").substring(0, resultObj.getString("ttl_points").indexOf(".")));
+
                         if (!resultObj.getString("ttl_points").equals("")) {
-                            int rewardPoints = Integer.parseInt(resultObj.getString("ttl_points").substring(0, resultObj.getString("ttl_points").indexOf(".")));
+                            int rewardPoints = resultObj.getInt("ttl_points")/*.substring(0, resultObj.getString("ttl_points").indexOf(".")*/;
                             if (rewardPoints < 0)
                                 num_ttlScore.setText("0");
                             else
