@@ -448,6 +448,8 @@ public class New_videocall_activity extends AppCompatActivity
             public void onClick(View v) {
                 onDisconnected(mSession);
 
+
+
 //                mSession.unpublish(mPublisher);
 //                mSession.disconnect();
                 ttl.isCall = false;
@@ -461,9 +463,7 @@ public class New_videocall_activity extends AppCompatActivity
 
                 call_end_bit = 1;
 
-                if (!i.getStringExtra("from").
-
-                        equalsIgnoreCase("callActivity")) {
+                if (!i.getStringExtra("from").equalsIgnoreCase("callActivity")) {
 
                     String URL2 = "https://www.thetalklist.com/api/total_cost?cid=" + preferences.getInt("classId", 0) + "&amount=" + getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f) + "&time=" + TimeCount;
 
@@ -480,6 +480,7 @@ public class New_videocall_activity extends AppCompatActivity
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             i.putExtra("name",callerName.getText().toString());
                             i.putExtra("cost",String.format("%.02f",(Float.parseFloat(obj.getString("amount" )))));
+                            i.putExtra("fromCallActivity","no");
 //            i.putExtra("cost",)
                             startActivity(i);
                             } catch (JSONException e) {
@@ -497,6 +498,20 @@ public class New_videocall_activity extends AppCompatActivity
                     });
                     sr.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                     Volley.newRequestQueue(getApplicationContext()).add(sr);
+                }else {
+
+
+                    Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
+
+                    float cost=(getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)/60)*TimeCount;
+
+                    i.putExtra("name",callerName.getText().toString());
+                    i.putExtra("cost",cost*(1.33)-cost);
+                    i.putExtra("fromCallActivity","yes");
+//                    i.putExtra("cost",String.format("%.02f",(Float.parseFloat(obj.getString("amount" )))));
+//            i.putExtra("cost",)
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
                 }
 
 
@@ -650,7 +665,7 @@ public class New_videocall_activity extends AppCompatActivity
                 parent.removeView(videocontrols);
                 final View videocontrols1 = (LinearLayout) getLayoutInflater().inflate(R.layout.videocontrol2, parent, false);
                 parent.addView(videocontrols1);
-//                mSession.unpublish(mPublisher);
+                mSession.unpublish(mPublisher);
 //                mSession.disconnect();
                 mPublisher = null;
                 mSubscriber = null;
@@ -668,7 +683,20 @@ public class New_videocall_activity extends AppCompatActivity
 
                 if (i.getStringExtra("from").equalsIgnoreCase("callActivity")) {
 
+                    Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
+                    float cost=(getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)/60)*TimeCount;
+
+                    float cost1= (float) (cost*100);
+                    float finalCost= (float) (cost-(cost*0.33));
+                    Toast.makeText(New_videocall_activity.this, "final cost "+finalCost, Toast.LENGTH_SHORT).show();
+                    i.putExtra("name",callerName.getText().toString());
+                    i.putExtra("cost",String.format("%.02f",finalCost/100));
+                    i.putExtra("fromCallActivity","yes");
+//                    i.putExtra("cost",String.format("%.02f",(Float.parseFloat(obj.getString("amount" )))));
+//            i.putExtra("cost",)
+                    startActivity(i);
 
 //                    new Handler().postDelayed(new Runnable() {
 //                        @Override
@@ -681,9 +709,9 @@ public class New_videocall_activity extends AppCompatActivity
 
                             new CallActivity().finish();
 
-                            Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
+                            /*Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(i);
+                            startActivity(i);*/
 //                        }
 //                    }, 5000);
                 } else {

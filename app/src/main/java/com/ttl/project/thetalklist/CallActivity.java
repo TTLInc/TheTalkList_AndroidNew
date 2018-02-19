@@ -82,8 +82,8 @@ ImageView call_activity_image;
         incomingCall_CallerName = (TextView) findViewById(R.id.incomingCall_CallerName);
         call_activity_image = (ImageView) findViewById(R.id.call_activity_image);
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
         incomingCall_CallerName.setText(preferences.getString("callSenderName", ""));
-
 
 
                 if (!preferences.getString("image","").equals("")){

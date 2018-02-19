@@ -10,9 +10,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatButton;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.ttl.project.thetalklist.Config.Config;
 import com.ttl.project.thetalklist.Services.LoginService;
 import com.android.volley.DefaultRetryPolicy;
@@ -52,6 +56,7 @@ import org.json.JSONObject;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 
 public class Login extends Activity {
@@ -61,7 +66,7 @@ public class Login extends Activity {
     SharedPreferences.Editor editor;
     public LoginButton loginButton;
     CallbackManager callbackManager;
-    String email;
+//    String email;
     String pass;
     Typeface typeface;
     Dialog dialog;
@@ -69,8 +74,9 @@ public class Login extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
 
@@ -97,10 +103,10 @@ public class Login extends Activity {
 
         setContentView(R.layout.activity_login);
         loginButton = (LoginButton) findViewById(R.id.facebook_login_btn);
-        loginButton.setReadPermissions("email,publish_actions");
-        /*loginButton.setReadPermissions(Arrays.asList(
-                "public_profile", "email", "user_birthday", "user_friends"));*/
-
+//        loginButton.setReadPermissions("public_profile"/*,"publish_actions"*/);
+        loginButton.setReadPermissions(Arrays.asList(EMAIL));
+//                "public_profile", "email", "user_birthday", "user_friends"));
+//        AccessToken.getCurrentAccessToken().getPermissions();
 
         pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
         editor = pref.edit();
@@ -113,7 +119,7 @@ public class Login extends Activity {
 
             }
         });*/
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
 
@@ -144,119 +150,75 @@ public class Login extends Activity {
             }
         });
 
+       /* boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
 
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        Toast.makeText(getApplicationContext(), "logged in? "+loggedIn, Toast.LENGTH_SHORT).show();*/
     }
+
+    private static final String EMAIL = "email";
 
     public void graph(final LoginResult loginResult) {
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
+                    public void onCompleted(final JSONObject object, GraphResponse response) {
                         Log.e("LoginActivity", response.toString());
 
                         // Application code
                         try {
 
-                            final String email = object.getString("email");
-//                            final String birthday = object.getString("birthday");
-                            final int id = object.getInt("id");
+                            if (!object.has("email")){
 
-                            final String name = object.getString("name");
-                            final String gender = object.getString("gender");
-                            final String first_name = object.getString("first_name");
-                            final String last_name = object.getString("last_name");
+                                View view3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_getemail_loginfb, null);
+
+                                final PopupWindow popupWindow11 = new PopupWindow(view3, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
 
 
-                            Log.e("in graph request", "in graph request yeeeeeeeeeeeeeeeeeeeeee");
-                            Profile profile = Profile.getCurrentProfile();
-//                            profile.getProfilePictureUri(200,200);
-
-                            final String url = "https://www.thetalklist.com/api/fblogin?email=" + email + "&facebook_id=" + loginResult.getAccessToken().getUserId() + "&firstname=" + first_name + "&lastname=" + last_name + "&gender=" + gender + "&birthdate=" + "";
-
-
-                            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    Log.e("facebook login url", url);
-                                    Log.e("facebook login response", response);
-
-                                    try {
-                                        JSONObject obj = new JSONObject(response);
-                                        if (obj.getInt("status") == 0) {
-                                            JSONObject resObj = obj.getJSONObject("result");
-                                            SharedPreferences pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = pref.edit();
-//                                                    final int roleId = resObj.getInt("roleId");
-                                            editor.putString("LoginWay", "FacebookLogin");
-                                            editor.putString("loginResponse", response);
-                                            editor.putString("firstname", resObj.getString("firstName"));
-                                            editor.putString("lastname", resObj.getString("lastName"));
-                                            editor.putString("email", resObj.getString("email"));
-                                            BigInteger fbId = new BigInteger(loginResult.getAccessToken().getUserId());
-
-                                            editor.putString("facebook_id", fbId.toString());
-                                            editor.putInt("id", resObj.getInt("id"));
-                                            editor.putInt("roleId", resObj.getInt("roleId"));
-                                            editor.putInt("gender", resObj.getInt("gender"));
-                                            editor.putInt("country", resObj.getInt("country"));
-                                            editor.putInt("province", resObj.getInt("province"));
-                                            editor.putInt("coupon_credits", resObj.getInt("coupon_credits"));
-                                            editor.putString("cell", resObj.getString("cell"));
-                                            if (obj.getInt("login") == 1)
-                                                editor.putInt("status", 0);
-                                            else editor.putInt("status", 1);
-                                            editor.putString("city", resObj.getString("city"));
-                                            editor.putString("nativeLanguage", resObj.getString("nativeLanguage"));
-                                            editor.putString("otherLanguage", resObj.getString("otherLanguage"));
-                                            editor.putFloat("frMoney", (float) resObj.getDouble("frMoney"));
-                                            editor.putFloat("hRate", Float.parseFloat(resObj.getString("hRate")));
-                                            if (resObj.getString("avgRate").equals(""))
-                                                editor.putFloat("avgRate", 0.0f);
-                                            else
-                                                editor.putFloat("avgRate", Float.parseFloat(resObj.getString("avgRate")));
-                                            if (resObj.getString("ttl_points").equals(""))
-                                                editor.putFloat("ttl_points", 0.0f);
-                                            else
-                                                editor.putFloat("ttl_points", Float.parseFloat(resObj.getString("ttl_points")));
-
-                                            if (gender.equals("male"))
-                                                editor.putInt("gender", 1);
-                                            else editor.putInt("gender", 0);
-//                                                    editor.putString("birthdate", birthday);
-                                            editor.apply();
-
-                                            if (obj.getInt("login") == 1) {
-                                                SettingFlyout settingFlyout = new SettingFlyout();
-                                                Intent i = new Intent(getApplicationContext(), settingFlyout.getClass());
-                                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(i);
-                                            } else {
-                                                Toast.makeText(Login.this, "Login Sucessfully..!", Toast.LENGTH_SHORT).show();
-                                                Registration settingFlyout = new Registration();
-                                                Intent i = new Intent(getApplicationContext(), settingFlyout.getClass());
-                                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                startActivity(i);
-                                            }
-                                        }else{
-                                            Toast.makeText(Login.this, obj.getString("error"), Toast.LENGTH_SHORT).show();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            popupWindow11.showAtLocation(findViewById(R.id.activity_login), Gravity.CENTER, 0, 0);
+                                        } catch (WindowManager.BadTokenException e) {
+                                            Toast.makeText(getApplicationContext(), "Token null", Toast.LENGTH_SHORT).show();
                                         }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        return;
+
                                     }
+                                }, 100);
 
+                                popupWindow11.setFocusable(true);
+                                popupWindow11.setOutsideTouchable(false);
 
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError volleyError) {
-//                                    Toast.makeText(Login.this, "Something wemt wrong..!", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                Button btn=view3.findViewById(R.id.alternate_btn_save);
+                                final EditText edit=view3.findViewById(R.id.alternate_edit_email);
 
-                            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                            queue.add(stringRequest);
+                                btn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (edit.getText().toString().equals("")){
+                                            edit.setError("Enter email address");
+                                        }else if (!Patterns.EMAIL_ADDRESS.matcher(edit.getText().toString()).matches()){
+                                            edit.setError("Enter valid email address");
+                                        }else {
+//                                            email=edit.getText().toString();
+                                            try {
+                                                fb_login(object,loginResult,edit.getText().toString());
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            popupWindow11.dismiss();
+                                        }
+                                    }
+                                });
 
+                            }else
+//                            email = object.getString("email");
+//                            final String birthday = object.getString("birthday");
+
+fb_login(object,loginResult,object.getString("email"));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -270,6 +232,110 @@ public class Login extends Activity {
 
     }
 
+    public void fb_login(JSONObject object, final LoginResult loginResult, String email) throws JSONException {
+
+
+        final int id = object.getInt("id");
+
+        final String name = object.getString("name");
+        final String gender = object.getString("gender");
+        final String first_name = object.getString("first_name");
+        final String last_name = object.getString("last_name");
+//        final String bday = object.getString("birthday");
+
+
+        Log.e("in graph request", "in graph request yeeeeeeeeeeeeeeeeeeeeee");
+        Profile profile = Profile.getCurrentProfile();
+//                            profile.getProfilePictureUri(200,200);
+
+        final String url = "https://www.thetalklist.com/api/fblogin?email=" + email + "&facebook_id=" + loginResult.getAccessToken().getUserId() + "&firstname=" + first_name + "&lastname=" + last_name + "&gender=" + gender + "&birthdate=" + "";
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("facebook login url", url);
+                Log.e("facebook login response", response);
+
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if (obj.getInt("status") == 0) {
+                        JSONObject resObj = obj.getJSONObject("result");
+                        SharedPreferences pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+//                                                    final int roleId = resObj.getInt("roleId");
+                        editor.putString("LoginWay", "FacebookLogin");
+                        editor.putString("loginResponse", response);
+                        editor.putString("firstname", resObj.getString("firstName"));
+                        editor.putString("lastname", resObj.getString("lastName"));
+                        editor.putString("email", resObj.getString("email"));
+                        BigInteger fbId = new BigInteger(loginResult.getAccessToken().getUserId());
+
+                        editor.putString("facebook_id", fbId.toString());
+                        editor.putInt("id", resObj.getInt("id"));
+                        editor.putInt("roleId", resObj.getInt("roleId"));
+                        editor.putInt("gender", resObj.getInt("gender"));
+                        editor.putInt("country", resObj.getInt("country"));
+                        editor.putInt("province", resObj.getInt("province"));
+                        editor.putInt("coupon_credits", resObj.getInt("coupon_credits"));
+                        editor.putString("cell", resObj.getString("cell"));
+                        if (obj.getInt("login") == 1)
+                            editor.putInt("status", 0);
+                        else editor.putInt("status", 1);
+                        editor.putString("city", resObj.getString("city"));
+                        editor.putString("nativeLanguage", resObj.getString("nativeLanguage"));
+                        editor.putString("otherLanguage", resObj.getString("otherLanguage"));
+                        editor.putFloat("frMoney", (float) resObj.getDouble("frMoney"));
+                        editor.putFloat("hRate", Float.parseFloat(resObj.getString("hRate")));
+                        if (resObj.getString("avgRate").equals(""))
+                            editor.putFloat("avgRate", 0.0f);
+                        else
+                            editor.putFloat("avgRate", Float.parseFloat(resObj.getString("avgRate")));
+                        if (resObj.getString("ttl_points").equals(""))
+                            editor.putFloat("ttl_points", 0.0f);
+                        else
+                            editor.putFloat("ttl_points", Float.parseFloat(resObj.getString("ttl_points")));
+
+                        if (gender.equals("male"))
+                            editor.putInt("gender", 1);
+                        else editor.putInt("gender", 0);
+//                                                    editor.putString("birthdate", birthday);
+                        editor.apply();
+
+                        if (obj.getInt("login") == 1) {
+                            SettingFlyout settingFlyout = new SettingFlyout();
+                            Intent i = new Intent(getApplicationContext(), settingFlyout.getClass());
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+                        } else {
+                            Toast.makeText(Login.this, "Login Sucessfully..!", Toast.LENGTH_SHORT).show();
+                            Registration settingFlyout = new Registration();
+                            Intent i = new Intent(getApplicationContext(), settingFlyout.getClass());
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+                        }
+                    }else{
+                        LoginManager.getInstance().logOut();
+
+                        AccessToken.setCurrentAccessToken(null);
+                        Toast.makeText(Login.this, obj.getString("error"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+//                                    Toast.makeText(Login.this, "Something wemt wrong..!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(stringRequest);
+    }
 
     @Override
     protected void onStart() {
@@ -297,7 +363,7 @@ public class Login extends Activity {
 
 
     SplashScreen splashScreen;
-
+String emails;
     @Override
     protected void onResume() {
         super.onResume();
@@ -312,14 +378,14 @@ public class Login extends Activity {
             public void onClick(View view) {
 
 
-                email = email_address.getText().toString();
+                emails = email_address.getText().toString();
                 pass = pwd.getText().toString();
-                if (email.equals("")) {
+                if (emails.equals("")) {
                     email_address.setError("Required");
                 }
                 if (pass.equals("")) {
                     pwd.setError("Required");
-                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emails).matches()) {
                     email_address.setError("Invalid Email Address..!");
                 } else {
 
@@ -333,7 +399,7 @@ public class Login extends Activity {
                     LoginService loginService = new LoginService();
 
 
-                    String URL = "https://www.thetalklist.com/api/login?email=" + email + "&password=" + pass;
+                    String URL = "https://www.thetalklist.com/api/login?email=" + emails + "&password=" + pass;
 
 
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -408,7 +474,7 @@ public class Login extends Activity {
                                             popupWindow7.dismiss();
 
 
-                                            Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/check_login?username=" + email, new Response.Listener<String>() {
+                                            Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/check_login?username=" + emails, new Response.Listener<String>() {
                                                 @Override
                                                 public void onResponse(String response) {
                                                     try {
