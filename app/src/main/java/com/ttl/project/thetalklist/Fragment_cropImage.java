@@ -40,23 +40,18 @@ import java.util.Map;
  * Created by Saubhagyam on 22/09/2017.
  */
 
+
+//Crop image before upload to server
 public class Fragment_cropImage extends AppCompatActivity {
 
     Bitmap uri;
-    BroadcastReceiver finish1;
     ImageView rotate;
 
-    public Fragment_cropImage(Bitmap uri) {
-        this.uri = uri;
-    }
 
-    public Fragment_cropImage() {
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        unregisterReceiver(finish1);
     }
     int rotating=0;
 
@@ -145,6 +140,7 @@ public class Fragment_cropImage extends AppCompatActivity {
 
 
 
+    //Get the screen shot of the screen
     public static Bitmap getScreenShot(View view) {
         View screenView = view.getRootView();
         screenView.setDrawingCacheEnabled(true);
@@ -153,6 +149,8 @@ public class Fragment_cropImage extends AppCompatActivity {
         return bitmap;
     }
 
+
+//Upload image to server
     public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
 
 
@@ -224,6 +222,7 @@ public class Fragment_cropImage extends AppCompatActivity {
         rQueue.add(request);
     }
 
+//To rotate the bitmap
     public static Bitmap RotateBitmap(Bitmap source, float angle)
     {
         Matrix matrix = new Matrix();

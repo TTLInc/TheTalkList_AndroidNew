@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-
+//Desired tutor class
 public class DesiredTutor extends Fragment {
 
 
@@ -312,6 +312,7 @@ public class DesiredTutor extends Fragment {
             desiredapi.cancel(true);
     }
 
+    // Background thread to call api for countries.
     private class desiredtutorapi extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {

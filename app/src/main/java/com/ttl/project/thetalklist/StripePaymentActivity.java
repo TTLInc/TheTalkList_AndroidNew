@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import rx.subscriptions.CompositeSubscription;
 
+//Stripe payment activity
+
 public class StripePaymentActivity extends AppCompatActivity {
 
 //        public static final String  PUBLISHABLE_KEY = "pk_test_m2095bSj8vVA0n55nBjcBRDH";
@@ -93,7 +95,7 @@ public class StripePaymentActivity extends AppCompatActivity {
 
     }
 
-
+//Method run code of buying the credits
     private void buy(){
         boolean validation = card.validateCard();
         if(validation){

@@ -10,6 +10,8 @@ import java.lang.reflect.Field;
  * Created by Saubhagyam on 19/06/2017.
  */
 
+
+//To change the typeface of the texts for whole app
 public class TypefaceUtil {
 
     public static void overrideFont(Context context, String defaultFontNameToOverride, String customFontFileNameInAssets) {

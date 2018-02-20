@@ -95,12 +95,9 @@ public class Available_Tutor_Expanded extends Fragment {
     ImageView minus;
     Button morelist;
 
-    Float credit;
-    String tutorName;
 
     View view1;
 
-//    TextView TutorExpanded_tutorin_languages;
 
     WebView TutorExpanded_tutorin_languages_webview;
     int roleId, roleIdUser;
@@ -572,7 +569,7 @@ public class Available_Tutor_Expanded extends Fragment {
 
 
 
-
+//Initialize exoplayer
     private void InitializePLayer(String link) throws android.net.ParseException {
 
         if (player==null){
@@ -599,7 +596,7 @@ public class Available_Tutor_Expanded extends Fragment {
         player.prepare(mediaSource,true,false);
     }
 
-
+//Release Exoplayer
     private void ReleasePlayer(){
         if (player != null){
             PlayBackPosition=player.getCurrentPosition();

@@ -29,6 +29,7 @@ import com.pascalwelsch.holocircularprogressbar.HoloCircularProgressBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//TTL score activity
 
 public class TTL_Score extends Fragment {
 
@@ -53,7 +54,7 @@ public class TTL_Score extends Fragment {
 
     }
 
-    private void animate(final HoloCircularProgressBar progressBar,
+   /* private void animate(final HoloCircularProgressBar progressBar,
                          final Animator.AnimatorListener listener) {
         final float progress = (float) (Math.random() * 2);
         int duration = 3000;
@@ -99,7 +100,7 @@ public class TTL_Score extends Fragment {
         progressBar.setMarkerProgress(progress);
         mProgressBarAnimator.start();
     }
-
+*/
 
     //    @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -367,6 +368,7 @@ public class TTL_Score extends Fragment {
 
 
 
+   //Set points in the TTL score
    public void setFragment(int points){
        if (points < 200 && points>0 ) {
            ttl_score_count.setText(String.valueOf(200 - points));

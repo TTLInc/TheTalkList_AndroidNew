@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//Popup screen after veesession
 public class Popup_after_veesession extends AppCompatActivity {
 
     @Override

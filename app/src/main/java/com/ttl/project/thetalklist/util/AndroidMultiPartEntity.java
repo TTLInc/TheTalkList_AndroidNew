@@ -8,6 +8,8 @@ import java.nio.charset.Charset;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 
+//used in video upload activity
+
 @SuppressWarnings("deprecation")
 public class AndroidMultiPartEntity extends MultipartEntity
 

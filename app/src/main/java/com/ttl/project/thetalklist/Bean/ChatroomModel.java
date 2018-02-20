@@ -4,6 +4,8 @@ package com.ttl.project.thetalklist.Bean;
  * Created by Saubhagyam on 05/07/2017.
  */
 
+//MessageList (Chatroom) bean class
+
 public class ChatroomModel {
     String senderName;
     String senderPic;

@@ -40,6 +40,8 @@ import org.json.JSONObject;
 
 import java.net.URI;
 
+
+//Splash screen
 public class SplashScreen extends AppCompatActivity implements Animation.AnimationListener {
 
     private static final String TAG = SplashScreen.class.getSimpleName();
@@ -152,6 +154,8 @@ t.send(new HitBuilders.EventBuilder()
 
     }
 
+
+    //Check the permission
     private void checkPermission() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
 

@@ -4,6 +4,7 @@ package com.ttl.project.thetalklist;
  * Created by Saubhagyam on 10/06/2017.
  */
 
+//Tablayout manage the landing tab
 public class TabBackStack {
 
     String ClassName;

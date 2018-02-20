@@ -11,6 +11,8 @@ import android.view.ViewGroup;
  * Created by Saubhagyam on 29/06/2017.
  */
 
+//Free credits class
+
 public class Free_credits extends Fragment {
 
     @Nullable

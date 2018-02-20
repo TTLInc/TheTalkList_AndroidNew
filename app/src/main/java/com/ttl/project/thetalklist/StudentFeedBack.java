@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ttl.project.thetalklist.Services.LoginService;
 
+//Student feedback page
 public class StudentFeedBack extends AppCompatActivity {
 
     Button studentFeedback_submitButton;

@@ -18,9 +18,10 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_gravity="center"
-       android:text="Need email address to login with facebook"
+       android:text="Enter Facebook email"
        android:textSize="20dp"
        android:gravity="center"
+       android:layout_marginBottom="10dp"
        android:textColor="@color/orange"
 
        />

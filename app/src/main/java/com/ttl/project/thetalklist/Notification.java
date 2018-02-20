@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-
+//Notification class
 public class Notification extends Fragment {
 
     @Override

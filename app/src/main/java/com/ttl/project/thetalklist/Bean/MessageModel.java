@@ -4,6 +4,8 @@ package com.ttl.project.thetalklist.Bean;
  * Created by Saubhagyam on 04/07/2017.
  */
 
+//Chat messages bean class
+
 public class MessageModel {
 
     int msg_id;

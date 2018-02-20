@@ -15,6 +15,8 @@ import android.widget.TextView;
  * Created by saubhagyam on 2/23/2017.
  */
 
+
+//Intoduction screen no 1
 public class IntroScreen1 extends Fragment {
 
     @Nullable

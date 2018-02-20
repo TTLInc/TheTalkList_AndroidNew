@@ -86,6 +86,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 18/04/2017.
  */
 
+//Video play class
+
 public class Video_Play extends Fragment {
     View view;
     RecyclerView recyclerView;
@@ -315,6 +317,7 @@ public class Video_Play extends Fragment {
 
     ShareDialog shareDialog;
 
+    //Facebook initialization for sharing
     protected void facebookSDKInitialize() {
         FacebookSdk.sdkInitialize(getContext());
         CallbackManager callbackManager = CallbackManager.Factory.create();
@@ -325,6 +328,7 @@ public class Video_Play extends Fragment {
 
     }
 
+    //Facebook callback
     private FacebookCallback<Sharer.Result> callback = new FacebookCallback<Sharer.Result>() {
         @Override
         public void onSuccess(Sharer.Result result) {
@@ -346,6 +350,7 @@ public class Video_Play extends Fragment {
     };
 
 
+    //Initialize Exoplayer
     private void InitializePLayer(String source) throws ParseException {
         Log.e("video url", source);
         if (player == null) {

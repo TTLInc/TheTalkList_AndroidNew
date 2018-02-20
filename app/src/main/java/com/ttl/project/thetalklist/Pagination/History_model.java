@@ -4,6 +4,8 @@ package com.ttl.project.thetalklist.Pagination;
  * Created by Saubhagyam on 22/09/2017.
  */
 
+//History pagination uses bean class
+
 public class History_model {
 
     String name;

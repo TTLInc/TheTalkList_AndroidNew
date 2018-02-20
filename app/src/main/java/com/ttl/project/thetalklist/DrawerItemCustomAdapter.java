@@ -13,6 +13,8 @@ import android.widget.TextView;
  * Created by Saubhagyam on 03/06/2017.
  */
 
+// Navigation drawer item list adapter
+
 public class DrawerItemCustomAdapter extends ArrayAdapter<DrawerModel> {
     Context mContext;
     int layoutResourceId;

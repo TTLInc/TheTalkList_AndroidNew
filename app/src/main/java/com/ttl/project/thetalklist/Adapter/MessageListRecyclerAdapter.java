@@ -32,6 +32,8 @@ import java.util.Locale;
  * Created by Saubhagyam on 17/04/2017.
  */
 
+//Chatroom msg list adapter
+
 public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageListRecyclerAdapter.MyViewHolder>{
 
     final Context context;
@@ -69,21 +71,18 @@ public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageLis
         String picPath = chatroomModel.getSenderPic();
 
         String date=chatroomModel.getLastTime();
-//        Date date1 = null;
         Date date_txt=null;
         String[] months={"Jan","Feb","Mar","April","may","June","July","Aug","Sep","Oct","Nov","Dec"};
         try {
             if (date!=null) {
                 date_txt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(date);
-                String newString = new SimpleDateFormat("HH:mm", Locale.US).format(date_txt); // 9:00
-                String newdate = new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(date_txt); // 9:00
+              /*  String newString = new SimpleDateFormat("HH:mm", Locale.US).format(date_txt); // 9:00
+                String newdate = new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(date_txt); // 9:00*/
 
 
                 int hour= Integer.parseInt(new SimpleDateFormat("HH", Locale.US).format(date_txt));
                 int month= Integer.parseInt(new SimpleDateFormat("MM", Locale.US).format(date_txt));
                 int day= Integer.parseInt(new SimpleDateFormat("dd", Locale.US).format(date_txt));
-                /*holder.Messageday.setText(newdate);
-                holder.MessageTime.setText(newString);*/
                 String newStr= new SimpleDateFormat("HH:mm", Locale.US).format(date_txt); // 9:00
                 String h= new SimpleDateFormat("HH", Locale.US).format(date_txt); // 9:00
                 String m= new SimpleDateFormat("mm", Locale.US).format(date_txt); // 9:00
@@ -131,7 +130,6 @@ public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageLis
                 chatPrefEditor.putInt("receiverId",chatroomModel.getSenderId()).apply();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                 FragmentStack fragmentStack=FragmentStack.getInstance();
-//                        fragmentStack.add(new MessageList());
                 fragmentStack.push(new MessageList());
                 MessageOneToOne messageOneToOne=new MessageOneToOne();
                 fragmentTransaction.replace(R.id.viewpager, messageOneToOne).commit();

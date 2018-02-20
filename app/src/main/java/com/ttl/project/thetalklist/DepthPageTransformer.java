@@ -7,6 +7,8 @@ import android.view.View;
  * Created by saubhagyam on 2/25/2017.
  */
 
+//Class used in introduction slider after registration.
+
 public class DepthPageTransformer implements ViewPager.PageTransformer {
     private static final float MIN_SCALE = 0.3f;
 

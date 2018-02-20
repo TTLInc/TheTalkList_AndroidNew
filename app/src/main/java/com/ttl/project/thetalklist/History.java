@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.ttl.project.thetalklist.Pagination.Paginator;
 import com.srx.widget.PullToLoadView;
 
-
+//History class
 public class History extends Fragment {
 
     @Override

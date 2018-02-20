@@ -12,6 +12,8 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * Created by Saubhagyam on 01/06/2017.
  */
 
+//To crop the image as a circle for profile picture.
+
 public class CircleTransform extends BitmapTransformation {
     public CircleTransform(Context context) {
         super(context);

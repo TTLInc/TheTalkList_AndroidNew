@@ -115,15 +115,6 @@
             android:exported="true" />
 
         <receiver
-            android:name=".receivers.MyReceiver"
-            android:enabled="true"
-            android:exported="false" />
-
-        <service
-            android:name=".Services.MyNewIntentService"
-            android:exported="false" />
-
-        <receiver
             android:name=".ConnectivityReceiver"
             android:enabled="true"
             android:exported="false">
@@ -181,9 +172,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustNothing" />
         <activity android:name=".StudentFeedBack" />
-        <activity
-            android:name=".VideoCall"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait"

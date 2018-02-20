@@ -8,6 +8,7 @@ import java.util.Stack;
  * Created by Saubhagyam on 12/04/2017.
  */
 
+//To have to stack of the fragments
 public class FragmentStack extends Stack<Fragment>{
 
 

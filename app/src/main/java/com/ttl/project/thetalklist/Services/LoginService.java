@@ -25,6 +25,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 12/05/2017.
  */
 
+//Login Api call for consume code
+
 public class LoginService {
     String result;
     SharedPreferences pref;

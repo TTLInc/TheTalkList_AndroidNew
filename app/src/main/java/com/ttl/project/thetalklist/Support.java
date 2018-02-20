@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.github.aakira.expandablelayout.ExpandableLinearLayout;
 
+//Support activity
 
 public class Support extends Fragment {
 

@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -55,7 +54,6 @@ import com.android.volley.TimeoutError;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.ttl.project.thetalklist.Analytics.AnalyticsTrackers;
 import com.ttl.project.thetalklist.Config.Config;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -68,7 +66,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ttl.project.thetalklist.Services.LoginService;
 import com.ttl.project.thetalklist.Services.MessageCountService;
-import com.ttl.project.thetalklist.receivers.MyReceiver;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -96,7 +93,7 @@ import java.util.TimerTask;
 
 import me.grantland.widget.AutofitHelper;
 
-
+//Main Activity where all data fragment attached with
 public class SettingFlyout extends AppCompatActivity {
 
 
@@ -143,7 +140,6 @@ public class SettingFlyout extends AppCompatActivity {
 
     BroadcastReceiver countrefresh;
 
-    FacebookSdk facebookSdk;
 
     public SettingFlyout() {
     }
@@ -182,30 +178,17 @@ public class SettingFlyout extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
 
-//        Tracker t= AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
         TTL app = (TTL) getApplication();
         Tracker t = app.getGoogleAnalyticsTracker();
         t.send(new HitBuilders.ScreenViewBuilder().build());
-/*t.send(new HitBuilders.EventBuilder()
-                .setCategory("Action")
-                .setAction("Share")
-                .build());*/
         t.setScreenName("Main Setting Flyout");
         t.setPage("/SettingFlyOut");
         t.send(new HitBuilders.EventBuilder().setCategory("Main Screen").setAction("Landing Screen").setLabel("Landed").build());
-/*
-//String campaignData="https://play.google.com/store/apps/details?id=com.ttl.project.thetalklist&hl=en&utm_source=Google%20play%20store&utm_medium=cpc&utm_campaign=Spring_sale&utm_term=TheTalkList&utm_content=Learn%20not%20alone%2C%20Learn%20togather";
-String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium=testing&utm_campaign=Demo%20Test&utm_term=Testing&utm_content=Demo";
-        t.send(new HitBuilders.ScreenViewBuilder()
-                        .setCampaignParamsFromUrl(campaignData)
-                        .build());*/
 
 
         Intent i = this.getIntent();
         Uri uri = i.getData();
 
-//                AnalyticsTrackers.initialize(getApplicationContext());
-//        Tracker tracker=AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
 
         if (uri != null && uri.getQueryParameter("utm_source") != null) {
             t.setCampaignParamsOnNextHit(uri);
@@ -247,8 +230,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
 
         if (preferences.getFloat("avgRate", 0.0f) != 0.0f)
             ratingBar.setRating(preferences.getFloat("avgRate", 0.0f));
-//        Toast.makeText(getApplicationContext(), "Ratings :"+preferences.getFloat("avgRate", 0.0f) , Toast.LENGTH_SHORT).show();
-//ratingBar.setRating(1.0f);
 
         if (ttl.isCall) {
             return_to_call.setVisibility(View.VISIBLE);
@@ -329,8 +310,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
 
         queue111 = Volley.newRequestQueue(getApplicationContext());
 
-//        Toast.makeText(getApplicationContext(), "Firebase reg id: "+firebase_regId, Toast.LENGTH_SHORT).show();
-//        new firebase_regId_store().execute();
 
         LoginService loginService = new LoginService();
         loginService.login(pref.getString("email", ""), pref.getString("pass", ""), getApplicationContext());
@@ -623,7 +602,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
         drawerItem[3] = new DrawerModel(R.drawable.paypal, "Payment Options");
         drawerItem[4] = new DrawerModel(R.mipmap.ic_ttl_score, "Reward Points");
         drawerItem[5] = new DrawerModel(R.drawable.history, "History");
-        //drawerItem[5] = new DrawerModel(R.drawable.notification, "Notifications");
         drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
         drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
 
@@ -732,13 +710,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
 
         }
 
-/*        fragmentTransaction.addToBackStack(null);
-        if (status == 0) {
-
-        } else {
-
-
-        }*/
 
 
         drawer.setDrawerListener(new DrawerLayout.DrawerListener() {
@@ -766,16 +737,8 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
 
 
     }
-  /*  public void setTalknow(boolean T){
-        if (T) {
 
-
-            .setChecked(true);
-            talkNow.setSelected(true);
-        }
-    }*/
-
-
+//check availibility api call
     public void TalkNow(SharedPreferences pref, final Context context) {
 
 
@@ -791,7 +754,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
                 @Override
                 public void onResponse(String response) {
 
-//                Toast.makeText(getContext(), "Response "+response, Toast.LENGTH_SHORT).show();
                     Log.e("response availablity ", response);
                     try {
                         JSONObject res = new JSONObject(response);
@@ -995,7 +957,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
                             }
 
                         } else {
-//                            talkNow.setChecked(false);
                         }
 
 
@@ -1006,7 +967,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(getApplicationContext(), "error " + error, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -1015,82 +975,8 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
     }
 
 
-    public void Notify(int h, int min) {
 
-        Intent notifyIntent = new Intent(getApplicationContext(), MyReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (context, 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, h);
-        calendar.set(Calendar.MINUTE, min);
-        calendar.set(Calendar.SECOND, 1);
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
-       /* if (notification==1) {
-            Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
-            NotificationCompat.BigTextStyle inboxStyle = new NotificationCompat.BigTextStyle();
-            final int icon = R.mipmap.ttlg2;
-            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this).setSmallIcon(icon).setTicker("Tutoring is On").setWhen(0)
-                            .setAutoCancel(true)
-                            .setContentTitle("Time to Available")
-                            .setSound(Uri.parse(String.valueOf(android.app.Notification.DEFAULT_SOUND)))
-                            .setStyle(inboxStyle)
-                            .setContentIntent(contentIntent)
-                            .setWhen(System.currentTimeMillis())
-                            .setSmallIcon(R.mipmap.ttlg2)
-                            .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ttlg2))
-                            .setContentText("Your scheduled tutoring window is now open and your TalkLight is on!");
-            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-            notificationUtils.playNotificationSound();
-
-            String myText = "Your scheduled tutoring window is now open and your TalkLight is on!";
-            android.app.Notification notification = new NotificationCompat.BigTextStyle(mBuilder)
-                    .bigText(myText).build();
-
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(100, notification);
-        }*/
-    }
-   /* public void count() {
-        String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0);
-        StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Log.e("message count res ", response);
-
-                try {
-                    JSONObject object = new JSONObject(response);
-                    if (object.getInt("unread_count") > 0)
-                        bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
-                    if (object.getInt("unread_count") == 0)
-                        findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        Volley.newRequestQueue(getApplicationContext()).add(sr);
-    }*/
-
+//Set the fragment afte video call
     public void setFragmentByVideoCall(Fragment fragmentByVideoCall) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.viewpager, fragmentByVideoCall).commit();
@@ -1099,49 +985,11 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
     RequestQueue queue111;
     String firebase_regId;
 
-    private class firebase_regId_store extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-//            Toast.makeText(getApplicationContext(), "firebase id: "+firebase_regId, Toast.LENGTH_SHORT).show();
-//            Log.e("Firebase_regId",firebase_regId);
-            String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + firebase_regId;
-            StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
 
 
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-
-                        int status = jsonObject.getInt("status");
-
-                        if (status == 0) {
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
-            queue111.add(sr);
-
-
-            return null;
-        }
-    }
-
-
+//Register firebase id in database
     private void displayFirebaseRegId() {
 
-//        if (pref == null) {
             String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
             MyFirebaseInstanceIDService myFirebaseInstanceIDService = new MyFirebaseInstanceIDService();
@@ -1153,7 +1001,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
             prefEdit.putString("firebase id", refreshedToken).apply();
             firebase_regId = refreshedToken;
             Log.e("firebase reg id 1111111", "Firebase reg id: " + refreshedToken);
-//            Toast.makeText(getApplicationContext(), "registration tyoken: "+refreshedToken, Toast.LENGTH_SHORT).show();
             String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + refreshedToken;
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
@@ -1181,7 +1028,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
             });
             Volley.newRequestQueue(getApplicationContext()).add(sr);
 
-//        }
     }
 
     @Override
@@ -1210,11 +1056,6 @@ String campaignData="www.thetalklist.com?utm_source=Demo%20test%20web&utm_medium
     @Override
     protected void onResume() {
         super.onResume();
-
-
-/*            MyDetailsB myDetailsB=new MyDetailsB();
-if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
-        myDetailsB.setImage(pref.getString("pic",""));*/
 
         ft = fragmentManager.beginTransaction();
 
@@ -1276,40 +1117,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         loginService();
 
 
-        /*if (pref.getFloat("money", 0.0f)<3.0f){
-            Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
-            NotificationCompat.BigTextStyle inboxStyle = new NotificationCompat.BigTextStyle();
-            final int icon = R.mipmap.ttlg2;
-            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            notificationIntent.putExtra("payment", "yes");
 
-
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this).setSmallIcon(icon).setTicker("Low Credited Balance..!").setWhen(0)
-                            .setAutoCancel(true)
-                            .setContentTitle("TheTalkList")
-                            .setSound(Uri.parse(String.valueOf(android.app.Notification.DEFAULT_SOUND)))
-                            .setStyle(inboxStyle)
-                            .setContentIntent(contentIntent)
-                            .setWhen(System.currentTimeMillis())
-                            .setSmallIcon(R.mipmap.ttlg2)
-                            .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ttlg2))
-                            .setContentText("Your credited balance is less than 3 credits. \n Please refill it.");
-            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-            notificationUtils.playNotificationSound();
-
-            String myText="Your credited balance is less than 3 credits. \n Please refill it.";
-            android.app.Notification notification = new NotificationCompat.BigTextStyle(mBuilder)
-                    .bigText(myText).build();
-
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(100, notification);
-        }*/
         credits.setText(String.format("%.02f", pref.getFloat("money", 0.0f)));
         Log.e("money", String.valueOf(pref.getFloat("money", 0.0f)));
         credits.setTypeface(typeface);
@@ -1328,10 +1136,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                 fragmentStack.push(new Available_tutor());
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.viewpager, new TTL_Score()).commit();
-
-/*                Intent i=new Intent(getApplicationContext(), new CircularProgressBarSample().getClass());
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);*/
             }
         });
         talkNow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1384,7 +1188,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
     }
 
     StringRequest sr;
-
+//Login service
     public void loginService() {
 
         String URL = "https://www.thetalklist.com/api/login?email=" + email + "&password=" + pass;
@@ -1441,7 +1245,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                         credits.setText(resultObj.getString("money"));
                         TVuserName.setText(resultObj.getString("usernm"));
 
-//                        Log.e("reward_points_",resultObj.getString("ttl_points").substring(0, resultObj.getString("ttl_points").indexOf(".")));
 
                         if (!resultObj.getString("ttl_points").equals("")) {
                             int rewardPoints = resultObj.getInt("ttl_points")/*.substring(0, resultObj.getString("ttl_points").indexOf(".")*/;
@@ -1500,6 +1303,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         queue.add(sr);
     }
 
+    //Drawer item click listener
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -1551,14 +1355,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
 
                 case 7:
 
-                  /*  if (getSharedPreferences("loginStatus", MODE_PRIVATE).getString("LoginWay", "").equals("FacebookLogin")) {
-
-                        LoginManager.getInstance().logOut();
-
-                        Toast.makeText(getApplicationContext(), "snafansbfijoasbndfioabnnfdlo", Toast.LENGTH_SHORT).show();
-                        AccessToken.setCurrentAccessToken(null);
-                        finish();
-                    }*/
                     final Dialog dialog = new Dialog(SettingFlyout.this);
                     dialog.setContentView(R.layout.threedotprogressbar);
                     dialog.setCanceledOnTouchOutside(false);
@@ -1663,14 +1459,10 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
                     }
                 };
 
-                // If mPendingRunnable is not null, then add to the message queue
                 if (mPendingRunnable != null) {
                     mHandler.post(mPendingRunnable);
                 }
 
-                // show or hide the fab button
-
-                //Closing drawer on item click
                 drawer.closeDrawers();
 
                 // refresh toolbar menu
@@ -1692,7 +1484,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
     }
 
     String Cls = " ";
-    private boolean bit;
 
 
     SharedPreferences prefAvailableTutor;
@@ -1713,7 +1504,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
 
         FragmentManager fragmentManager1 = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
         SharedPreferences chatPref = getSharedPreferences("chatPref", Context.MODE_PRIVATE);
         SharedPreferences SearchTutorPref = getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE);
         final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
@@ -1735,7 +1525,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
 
                     getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                     fragmentManager.executePendingTransactions();
-//                    ft.addToBackStack(fragment.getClass().toString());
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, fragment, fragment.getClass().toString()).commit();
                 } else {
@@ -1819,6 +1608,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
     final int CROP_REQUEST = 1352;
 
 
+    //Select the option for image uploading
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library",
                 "Cancel"};
@@ -1841,11 +1631,13 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         builder.show();
     }
 
+    //to get image from camera
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA_REQUEST);
     }
 
+    //To select the image from gallary
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -1883,6 +1675,8 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         }
     }
 
+
+    //Gallary image result
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
         if (data != null) {
@@ -1904,6 +1698,8 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         startActivity(ui);
     }
 
+
+    //Resize the bitmap
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -1919,6 +1715,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    //Captured image result
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -1935,20 +1732,6 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         } catch (IOException e) {
             e.printStackTrace();
         }
-       /* TVusericon.setImageBitmap(thumbnail);
-
-
-        galleryIntent();*/
-
-    /*    Bitmap bm = null;
-        Uri selectedUri=data.getData();
-
-        try {
-            bm = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        //        imageView1.setImageBitmap(bm);
 
         Bitmap bb = getResizedBitmap(thumbnail, 500);
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
@@ -1961,7 +1744,7 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         startActivity(ui);
     }
 
-
+//Image upload
     public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
 
 
@@ -2016,19 +1799,11 @@ if (myDetailsB.getContext()!=null &&!myDetailsB.getContext().isFinishing() )
         SharedPreferences.Editor editor = pref.edit();
 
         FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-          /*  if (ofpayment !=null){
-                FragmentStack.getInstance().push(new Available_tutor());
-
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
-            }*/
-//        Toast.makeText(getApplicationContext(), "role "+ intent.hasExtra("role"), Toast.LENGTH_SHORT).show();
 
         if (intent.hasExtra("roll")) {
             talkNow.setChecked(false);
             talkNow.setClickable(false);
             talkNow.setFocusable(false);
-//              getSupportFragmentManager().beginTransaction().replace(R.id.viewpager,new DesiredTutor()).commit();
         } else if (ofMessage != null) {
             Log.e("message", ofMessage);
             Log.e("uid", String.valueOf(uid));

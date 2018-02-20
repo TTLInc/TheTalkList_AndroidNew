@@ -13,6 +13,8 @@ import android.view.View;
  * Created by Saubhagyam on 17/04/2017.
  */
 
+// Recycler view decoration class
+
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{

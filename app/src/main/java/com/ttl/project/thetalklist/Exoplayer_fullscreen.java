@@ -35,6 +35,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
+//Class Exoplayer fullscreen class
 public class Exoplayer_fullscreen extends AppCompatActivity {
 
     //Exo player initialization
@@ -72,6 +73,8 @@ position=i.getLongExtra("position",Long.valueOf(0l));
 
 
     }
+
+    //Initialize Exoplayer
     private void InitializePLayer(String link) throws android.net.ParseException {
         if (player==null){
             TrackSelection.Factory factory=new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
@@ -97,7 +100,7 @@ position=i.getLongExtra("position",Long.valueOf(0l));
         player.prepare(mediaSource,true,false);
     }
 
-
+//Release Exoplayer
     private void ReleasePlayer(){
         if (player != null){
             PlayBackPosition=player.getCurrentPosition();
@@ -120,6 +123,7 @@ position=i.getLongExtra("position",Long.valueOf(0l));
         ReleasePlayer();
     }
 
+    //Component listener, need to override for Exoplayer
     private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener, AudioRendererEventListener {
         @Override
         public void onTimelineChanged(Timeline timeline, Object o) {

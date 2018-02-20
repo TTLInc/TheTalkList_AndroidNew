@@ -1,5 +1,7 @@
 package com.ttl.project.thetalklist.util;
 
+//Config file for video uploading
+
 public class Config {
 	// File upload url (replace the ip with your server address)
 	public static final String FILE_UPLOAD_URL = "https://www.thetalklist.com/api/video_upload_test";

@@ -30,6 +30,8 @@ import java.util.Date;
  * Created by Saubhagyam on 20/07/2017.
  */
 
+//Bean class for history pagination
+
 public class Paginator {
 
 

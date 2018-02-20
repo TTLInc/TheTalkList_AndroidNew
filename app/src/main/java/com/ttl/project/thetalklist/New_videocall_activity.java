@@ -57,6 +57,8 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
+//Videocall Activity
+
 public class New_videocall_activity extends AppCompatActivity
         implements EasyPermissions.PermissionCallbacks,
         WebServiceCoordinator.Listener,
@@ -86,7 +88,6 @@ public class New_videocall_activity extends AppCompatActivity
 
     BroadcastReceiver callEndReceiver;
 
-    ImageView msg_during_call;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +128,6 @@ public class New_videocall_activity extends AppCompatActivity
         });*/
     }
 
-     /* Activity lifecycle methods */
 
     @Override
     protected void onPause() {
@@ -179,6 +179,7 @@ public class New_videocall_activity extends AppCompatActivity
     int TimeCount;
     int time;
 
+    //Opentok connect api call
     public void connectionApiCall(String URL) {
         RequestQueue queue333 = Volley.newRequestQueue(getApplicationContext());
 
@@ -546,6 +547,7 @@ public class New_videocall_activity extends AppCompatActivity
 
     int layoutVisibilityBit;
 
+    // checks the visibility of the bottom control view
     public void LayoputVisibility() {
           /*To make the layout invisible after 3 sec and when it touch the main layout it will again visible.*/
 
@@ -600,6 +602,8 @@ public class New_videocall_activity extends AppCompatActivity
         }
     }
 
+
+    //Initialize the opentok session
     private void initializeSession(String apiKey, String sessionId, String token) {
 
         mSession = new Session.Builder(this, apiKey, sessionId).build();
@@ -625,15 +629,7 @@ public class New_videocall_activity extends AppCompatActivity
 
     }
 
-  /*  @Override
-    public void onReconnecting(Session session) {
 
-    }
-
-    @Override
-    public void changedCamera(Publisher mPublisher, int newCameraId) {
-
-    }*/
 
 
     @Override
@@ -921,23 +917,12 @@ public class New_videocall_activity extends AppCompatActivity
         showOpenTokError(opentokError);
     }
 
+    //To see the opntok error
     private void showOpenTokError(OpentokError opentokError) {
 
 //        Toast.makeText(this, opentokError.getErrorDomain().name() + ": " + opentokError.getMessage() + " Please, see the logcat.", Toast.LENGTH_LONG).show();
         finish();
     }
 
-    private void showConfigError(String alertTitle, final String errorMessage) {
-        Log.e(LOG_TAG, "Error " + alertTitle + ": " + errorMessage);
-        new AlertDialog.Builder(this)
-                .setTitle(alertTitle)
-                .setMessage(errorMessage)
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        New_videocall_activity.this.finish();
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
+
 }

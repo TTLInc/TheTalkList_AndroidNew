@@ -78,7 +78,6 @@ public class Availability_page_fragment extends Fragment {
 
 
 
-//        https://www.thetalklist.com/api/tutor_availability_info?uid=17431
         String url1 = "https://www.thetalklist.com/api/tutor_availability_info?uid=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
 
         StringRequest sr = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
@@ -412,137 +411,9 @@ public class Availability_page_fragment extends Fragment {
     }
 
 
-    public void TalkNow(SharedPreferences pref, final Context context) {
-
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        final Switch talkNow = (Switch) toolbar.findViewById(R.id.switch1);
-        if (pref.getInt("roleId", 0) != 0) {
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-            Date x1 = new Date();
-            final String dayOfTheWeek = sdf.format(x1);
-            Log.e("today dayofweek", dayOfTheWeek);
-
-            String url1 = "https://www.thetalklist.com/api/tutor_availability_info?uid=" + pref.getInt("id", 0);
-
-            StringRequest sr = new StringRequest(Request.Method.POST, url1, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                    Log.e("response availablity ", response);
-                    try {
-                        JSONObject res = new JSONObject(response);
-                        if (res.getInt("status") == 0) {
-
-                            JSONObject info = res.getJSONObject("info");
 
 
-                            String string1 = info.getString("start_time");
-                            if (string1.contains("AM")) {
-                                string1 = string1.replace(" AM", "");
-                            } else if (string1.contains("PM")) {
-                                string1 = string1.replace(" PM", "PM");
-                                Log.e("start time hours", string1);
-                                String hx = string1.substring(0, string1.indexOf(":"));
-                                String remainder = string1.substring(string1.indexOf(":") + 1, string1.length());
-                                if (Integer.parseInt(hx) < 12)
-                                    string1 = String.valueOf(Integer.parseInt(hx) + 12) + ":" + remainder;
-                                else if (Integer.parseInt(hx) == 12)
-                                    string1 = String.valueOf(Integer.parseInt(hx)) + ":" + remainder;
-                                string1 = string1.replace("PM", "");
-                            }
-
-                            String string2 = info.getString("end_time");
-                            if (string2.contains("AM")) {
-                                string2 = string2.replace(" AM", "");
-                            } else if (string2.contains("PM")) {
-                                string2 = string2.replace(" PM", "PM");
-                                String hx = string2.substring(0, string2.indexOf(":"));
-                                String remainder = string2.substring(string2.indexOf(":") + 1, string2.length());
-                                if (Integer.parseInt(hx) < 12)
-                                    string2 = String.valueOf(Integer.parseInt(hx) + 12) + ":" + remainder;
-                                else if (Integer.parseInt(hx) == 12)
-                                    string2 = String.valueOf(Integer.parseInt(hx)) + ":" + remainder;
-
-                                string2 = string2.replace("PM", "");
-                            }
-
-
-                            Log.e("day of week", dayOfTheWeek);
-                            Log.e("start time", string1);
-                            Log.e("end time", string2);
-                            int to= Integer.parseInt(string1.replace(":",""));
-                            int from= Integer.parseInt(string2.replace(":",""));
-                            Log.e("to", String.valueOf(to));
-                            Log.e("from", String.valueOf(from));
-                            Date date = new Date();
-                            Calendar c = Calendar.getInstance();
-                            c.setTime(date);
-                            int t = c.get(Calendar.HOUR_OF_DAY) * 100 + c.get(Calendar.MINUTE);
-                            Log.e("cur", String.valueOf(t));
-
-                            if (to<=t && t<=from) {
-                                //checkes whether the current time is between 14:49:00 and 20:11:13.
-                                Log.e("in if condition","yes");
-
-                                if (info.getInt("sunday") == 1) {
-                                    if (dayOfTheWeek.equalsIgnoreCase("Sunday")) {
-                                        talkNow.setChecked(true);
-                                        Log.e("availability", "yes");
-                                    }
-
-                                } else if (Integer.parseInt(info.getString("monday")) == 1) {
-                                    if (dayOfTheWeek.equalsIgnoreCase("Bonday")) {
-                                        talkNow.setChecked(true);
-                                        Log.e("availability", "yes");
-                                    }
-                                } else if (info.getInt("tuesday") == 1) {
-                                    if (dayOfTheWeek.equalsIgnoreCase("Tuesday")) {
-                                        talkNow.setChecked(true);
-                                        Log.e("availability", "yes");
-                                    }
-                                } else if (info.getInt("wednesday") == 1) {
-                                    if (dayOfTheWeek.equalsIgnoreCase("Wednesday")) {
-                                        talkNow.setChecked(true);
-                                        Log.e("availability", "yes");
-                                    }
-                                } else if (info.getInt("thursday") == 1) {
-                                    if (dayOfTheWeek.equalsIgnoreCase("Thursday")) {
-                                        talkNow.setChecked(true);
-                                        Log.e("availability", "yes");
-                                    }
-                                } else if (info.getInt("friday") == 1) {
-                                    if (dayOfTheWeek.equalsIgnoreCase("Friday")) {
-                                        talkNow.setChecked(true);
-                                        Log.e("availability", "yes");
-                                    }
-                                } else if (info.getInt("saturday") == 1) {
-                                    if (dayOfTheWeek.equalsIgnoreCase("Saturday")) {
-                                        talkNow.setChecked(true);
-                                        Log.e("availability", "yes");
-                                    }
-                                } else {
-                                    Log.e("availability", "No");
-                                }
-                            }
-
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, "error " + error, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            Volley.newRequestQueue(context).add(sr);
-        }
-    }
-
+    //To show the time
     public String showTime(int hour, int min) {
 
         String format;

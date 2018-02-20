@@ -34,6 +34,8 @@ import android.widget.VideoView;
 
 import com.ttl.project.thetalklist.util.AndroidMultiPartEntity;
 
+
+//Video upload activity
 public class UploadActivity extends Activity {
     // LogCat tag
     private static final String TAG = UploadActivity.class.getSimpleName();
@@ -107,6 +109,7 @@ public class UploadActivity extends Activity {
     /**
      * Displaying captured image/video on the screen
      */
+    //Preview video
     private void previewMedia() {
         // Checking whether captured media is image or video
 

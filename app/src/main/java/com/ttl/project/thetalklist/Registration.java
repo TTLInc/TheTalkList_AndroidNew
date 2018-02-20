@@ -11,6 +11,7 @@ import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
+//Registration flow
 public class Registration extends AppCompatActivity {
 
 

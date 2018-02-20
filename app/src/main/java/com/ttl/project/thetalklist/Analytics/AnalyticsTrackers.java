@@ -26,6 +26,10 @@ import java.util.Map;
  * TODO: Call {@link #initialize(Context)} from an entry point in your app
  * before using this!
  */
+
+
+//Google Analytics code.
+
 public final class AnalyticsTrackers {
 
     public enum Target {

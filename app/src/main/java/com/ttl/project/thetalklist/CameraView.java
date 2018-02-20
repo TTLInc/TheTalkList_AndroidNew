@@ -12,6 +12,8 @@ import java.io.IOException;
  * Created by Saubhagyam on 08/06/2017.
  */
 
+
+//Class used with video call's outgoing section
 public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
 
     private SurfaceHolder mHolder;
@@ -26,10 +28,6 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_NORMAL);
 
-    }
-    public void RemoveInstance(){
-        mCamera=null;
-        mHolder=null;
     }
 
     @Override

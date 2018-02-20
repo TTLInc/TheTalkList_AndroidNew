@@ -513,16 +513,6 @@ public class Available_tutor extends Fragment {
 
         availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext());
 
-/*
-
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL) {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                // Do not draw the divider
-            }
-        });
-*/
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -530,16 +520,6 @@ public class Available_tutor extends Fragment {
             }
 
             void refreshItems() {
-                // Load items
-                // ...
-               /* tutorSearch(getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("subject", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang1", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang2", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("country", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("state", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("keyword", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("gender", ""));*/
-
 
                fragmentTransaction.replace(R.id.viewpager,new Available_tutor()).commit();
 
@@ -626,8 +606,8 @@ public class Available_tutor extends Fragment {
 
     String URL;
     SharedPreferences.Editor edi;
-    int isMyFavorite = 0;
 
+    // To call api background thread
     public class AvailableTutor extends AsyncTask<Void, Void, Void> {
 
         String keyword_search;
@@ -706,6 +686,8 @@ public class Available_tutor extends Fragment {
         }
     }
 
+
+    //set data in recycler view
     public void setRecyclar(final JSONArray array) {
         swipeRefreshLayout.setRefreshing(true);
         Log.e("tutor search array", array.toString());
@@ -731,6 +713,8 @@ public class Available_tutor extends Fragment {
         }
     }
 
+
+    // Initialize the swipe functionality in recyclerview
     private void initSwipe() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
@@ -782,7 +766,7 @@ public class Available_tutor extends Fragment {
         super.onDestroyView();
     }
 
-
+// Background thread to call api for favorite the data
     public class Favorite extends AsyncTask<String, Integer, JSONObject> {
         JSONObject jsonObject;
         String URL;
@@ -879,6 +863,7 @@ public class Available_tutor extends Fragment {
 
     }
 
+    // call api after swipe to favorite the tutor
     public void swipeLayout(final int pos, final int fav) {
 
         desire_subject = prefDesired.getString("subject", "");

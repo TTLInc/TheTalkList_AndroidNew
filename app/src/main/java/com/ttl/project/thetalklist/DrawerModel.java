@@ -4,6 +4,8 @@ package com.ttl.project.thetalklist;
  * Created by Saubhagyam on 03/06/2017.
  */
 
+//Navigation drawer item bean class
+
 public class DrawerModel {
     public int icon;
     public String name;

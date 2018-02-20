@@ -64,6 +64,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 20/09/2017.
  */
 
+//Used for the thumbnail under the video in biography page
 public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography_videoThumb_adapter.MyViewHolder> {
 
     Context context;
@@ -81,7 +82,6 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
 
     long PlayBackPosition;
     int CurrentWindow;
-    boolean playWhenReady = true;
     RecyclerView biography_video_thum_recycle;
 
 
@@ -91,7 +91,6 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
         this.playerView = playerView;
         componentListener = new ComponentListener();
         this.biography_video_thum_recycle = biography_video_thum_recycle;
-//        player=this.playerView.getPlayer();
     }
 
     public void clear() {
@@ -117,8 +116,6 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
 
 
                     try {
-//                        String  link = "https://www.thetalklist.com/uploads/video/" + thumbObj.getString("source");
-//                        String  link = "http://52.8.60.79/uploads/video/" + thumbObj.getString("source");
                         String link = "https://www.thetalklist.com/uploads/video/" + thumbObj.getString("source");
                         InitializePLayer(link);
 
@@ -146,9 +143,6 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
                         @Override
                         public void run() {
 
-//                Toast.makeText(getContext(), "less than 3 credits", Toast.LENGTH_SHORT).show();
-
-//            LayoutInflater layoutInflater=(LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             View view3 = LayoutInflater.from(context).inflate(R.layout.talknow_criticalcredit, null);
 
                             final PopupWindow popupWindow7 = new PopupWindow(view3, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
@@ -176,7 +170,6 @@ public class Biography_videoThumb_adapter extends RecyclerView.Adapter<Biography
                             Button buyCredits = (Button) view3.findViewById(R.id.talknow_buycredits);
                             TextView tv = (TextView) view3.findViewById(R.id.talknow_text);
 
-//                final int min = (int) (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) / credit);
 
 
                             tv.setText("Confirm delete video?");

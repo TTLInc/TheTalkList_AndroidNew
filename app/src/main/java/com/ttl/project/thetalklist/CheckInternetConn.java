@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
  * Created by Saubhagyam on 07/06/2017.
  */
 
+
+// class who checks the Internet connection is there or not.
 public class CheckInternetConn {
     public boolean isOnline(Context context) {
 

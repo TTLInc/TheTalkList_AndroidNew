@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+//Video list class
 
 public class VideoList extends Fragment {
 
@@ -256,6 +257,7 @@ public class VideoList extends Fragment {
     JSONArray jsonArray;
     RequestQueue queue1;
 
+    //Video play api call
     public class VideoPlayService extends AsyncTask<Void, Void, Void> {
         Dialog dialog;
         @Override
@@ -309,6 +311,7 @@ setRecycler(jsonArray);
         }
     }
 
+    //Set recyclervier
     public void setRecycler( JSONArray jsonArray){
 
 

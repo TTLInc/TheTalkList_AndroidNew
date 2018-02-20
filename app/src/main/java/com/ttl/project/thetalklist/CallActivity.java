@@ -41,7 +41,7 @@ public class CallActivity extends AppCompatActivity implements PublisherKit.Publ
     FrameLayout frameCameraPreview;
     private Vibrator vib;
     private MediaPlayer mp;
-    private static final String LOG_TAG = VideoCall.class.getSimpleName();
+    private static final String LOG_TAG = New_videocall_activity.class.getSimpleName();
 
     int wasActive;
     RequestQueue queue111;

@@ -35,6 +35,7 @@ import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+//Earn credit class
 
 public class EarnCredits extends Fragment {
 

@@ -11,6 +11,8 @@ import android.view.ViewGroup;
  * Created by Saubhagyam on 27/11/2017.
  */
 
+//Howitsworks from support screen
+
 public class Supports_howitworks extends Fragment {
 
     @Nullable

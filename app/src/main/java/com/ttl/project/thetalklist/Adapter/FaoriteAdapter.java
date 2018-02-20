@@ -42,6 +42,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 17/04/2017.
  */
 
+//Used for favorite list adapter
+
 public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHolder> {
 
     private final Context context;
@@ -140,8 +142,6 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
                 holder.VideocallButton1.setClickable(false);
                 holder.VideocallButton.setClickable(false);
-               /* holder.VideocallButton1.setFocusable(false);
-                holder.VideocallButton.setFocusable(false);*/
             }else {
                 holder.VideocallButton1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -199,10 +199,6 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                 });
             }
 
-           /* if (object.getInt("isMyFavourite")==1){
-                holder.favoriteTag.setVisibility(View.VISIBLE);
-
-            }*/
             FirstName = object.getString("firstName");
 
 

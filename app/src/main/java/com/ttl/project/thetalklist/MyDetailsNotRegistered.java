@@ -54,7 +54,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
+//Form with registered in registration process
 public class MyDetailsNotRegistered extends AppCompatActivity {
 
     ImageView myDetailsNotRegisteredTutorImg;
@@ -436,6 +436,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
         });
     }
 
+    //select image for image uploading
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library",
                 "Cancel"};
@@ -458,18 +459,19 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
         builder.show();
     }
 
+    // to captured image from camera
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA_REQUEST);
     }
 
+    //to get image from galarrau
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), GALLERY_REQUEST);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -502,7 +504,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
         }
     }
 
-
+//Select image from galarry
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
@@ -519,6 +521,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
         cropImag(data);
     }
 
+    //Crop image before image upload
     private void cropImag(Intent data) {
 
         Uri uri = data.getData();
@@ -533,6 +536,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
         startActivityForResult(cropIntent, CROP_REQUEST);
     }
 
+    //Image captured via camera
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

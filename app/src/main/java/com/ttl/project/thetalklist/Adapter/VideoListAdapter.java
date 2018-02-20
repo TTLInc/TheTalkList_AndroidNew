@@ -35,6 +35,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 /**
  * Created by Saubhagyam on 18/04/2017.
  */
+
+
+
 public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.MyViewHolder> {
 
     private final Context context;

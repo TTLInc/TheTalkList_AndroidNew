@@ -20,6 +20,7 @@ import java.util.List;
  * Created by Saubhagyam on 3/29/2017.
  */
 
+//Tab layout contains the biography and MyDetails page
 public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
     public ViewPager viewPager;
     public TabLayout tabLayout;
@@ -79,7 +80,7 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
 
     }
 
-
+//Initialize the screen
     public void initScreen() {
 
 
@@ -108,6 +109,7 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
     }
 
 
+    //Set up viewpager frament with tablayout
     private void setupViewPager(ViewPager viewPager) {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -123,12 +125,13 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
 
 
     }
+    //Change the tab
     public void changeTab(int tab){
         tabLayout = (TabLayout) convertView.findViewById(R.id.tabX);
         tabLayout.getTabAt(tab);
     }
 
-
+//Viewoager adapter
     private static class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<android.support.v4.app.Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

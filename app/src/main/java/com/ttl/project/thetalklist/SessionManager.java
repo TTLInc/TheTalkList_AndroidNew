@@ -10,6 +10,7 @@ import java.util.HashMap;
  * Created by Saubhagyam on 3/29/2017.
  */
 
+//To maintain the session while registration flow
 public class SessionManager {
 
     private static final SessionManager ourInstance = new SessionManager();

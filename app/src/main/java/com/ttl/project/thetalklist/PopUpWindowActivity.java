@@ -12,6 +12,7 @@ import android.widget.TextView;
  * Created by saubhagyam on 2/25/2017.
  */
 
+// popup window to select the tutor and student
 public class PopUpWindowActivity extends AppCompatActivity {
 
     TextView t1,t2,t3,t4,t5,t6,t7;

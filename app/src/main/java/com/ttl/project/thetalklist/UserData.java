@@ -4,6 +4,8 @@ package com.ttl.project.thetalklist;
  * Created by Saubhagyam on 3/30/2017.
  */
 
+
+//Bean class to manage the login process
 public class UserData {
     String email;
     String pass;

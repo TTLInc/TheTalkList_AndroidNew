@@ -47,6 +47,8 @@ import java.util.TimeZone;
  * Created by Saubhagyam on 21/06/2017.
  */
 
+//Message adapter
+
 public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclarAdapter.MyViewHolder> {
 
     final Context context;
@@ -66,20 +68,6 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
     }
 
 
-    public MessageRecyclarAdapter(Context context, List<MessageModel> messageModelList, String pic, String op, String min, String hr) {
-        this.context = context;
-        this.messageModelList = messageModelList;
-        this.pic = pic;
-        this.op = op;
-        this.min = min;
-        this.hr = hr;
-    }
-
-    public void addMsg(MessageModel m) {
-        messageModelList.add(0, m);
-        Toast.makeText(context, "adapter refresh", Toast.LENGTH_SHORT).show();
-        this.notifyDataSetChanged();
-    }
 
     @Override
     public MessageRecyclarAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -209,12 +197,11 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
                 int month = Integer.parseInt(new SimpleDateFormat("MM").format(date_txt));
                 int day = Integer.parseInt(new SimpleDateFormat("dd").format(date_txt));
 
-                String newStr = new SimpleDateFormat("HH:mm").format(date_txt); // 9:00
                 String h = new SimpleDateFormat("HH").format(date_txt); // 9:00
                 String m = new SimpleDateFormat("mm").format(date_txt); // 9:00
 
-                hour = Integer.parseInt(h)/*+Integer.parseInt(hr)+8*/;
-                int minf = Integer.parseInt(m)/*+Integer.parseInt(min)*/;
+                hour = Integer.parseInt(h);
+                int minf = Integer.parseInt(m);
 
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"),
                         Locale.getDefault());
@@ -257,7 +244,6 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
         }
 
 
-//notifyDataSetChanged();
 
     }
 

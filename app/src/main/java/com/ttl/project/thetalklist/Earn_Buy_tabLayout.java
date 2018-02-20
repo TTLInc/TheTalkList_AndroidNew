@@ -19,6 +19,7 @@ import java.util.List;
  * Created by Saubhagyam on 19/04/2017.
  */
 
+// Earn credit & cashout credit tab layout
 public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
 
     public ViewPager viewPager;
@@ -42,7 +43,7 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
         return convertView;
     }
 
-
+// method to initialize to set data in screen
     public void initScreen(View view){
 
 
@@ -83,6 +84,7 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
     }
 
 
+    //To set up viewpager with tab layout
     private void setupViewPager(ViewPager viewPager) {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -96,6 +98,7 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
     }
 
 
+    //class to implement tablayout fragment adapter
     private static class ViewPagerAdapter1 extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

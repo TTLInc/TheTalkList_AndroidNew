@@ -58,6 +58,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+//Login class
 
 public class Login extends Activity {
     EditText email_address, pwd;
@@ -158,6 +159,7 @@ public class Login extends Activity {
 
     private static final String EMAIL = "email";
 
+    //Graph api for Facebook
     public void graph(final LoginResult loginResult) {
         GraphRequest request = GraphRequest.newMeRequest(
                 loginResult.getAccessToken(),
@@ -232,6 +234,7 @@ fb_login(object,loginResult,object.getString("email"));
 
     }
 
+    //Facebook login method
     public void fb_login(JSONObject object, final LoginResult loginResult, String email) throws JSONException {
 
 

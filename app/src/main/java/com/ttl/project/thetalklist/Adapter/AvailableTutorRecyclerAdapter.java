@@ -37,6 +37,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 17/04/2017.
  */
 
+
+//Used for available tutor recyclarview Adapter
+
 public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<AvailableTutorRecyclerAdapter.MyViewHolder> {
 
     private final Context context;
@@ -48,18 +51,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
     int withPos = 0;
     int withfav = 0;
     int pos;
-    RecyclerView recyclerView;
-    int fav;
 
 
-    public AvailableTutorRecyclerAdapter(int pos, Context context, JSONArray array, FragmentManager fragmentManager, int fav) {
-        this.pos = pos;
-        this.context = context;
-        this.array = array;
-        this.fragmentManager = fragmentManager;
-        withPos = 1;
-        withfav = fav;
-    }
 
     public AvailableTutorRecyclerAdapter(Context context) {
         this.context=context;
@@ -69,7 +62,6 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
         this.context = context;
         this.array = array;
         this.fragmentManager = fragmentManager;
-//        this.recyclerView=recyclerView;
     }
 
 

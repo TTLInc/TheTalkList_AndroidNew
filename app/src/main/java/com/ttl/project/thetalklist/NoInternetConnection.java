@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+
+//No Internet connection activity
 public class NoInternetConnection extends AppCompatActivity {
 
     @Override

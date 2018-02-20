@@ -15,6 +15,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+//Opentok web service coordinator class
+
 public class WebServiceCoordinator {
 
     private static final String CHAT_SERVER_URL ="https://www.thetalklist.com/api/openTok_connect?" ;
@@ -26,11 +29,12 @@ public class WebServiceCoordinator {
     private final Context context;
     private final Listener delegate;
 
+    //Constructor
     public WebServiceCoordinator(Context context, Listener delegate) {
         this.context = context;
         this.delegate = delegate;
     }
-
+//Fetch session data
     public void fetchSessionConnectionData() {
         RequestQueue reqQueue = Volley.newRequestQueue(context);
         SharedPreferences preferences =context.getSharedPreferences("videoCallTutorDetails",Context.MODE_PRIVATE);

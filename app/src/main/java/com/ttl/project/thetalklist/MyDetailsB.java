@@ -69,6 +69,7 @@ import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+//All details of user
 
 public class MyDetailsB extends Fragment {
     int backbtn = 0;
@@ -98,7 +99,6 @@ public class MyDetailsB extends Fragment {
     String URL;
 
     SharedPreferences pref;
-    SharedPreferences.Editor editorpref;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -660,16 +660,7 @@ public class MyDetailsB extends Fragment {
         LoginService loginService1 = new LoginService();
         loginService1.login(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getApplicationContext());
 
-        final Handler handler = new Handler();
 
-/*        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 100ms
-                loginService();
-            }
-        }, 5000);*/
-//        loginService();
 
         if (loginpref.getString("pic", "").equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")
@@ -689,6 +680,8 @@ public class MyDetailsB extends Fragment {
 
     }
 
+
+    //Change the role id of user
     public void roleIdChange(String mail, int rId) {
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -716,9 +709,8 @@ public class MyDetailsB extends Fragment {
     final int GALLERY_REQUEST = 1342;
     final int CROP_REQUEST = 1352;
 
-//    private Bitmap bitmap;
 
-
+//Select image for uploading
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library",
                 "Cancel"};
@@ -741,11 +733,13 @@ public class MyDetailsB extends Fragment {
         builder.show();
     }
 
+    //If image captured from camera
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA_REQUEST);
     }
 
+    //if image selected from gallaryu
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -786,6 +780,7 @@ public class MyDetailsB extends Fragment {
         }
     }
 
+    //Gallary image result
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
         if (data != null) {
@@ -816,6 +811,7 @@ public class MyDetailsB extends Fragment {
 
     }
 
+    //Resize of bitmap
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -831,6 +827,8 @@ public class MyDetailsB extends Fragment {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+
+    //Upload image
     public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
 
 
@@ -874,6 +872,7 @@ public class MyDetailsB extends Fragment {
         rQueue.add(request);
     }
 
+    //External login service
     public void loginService() {
 
 
@@ -1054,6 +1053,7 @@ public class MyDetailsB extends Fragment {
     }
 
 
+    //cpatured or selected action result
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

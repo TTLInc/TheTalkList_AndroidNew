@@ -59,6 +59,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 18/04/2017.
  */
 
+//CHatroom all messeges
 public class MessageOneToOne extends Fragment implements EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
 
     View view;
@@ -97,6 +98,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
     }
 
+    //Refresh fragment with new data
     public void RefreshFragment() {
         String URL = "https://www.thetalklist.com/api/all_messages?sender_id=" + sender_id + "&receiver_id=" + receiver_id;
         Log.e("Message list url", URL);
@@ -617,6 +619,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         messageModelList.clear();
     }
 
+    //Send message to server
     public void sendMessage(final int sender_id, final int receiver_id, String msgTxt, String sender_name) {
 
         String URL = "https://www.thetalklist.com/api/message?sender_id=" + sender_id + "&receiver_id=" + receiver_id + "&message=" + msgTxt.replace(" ", "%20") + "&user_name=" + sender_name;

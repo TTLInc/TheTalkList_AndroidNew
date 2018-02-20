@@ -4,6 +4,8 @@ package com.ttl.project.thetalklist.Config;
  * Created by Saubhagyam on 22/04/2017.
  */
 
+//Firebase config class
+
 public class Config {
     public static final String TOPIC_GLOBAL = "global";
 

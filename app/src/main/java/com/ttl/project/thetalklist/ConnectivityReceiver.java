@@ -27,6 +27,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 05/06/2017.
  */
 
+//Broadcast receiver who checks the connectivity
+
 public class ConnectivityReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {

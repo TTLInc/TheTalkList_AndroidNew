@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+//Progress bar dialog for stripe activity
+
 public class ProgressDialogFragment extends DialogFragment {
 
     public static ProgressDialogFragment newInstance(int msgId) {

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
  * Created by Saubhagyam on 26/10/2017.
  */
 
+//FAQ class
 public class Fragment_FAQS extends Fragment {
 
     View view;

@@ -24,6 +24,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//Forgot password activity
+
 public class ForgetPassword extends AppCompatActivity {
 
 

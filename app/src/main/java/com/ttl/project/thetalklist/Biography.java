@@ -104,9 +104,7 @@ public class Biography extends Fragment {
             videoLinearLayout, rateLinearLayout, reviewLinearLayout;
     TextView biographyFirstName;
     Button biography_rate_edit;
-    //    TextView biography_languages;
     WebView biography_languages_webview;
-    //    ProgressBar biography_languages_progress;
     SharedPreferences preferences;
 
 
@@ -894,6 +892,8 @@ public class Biography extends Fragment {
         return view;
     }
 
+
+    //call api for video thumbnails ans set it to recycler view
     public void setVideoIn() {
         String url = "http://www.thetalklist.com/api/biography_video?uid=" + uid;
 
@@ -928,6 +928,8 @@ public class Biography extends Fragment {
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(sr);
     }
 
+
+    //call api to get details of biography
     private class subjectHandler extends AsyncTask<Void, Void, Void> {
 
 
@@ -1034,6 +1036,7 @@ public class Biography extends Fragment {
         }
     }
 
+    // Method calls when fragment is in foreground
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -1168,6 +1171,7 @@ public class Biography extends Fragment {
     }
 
 
+    //Initialize Exoplayer
     private void InitializePLayer(String link) throws android.net.ParseException {
         if (player == null) {
             TrackSelection.Factory factory = new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
@@ -1193,6 +1197,7 @@ public class Biography extends Fragment {
     }
 
 
+    //Release Exoplayer
     private void ReleasePlayer() {
         if (player != null) {
             PlayBackPosition = player.getCurrentPosition();
@@ -1210,6 +1215,7 @@ public class Biography extends Fragment {
     }
 
 
+    // Exoplayer's component Listener
     private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener, AudioRendererEventListener {
         @Override
         public void onTimelineChanged(Timeline timeline, Object o) {
@@ -1338,6 +1344,8 @@ public class Biography extends Fragment {
         }
     }
 
+
+    //call api to get video url
     private class VideoUrlHandler extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
@@ -1406,6 +1414,8 @@ public class Biography extends Fragment {
     final int GALLERY_REQUEST = 1342;
     final int CROP_REQUEST = 1352;
 
+
+    //Method calls to get image from camera or gallary.
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Library",
                 "Cancel"};
@@ -1428,11 +1438,13 @@ public class Biography extends Fragment {
         builder.show();
     }
 
+    //If camera is selected
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA_REQUEST);
     }
 
+    //if gallary is selected
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -1473,6 +1485,7 @@ public class Biography extends Fragment {
         }
     }
 
+    //captured image from camera's result
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -1515,6 +1528,7 @@ public class Biography extends Fragment {
 //        galleryIntent();
     }
 
+    //Image upload method
     public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
 
 
@@ -1558,6 +1572,7 @@ public class Biography extends Fragment {
         rQueue.add(request);
     }
 
+    //Gallary selected image result.
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
         if (data != null) {
@@ -1588,6 +1603,7 @@ public class Biography extends Fragment {
 
     }
 
+    //to get bitmap resized as
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -1603,6 +1619,7 @@ public class Biography extends Fragment {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    //Login api call
     public void loginService() {
         final SharedPreferences pref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 //                final String url = "https://www.thetalklist.com/api/fblogin?email=" + pref.getString("email", "") + "&facebook_id=" + pref.getInt("facebook_id", 0) + "&firstname=" + pref.getString("first_name", "") + "&lastname=" + pref.getString("last_name", "") + "&gender=" + pref.getString("gender", "") + "&birthdate=" + pref.getString("birthday", "");

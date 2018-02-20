@@ -25,6 +25,7 @@ import java.util.Map;
  * Created by Saubhagyam on 21/06/2017.
  */
 
+//Background thread to upload he image
 public class ImageUploadClass extends AsyncTask<Void, Integer, Void>{
 
 
@@ -77,7 +78,7 @@ public class ImageUploadClass extends AsyncTask<Void, Integer, Void>{
             return null;
         }
 
-
+//Image upload
     public void uploadImage(final String encodedImageString, Bitmap bitmap, final Context context, final int id) {
 
 

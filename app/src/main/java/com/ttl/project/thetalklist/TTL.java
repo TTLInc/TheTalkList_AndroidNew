@@ -19,6 +19,7 @@ import java.util.Locale;
  * Created by Saubhagyam on 16/06/2017.
  */
 
+//TTL application class
 public class TTL extends Application {
 
 
@@ -2412,10 +2413,13 @@ public class TTL extends Application {
 
     }
 
+    //Instance of the app class
     public static synchronized TTL getInstance() {
         return mInstance;
     }
 
+
+    //Google analytics tracker
     public synchronized Tracker getGoogleAnalyticsTracker() {
         AnalyticsTrackers analyticsTrackers = AnalyticsTrackers.getInstance();
         return analyticsTrackers.get(AnalyticsTrackers.Target.APP);

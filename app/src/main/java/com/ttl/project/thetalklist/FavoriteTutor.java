@@ -37,6 +37,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  * Created by Saubhagyam on 07/07/2017.
  */
 
+
+//Favorited tutor class
 public class FavoriteTutor extends Fragment {
     View view;
     RecyclerView recyclerView;
@@ -69,6 +71,8 @@ public class FavoriteTutor extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
+    //class to call api for list of favorited tutor
     public void FavoriteTutor1() {
 
 
@@ -108,6 +112,7 @@ public class FavoriteTutor extends Fragment {
     }
 
 
+    //Set the recyclaerview
     public void setRecyclar(final JSONArray array) {
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
@@ -147,6 +152,7 @@ public class FavoriteTutor extends Fragment {
         });
     }
 
+    //Initialize swipe functionality in recyclerview
     private void initSwipe() {
 
 

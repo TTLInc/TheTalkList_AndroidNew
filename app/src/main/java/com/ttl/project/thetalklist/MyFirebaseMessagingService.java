@@ -27,11 +27,11 @@ import org.json.JSONObject;
  * Created by Saubhagyam on 10/04/2017.
  */
 
+//Messaging service of firebase
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
 
-    private NotificationUtils notificationUtils;
     public String msg;
 
     @Override
@@ -65,6 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
+    //Handle the data response from firebase
     private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());
 
@@ -471,7 +472,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Showing notification with text and image
      */
-
+//Generate notification from the data of the firebase
     private void handleNotification(String message) {
         if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             // app is in foreground, broadcast the push message

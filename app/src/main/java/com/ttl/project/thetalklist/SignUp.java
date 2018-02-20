@@ -32,7 +32,7 @@ import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 
-
+//Sign up activity
 public class SignUp extends Activity {
 
     Dialog dialog;

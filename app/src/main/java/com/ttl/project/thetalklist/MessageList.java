@@ -39,6 +39,7 @@ import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
+//Chatroom list class
 public class MessageList extends Fragment {
 
     RequestQueue queue;
@@ -55,54 +56,15 @@ public class MessageList extends Fragment {
 
         int roleId=getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("roleId",0);
         Toolbar toolbar= (Toolbar) getActivity().findViewById(R.id.toolbar);
-    /*    if (roleId == 0) {
-            View view1 = toolbar.getRootView();
-            view1.findViewById(R.id.studentToolbar).setVisibility(View.VISIBLE);
-            view1.findViewById(R.id.tutorToolbar).setVisibility(View.GONE);
-            view1.findViewById(R.id.expandableToolbar).setVisibility(View.GONE);
 
-        }
-        if (roleId == 1 || roleId == 2 || roleId == 3) {*/
             View view1 = toolbar.getRootView();
             view1.findViewById(R.id.tutorToolbar).setVisibility(View.VISIBLE);
-//            view1.findViewById(R.id.studentToolbar).setVisibility(View.GONE);
-//            view1.findViewById(R.id.expandableToolbar).setVisibility(View.GONE);
 
-//                }
-
-//        }
         recyclerView = (RecyclerView) view.findViewById(R.id.messageRecyclerView);
         bottombar_message_count=(TextView) getActivity().findViewById(R.id.bottombar_message_count);
         bottombar_messageCount_layout= (RelativeLayout) getActivity().findViewById(R.id.bottombar_messageCount_layout);
 
-        /*{
-            String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
-            StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
 
-                    Log.e("message count res ",response);
-
-                    try {
-                        JSONObject object = new JSONObject(response);
-                        if (object.getInt("unread_count") > 0)
-                            bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
-                        if (object.getInt("unread_count") == 0)
-                            bottombar_messageCount_layout.setVisibility(View.GONE);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
-            Volley.newRequestQueue(getApplicationContext()).add(sr);
-        }*/
         MessageCountService messageCountService=new MessageCountService();
         messageCountService.MessageCount(getActivity(),getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE));
 
@@ -176,27 +138,7 @@ public class MessageList extends Fragment {
                             SharedPreferences chatPref=getApplicationContext().getSharedPreferences("chatPref",Context.MODE_PRIVATE);
                             final SharedPreferences.Editor chatPrefEditor=chatPref.edit();
 
-                            /*recyclerView.addOnItemTouchListener(
-                                    new RecyclerTouchListener(getApplicationContext(), recyclerView ,new RecyclerTouchListener.OnItemClickListener() {
-                                        @Override public void onItemClick(View view, int position) {
-                                            Toast.makeText(getActivity().getBaseContext(), "position is " + position, Toast.LENGTH_SHORT).show();
-                                            // do whatever
 
-
-                                            FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
-                                            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-                                            FragmentStack fragmentStack=FragmentStack.getInstance();
-//                        fragmentStack.add(new MessageList());
-                                            fragmentStack.push(new MessageList());
-                                            MessageOneToOne messageOneToOne=new MessageOneToOne();
-                                            fragmentTransaction.replace(R.id.viewpager, messageOneToOne).commit();
-                                        }
-
-                                        @Override public void onLongItemClick(View view, int position) {
-                                            // do whatever
-                                        }
-                                    })
-                            );*/
 
                            dialog.dismiss();
                         }
@@ -221,11 +163,6 @@ public class MessageList extends Fragment {
         });
         queue.add(sr);
 
-
-
-     /*   final FragmentStack fragmentStack = FragmentStack.getInstance();
-        fragmentStack.add(new MessageList());
-        fragmentStack.push(new MessageList());*/
 
 
 

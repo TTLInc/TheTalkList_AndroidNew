@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+//Video record class
 public class VideoRecord extends Fragment {
 
 
@@ -83,33 +84,6 @@ public class VideoRecord extends Fragment {
     ProgressBar progressBar;
 
 
-    private static File getOutputMediaFile(int type) {
-
-        // External sdcard location
-        File mediaStorageDir = new File(
-                Environment
-                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                Config.IMAGE_DIRECTORY_NAME);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("video upload", "Oops! Failed create "
-                        + Config.IMAGE_DIRECTORY_NAME + " directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                Locale.getDefault()).format(new Date());
-        File mediaFile;
-
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                + "VID_" + timeStamp + ".mp4");
-
-        return mediaFile;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -297,6 +271,7 @@ public class VideoRecord extends Fragment {
         return view;
     }
 
+    //Check permission
     private void checkPermission() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
 
@@ -365,7 +340,7 @@ public class VideoRecord extends Fragment {
         } else {
         }
     }
-
+//Method after permission
     private void proceedAfterPermission() {
     }
 
@@ -457,6 +432,7 @@ public class VideoRecord extends Fragment {
     }
 
 
+    //Launch video upload activity
     private void launchUploadActivity(String isImage) {
         Intent i = new Intent(getContext(), UploadActivity.class);
         i.putExtra("filePath", isImage);
@@ -492,6 +468,7 @@ public class VideoRecord extends Fragment {
      */
 
 
+    //Generate path of the video
     public String generatePath(Uri uri, Context context) {
         String filePath = null;
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
@@ -542,7 +519,6 @@ public class VideoRecord extends Fragment {
         return filePath;
     }
 
-    ArrayAdapter<String> arrayAdapter;
 
 
 }

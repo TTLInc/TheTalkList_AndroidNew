@@ -33,7 +33,7 @@ import org.json.JSONObject;
  * Created by Saubhagyam on 21/08/2017.
  */
 
-
+// Used for Biography_subject_Fragment adapter
 public class Biography_subject_adapter extends BaseAdapter {
 
     private final Context context;
