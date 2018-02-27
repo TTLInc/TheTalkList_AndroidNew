@@ -67,7 +67,7 @@ public class Login extends Activity {
     SharedPreferences.Editor editor;
     public LoginButton loginButton;
     CallbackManager callbackManager;
-//    String email;
+    //    String email;
     String pass;
     Typeface typeface;
     Dialog dialog;
@@ -171,7 +171,7 @@ public class Login extends Activity {
                         // Application code
                         try {
 
-                            if (!object.has("email")){
+                            if (!object.has("email")) {
 
                                 View view3 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_getemail_loginfb, null);
 
@@ -194,20 +194,20 @@ public class Login extends Activity {
                                 popupWindow11.setFocusable(true);
                                 popupWindow11.setOutsideTouchable(false);
 
-                                Button btn=view3.findViewById(R.id.alternate_btn_save);
-                                final EditText edit=view3.findViewById(R.id.alternate_edit_email);
+                                Button btn = view3.findViewById(R.id.alternate_btn_save);
+                                final EditText edit = view3.findViewById(R.id.alternate_edit_email);
 
                                 btn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        if (edit.getText().toString().equals("")){
+                                        if (edit.getText().toString().equals("")) {
                                             edit.setError("Enter email address");
-                                        }else if (!Patterns.EMAIL_ADDRESS.matcher(edit.getText().toString()).matches()){
+                                        } else if (!Patterns.EMAIL_ADDRESS.matcher(edit.getText().toString()).matches()) {
                                             edit.setError("Enter valid email address");
-                                        }else {
+                                        } else {
 //                                            email=edit.getText().toString();
                                             try {
-                                                fb_login(object,loginResult,edit.getText().toString());
+                                                fb_login(object, loginResult, edit.getText().toString());
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
@@ -216,11 +216,11 @@ public class Login extends Activity {
                                     }
                                 });
 
-                            }else
+                            } else
 //                            email = object.getString("email");
 //                            final String birthday = object.getString("birthday");
 
-fb_login(object,loginResult,object.getString("email"));
+                                fb_login(object, loginResult, object.getString("email"));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -233,7 +233,7 @@ fb_login(object,loginResult,object.getString("email"));
         request.executeAsync();
 
     }
-
+     String url;
     //Facebook login method
     public void fb_login(JSONObject object, final LoginResult loginResult, String email) throws JSONException {
 
@@ -241,7 +241,7 @@ fb_login(object,loginResult,object.getString("email"));
         final int id = object.getInt("id");
 
         final String name = object.getString("name");
-        final String gender = object.getString("gender");
+//        final String gender = object.getString("gender");
         final String first_name = object.getString("first_name");
         final String last_name = object.getString("last_name");
 //        final String bday = object.getString("birthday");
@@ -251,8 +251,11 @@ fb_login(object,loginResult,object.getString("email"));
         Profile profile = Profile.getCurrentProfile();
 //                            profile.getProfilePictureUri(200,200);
 
-        final String url = "https://www.thetalklist.com/api/fblogin?email=" + email + "&facebook_id=" + loginResult.getAccessToken().getUserId() + "&firstname=" + first_name + "&lastname=" + last_name + "&gender=" + gender + "&birthdate=" + "";
-
+        if (object.has("gender")) {
+            url = "https://www.thetalklist.com/api/fblogin?email=" + email + "&facebook_id=" + loginResult.getAccessToken().getUserId() + "&firstname=" + first_name + "&lastname=" + last_name + "&gender=" + object.getString("gender") + "&birthdate=" + "";
+        }else {
+            url = "https://www.thetalklist.com/api/fblogin?email=" + email + "&facebook_id=" + loginResult.getAccessToken().getUserId() + "&firstname=" + first_name + "&lastname=" + last_name + "&gender=" + "" + "&birthdate=" + "";
+        }
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -299,7 +302,7 @@ fb_login(object,loginResult,object.getString("email"));
                         else
                             editor.putFloat("ttl_points", Float.parseFloat(resObj.getString("ttl_points")));
 
-                        if (gender.equals("male"))
+                        if (resObj.getString("gender").equals("male"))
                             editor.putInt("gender", 1);
                         else editor.putInt("gender", 0);
 //                                                    editor.putString("birthdate", birthday);
@@ -317,7 +320,7 @@ fb_login(object,loginResult,object.getString("email"));
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(i);
                         }
-                    }else{
+                    } else {
                         LoginManager.getInstance().logOut();
 
                         AccessToken.setCurrentAccessToken(null);
@@ -366,7 +369,8 @@ fb_login(object,loginResult,object.getString("email"));
 
 
     SplashScreen splashScreen;
-String emails;
+    String emails;
+
     @Override
     protected void onResume() {
         super.onResume();

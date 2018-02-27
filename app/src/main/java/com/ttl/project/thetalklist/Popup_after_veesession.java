@@ -47,8 +47,7 @@ public class Popup_after_veesession extends AppCompatActivity {
 
                             JSONObject earn = responseObj.getJSONObject("earn_tutor");
 
-                            ((TextView) findViewById(R.id.after_veesession_text)).setText("Your session with " + earn.getString("name") + " cost you " + String.format("%.02f", Float.parseFloat(earn.getString("earning"))) + " credits.\n" +
-                                    "        Our community appreciates your business.");
+                            ((TextView) findViewById(R.id.after_veesession_text)).setText("Thank you for helping out " + earn.getString("name") + ".\n You just earned " + String.format("%.02f", Float.parseFloat(earn.getString("earning")))+".");
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();

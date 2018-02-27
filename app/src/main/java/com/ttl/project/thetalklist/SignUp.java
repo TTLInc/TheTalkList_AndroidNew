@@ -183,7 +183,8 @@ public class SignUp extends Activity {
                             "&lastName=" + last1.replace(" ", "%20") +
                             "&email=" + emailadd1 +
                             "&cell=" + phone.getText().toString()+
-                            "&device_id="+Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                            "&device_id="+Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID)
+                            +"&os=android";
 
 
 
