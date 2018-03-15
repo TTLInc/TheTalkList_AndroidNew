@@ -686,7 +686,7 @@ public class New_videocall_activity extends AppCompatActivity
 
                     float cost1= (float) (cost*100);
                     float finalCost= (float) (cost-(cost*0.33));
-                    Toast.makeText(New_videocall_activity.this, "final cost "+finalCost, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(New_videocall_activity.this, "final cost "+finalCost, Toast.LENGTH_SHORT).show();
                     i.putExtra("name",callerName.getText().toString());
                     i.putExtra("cost",String.format("%.02f",finalCost/100));
                     i.putExtra("fromCallActivity","yes");

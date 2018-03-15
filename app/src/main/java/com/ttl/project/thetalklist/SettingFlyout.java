@@ -1325,9 +1325,17 @@ public class SettingFlyout extends AppCompatActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    LoginService loginService = new LoginService();
-                    loginService.login(getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getApplicationContext());
+
+                  /*  new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            LoginService loginService = new LoginService();
+                            loginService.login(getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getApplicationContext());
+
+                        }
+                    }, 200);*/
                     fragment = new Tablayout_with_viewpager();
+
                     break;
                 case 1:
                     fragment = new Availability_page_fragment();

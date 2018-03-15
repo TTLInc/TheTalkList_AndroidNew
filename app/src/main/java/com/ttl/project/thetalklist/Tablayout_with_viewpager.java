@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.ttl.project.thetalklist.Services.LoginService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +49,12 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
     public Tablayout_with_viewpager() {
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,24 +67,33 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, final Bundle savedInstanceState) {
 
         convertView = inflater.inflate(R.layout.tab_layout_and_viewpager, null);
 
-
-        if (savedInstanceState == null) {
-
-
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("roleAndStatus", 0);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("roleId", roleId);
-            editor.putInt("status", status);
-            editor.apply();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
 
-        }
+                LoginService loginService = new LoginService();
+                loginService.login(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getContext());
+                if (savedInstanceState == null) {
 
-        initScreen();
+
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("roleAndStatus", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("roleId", roleId);
+                    editor.putInt("status", status);
+                    editor.apply();
+
+
+                }
+
+                initScreen();
+            }
+        }, 1000);
+
         return convertView;
 
     }

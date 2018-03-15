@@ -8,7 +8,8 @@
     <color name="white">#fff</color>
     <color name="silver">#F3F3F3</color>
     <color name="perfectGreen">#4DB806</color>
-    <color name="colorPrimaryDark">#4da3df</color>
+    <color name="colorPrimaryDark">#3196C8</color>
+    <!--<color name="colorPrimaryDark">#4da3df</color>-->
     <color name="lightGrey">#E0E0E0</color>
 
 

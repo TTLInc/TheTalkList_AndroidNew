@@ -3,6 +3,7 @@ package com.ttl.project.thetalklist;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,8 +35,10 @@ public class Popup_after_veesession extends AppCompatActivity {
 
         if (getIntent().getStringExtra("fromCallActivity").equalsIgnoreCase("yes")) {
 
-            Toast.makeText(getApplicationContext(), "class id: " + preferences.getInt("classId", 0), Toast.LENGTH_SHORT).show();
-
+//            Toast.makeText(getApplicationContext(), "class id: " + preferences.getInt("classId", 0), Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
             Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/tutor_earn?class_id=" + preferences.getInt("classId", 0), new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -64,7 +67,8 @@ public class Popup_after_veesession extends AppCompatActivity {
 
                 }
             }));
-
+                        }
+                    }, 2000);
 
 
 
@@ -91,7 +95,11 @@ public class Popup_after_veesession extends AppCompatActivity {
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                 }else {
-                    finish();onBackPressed();
+//                    finish();onBackPressed();
+
+                    Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
                 }
             }
         });
