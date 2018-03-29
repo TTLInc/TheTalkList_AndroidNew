@@ -24,8 +24,8 @@
         android:layout_weight="1"
         android:hint="Write a message"
         android:imeOptions="actionSend"
-        android:maxLines="3"
         android:inputType="textMultiLine|textShortMessage"
+        android:maxLines="3"
         android:textColor="#7F8C8D"
         android:textColorHint="#7F8C8D" />
 
@@ -34,22 +34,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:paddingRight="-11dp"
+            android:paddingTop="-5dp"
+            android:paddingBottom="4dp"
+            android:src="@drawable/document_icon" />
         <ImageView
             android:visibility="gone"
             android:id="@+id/keyboard_open"
             android:layout_width="50dp"
             android:layout_height="40dp"
-            android:padding="4dp"
             android:src="@drawable/smiley" />
 
         <ImageView
             android:id="@+id/message_sendBtn"
-            android:layout_width="50dp"
+            android:layout_width="48dp"
             android:layout_height="40dp"
-            android:padding="4dp"
-            android:layout_margin="3dp"
-            android:background="#FF6634"
-            android:src="@drawable/paperplane" />
+            android:paddingBottom="5dp"
+            android:paddingTop="-5dp"
+            android:paddingLeft="-5dp"
+            android:paddingRight="-5dp"
+            android:src="@drawable/circle_paper"
+            />
+
+
 
         <ImageView
             android:id="@+id/message_searchBtn"

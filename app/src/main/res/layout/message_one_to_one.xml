@@ -60,7 +60,14 @@
     <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 
     <include
+        layout = "@layout/message_preset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <include
         layout="@layout/type_message_area_chat_window"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
