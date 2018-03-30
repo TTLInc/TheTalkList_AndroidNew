@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,8 @@ import org.json.JSONObject;
 //Popup screen after veesession
 public class Popup_after_veesession extends AppCompatActivity {
 
+    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,41 +37,51 @@ public class Popup_after_veesession extends AppCompatActivity {
 //        Toast.makeText(this, "like "+getIntent().getStringExtra("fromCallActivity"), Toast.LENGTH_SHORT).show();
 
         if (getIntent().getStringExtra("fromCallActivity").equalsIgnoreCase("yes")) {
+            dialog = new Dialog(Popup_after_veesession.this);
+            dialog.setContentView(R.layout.threedotprogressbar);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
 
 //            Toast.makeText(getApplicationContext(), "class id: " + preferences.getInt("classId", 0), Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/tutor_earn?class_id=" + preferences.getInt("classId", 0), new Response.Listener<String>() {
                         @Override
-                        public void run() {
-            Volley.newRequestQueue(getApplicationContext()).add(new StringRequest(Request.Method.POST, "https://www.thetalklist.com/api/tutor_earn?class_id=" + preferences.getInt("classId", 0), new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
+                        public void onResponse(String response) {
 
-                    try {
-                        JSONObject responseObj = new JSONObject(response);
+                            try {
+                                JSONObject responseObj = new JSONObject(response);
 
-                        if (responseObj.getInt("status") == 0) {
+                                if (responseObj.getInt("status") == 0) {
+                                    dialog.dismiss();
 
-                            JSONObject earn = responseObj.getJSONObject("earn_tutor");
+                                    JSONObject earn = responseObj.getJSONObject("earn_tutor");
 
-                            ((TextView) findViewById(R.id.after_veesession_text)).setText("Thank you for helping out " + earn.getString("name") + ".\n You just earned " + String.format("%.02f", Float.parseFloat(earn.getString("earning")))+".");
+                                    ((TextView) findViewById(R.id.after_veesession_text)).setText("Thank you for helping out " + earn.getString("name") + ".\n You just earned " + String.format("%.02f", Float.parseFloat(earn.getString("earning"))) + ".");
 
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    dialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                         }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Something Error occurs.", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }));
                         }
-                    }, 2000);
+                    }));
+                }
+            }, 2000);
+
+
 
 
 
@@ -94,7 +107,7 @@ public class Popup_after_veesession extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), StudentFeedBack.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
-                }else {
+                } else {
 //                    finish();onBackPressed();
 
                     Intent i = new Intent(getApplicationContext(), SettingFlyout.class);

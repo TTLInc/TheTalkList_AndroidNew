@@ -1,58 +1,27 @@
 {
   "project_info": {
-    "project_number": "1079735643248",
-    "firebase_url": "https://thetalklist-c5f97.firebaseio.com",
-    "project_id": "thetalklist-c5f97",
-    "storage_bucket": "thetalklist-c5f97.appspot.com"
+    "project_number": "1050822203657",
+    "firebase_url": "https://thetalklist-9d612.firebaseio.com",
+    "project_id": "thetalklist-9d612",
+    "storage_bucket": "thetalklist-9d612.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1079735643248:android:ed7c16aaa68883f5",
-        "android_client_info": {
-          "package_name": "com.example.saubhagyam.thetalklist"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1079735643248-cpgehrled210ugkluo3ln5s2bf6u5tac.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCsbnAkT2lWo9DcOLxXEE59813lqEvrE8I"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1079735643248:android:24e8284e1472d38e",
+        "mobilesdk_app_id": "1:1050822203657:android:24e8284e1472d38e",
         "android_client_info": {
           "package_name": "com.ttl.project.thetalklist"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1079735643248-cpgehrled210ugkluo3ln5s2bf6u5tac.apps.googleusercontent.com",
+          "client_id": "1050822203657-onqdv53ojfot9ca77cas0j7phptagk7v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCsbnAkT2lWo9DcOLxXEE59813lqEvrE8I"
+          "current_key": "AIzaSyAWveUgJ7CIUU8NYVwvVTvydpNHTQnO4-k"
         }
       ],
       "services": {
