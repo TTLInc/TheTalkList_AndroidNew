@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -64,6 +65,8 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
     View view;
     View msgDisplayLayoutview;
+    Button preset_how_are_you, preset_when_available, preset_tutor_now;
+    Button preset_call_me, preset_what_subject, preset_busy;
     EmojiconEditText message_editText_msg;
     EmojiconTextView user_msg, sender_msg;
     LinearLayout senderLayout;
@@ -215,6 +218,20 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
         messageModelList = new ArrayList<>();
         Collections.reverse(messageModelList);
+
+        preset_how_are_you = (Button) view.findViewById( R.id.how_are_you );
+        preset_when_available = (Button) view.findViewById( R.id.when_available );
+        preset_tutor_now = (Button) view.findViewById( R.id.tutor_right_now );
+        preset_what_subject = (Button) view.findViewById( R.id.what_subject );
+        preset_call_me = ( Button ) view.findViewById( R.id.call_me );
+        preset_busy = (Button) view.findViewById( R.id.busy_right_now );
+
+        onClickedOnPreset( preset_how_are_you, preset_how_are_you.getText().toString());
+        onClickedOnPreset( preset_when_available, preset_when_available.getText().toString());
+        onClickedOnPreset( preset_tutor_now, preset_tutor_now.getText().toString());
+        onClickedOnPreset( preset_what_subject, preset_what_subject.getText().toString() );
+        onClickedOnPreset( preset_call_me, preset_call_me.getText().toString() );
+        onClickedOnPreset( preset_busy, preset_busy.getText().toString() );
 
         TTL ttl = new TTL();
         ttl.MessageBit = 0;
@@ -603,7 +620,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                 getActivity().onBackPressed();
             }
         });*/
-
     }
     String op;
 
@@ -757,5 +773,14 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     @Override
     public void onEmojiconBackspaceClicked(View view) {
 
+    }
+
+    public void onClickedOnPreset(Button preset, final String text ) {
+        preset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                message_editText_msg.setText( text );
+            }
+        });
     }
 }
