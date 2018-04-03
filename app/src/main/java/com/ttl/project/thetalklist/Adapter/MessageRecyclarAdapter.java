@@ -197,10 +197,14 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
                 int month = Integer.parseInt(new SimpleDateFormat("MM").format(date_txt));
                 int day = Integer.parseInt(new SimpleDateFormat("dd").format(date_txt));
 
-                String h = new SimpleDateFormat("HH").format(date_txt); // 9:00
+                String h = new SimpleDateFormat("K").format(date_txt); // 9:00
                 String m = new SimpleDateFormat("mm").format(date_txt); // 9:00
+                String a = new SimpleDateFormat("a").format(date_txt); // 9:00
 
-                hour = Integer.parseInt(h);
+
+                holder.sender_time.setText(months[month - 1] + " " + String.valueOf(day + 1) + " " +h+":"+m+" "+a);
+                holder.receiver_time.setText(months[month - 1] + " " + String.valueOf(day + 1) + " " +h+":"+m+" "+a);
+               /* hour = Integer.parseInt(h);
                 int minf = Integer.parseInt(m);
 
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"),
@@ -216,9 +220,9 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
                 int yh=hour+xh+8;
                 int ymin=minf+xmin;
                 Log.e("min & hour",String.valueOf(yh)+String.valueOf(ymin));
+*/
 
-
-                if (hour > 24) {
+              /*  if (hour > 24) {
                     if (minf > 60) {
                         time = months[month - 1] + " " + String.valueOf(day + 1) + " " + (hour - 24 + 1) + ":" + (minf - 60);
                     } else {
@@ -233,10 +237,10 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
                     } else {
                         time = months[month - 1] + " " + String.valueOf(day) + " " + hour + ":" + minf;
                     }
-                    String time =/*newStr+" "+*/months[month - 1] + " " + String.valueOf(day) + " " + hour + ":" + minf;
+                    String time =*//*newStr+" "+*//*months[month - 1] + " " + String.valueOf(day) + " " + hour + ":" + minf;
                     holder.sender_time.setText(time);
                     holder.receiver_time.setText(time);
-                }
+                }*/
             }
 
         } catch (ParseException e) {

@@ -343,6 +343,7 @@ public class MyDetailsB extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
         String response = preferences.getString("loginResponse", "No Response");
 
+//        Toast.makeText(getContext(), "status "+status, Toast.LENGTH_SHORT).show();
 
         if (popupWindow == null)
 

@@ -42,9 +42,10 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
     int tab=0;
 
     public Tablayout_with_viewpager(int tab) {
-        this.tab = tab;
-        changeTab(tab);
+        status = tab;
+        //changeTab(tab);
     }
+
 
     public Tablayout_with_viewpager() {
     }
@@ -71,29 +72,29 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
 
         convertView = inflater.inflate(R.layout.tab_layout_and_viewpager, null);
 
-        new Handler().postDelayed(new Runnable() {
+      /*  new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 
 
-                LoginService loginService = new LoginService();
-                loginService.login(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getContext());
+//                LoginService loginService = new LoginService();
+//                loginService.login(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), getContext());
                 if (savedInstanceState == null) {
 
 
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("roleAndStatus", 0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("roleId", roleId);
-                    editor.putInt("status", status);
-                    editor.apply();
+
 
 
                 }
 
-                initScreen();
             }
-        }, 1000);
-
+        }, 1000);*/
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("roleAndStatus", 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("roleId", roleId);
+        editor.putInt("status", status);
+        editor.apply();
+        initScreen();
         return convertView;
 
     }
@@ -105,7 +106,7 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
 
 
         SharedPreferences pref = getActivity().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-        status = pref.getInt("status", 1);
+        //status = pref.getInt("status", 1);
         if (status == 1) roleId = 1;
         else roleId = pref.getInt("roleId", 0);
 

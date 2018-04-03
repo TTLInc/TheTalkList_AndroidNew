@@ -1246,6 +1246,10 @@ public class SettingFlyout extends AppCompatActivity {
                         TVuserName.setText(resultObj.getString("usernm"));
 
 
+                        if (resultObj.getInt("readytotalk")==1){
+                            talkNow.setChecked(true);
+                        }
+
                         if (!resultObj.getString("ttl_points").equals("")) {
                             int rewardPoints = resultObj.getInt("ttl_points")/*.substring(0, resultObj.getString("ttl_points").indexOf(".")*/;
                             if (rewardPoints < 0)
@@ -1334,7 +1338,7 @@ public class SettingFlyout extends AppCompatActivity {
 
                         }
                     }, 200);*/
-                    fragment = new Tablayout_with_viewpager();
+                    fragment = new Tablayout_with_viewpager(1);
 
                     break;
                 case 1:

@@ -397,7 +397,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
                             SharedPreferences pref1 = getApplicationContext().getSharedPreferences("firstTime", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = pref1.edit();
                             editor.putInt("fromSignUp", 1).apply();
-                            sta.putExtra("status", status);
+                            sta.putExtra("status", 1);
                             sta.putExtra("roleId", 1);
                             sta.putExtra("username", UserName);
 //                            sta.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

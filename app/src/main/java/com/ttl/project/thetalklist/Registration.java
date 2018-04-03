@@ -21,8 +21,7 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.registration_viewpager,new Tablayout_with_viewpager()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.registration_viewpager,new Tablayout_with_viewpager(1)).commit();
 
 
     }

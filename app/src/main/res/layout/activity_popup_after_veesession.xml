@@ -22,15 +22,15 @@
 android:id="@+id/after_veesession_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your session with [Name] cost you X credits.
-        Our community appreciates your business."
+
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:gravity="center"
         android:textSize="16dp"
 
         />
-
+    <!--android:text="Your session with [Name] cost you X credits.
+    Our community appreciates your business."-->
     <Button
         android:id="@+id/after_veesession_ok"
         android:layout_marginTop="15dp"
