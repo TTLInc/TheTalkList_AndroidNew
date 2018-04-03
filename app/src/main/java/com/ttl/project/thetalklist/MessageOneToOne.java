@@ -779,8 +779,15 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         preset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                message_editText_msg.setText( text );
+                message_editText_msg.setText( message_editText_msg.getText().toString() + " " + text );
+                message_editText_msg.setSelection( message_editText_msg.getText().length() );
+                message_editText_msg.requestFocus();
+                message_editText_msg.setFocusableInTouchMode(true);
+                message_editText_msg.performClick();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(message_editText_msg, InputMethodManager.SHOW_IMPLICIT);
             }
         });
     }
+
 }

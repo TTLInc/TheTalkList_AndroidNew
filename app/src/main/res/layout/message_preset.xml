@@ -37,7 +37,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:background="@drawable/presetbuttonrounded"
-                        android:text="  When are you available?  "
+                        android:text="When are you available?"
                         android:theme="@style/PresetButton" />
                 </LinearLayout>
                 <LinearLayout
@@ -50,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:background="@drawable/presetbuttonrounded"
-                        android:text="  Can you tutor right now?  "
+                        android:text="Can you tutor right now?"
                         android:theme="@style/PresetButton" />
                 </LinearLayout>
                 <LinearLayout
@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:background="@drawable/presetbuttonrounded"
-                        android:text="  What subject?  "
+                        android:text="What subject?"
                         android:theme="@style/PresetButton" />
                 </LinearLayout>
                 <LinearLayout
@@ -76,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:background="@drawable/presetbuttonrounded"
-                        android:text="  Yes! Call me.  "
+                        android:text="Yes! Call me."
                         android:theme="@style/PresetButton" />
                 </LinearLayout>
                 <LinearLayout
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:background="@drawable/presetbuttonrounded"
-                        android:text="  I'm busy right now.  "
+                        android:text="I'm busy right now."
                         android:theme="@style/PresetButton" />
                 </LinearLayout>
 
