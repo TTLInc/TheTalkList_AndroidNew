@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp">
+
+                    <Button
+                        android:id="@+id/how_are_you"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/presetbuttonrounded"
+                        android:text="How are you?"
+                        android:theme="@style/PresetButton" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp">
+
+                    <Button
+                        android:id="@+id/when_available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/presetbuttonrounded"
+                        android:text="When are you available?"
+                        android:theme="@style/PresetButton" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp">
+
+                    <Button
+                        android:id="@+id/tutor_right_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/presetbuttonrounded"
+                        android:text="Can you tutor right now?"
+                        android:theme="@style/PresetButton" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp">
+
+                    <Button
+                        android:id="@+id/what_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/presetbuttonrounded"
+                        android:text="What subject?"
+                        android:theme="@style/PresetButton" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp">
+
+                    <Button
+                        android:id="@+id/call_me"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/presetbuttonrounded"
+                        android:text="Yes! Call me."
+                        android:theme="@style/PresetButton" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp">
+
+                    <Button
+                        android:id="@+id/busy_right_now"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@drawable/presetbuttonrounded"
+                        android:text="I'm busy right now."
+                        android:theme="@style/PresetButton" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+        </HorizontalScrollView>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
