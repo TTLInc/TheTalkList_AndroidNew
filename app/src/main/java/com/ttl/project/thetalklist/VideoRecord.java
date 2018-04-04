@@ -113,6 +113,7 @@ public class VideoRecord extends Fragment {
 
         if (bio_videoPref.getBoolean("biography", false)) {
             view.findViewById(R.id.video_upload_control).setVisibility(View.GONE);
+            ((TextView) view.findViewById(R.id.videorecord_txt)).setText("Upload a 1 min video and tell everyone \n why you are an awesome tutor.");
         } else {
             ((TextView) view.findViewById(R.id.videorecord_txt)).setText("Upload your 1 min video to be connected to your profile.");
         }

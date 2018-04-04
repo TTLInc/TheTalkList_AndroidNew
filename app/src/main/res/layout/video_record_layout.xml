@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical">-->
 
-    <LinearLayout
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!--<ScrollView
@@ -21,7 +22,7 @@
                 android:layout_height="wrap_content"
 
                 android:background="#EAEDED"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/videorecord_txt"
@@ -33,6 +34,8 @@
                     android:gravity="center"
                     android:text="Upload a 1 min video and tell everyone why you are an awesome tutor."
                     android:textColor="#000000" />
+
+
 
                 <TextView
                     android:id="@+id/timeDuration"
@@ -199,7 +202,19 @@
             <!--</GridView>-->
 
         </LinearLayout>
-    </LinearLayout>
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="1 minute max"
+        android:textSize="25dp"
+         />
+
+</RelativeLayout>
     <!--</ScrollView>-->
     <!--</LinearLayout>-->
-</ScrollView>
+<!--</ScrollView>-->

@@ -55,12 +55,12 @@ public class StudentFeedBack extends AppCompatActivity {
                 SharedPreferences preferences =getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
 
 
-                if(report_inappropriate_behaviour.isSelected()==true){
+                if(report_inappropriate_behaviour.isChecked()){
                     bit=1;
                 }
                 else bit=0;
                 
-                if (student_feedback_ratingBar.getRating()!=0.0f) {
+                if (student_feedback_ratingBar.getRating()!=0.0f ) {
 
                     SharedPreferences Sessionpref=getSharedPreferences("sessionPref",MODE_PRIVATE);
                     final SharedPreferences.Editor editor=Sessionpref.edit();
@@ -71,6 +71,8 @@ public class StudentFeedBack extends AppCompatActivity {
                             preferences.getInt("studentId", 0) + "&tid=" + preferences.getInt("tutorId", 0) + "&user_given_rating=" +
                             student_feedback_ratingBar.getRating() + "&report_inappropriate=" + bit +
                             "&feedback_msg=" + student_feedback_msg.getText().toString().replace(" ", "%20")+"&session_id="+Sessionpref.getString("sessionId","");
+
+                   Log.e("student feedback url",URL);
                     StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

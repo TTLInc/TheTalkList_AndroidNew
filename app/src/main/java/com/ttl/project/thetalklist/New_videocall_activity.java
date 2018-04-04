@@ -732,9 +732,9 @@ public class New_videocall_activity extends AppCompatActivity
         if (!i.getStringExtra("from").equalsIgnoreCase("callActivity") && TimeCount > 0) {
 
 
-            Intent i = new Intent(getApplicationContext(), StudentFeedBack.class);
+         /*   Intent i = new Intent(getApplicationContext(), StudentFeedBack.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
+            startActivity(i);*/
         } else {
 
           /*  Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
