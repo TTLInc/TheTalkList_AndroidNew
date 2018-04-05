@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -83,6 +85,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     RequestQueue queue, queue1;
     TextView chat_header;
 
+
     public MessageOneToOne() {
     }
 
@@ -90,6 +93,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     SharedPreferences chatPref,loginPref;
 
     BroadcastReceiver appendChatScreenMsgReceiver;
+
 
     @Override
     public boolean getUserVisibleHint() {
@@ -211,6 +215,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                 // Do not draw the divider
             }
         });
+
         message_editText_msg = (EmojiconEditText) view.findViewById(R.id.message_editText_msg);
         message_sendBtn = (ImageView) view.findViewById(R.id.message_sendBtn);
         message_searchBtn = (ImageView) view.findViewById(R.id.message_searchBtn);
@@ -779,7 +784,8 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         preset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                message_editText_msg.setText( message_editText_msg.getText().toString() + " " + text );
+                String textWOspaces = text.substring( 2, text.length() - 1 );
+                message_editText_msg.setText( message_editText_msg.getText().toString() + textWOspaces );
                 message_editText_msg.setSelection( message_editText_msg.getText().length() );
                 message_editText_msg.requestFocus();
                 message_editText_msg.setFocusableInTouchMode(true);
