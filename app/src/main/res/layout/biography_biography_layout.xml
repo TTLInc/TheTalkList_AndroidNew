@@ -10,7 +10,7 @@
 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -22,15 +22,15 @@
             <!--android:layout_marginLeft="20dp"-->
 
 
-            <TextView                 
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Personal"
                 android:textColor="#616A6B"
                 android:textSize="20sp" />
-                <!--android:textStyle="bold" />-->
+            <!--android:textStyle="bold" />-->
 
-            <TextView                 
+            <TextView
                 android:id="@+id/biography_personal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,15 +55,15 @@
             android:orientation="vertical">
             <!--android:layout_marginLeft="20dp"-->
 
-            <TextView                 
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Educational"
                 android:textColor="#616A6B"
                 android:textSize="20sp" />
-                <!--android:textStyle="bold" />-->
+            <!--android:textStyle="bold" />-->
 
-            <TextView                 
+            <TextView
                 android:id="@+id/biography_educational"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -87,15 +87,15 @@
             android:orientation="vertical">
             <!--android:layout_marginLeft="20dp"-->
 
-            <TextView                 
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Professional"
                 android:textColor="#616A6B"
                 android:textSize="20sp" />
-                <!--android:textStyle="bold" />-->
+            <!--android:textStyle="bold" />-->
 
-            <TextView                 
+            <TextView
                 android:id="@+id/biography_professional"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

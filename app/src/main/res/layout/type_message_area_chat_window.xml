@@ -36,11 +36,12 @@
 
 
         <ImageView
+            android:id="@+id/request"
             android:layout_width="50dp"
             android:layout_height="40dp"
+            android:paddingBottom="4dp"
             android:paddingRight="-11dp"
             android:paddingTop="-5dp"
-            android:paddingBottom="4dp"
             android:src="@drawable/document_icon1" />
         <ImageView
             android:visibility="gone"
