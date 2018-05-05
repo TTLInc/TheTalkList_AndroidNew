@@ -180,16 +180,16 @@ public class Available_Tutor_Expanded extends Fragment {
         personalLinearLayout = (LinearLayout) convertView.findViewById(R.id.personalLinearLayout);
         eduLinearLayout = (LinearLayout) convertView.findViewById(R.id.eduLinearLayout);
         proLinearLayout = (LinearLayout) convertView.findViewById(R.id.proLinearLayout);
-        ratingLinearLayout = (LinearLayout) convertView.findViewById(R.id.rateLinearLayout);
+        ratingLinearLayout = (LinearLayout) convertView.findViewById(R.id.ratingLinearLayout);
 //        listView = (ListView) convertView.findViewById(R.id.ratingfeedbacklist);
 //        videoView = (VideoView) convertView.findViewById(R.id.TutorExpanded_biography_videoView);
         availableTutorListCPS = (TextView) convertView.findViewById(R.id.availableTutorListCPS);
 
 
-        personalLinearLayout = (LinearLayout) convertView.findViewById(R.id.personalLinearLayout);
+      /*  personalLinearLayout = (LinearLayout) convertView.findViewById(R.id.personalLinearLayout);
         eduLinearLayout = (LinearLayout) convertView.findViewById(R.id.eduLinearLayout);
         proLinearLayout = (LinearLayout) convertView.findViewById(R.id.proLinearLayout);
-        ratingLinearLayout = (LinearLayout) convertView.findViewById(R.id.rateLinearLayout);
+        ratingLinearLayout = (LinearLayout) convertView.findViewById(R.id.rateLinearLayout);*/
 
 
         msgBtn = (ImageButton) convertView.findViewById(R.id.imageButton3);
