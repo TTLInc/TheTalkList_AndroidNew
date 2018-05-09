@@ -28,8 +28,8 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:gravity="center"
-                    android:text="Desired Tutor"
-                    android:textColor="#B3B6B7"
+                    android:text="Set default criteria for desired tutors"
+                    android:textColor="#000000"
                     android:textSize="15sp" />
 
             </LinearLayout>

@@ -302,7 +302,7 @@ public class Biography extends Fragment {
                                     biography_biographyfrag_layout.setVisibility(View.VISIBLE);
                                     if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
                                         getFragmentManager().beginTransaction().replace(R.id.registration_viewpager, new Availability_page_fragment()).commit();
-                                    } else
+                                    } else 
                                         getFragmentManager().beginTransaction().replace(R.id.viewpager, new Availability_page_fragment()).commit();
                                 }
 
