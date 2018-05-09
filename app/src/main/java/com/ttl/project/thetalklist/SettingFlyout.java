@@ -495,8 +495,45 @@ public class SettingFlyout extends AppCompatActivity {
         TimerTask hourlyTask = new TimerTask() {
             @Override
             public void run() {
+                SharedPreferences talkNowOff=getSharedPreferences("talknoeoff",MODE_PRIVATE);
                 // your code here...
-                TalkNow(pref, getApplicationContext());
+                Log.e("inCall contains", String.valueOf(talkNowOff.contains("inCall")));
+                if (talkNowOff.contains("inCall")){
+                    String Url = "https://www.thetalklist.com/api/tutor_online?uid=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&bit=" + 0;
+
+                    Log.e("tutor online url", Url);
+
+                    StringRequest strRequest = new StringRequest(Request.Method.POST, Url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+
+                                    Log.e("tutor online res", response);
+
+                                    try {
+                                        JSONObject obj = new JSONObject(response);
+
+                                        if (obj.getInt("status") != 0) {
+                                            Toast.makeText(getApplicationContext(), "Something went wrong.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+                    Volley.newRequestQueue(getApplicationContext()).add(strRequest);
+                }else {
+                    TalkNow(pref, getApplicationContext());
+                }
             }
         };
 

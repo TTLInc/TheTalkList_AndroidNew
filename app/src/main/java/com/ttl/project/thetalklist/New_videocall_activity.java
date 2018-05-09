@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,7 +89,8 @@ public class New_videocall_activity extends AppCompatActivity
     TextView veesession_timer;
 
     BroadcastReceiver callEndReceiver;
-
+    SharedPreferences talkNowOff;
+    SharedPreferences.Editor editoroff;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,10 @@ public class New_videocall_activity extends AppCompatActivity
         veesession_timer = (TextView) findViewById(R.id.veesession_timer);
 
         requestPermissions();
+
+      talkNowOff=getSharedPreferences("talknoeoff",MODE_PRIVATE);
+      editoroff=talkNowOff.edit();
+      editoroff.putString("inCall","yes").apply();
 
         callEndReceiver = new BroadcastReceiver() {
             @Override
@@ -143,6 +150,7 @@ public class New_videocall_activity extends AppCompatActivity
 //            mSession.disconnect();
             mSession.onPause();
         }
+
         unregisterReceiver(callEndReceiver);
 //        callEnd.performClick();
 
@@ -378,6 +386,7 @@ public class New_videocall_activity extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
+                editoroff.clear().apply();
                 if (mSession != null) {
                     mSession.disconnect();
                     onDisconnected(mSession);
@@ -726,6 +735,7 @@ public class New_videocall_activity extends AppCompatActivity
 
     @Override
     public void onDisconnected(Session session) {
+        editoroff.clear().apply();
         mSession.unpublish(mPublisher);
         mSession.disconnect();
         Log.d(LOG_TAG, "onDisconnected: Disconnected from session: " + session.getSessionId());
