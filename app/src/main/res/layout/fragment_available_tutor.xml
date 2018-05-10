@@ -67,7 +67,7 @@
             android:layout_height="1dp"
             android:background="#90A4AE" />
 
-        <TextView                 
+        <TextView
             android:id="@+id/systemMsgStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,6 +75,7 @@
             android:text="Nice! You've got 10 free credits. Click any tutor to talk now. Or swipe right to add to Favorites."
             android:textSize="13dp"
             android:visibility="gone" />
+
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"

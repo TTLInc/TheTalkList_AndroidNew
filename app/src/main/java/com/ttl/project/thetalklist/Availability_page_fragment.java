@@ -354,6 +354,8 @@ public class Availability_page_fragment extends Fragment {
         }
         else {
             ((TextView)view.findViewById(R.id.availibility_registration_line)).setText("Nice! The world sees your updated profile.  Set a general availability window or just toggle your Tutor light on whenever you want.");
+            ((LinearLayout)view.findViewById(R.id.availibility_linearnotmyDetails)).setVisibility(View.GONE);
+
         }
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -205,7 +205,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity android:name=".Registration" />
-        <activity android:name=".Popup_after_veesession"></activity>
+        <activity android:name=".Popup_after_veesession" />
+        <activity
+            android:name=".Request_Form"
+            android:label="@string/title_activity_request"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

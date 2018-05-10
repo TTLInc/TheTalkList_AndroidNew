@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,6 +71,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     View msgDisplayLayoutview;
     Button preset_how_are_you, preset_when_available, preset_tutor_now;
     Button preset_call_me, preset_what_subject, preset_busy;
+    ImageView request;
     EmojiconEditText message_editText_msg;
     EmojiconTextView user_msg, sender_msg;
     LinearLayout senderLayout;
@@ -85,6 +88,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     RequestQueue queue, queue1;
     TextView chat_header;
 
+    private int request_form_success = 0;
 
     public MessageOneToOne() {
     }
@@ -237,6 +241,9 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         onClickedOnPreset( preset_what_subject, preset_what_subject.getText().toString() );
         onClickedOnPreset( preset_call_me, preset_call_me.getText().toString() );
         onClickedOnPreset( preset_busy, preset_busy.getText().toString() );
+
+        request = (ImageView)view.findViewById( R.id.request );
+        onRequestClicked( request );
 
         TTL ttl = new TTL();
         ttl.MessageBit = 0;
@@ -595,7 +602,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             }
         });
 
-
         message_sendBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -615,6 +621,19 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             }
         });
 
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences( "Request_Form", Context.MODE_PRIVATE );
+        if ( request_form_success == 1) {
+            String request_form = sharedPreferences.getString("Request_Form", null);
+            message_editText_msg.setText(request_form);
+            message_editText_msg.setSelection(message_editText_msg.getText().length());
+            message_editText_msg.requestFocus();
+            message_editText_msg.setFocusableInTouchMode(true);
+            message_editText_msg.performClick();
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(message_editText_msg, InputMethodManager.SHOW_IMPLICIT);
+            message_sendBtn.performClick();
+            request_form_success = 0;
+        }
        /* message_onetoone_backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -795,5 +814,15 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             }
         });
     }
+    public void onRequestClicked( ImageView request ) {
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Request_Form.class);
+                startActivity(intent);
+                request_form_success = 1;
 
+            }
+        });
+    }
 }
