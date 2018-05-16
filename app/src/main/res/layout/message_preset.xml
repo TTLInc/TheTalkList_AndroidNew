@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="35dp">
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -25,7 +25,7 @@
                     <Button
                         android:id="@+id/how_are_you"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/presetbuttonrounded"
                         android:text="  Hi, there!  "
                         android:theme="@style/PresetButton" />
@@ -39,7 +39,7 @@
                     <Button
                         android:id="@+id/when_available"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/presetbuttonrounded"
                         android:text="  When are you available?  "
                         android:theme="@style/PresetButton" />
@@ -53,7 +53,7 @@
                     <Button
                         android:id="@+id/tutor_right_now"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/presetbuttonrounded"
                         android:text="  Can you tutor now?  "
                         android:theme="@style/PresetButton" />
@@ -67,7 +67,7 @@
                     <Button
                         android:id="@+id/what_subject"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/presetbuttonrounded"
                         android:text="  What subject?  "
                         android:theme="@style/PresetButton" />
@@ -81,7 +81,7 @@
                     <Button
                         android:id="@+id/call_me"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/presetbuttonrounded"
                         android:text="  Yes! Call me.  "
                         android:theme="@style/PresetButton" />
@@ -95,10 +95,11 @@
                     <Button
                         android:id="@+id/busy_right_now"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/presetbuttonrounded"
                         android:text="  I'm busy right now.  "
                         android:theme="@style/PresetButton" />
+
                 </LinearLayout>
 
             </LinearLayout>

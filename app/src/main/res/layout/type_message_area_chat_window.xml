@@ -38,7 +38,7 @@
         <ImageView
             android:id="@+id/request"
             android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:paddingBottom="4dp"
             android:paddingRight="-11dp"
             android:paddingTop="-5dp"
@@ -52,14 +52,13 @@
 
         <ImageView
             android:id="@+id/message_sendBtn"
-            android:layout_width="48dp"
-            android:layout_height="40dp"
+            android:layout_width="50dp"
+            android:layout_height="46dp"
             android:paddingBottom="5dp"
-            android:paddingTop="-5dp"
             android:paddingLeft="-5dp"
             android:paddingRight="-5dp"
-            android:src="@drawable/circle_paper"
-            />
+            android:paddingTop="-5dp"
+            android:src="@drawable/circle_paper" />
 
 
 
