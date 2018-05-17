@@ -621,6 +621,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             }
         });
 
+        //Request Form
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences( "Request_Form", Context.MODE_PRIVATE );
         int isSubmitted;
         try {
