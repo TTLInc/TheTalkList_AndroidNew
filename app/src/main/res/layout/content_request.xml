@@ -12,6 +12,7 @@
 
         <!-- Covers entire page -->
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -51,160 +52,71 @@
 
             </LinearLayout>
 
+
             <!-- Line dividing First Name and Tutoring Rate -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#616A6B" />
 
-            <!-- TODO: Merge these two -->
-            <!-- Tutoring Rate Section: Title -->
-            <!--<LinearLayout-->
-            <!--android:id="@+id/rateLinearLayout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:paddingTop="10dp">-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginStart="-10dp"-->
-            <!--android:layout_weight="0.10"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="10dp">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/t"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:gravity="center"-->
-            <!--android:text="Tutoring Rate ($/min): "-->
-            <!--android:textColor="#616A6B"-->
-            <!--android:layout_weight="1"-->
-            <!--android:textSize="15sp"-->
-            <!--android:textStyle="bold" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--</LinearLayout>-->
-            <!-- Tutoring Rate Section: Edit -->
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:paddingRight="10dp">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/as"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:gravity="center"-->
-            <!--android:inputType="number"-->
-            <!--android:maxLength="3"-->
-            <!--android:text="$"-->
-            <!--android:textSize="13dp" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/biography_rate_textview"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:gravity="center"-->
-            <!--android:inputType="number"-->
-            <!--android:maxLength="6"-->
-            <!--android:text="00"-->
-            <!--android:textSize="13dp" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/biography_rate_edittext"-->
-            <!--android:layout_width="100dp"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:gravity="bottom"-->
-            <!--android:inputType="numberDecimal"-->
-            <!--android:maxLength="6"-->
-            <!--android:text=""-->
-            <!--android:textSize="12dp"-->
-            <!--android:visibility="gone" />-->
-
-            <!--<EditText-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:inputType="numberDecimal"-->
-            <!--android:text=""-->
-            <!--android:textSize="12dp" />-->
-
-            <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<Button-->
-            <!--android:id="@+id/biography_rate_edit"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:background="#00000000"-->
-            <!--android:text="EDIT..."-->
-            <!--android:textAllCaps="false"-->
-            <!--android:textColor="#03A9F4"-->
-            <!--android:textSize="12dp" />-->
-            <!--</RelativeLayout>-->
-
-            <!--</LinearLayout>-->
-
-            <!-- Editing Tutoring Rate-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="567dp"
                 android:orientation="vertical">
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/Subject"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="222dp"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp">
 
-                    <TextView
-                        android:id="@+id/SubjectTextview"
-                        android:layout_width="186dp"
-                        android:layout_height="43dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="32dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="40dp"
-                        android:text="I need help with..."
-                        android:textSize="15dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0" />
-
                     <EditText
-                        android:id="@+id/subject"
-                        android:layout_width="164dp"
+                        android:id="@+id/time2"
+                        android:layout_width="250dp"
                         android:layout_height="43dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="48dp"
+                        android:layout_marginEnd="64dp"
                         android:ems="10"
+                        android:hint="I need help at this time..."
                         android:inputType="textPersonName"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.609" />
+                        app:layout_constraintTop_toBottomOf="@+id/level" />
+
+                    <EditText
+                        android:id="@+id/level"
+                        android:layout_width="250dp"
+                        android:layout_height="43dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="27dp"
+                        android:layout_marginEnd="64dp"
+                        android:ems="10"
+                        android:hint="My Level is.... "
+                        android:inputType="textPersonName"
+                        app:layout_constraintBottom_toTopOf="@+id/time2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/subject" />
+
+                    <EditText
+                        android:id="@+id/subject"
+                        android:layout_width="250dp"
+                        android:layout_height="43dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="38dp"
+                        android:ems="10"
+                        android:hint="I need help with..."
+                        android:inputType="textPersonName"
+                        app:layout_constraintBottom_toTopOf="@+id/level"
+                        app:layout_constraintEnd_toEndOf="@+id/level"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
 
                 <!-- Tutoring Rate Section: Text and EDIT button -->
@@ -227,92 +139,6 @@
                 <!-- Reviews Section-->
 
                 <!-- Finish Button -->
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/Level"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:id="@+id/LevelTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="43dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="32dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="40dp"
-                        android:text="My level is..."
-                        android:textSize="15dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/level"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.47" />
-
-                    <EditText
-                        android:id="@+id/level"
-                        android:layout_width="0dp"
-                        android:layout_height="43dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginTop="1dp"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/LevelTextView"
-                        app:layout_constraintTop_toTopOf="@+id/LevelTextView" />
-                </android.support.constraint.ConstraintLayout>
-
-                <View
-                    android:id="@+id/View2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="5dp"
-                    android:background="#BDBDBD" />
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/Time"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:id="@+id/TimeTextview"
-                        android:layout_width="189dp"
-                        android:layout_height="43dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="32dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="40dp"
-                        android:text="I need help at this time..."
-                        android:textSize="15dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.47" />
-
-                    <EditText
-                        android:id="@+id/time"
-                        android:layout_width="164dp"
-                        android:layout_height="43dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginTop="2dp"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/TimeTextview" />
-                </android.support.constraint.ConstraintLayout>
 
                 <View
                     android:id="@+id/View3"
@@ -322,7 +148,7 @@
                     android:background="#BDBDBD" />
 
                 <Button
-                    android:id="@+id/submit_button"
+                    android:id="@+id/request_submit"
                     android:layout_width="match_parent"
                     android:layout_height="66dp"
                     android:layout_marginBottom="20dp"

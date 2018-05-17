@@ -56,7 +56,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages"
         android:layout_width="440dp"
-        android:layout_height="match_parent"
+        android:layout_height="436dp"
         android:layout_weight="29" />
     <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 

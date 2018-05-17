@@ -622,9 +622,16 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         });
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences( "Request_Form", Context.MODE_PRIVATE );
-        if ( request_form_success == 1) {
+        int isSubmitted;
+        try {
+            isSubmitted = sharedPreferences.getInt( "Request Submitted", 0 );
+        }
+        catch( Exception e ) {
+            isSubmitted = 0;
+        }
+        if ( isSubmitted == 1 ) {
             String request_form = sharedPreferences.getString("Request_Form", null);
-            message_editText_msg.setText(request_form);
+            message_editText_msg.setText( request_form );
             message_editText_msg.setSelection(message_editText_msg.getText().length());
             message_editText_msg.requestFocus();
             message_editText_msg.setFocusableInTouchMode(true);
@@ -632,7 +639,9 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(message_editText_msg, InputMethodManager.SHOW_IMPLICIT);
             message_sendBtn.performClick();
-            request_form_success = 0;
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt( "Request Submitted", 0 );
+            editor.commit();
         }
        /* message_onetoone_backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -820,8 +829,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), Request_Form.class);
                 startActivity(intent);
-                request_form_success = 1;
-
             }
         });
     }
