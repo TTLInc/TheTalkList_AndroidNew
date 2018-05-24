@@ -79,13 +79,14 @@
             <LinearLayout
                 android:id="@+id/settingFlyout_bottomcontrol"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="56dp"
                 android:layout_alignParentBottom="true"
                 android:layout_weight="1"
-                android:background="#3398CC"
+                android:background="#FFF"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
+                android:paddingTop="8dp"
+                android:elevation="8dp"
                 android:theme="@style/AppBarOverlay">
 
 
@@ -104,6 +105,7 @@
                         android:src="@drawable/new_tabuser_bottomlayout" />
 
                     <TextView
+                        style="@style/BottomNavText"
                         android:id="@+id/textView11"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -112,8 +114,7 @@
                         
                         android:gravity="center"
                         android:text="Tutors"
-                        android:textColor="#fff"
-                        android:textSize="10dp" />
+                         />
                 </LinearLayout>
 
                 <LinearLayout
@@ -131,15 +132,14 @@
                         android:src="@drawable/videosearch" />
 
                     <TextView
+                        style="@style/BottomNavText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         
                         android:gravity="center"
-                        android:text="Videos"
-                        android:textColor="#fff"
-                        android:textSize="10dp" />
+                        android:text="Videos" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -188,15 +188,15 @@
                         <ImageView
                             android:id="@+id/settingFlyout_bottomcontrol_MessageImg"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="24dp"
                             android:layout_marginBottom="12dp"
-                            android:layout_marginTop="-8dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_gravity="center_horizontal"
                             android:layout_weight="1"
                             android:src="@drawable/message_icon_bottombar" />
                     </FrameLayout>
 
                     <TextView
+                        style="@style/BottomNavText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -204,8 +204,6 @@
 
                         android:gravity="center"
                         android:text="Messages"
-                        android:textColor="#fff"
-                        android:textSize="10dp"
                         android:layout_marginTop="-16dp"/>
 
                 </LinearLayout>
@@ -225,6 +223,7 @@
                         android:src="@drawable/dollar" />
 
                     <TextView
+                        style="@style/BottomNavText"
                         android:id="@+id/textView10"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -232,9 +231,7 @@
                         android:layout_weight="1"
                         
                         android:gravity="center"
-                        android:text="Payments"
-                        android:textColor="#fff"
-                        android:textSize="10dp" />
+                        android:text="Payments" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -252,15 +249,14 @@
                         android:src="@drawable/favoritestar_settingflyout" />
 
                     <TextView
+                        style="@style/BottomNavText"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         
                         android:gravity="center"
-                        android:text="Favorites"
-                        android:textColor="#fff"
-                        android:textSize="10dp" />
+                        android:text="Favorites" />
                 </LinearLayout>
 
             </LinearLayout>
