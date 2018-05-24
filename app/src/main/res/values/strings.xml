@@ -10,7 +10,7 @@
     <string name="popupText4">Which would you like to do today?</string>
     <string name="title_activity_user_details">UserDetails</string>
     <string name="completing_purchase">completing purchase</string>
-
+    <string name="How_it_works">Your new paradigm in learning where anyone can be a student or a tutor. Use a flexible system to purchase or earn credits</string>
 
     <string name="title_activity_second">Second Activity</string>
     <string name="toast_track_exception">Exception is recorded. Check the Crashes and Exceptions on Google Dashboard!</string>

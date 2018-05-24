@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="(2.65)"
-                        android:textColor="#AEB6BF"
+                        android:textColor="#000000"
                         android:textSize="20sp"
                         autofit:minTextSize="12sp" />
                 </LinearLayout>
@@ -78,7 +78,7 @@
                         android:layout_marginTop="2dp"
                         android:text="@string/buycredit"
                         android:textAlignment="center"
-                        android:textColor="#AEB6BF"
+                        android:textColor="#000000"
                         android:textSize="15sp"
                         autofit:minTextSize="12sp" />
 
@@ -137,7 +137,7 @@
                                 android:layout_marginStart="15dp"
                                 android:gravity=""
                                 android:text="Problem Solver"
-                                android:textColor="#AEB6BF"
+                                android:textColor="#000000"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 autofit:minTextSize="16sp" />
@@ -149,7 +149,7 @@
                                 android:layout_marginStart="15dp"
                                 android:gravity=""
                                 android:text="10 Credits - $10"
-                                android:textColor="#AEB6BF"
+                                android:textColor="#000000"
                                 android:textSize="15sp"
                                 autofit:minTextSize="16sp" />
                         </LinearLayout>
@@ -211,7 +211,7 @@
                                 android:layout_marginStart="15dp"
                                 android:gravity="left|center"
                                 android:text="Cram for the Exam"
-                                android:textColor="#AEB6BF"
+                                android:textColor="#000000"
                                 android:textSize="15sp"
                                 android:textStyle="bold"
                                 autofit:minTextSize="16sp" />
@@ -222,7 +222,7 @@
                                 android:layout_marginStart="15dp"
                                 android:gravity="left|center"
                                 android:text="52 Credits - $50"
-                                android:textColor="#AEB6BF"
+                                android:textColor="#000000"
                                 android:textSize="15sp"
                                 autofit:minTextSize="16sp" />
 
@@ -302,7 +302,7 @@
                                     android:layout_marginLeft="0dp"
                                     android:gravity="left|center"
                                     android:text="Skill Builder"
-                                    android:textColor="#AEB6BF"
+                                    android:textColor="#000000"
                                     android:textSize="15sp"
 
                                     android:textStyle="bold"
@@ -318,7 +318,7 @@
                                     android:layout_marginLeft="0dp"
                                     android:gravity="left|center"
                                     android:text="105 Credits - $100"
-                                    android:textColor="#AEB6BF"
+                                    android:textColor="#000000"
 
                                     android:textSize="15sp"
                                     autofit:minTextSize="16sp" />

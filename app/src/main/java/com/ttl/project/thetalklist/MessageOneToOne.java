@@ -376,7 +376,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                         messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"));
                                         Log.e("locale android ", new TTL().getUserCountry(getContext()));
 
-
                                        /* try {
                                             JSONArray timeZoneObj=new JSONArray(new TTL().json);
 

@@ -9,18 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <me.grantland.widget.AutofitTextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="FAQS"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            autofit:minTextSize="15sp" />
+            android:layout_height="40dp"
+            android:background="#EAEDED"
+            android:gravity="fill_horizontal">
+            <me.grantland.widget.AutofitTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:text="FAQS"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                autofit:minTextSize="15sp" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
