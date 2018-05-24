@@ -18,9 +18,10 @@
 
     <com.rockerhieu.emojicon.EmojiconEditText
         android:id="@+id/message_editText_msg"
-        android:layout_width="wrap_content"
+        android:layout_width="249dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:hint="Write a message"
         android:imeOptions="actionSend"
@@ -38,10 +39,10 @@
         <ImageView
             android:id="@+id/request"
             android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:paddingBottom="4dp"
-            android:paddingRight="-11dp"
-            android:paddingTop="-5dp"
+            android:layout_height="43dp"
+            android:paddingBottom="5dp"
+            android:paddingRight="8dp"
+
             android:src="@drawable/document_icon1" />
         <ImageView
             android:visibility="gone"
@@ -53,11 +54,10 @@
         <ImageView
             android:id="@+id/message_sendBtn"
             android:layout_width="50dp"
-            android:layout_height="46dp"
+            android:layout_height="43dp"
             android:paddingBottom="5dp"
-            android:paddingLeft="-5dp"
-            android:paddingRight="-5dp"
-            android:paddingTop="-5dp"
+            android:paddingRight="8dp"
+
             android:src="@drawable/circle_paper" />
 
 

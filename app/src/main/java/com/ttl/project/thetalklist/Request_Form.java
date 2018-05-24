@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class Request_Form extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
-    private EditText subjectEdit, levelEdit, timeEdit;
+    private TextInputEditText subjectEdit, levelEdit, timeEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +30,11 @@ public class Request_Form extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences( "Request_Form", Context.MODE_PRIVATE );
 
-        subjectEdit = ( EditText )findViewById( R.id.subject );
-        levelEdit = ( EditText )findViewById( R.id.level );
-        timeEdit = ( EditText )findViewById( R.id.time2 );
+        subjectEdit = ( TextInputEditText )findViewById( R.id.request_subject );
+        levelEdit = ( TextInputEditText )findViewById( R.id.request_level );
+        timeEdit = ( TextInputEditText )findViewById( R.id.request_time );
+
+
         try {
             subjectEdit.setText( sharedPreferences.getString( "Subject Edit", null ));
             levelEdit.setText( sharedPreferences.getString( "Level Edit", null ));
@@ -35,7 +42,6 @@ public class Request_Form extends AppCompatActivity {
         }
         catch( Exception e ) {
         }
-
 
         Button submit = (Button)findViewById( R.id.request_submit );
         submit.setOnClickListener(new View.OnClickListener() {
@@ -52,8 +58,7 @@ public class Request_Form extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     subjectCompleted = 0;
                 }
-                else
-                    subjectCompleted = 1;
+                else subjectCompleted = 1;
 
                 //level
                 if (level.equals("")) {
@@ -61,8 +66,7 @@ public class Request_Form extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     levelCompleted = 0;
                 }
-                else
-                    levelCompleted = 1;
+                else levelCompleted = 1;
 
                 //time
                 if (time.equals("")) {
@@ -70,14 +74,13 @@ public class Request_Form extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     timeCompleted = 0;
                 }
-                else
-                    timeCompleted = 1;
+                else timeCompleted = 1;
 
                 if (subjectCompleted == 1 && levelCompleted == 1 && timeCompleted == 1) {
                     String send =
                             "I need help with: " + subject + System.lineSeparator() +
                                     "My level is: " + level + System.lineSeparator() +
-                                    "I need help at this time: " + time;
+                                        "I need help at this time: " + time;
 
                     // put texts to shared preferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();

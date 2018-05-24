@@ -207,7 +207,7 @@
             android:layout_weight="1"
             android:text="09:20 PM"
             android:textAlignment="viewEnd"
-            android:textColor="#6C6C6C"
+            android:textColor="#5DADE2"
             android:textSize="20dp" />
 
     </LinearLayout>
@@ -241,7 +241,7 @@
             android:layout_weight="1"
             android:text="02:20 PM"
             android:textAlignment="viewEnd"
-            android:textColor="#6C6C6C"
+            android:textColor="#5DADE2"
             android:textSize="20dp" />
 
     </LinearLayout>

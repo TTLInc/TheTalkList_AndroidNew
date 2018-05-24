@@ -636,8 +636,8 @@ public class SettingFlyout extends AppCompatActivity {
         drawerItem[0] = new DrawerModel(R.drawable.home, "Profile");
         drawerItem[1] = new DrawerModel(R.drawable.calendar, "Availability");
         drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
-        drawerItem[3] = new DrawerModel(R.drawable.paypal, "Payment Options");
-        drawerItem[4] = new DrawerModel(R.mipmap.ic_ttl_score, "Reward Points");
+        drawerItem[3] = new DrawerModel(R.drawable.paypal, "Payments");
+        drawerItem[4] = new DrawerModel(R.mipmap.ic_ttl_score, "Rewards");
         drawerItem[5] = new DrawerModel(R.drawable.history, "History");
         drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
         drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
