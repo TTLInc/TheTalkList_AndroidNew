@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -131,7 +133,24 @@ public class StripePaymentActivity extends AppCompatActivity {
                                             Toast.makeText(StripePaymentActivity.this, "Payment Successful!", Toast.LENGTH_SHORT).show();
                                             Toast.makeText(StripePaymentActivity.this, money+" Credits Added!", Toast.LENGTH_SHORT).show();
                                             Log.e("payment response",response);
-                                            startActivity(new Intent(getApplicationContext(),SettingFlyout.class));
+                                            Dialog d=new Dialog(getApplicationContext());
+                                            d.setContentView(R.layout.stripe_payments_successful_popup);
+
+                                            TextView stripe_sucess_popup_txt=d.findViewById(R.id.stripe_sucess_popup_txt);
+                                            stripe_sucess_popup_txt.setText("Your balance has increased by "+money+" credits.");
+                                            d.show();
+Button stripe_ok=d.findViewById(R.id.stripe_ok);
+                                            stripe_ok.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+//                                                    startActivity(new Intent(getApplicationContext(),SettingFlyout.class));
+
+                                                    finish();
+                                                }
+                                            });
+
+
+
                                         }
                                     else {
                                             Toast.makeText(StripePaymentActivity.this, "Error in credit card entry.", Toast.LENGTH_SHORT).show();
