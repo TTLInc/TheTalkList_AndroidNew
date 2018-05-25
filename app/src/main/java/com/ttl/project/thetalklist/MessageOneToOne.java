@@ -763,6 +763,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
                                             recyclerView.setAdapter(messageRecyclarAdapter);
                                             messageRecyclarAdapter.notifyDataSetChanged();
+
                                         }
                                     }
                                 } catch (JSONException e) {
