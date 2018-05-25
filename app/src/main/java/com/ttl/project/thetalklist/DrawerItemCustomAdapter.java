@@ -2,11 +2,15 @@ package com.ttl.project.thetalklist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -19,6 +23,7 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<DrawerModel> {
     Context mContext;
     int layoutResourceId;
     DrawerModel data[] = null;
+    private static final String TAG = "DrawerItemCustomAdapter";
 
     public DrawerItemCustomAdapter(Context mContext, int layoutResourceId, DrawerModel[] data) {
 
@@ -36,8 +41,9 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<DrawerModel> {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         listItem = inflater.inflate(layoutResourceId, parent, false);
 
-        ImageView imageViewIcon = (ImageView) listItem.findViewById(R.id.customDrawerIcon);
+        final ImageView imageViewIcon = (ImageView) listItem.findViewById(R.id.customDrawerIcon);
         TextView textViewName = (TextView) listItem.findViewById(R.id.customDrawerText);
+        LinearLayout linearLayout = (LinearLayout) listItem.findViewById(R.id.linearLayout);
 
         DrawerModel folder = data[position];
 
