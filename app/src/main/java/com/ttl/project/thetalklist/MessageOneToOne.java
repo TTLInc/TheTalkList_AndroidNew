@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -141,6 +142,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                 messageModel.setTime(msgObj.getString("time"));
                                 messageModelList.add(0, messageModel);
                             }
+
                             recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
 //                            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -149,6 +151,14 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                             Log.e("locale android ", new TTL().getUserCountry(getContext()));
 
                             recyclerView.setAdapter(messageRecyclarAdapter);
+                            recyclerView.setAdapter(messageRecyclarAdapter);
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    recyclerView.smoothScrollToPosition(messageRecyclarAdapter.getItemCount() - 1);
+                                }
+                            });
+                            Collections.reverse(messageModelList);
                             messageRecyclarAdapter.notifyDataSetChanged();
                         }
                     }
@@ -187,7 +197,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         chat_header = (TextView) view.findViewById(R.id.chat_header);
 
         messageModelList = new ArrayList<>();
-       // Collections.reverse(messageModelList);
+        //   Collections.reverse(messageModelList);
 
         preset_how_are_you = (Button) view.findViewById(R.id.how_are_you);
         preset_when_available = (Button) view.findViewById(R.id.when_available);
@@ -219,7 +229,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         queue = Volley.newRequestQueue(getContext());
         queue1 = Volley.newRequestQueue(getContext());
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mLayoutManager.setReverseLayout(true);
+        //  mLayoutManager.setReverseLayout(true);
 
         ImageView message_onetoone_attachment = (ImageView) view.findViewById(R.id.message_onetoone_attachment);
 
@@ -335,6 +345,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                         recyclerView.setItemAnimator(new DefaultItemAnimator());
 //                                        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
                                         messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"));
+
                                         Log.e("locale android ", new TTL().getUserCountry(getContext()));
 
                                        /* try {
@@ -371,6 +382,14 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                             e.printStackTrace();
                                         }*/
                                         recyclerView.setAdapter(messageRecyclarAdapter);
+                                        recyclerView.setAdapter(messageRecyclarAdapter);
+                                        recyclerView.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                recyclerView.smoothScrollToPosition(messageRecyclarAdapter.getItemCount() - 1);
+                                            }
+                                        });
+                                        Collections.reverse(messageModelList);
                                         messageRecyclarAdapter.notifyDataSetChanged();
                                     }
                                 }
@@ -451,7 +470,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
                 Log.e("message response", response);
 
-
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getInt("status") == 0) {
@@ -476,7 +494,14 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"));
                             recyclerView.setAdapter(messageRecyclarAdapter);
-
+                            //   mLayoutManager.scrollToPosition(messageModelList.size() - 1);
+                            recyclerView.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    recyclerView.smoothScrollToPosition(messageRecyclarAdapter.getItemCount() - 1);
+                                }
+                            });
+                            Collections.reverse(messageModelList);
                             messageRecyclarAdapter.notifyDataSetChanged();
 
                         }
@@ -651,6 +676,13 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                             Log.e("locale android ", new TTL().getUserCountry(getContext()));
 
                                             recyclerView.setAdapter(messageRecyclarAdapter);
+                                            recyclerView.post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    recyclerView.smoothScrollToPosition(messageRecyclarAdapter.getItemCount() - 1);
+                                                }
+                                            });
+                                            Collections.reverse(messageModelList);
                                             messageRecyclarAdapter.notifyDataSetChanged();
                                         }
                                     }
