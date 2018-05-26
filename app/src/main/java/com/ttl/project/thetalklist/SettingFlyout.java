@@ -10,7 +10,11 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +25,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
@@ -110,9 +115,9 @@ public class SettingFlyout extends AppCompatActivity {
     int status;
     Context context;
     List<Fragment> fragmentList;
-
+    DrawerModel[] drawerItem;
     RatingBar ratingBar;
-
+    DrawerItemCustomAdapter adapter;
     Toolbar toolbar;
     final FragmentStack fragmentStack = FragmentStack.getInstance();
     TextView credits, num_ttlScore;
@@ -139,7 +144,7 @@ public class SettingFlyout extends AppCompatActivity {
     LinearLayout switch_layout;
 
     BroadcastReceiver countrefresh;
-
+    int mSelectedItem;
 
     public SettingFlyout() {
     }
@@ -489,16 +494,16 @@ public class SettingFlyout extends AppCompatActivity {
 
         }*/
 
-       /* setTalknow(Boolean.parseBoolean(*/
+        /* setTalknow(Boolean.parseBoolean(*/
 
         Timer timer = new Timer();
         TimerTask hourlyTask = new TimerTask() {
             @Override
             public void run() {
-                SharedPreferences talkNowOff=getSharedPreferences("talknoeoff",MODE_PRIVATE);
+                SharedPreferences talkNowOff = getSharedPreferences("talknoeoff", MODE_PRIVATE);
                 // your code here...
                 Log.e("inCall contains", String.valueOf(talkNowOff.contains("inCall")));
-                if (talkNowOff.contains("inCall")){
+                if (talkNowOff.contains("inCall")) {
                     String Url = "https://www.thetalklist.com/api/tutor_online?uid=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&bit=" + 0;
 
                     Log.e("tutor online url", Url);
@@ -531,7 +536,7 @@ public class SettingFlyout extends AppCompatActivity {
                             });
 
                     Volley.newRequestQueue(getApplicationContext()).add(strRequest);
-                }else {
+                } else {
                     TalkNow(pref, getApplicationContext());
                 }
             }
@@ -633,11 +638,11 @@ public class SettingFlyout extends AppCompatActivity {
 
 
         DrawerModel[] drawerItem = new DrawerModel[8];
-        drawerItem[0] = new DrawerModel(R.drawable.home, "Profile");
-        drawerItem[1] = new DrawerModel(R.drawable.calendar, "Availability");
+        drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+        drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
         drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
-        drawerItem[3] = new DrawerModel(R.drawable.paypal, "Payments");
-        drawerItem[4] = new DrawerModel(R.mipmap.ic_ttl_score, "Rewards");
+        drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+        drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
         drawerItem[5] = new DrawerModel(R.drawable.history, "History");
         drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
         drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
@@ -652,7 +657,6 @@ public class SettingFlyout extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.setDrawerListener(mDrawerToggle);
-
 
         status = pref.getInt("status", 1);
 
@@ -748,7 +752,6 @@ public class SettingFlyout extends AppCompatActivity {
         }
 
 
-
         drawer.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -775,7 +778,7 @@ public class SettingFlyout extends AppCompatActivity {
 
     }
 
-//check availibility api call
+    //check availibility api call
     public void TalkNow(SharedPreferences pref, final Context context) {
 
 
@@ -1012,8 +1015,7 @@ public class SettingFlyout extends AppCompatActivity {
     }
 
 
-
-//Set the fragment afte video call
+    //Set the fragment afte video call
     public void setFragmentByVideoCall(Fragment fragmentByVideoCall) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.viewpager, fragmentByVideoCall).commit();
@@ -1023,47 +1025,46 @@ public class SettingFlyout extends AppCompatActivity {
     String firebase_regId;
 
 
-
-//Register firebase id in database
+    //Register firebase id in database
     private void displayFirebaseRegId() {
 
-            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-            MyFirebaseInstanceIDService myFirebaseInstanceIDService = new MyFirebaseInstanceIDService();
-            myFirebaseInstanceIDService.sendRegistrationToServer(refreshedToken);
-
-
-            SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-            SharedPreferences.Editor prefEdit = pref.edit();
-            prefEdit.putString("firebase id", refreshedToken).apply();
-            firebase_regId = refreshedToken;
-            Log.e("firebase reg id 1111111", "Firebase reg id: " + refreshedToken);
-            String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + refreshedToken;
-            StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
+        MyFirebaseInstanceIDService myFirebaseInstanceIDService = new MyFirebaseInstanceIDService();
+        myFirebaseInstanceIDService.sendRegistrationToServer(refreshedToken);
 
 
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        SharedPreferences.Editor prefEdit = pref.edit();
+        prefEdit.putString("firebase id", refreshedToken).apply();
+        firebase_regId = refreshedToken;
+        Log.e("firebase reg id 1111111", "Firebase reg id: " + refreshedToken);
+        String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + refreshedToken;
+        StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
 
-                        int status = jsonObject.getInt("status");
 
-                        if (status == 0) {
-                        }
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    int status = jsonObject.getInt("status");
+
+                    if (status == 0) {
                     }
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
 
-                }
-            });
-            Volley.newRequestQueue(getApplicationContext()).add(sr);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        Volley.newRequestQueue(getApplicationContext()).add(sr);
 
     }
 
@@ -1154,7 +1155,6 @@ public class SettingFlyout extends AppCompatActivity {
         loginService();
 
 
-
         credits.setText(String.format("%.02f", pref.getFloat("money", 0.0f)));
         Log.e("money", String.valueOf(pref.getFloat("money", 0.0f)));
         credits.setTypeface(typeface);
@@ -1225,7 +1225,8 @@ public class SettingFlyout extends AppCompatActivity {
     }
 
     StringRequest sr;
-//Login service
+
+    //Login service
     public void loginService() {
 
         String URL = "https://www.thetalklist.com/api/login?email=" + email + "&password=" + pass;
@@ -1283,7 +1284,7 @@ public class SettingFlyout extends AppCompatActivity {
                         TVuserName.setText(resultObj.getString("usernm"));
 
 
-                        if (resultObj.getInt("readytotalk")==1){
+                        if (resultObj.getInt("readytotalk") == 1) {
                             talkNow.setChecked(true);
                         }
 
@@ -1376,29 +1377,118 @@ public class SettingFlyout extends AppCompatActivity {
                         }
                     }, 200);*/
                     fragment = new Tablayout_with_viewpager(1);
+                    drawerItem = new DrawerModel[8];
+                    drawerItem[0] = new DrawerModel(R.drawable.profile_activated, "Profile");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+                    drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
 
+                    adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+                    mDrawerList.setAdapter(adapter);
                     break;
                 case 1:
                     fragment = new Availability_page_fragment();
+                    drawerItem = new DrawerModel[8];
+                    drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability_activated, "Availability");
+                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+                    drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+
+                    adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+                    mDrawerList.setAdapter(adapter);
                     break;
                 case 2:
                     fragment = new DesiredTutor();
                     SharedPreferences pref1 = getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor edi = pref1.edit();
                     edi.clear().apply();
+                    drawerItem = new DrawerModel[8];
+                    drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+                    drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+
+                    adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+                    mDrawerList.setAdapter(adapter);
                     break;
                 case 3:
                     fragment = new Earn_Buy_tabLayout();
+                    drawerItem = new DrawerModel[8];
+                    drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments_activated, "Payments");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+                    drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+
+                    adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+                    mDrawerList.setAdapter(adapter);
                     break;
 
                 case 4:
                     fragment = new TTL_Score();
+
+                    drawerItem = new DrawerModel[8];
+                    drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards_activated, "Rewards");
+                    drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+
+                    adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+                    mDrawerList.setAdapter(adapter);
                     break;
                 case 5:
                     fragment = new History();
+
+                    drawerItem = new DrawerModel[8];
+                    drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+                    drawerItem[5] = new DrawerModel(R.drawable.history_activated, "History");
+                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+
+                    adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+                    mDrawerList.setAdapter(adapter);
+                  /*  Drawable mDrawable = context.getResources().getDrawable(R.drawable.history);
+                    mDrawable.setColorFilter(new
+                            PorterDuffColorFilter(0xabcebc, PorterDuff.Mode.MULTIPLY));*/
+                    Log.e("tag", "selectItem: ");
                     break;
                 case 6:
                     fragment = new Support();
+                    drawerItem = new DrawerModel[8];
+                    drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+                    drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+
+                    adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+                    mDrawerList.setAdapter(adapter);
                     break;
 
 
@@ -1793,7 +1883,7 @@ public class SettingFlyout extends AppCompatActivity {
         startActivity(ui);
     }
 
-//Image upload
+    //Image upload
     public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
 
 
