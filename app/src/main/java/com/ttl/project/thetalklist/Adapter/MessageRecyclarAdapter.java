@@ -73,6 +73,7 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
     @Override
     public MessageRecyclarAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_sender_user_layout, parent, false);
+        
         return new MyViewHolder(view);
     }
 
@@ -256,6 +257,8 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
     public int getItemCount() {
         return messageModelList.size();
     }
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
