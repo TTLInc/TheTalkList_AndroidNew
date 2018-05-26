@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:emojicon="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/message_one_to_one"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,13 +20,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center">
-            <!--<ImageView
-            android:id="@+id/message_onetoone_backbtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:src="@drawable/back_black" />-->
 
             <TextView
                 android:id="@+id/chat_header"
@@ -47,18 +39,11 @@
 
     </LinearLayout>
 
-
-    <!--  <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_weight="29"
-        android:layout_height="match_parent">-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="29" />
-    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
 
     <include
         layout="@layout/message_preset"

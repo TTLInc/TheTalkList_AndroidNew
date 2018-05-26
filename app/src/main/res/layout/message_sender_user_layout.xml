@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
 
@@ -11,15 +12,14 @@
         android:id="@+id/chat_user_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        >
+        android:layout_marginEnd="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="30dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="30dp">
 
 
             <LinearLayout
@@ -34,10 +34,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:textAlignment="viewEnd"
                     android:background="@drawable/chat_rounded_cornorx"
                     android:padding="8dp"
                     android:text="hi i am user."
+                    android:textAlignment="viewEnd"
                     android:textColor="#000" />
 
                 <TextView
@@ -152,8 +152,8 @@
         android:id="@+id/chat_sender_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginStart="10dp"
+        android:orientation="horizontal"
         android:visibility="visible">
 
         <ImageView
