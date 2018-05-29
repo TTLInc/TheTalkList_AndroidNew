@@ -3,6 +3,7 @@ package com.ttl.project.thetalklist;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.ttl.project.thetalklist.Adapter.VideoListAdapter;
 import com.android.volley.DefaultRetryPolicy;
@@ -87,11 +89,17 @@ public class VideoList extends Fragment {
         });
 
 
-        ((ImageView) getActivity().findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch_yellow));
-        ((ImageView) getActivity().findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+        ((ImageView) getActivity().findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos_activated));
+        ((ImageView) getActivity().findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+        ((TextView) getActivity().findViewById(R.id.txtTutors)).setTextColor(Color.parseColor("#666666"));
+        ((TextView) getActivity().findViewById(R.id.txtVideos)).setTextColor(Color.parseColor("#3399CC"));
+        ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#666666"));
+        ((TextView) getActivity().findViewById(R.id.txtPayments)).setTextColor(Color.parseColor("#666666"));
+        ((TextView) getActivity().findViewById(R.id.txtFavorites)).setTextColor(Color.parseColor("#666666"));
+
 
 
         queue1 = Volley.newRequestQueue(getContext());

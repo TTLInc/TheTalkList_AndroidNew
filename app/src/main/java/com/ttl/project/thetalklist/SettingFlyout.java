@@ -138,7 +138,7 @@ public class SettingFlyout extends AppCompatActivity {
     LinearLayout settingFlyout_bottomcontrol_favorites, settingFlyout_bottomcontrol_videosearch, settingFlyout_bottomcontrol_Message,
             settingFlyout_bottomcontrol_payments, settingFlyout_bottomcontrol_tutorSearch, settingFlyout_bottomcontrol;
     TextView bottombar_message_count;
-
+    TextView txtTutors, txtVideos, txtMessages, txtPayment, txtFavorits;
     Boolean MessageFrag;
 
     LinearLayout switch_layout;
@@ -227,6 +227,11 @@ public class SettingFlyout extends AppCompatActivity {
         settingFlyout_bottomcontrol_payments = (LinearLayout) findViewById(R.id.settingFlyout_bottomcontrol_payments);
         settingFlyout_bottomcontrol_favorites = (LinearLayout) findViewById(R.id.settingFlyout_bottomcontrol_favorites);
         settingFlyout_bottomcontrol = (LinearLayout) findViewById(R.id.settingFlyout_bottomcontrol);
+        txtTutors = (TextView) findViewById(R.id.txtTutors);
+        txtMessages = (TextView) findViewById(R.id.txtMessages);
+        txtVideos = (TextView) findViewById(R.id.txtVideos);
+        txtPayment = (TextView) findViewById(R.id.txtPayments);
+        txtFavorits = (TextView) findViewById(R.id.txtFavorites);
         pref = getSharedPreferences("loginStatus", MODE_PRIVATE);
         displayFirebaseRegId();
 
@@ -559,11 +564,16 @@ public class SettingFlyout extends AppCompatActivity {
                 fragmentTransaction1.replace(R.id.viewpager, new FavoriteTutor()).commit();
 
 
-                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout_yellow));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch));
-                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites_activated));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+                txtTutors.setTextColor(Color.parseColor("#666666"));
+                txtVideos.setTextColor(Color.parseColor("#666666"));
+                txtMessages.setTextColor(Color.parseColor("#666666"));
+                txtPayment.setTextColor(Color.parseColor("#666666"));
+                txtFavorits.setTextColor(Color.parseColor("#3399CC"));
             }
         });
 
@@ -576,11 +586,16 @@ public class SettingFlyout extends AppCompatActivity {
                 final FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
                 fragmentTransaction1.replace(R.id.viewpager, new VideoList()).commit();
 
-                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch_yellow));
-                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos_activated));
+                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+                txtTutors.setTextColor(Color.parseColor("#666666"));
+                txtVideos.setTextColor(Color.parseColor("#3399CC"));
+                txtMessages.setTextColor(Color.parseColor("#666666"));
+                txtPayment.setTextColor(Color.parseColor("#666666"));
+                txtFavorits.setTextColor(Color.parseColor("#666666"));
 
             }
         });
@@ -592,11 +607,17 @@ public class SettingFlyout extends AppCompatActivity {
                 final FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
                 fragmentTransaction1.replace(R.id.viewpager, new MessageList()).commit();
 
-                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch));
-                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar_yellow));
+                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
+                txtTutors.setTextColor(Color.parseColor("#666666"));
+                txtVideos.setTextColor(Color.parseColor("#666666"));
+                txtMessages.setTextColor(Color.parseColor("#3399CC"));
+                txtPayment.setTextColor(Color.parseColor("#666666"));
+                txtFavorits.setTextColor(Color.parseColor("#666666"));
+
             }
         });
 
@@ -610,11 +631,16 @@ public class SettingFlyout extends AppCompatActivity {
 
                 ttl.ExitBit = 1;
 
-                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch));
-                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout_yellow));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+                txtTutors.setTextColor(Color.parseColor("#3399CC"));
+                txtVideos.setTextColor(Color.parseColor("#666666"));
+                txtMessages.setTextColor(Color.parseColor("#666666"));
+                txtPayment.setTextColor(Color.parseColor("#666666"));
+                txtFavorits.setTextColor(Color.parseColor("#666666"));
             }
         });
 
@@ -628,11 +654,16 @@ public class SettingFlyout extends AppCompatActivity {
                 fragmentTransaction1.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
 
 
-                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch));
-                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar_yellow));
-                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+                ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+                ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments_activated));
+                ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+                txtTutors.setTextColor(Color.parseColor("#666666"));
+                txtVideos.setTextColor(Color.parseColor("#666666"));
+                txtMessages.setTextColor(Color.parseColor("#666666"));
+                txtPayment.setTextColor(Color.parseColor("#3399CC"));
+                txtFavorits.setTextColor(Color.parseColor("#666666"));
             }
         });
 
@@ -640,7 +671,7 @@ public class SettingFlyout extends AppCompatActivity {
         DrawerModel[] drawerItem = new DrawerModel[8];
         drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
         drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-        drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+        drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
         drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
         drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
         drawerItem[5] = new DrawerModel(R.drawable.history, "History");
@@ -1107,11 +1138,11 @@ public class SettingFlyout extends AppCompatActivity {
             }
         }, 5000);
 
-        ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch));
-        ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+        ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+        ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
         LoginService loginService = new LoginService();
         loginService.login(pref.getString("email", ""), pref.getString("pass", ""), getApplicationContext());
         queue = Volley.newRequestQueue(getApplicationContext());
@@ -1356,11 +1387,11 @@ public class SettingFlyout extends AppCompatActivity {
             SharedPreferences prefAvailableTutor = getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
             final SharedPreferences.Editor edavailabe = prefAvailableTutor.edit();
 
-            ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-            ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch));
-            ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-            ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-            ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+            ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+            ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+            ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+            ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+            ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
             SharedPreferences prefVideoList = getSharedPreferences("videoListResponse", Context.MODE_PRIVATE);
             final SharedPreferences.Editor edvideo = prefVideoList.edit();
 
@@ -1380,7 +1411,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile_activated, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
@@ -1395,7 +1426,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability_activated, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
@@ -1413,7 +1444,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.desired_activated, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
@@ -1428,7 +1459,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments_activated, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
@@ -1445,7 +1476,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards_activated, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
@@ -1461,7 +1492,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history_activated, "History");
@@ -1480,11 +1511,11 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desiretour, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
-                    drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+                    drawerItem[6] = new DrawerModel(R.drawable.support_activated, "Support");
                     drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
 
                     adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
@@ -1636,11 +1667,11 @@ public class SettingFlyout extends AppCompatActivity {
     public void onBackPressed() {
 
 
-        ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favoritestar_settingflyout));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videosearch));
-        ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.new_tabuser_bottomlayout));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.dollar));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.message_icon_bottombar));
+        ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+        ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
 
         FragmentManager fragmentManager1 = getSupportFragmentManager();
         SharedPreferences chatPref = getSharedPreferences("chatPref", Context.MODE_PRIVATE);

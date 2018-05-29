@@ -28,12 +28,7 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
     public ViewPager viewPager;
     public TabLayout tabLayout;
 
-
-
     Bundle savedInstanceState;
-
-
-
 
     int roleId;
     int status;

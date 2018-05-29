@@ -54,7 +54,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
+
                 android:padding="8dp"
                 android:text="Return to the call"
                 android:textColor="#ffffff"
@@ -82,8 +82,10 @@
                 android:layout_height="60dp"
                 android:layout_alignParentBottom="true"
                 android:layout_weight="1"
-                android:background="#3398CC"
+                android:background="@drawable/shadow"
                 android:baselineAligned="false"
+                android:elevation="3dp"
+
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:theme="@style/AppBarOverlay">
@@ -101,15 +103,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/new_tabuser_bottomlayout" />
+                        android:src="@drawable/tutors" />
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/txtTutors"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        
                         android:gravity="center"
                         android:text="Tutors"
                         android:textColor="#fff"
@@ -128,14 +129,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/videosearch" />
+                        android:src="@drawable/videos" />
 
                     <TextView
+                        android:id="@+id/txtVideos"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        
                         android:gravity="center"
                         android:text="Videos"
                         android:textColor="#fff"
@@ -146,9 +147,9 @@
                     android:id="@+id/settingFlyout_bottomcontrol_Message"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                <!--android:layout_gravity="center"-->
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <!--android:layout_gravity="center"-->
                     <!--android:gravity="center"-->
                     <!--android:layout_marginTop="-0dp"-->
 
@@ -171,9 +172,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
+                                android:layout_marginBottom="15dp"
                                 android:layout_marginRight="20dp"
                                 android:layout_marginTop="-2dp"
-                                android:layout_marginBottom="15dp"
                                 android:background="@drawable/roundcornered_orange"
                                 android:elevation="10dp"
                                 android:padding="4dp"
@@ -190,23 +191,24 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="12dp"
-                            android:layout_marginTop="-8dp"
                             android:layout_marginRight="10dp"
+                            android:layout_marginTop="-8dp"
                             android:layout_weight="1"
-                            android:src="@drawable/message_icon_bottombar" />
+                            android:padding="7dp"
+                            android:src="@drawable/messages" />
                     </FrameLayout>
 
                     <TextView
+                        android:id="@+id/txtMessages"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:layout_marginTop="-16dp"
                         android:layout_weight="1"
-
                         android:gravity="center"
                         android:text="Messages"
                         android:textColor="#fff"
-                        android:textSize="10dp"
-                        android:layout_marginTop="-16dp"/>
+                        android:textSize="10dp" />
 
                 </LinearLayout>
 
@@ -222,10 +224,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/dollar" />
+                        android:src="@drawable/payments" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/txtPayments"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -248,14 +250,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/favoritestar_settingflyout" />
+                        android:src="@drawable/favorites" />
 
                     <TextView
+                        android:id="@+id/txtFavorites"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        
                         android:gravity="center"
                         android:text="Favorites"
                         android:textColor="#fff"
