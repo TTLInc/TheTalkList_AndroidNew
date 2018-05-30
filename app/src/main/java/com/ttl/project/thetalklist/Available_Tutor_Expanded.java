@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -84,7 +86,7 @@ public class Available_Tutor_Expanded extends Fragment {
 
 
     LinearLayout review_root_biography, personalLinearLayout, eduLinearLayout, proLinearLayout,
-                ratingLinearLayout;
+            ratingLinearLayout;
 
     ExpandableTextView expandableTextView;
     ExpandableTextView expandableTextViewedu;
@@ -109,7 +111,7 @@ public class Available_Tutor_Expanded extends Fragment {
     View convertView;
     TextView firstNameTV;
     TextView availableTutorListCPS;
-    RatingBar ratingBar,TutorExpanded_review_ratingBar1;
+    RatingBar ratingBar, TutorExpanded_review_ratingBar1;
 
     ImageView expanded_fullscreen;
 
@@ -128,7 +130,7 @@ public class Available_Tutor_Expanded extends Fragment {
     long PlayBackPosition;
     int CurrentWindow;
     boolean playWhenReady = true;
-    SharedPreferences preferences1,preferences;
+    SharedPreferences preferences1, preferences;
 
     //exo player over
 
@@ -136,12 +138,12 @@ public class Available_Tutor_Expanded extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        convertView = inflater.inflate(R.layout.available_tutor_expanded, container,false);
+        convertView = inflater.inflate(R.layout.available_tutor_expanded, container, false);
         preferences1 = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 
         roleIdUser = preferences1.getInt("roleId", 0);
 
-        preferences =getContext().getSharedPreferences("videoCallTutorDetails",Context.MODE_PRIVATE);
+        preferences = getContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
         SharedPreferences preferences = getContext().getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
         firstName = preferences.getString("tutorName", "");
         roleId = preferences.getInt("tutorRoleId", 0);
@@ -153,7 +155,9 @@ public class Available_Tutor_Expanded extends Fragment {
 
         Log.e("pic tutor expanded", pic);
 
-
+        Bundle args = this.getArguments();
+        String Flag = args.getString("Flag");
+        Log.e(TAG, "ImageId " + Flag);
         componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) convertView.findViewById(R.id.exo_player_view);
 
@@ -165,17 +169,17 @@ public class Available_Tutor_Expanded extends Fragment {
 //        view.findViewById(R.id.studentToolbar).setVisibility(View.GONE);
 //        view.findViewById(R.id.expandableToolbar).setVisibility(View.VISIBLE);
         firstNameTV = (TextView) convertView.findViewById(R.id.expandedToolbartutorName);
-        review_root_biography= (LinearLayout) convertView.findViewById(R.id.review_root_expanded);
+        review_root_biography = (LinearLayout) convertView.findViewById(R.id.review_root_expanded);
 
         expandableTextView = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_personal);
         expandableTextViewedu = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_educational);
         expandableTextViewpro = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_professional);
 //        final ExpandableTextView expandableTextViewpro = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_professional);
 
-        buttonToggle = (Button) convertView.findViewById(R.id.more);
+        buttonToggle = (Button) convertView.findViewById(R.id.button_toggle);
         buttonToggleedu = (Button) convertView.findViewById(R.id.moreedu);
         buttonTogglepro = (Button) convertView.findViewById(R.id.moreprof);
-        expanded_fullscreen= (ImageView) convertView.findViewById(R.id.expanded_fullscreen);
+        expanded_fullscreen = (ImageView) convertView.findViewById(R.id.expanded_fullscreen);
 
         personalLinearLayout = (LinearLayout) convertView.findViewById(R.id.personalLinearLayout);
         eduLinearLayout = (LinearLayout) convertView.findViewById(R.id.eduLinearLayout);
@@ -214,15 +218,22 @@ public class Available_Tutor_Expanded extends Fragment {
         TutorExpanded_tutorin_languages_webview = (WebView) convertView.findViewById(R.id.TutorExpanded_tutorin_languages_webview);
         TutorExpanded_tutorin_languages_webview.setHorizontalScrollbarOverlay(false);
 
-        proLinearLayout.setOnClickListener(new View.OnClickListener() {
+      /*  proLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 expandableTextViewpro.toggle();
                 buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "more..." : "Less...");
             }
-        });
+        });*/
+        if (Flag.equals("0")) {
+            Log.e(TAG, "disable ");
+            videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.disabled_video));
+        } else {
+            Log.e(TAG, "Enable");
+            videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.video));
+        }
 
-        expandableTextViewpro.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
+      /*  expandableTextViewpro.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
             @Override
             public void onExpand(final ExpandableTextView view) {
                 Log.d("Expand", "ExpandableTextView expanded");
@@ -241,21 +252,17 @@ public class Available_Tutor_Expanded extends Fragment {
 // or set them separately
         expandableTextViewpro.setExpandInterpolator(new OvershootInterpolator());
         expandableTextViewpro.setCollapseInterpolator(new OvershootInterpolator());
-
+*/
 
         return convertView;
     }
-
-
-
-
 
 
     @Override
     public void onResume() {
         super.onResume();
         firstNameTV.setText(firstName);
-        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
 
         final String h_str = String.format("%.02f", Float.parseFloat(hRate) / 25);
@@ -303,7 +310,7 @@ public class Available_Tutor_Expanded extends Fragment {
 //                fragmentStack.push(new Available_Tutor_Expanded());
 //                fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag",0), preferences.getFloat("credit",0),preferences.getString("tutorName",""))).commit();
 
-                LayoutInflater inflater=LayoutInflater.from(getContext());
+                LayoutInflater inflater = LayoutInflater.from(getContext());
 
                 View view1 = inflater.inflate(R.layout.talknow_confirmation_layout, null);
                 final PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
@@ -330,11 +337,11 @@ public class Available_Tutor_Expanded extends Fragment {
                     public void onClick(View v) {
 
                         SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor=preferences.edit();
+                        SharedPreferences.Editor editor = preferences.edit();
 
                         editor.putString("tutorName", firstName);
                         editor.putInt("flag", 1);
-                        SharedPreferences  pref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                        SharedPreferences pref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
                         editor.putInt("studentId", pref.getInt("id", 0));
                         editor.putString("tutorName", firstName);
                         editor.putInt("tutorId", tutorId);
@@ -385,14 +392,7 @@ public class Available_Tutor_Expanded extends Fragment {
         });
 
 
-
-
-
-
-
         morelist.setText("MORE...");
-
-
 
 
         subHandler = (subjectHandler) new subjectHandler().execute();
@@ -424,9 +424,8 @@ public class Available_Tutor_Expanded extends Fragment {
         });
 
 
-
         {
-            String URL = "http://www.thetalklist.com/api/reviews?uid="+ tutorId;
+            String URL = "http://www.thetalklist.com/api/reviews?uid=" + tutorId;
             Log.e("review url", URL);
 
 
@@ -434,49 +433,48 @@ public class Available_Tutor_Expanded extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     try {
-                        Log.e("review response",response);
-                        JSONObject res=new JSONObject(response);
-                        if (res.getInt("status")==0){
-                            JSONArray reviewAry=res.getJSONArray("review");
+                        Log.e("review response", response);
+                        JSONObject res = new JSONObject(response);
+                        if (res.getInt("status") == 0) {
+                            JSONArray reviewAry = res.getJSONArray("review");
 
-                            ((TextView)convertView.findViewById(R.id.TutorExpanded_review_count)).setText((String.valueOf(res.getInt("total_session"))));
+                            ((TextView) convertView.findViewById(R.id.TutorExpanded_review_count)).setText((String.valueOf(res.getInt("total_session"))));
 
-                            for (int i=0;i<reviewAry.length();i++)
-                            {
+                            for (int i = 0; i < reviewAry.length(); i++) {
 
-                                JSONObject obj= (JSONObject) reviewAry.get(i);
+                                JSONObject obj = (JSONObject) reviewAry.get(i);
 
                                 view1 = LayoutInflater.from(getActivity()).inflate(R.layout.available_tutor_expanded_ratings_feedback, null);
 
                                 ImageView imageView = (ImageView) view1.findViewById(R.id.imageView9);
-                                Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/" +obj.getString("pic"))
+                                Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/" + obj.getString("pic"))
                                         .crossFade()
                                         .thumbnail(0.5f)
                                         .bitmapTransform(new CircleTransform(getContext()))
                                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                                         .into(imageView);
-                                TextView review_name= (TextView) view1.findViewById(R.id.review_name);
+                                TextView review_name = (TextView) view1.findViewById(R.id.review_name);
                                 review_name.setText(obj.getString("firstName"));
-                                TextView review_rate= (TextView) view1.findViewById(R.id.review_rate);
+                                TextView review_rate = (TextView) view1.findViewById(R.id.review_rate);
                                 review_rate.setText(obj.getString("msg"));
 
-                                RatingBar ratingBar1= (RatingBar) view1.findViewById(R.id.ratingBar1);
+                                RatingBar ratingBar1 = (RatingBar) view1.findViewById(R.id.ratingBar1);
 
                                 ratingBar1.setRating(Float.parseFloat(obj.getString("clearReception")));
 
-                                String date=obj.getString("create_at");
-                                Date date_txt=null;
-                                String[] months={"Jan","Feb","Mar","April","may","June","July","Aug","Sep","Oct","Nov","Dec"};
+                                String date = obj.getString("create_at");
+                                Date date_txt = null;
+                                String[] months = {"Jan", "Feb", "Mar", "April", "may", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-                                if (date!=null){
+                                if (date != null) {
                                     date_txt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(date);
-                                    int month= Integer.parseInt(new SimpleDateFormat("MM", Locale.US).format(date_txt));
-                                    int day= Integer.parseInt(new SimpleDateFormat("dd", Locale.US).format(date_txt));
-                                    int year= Integer.parseInt(new SimpleDateFormat("yyyy", Locale.US).format(date_txt));
+                                    int month = Integer.parseInt(new SimpleDateFormat("MM", Locale.US).format(date_txt));
+                                    int day = Integer.parseInt(new SimpleDateFormat("dd", Locale.US).format(date_txt));
+                                    int year = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.US).format(date_txt));
 
-                                    TextView biography_date_review= (TextView) view1.findViewById(R.id.biography_date_review);
+                                    TextView biography_date_review = (TextView) view1.findViewById(R.id.biography_date_review);
 
-                                    biography_date_review.setText(String.valueOf(day)+"-"+months[month-1]+"-"+String.valueOf(year));
+                                    biography_date_review.setText(String.valueOf(day) + "-" + months[month - 1] + "-" + String.valueOf(year));
                                 }
 
                                 review_root_biography.addView(view1);
@@ -501,71 +499,142 @@ public class Available_Tutor_Expanded extends Fragment {
         }
 
 
+        expandableTextViewpro.setAnimationDuration(750L);
 
-
-
-        expandableTextView.setAnimationDuration(1000L);
-
-//         set interpolators for both expanding and collapsing animations
-        expandableTextView.setInterpolator(new OvershootInterpolator());
+        // set interpolators for both expanding and collapsing animations
+        expandableTextViewpro.setInterpolator(new OvershootInterpolator());
 
 // or set them separately
-        expandableTextView.setExpandInterpolator(new OvershootInterpolator());
-        expandableTextView.setCollapseInterpolator(new OvershootInterpolator());
+        expandableTextViewpro.setExpandInterpolator(new OvershootInterpolator());
+        expandableTextViewpro.setCollapseInterpolator(new OvershootInterpolator());
 
+// toggle the ExpandableTextView
+        buttonTogglepro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "MORE" : "LESS");
+                expandableTextViewpro.toggle();
+            }
+        });
 
-        expandableTextViewedu.setAnimationDuration(1000L);
+// but, you can also do the checks yourself
+        buttonTogglepro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (expandableTextViewpro.isExpanded()) {
+                    expandableTextViewpro.collapse();
+                    buttonTogglepro.setText("MORE");
+                } else {
+                    expandableTextViewpro.expand();
+                    buttonTogglepro.setText("LESS");
+                }
+            }
+        });
 
-//         set interpolators for both expanding and collapsing animations
+// listen for expand / collapse events
+        expandableTextViewpro.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
+            @Override
+            public void onExpand(final ExpandableTextView view) {
+                Log.d(TAG, "ExpandableTextView expanded");
+            }
+
+            @Override
+            public void onCollapse(final ExpandableTextView view) {
+                Log.d(TAG, "ExpandableTextView collapsed");
+            }
+        });
+        expandableTextViewedu.setAnimationDuration(750L);
+
+        // set interpolators for both expanding and collapsing animations
         expandableTextViewedu.setInterpolator(new OvershootInterpolator());
 
 // or set them separately
         expandableTextViewedu.setExpandInterpolator(new OvershootInterpolator());
         expandableTextViewedu.setCollapseInterpolator(new OvershootInterpolator());
 
-
-        personalLinearLayout.setOnClickListener(new View.OnClickListener() {
+// toggle the ExpandableTextView
+        buttonToggleedu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                expandableTextView.toggle();
-                buttonToggle.setText(expandableTextView.isExpanded() ? "more..." : "Less...");
-            }
-        });
-
-        expandableTextView.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
-            @Override
-            public void onExpand(final ExpandableTextView view) {
-                Log.d("Expand", "ExpandableTextView expanded");
-            }
-
-            @Override
-            public void onCollapse(final ExpandableTextView view) {
-                Log.d("Expand", "ExpandableTextView collapsed");
-            }
-        });
-
-
-        eduLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
+                buttonToggleedu.setText(expandableTextViewedu.isExpanded() ? "MORE" : "LESS");
                 expandableTextViewedu.toggle();
-                buttonToggleedu.setText(expandableTextViewedu.isExpanded() ? "more..." : "Less...");
             }
         });
 
+// but, you can also do the checks yourself
+        buttonToggleedu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (expandableTextViewedu.isExpanded()) {
+                    expandableTextViewedu.collapse();
+                    buttonToggleedu.setText("MORE");
+                } else {
+                    expandableTextViewedu.expand();
+                    buttonToggleedu.setText("LESS");
+                }
+            }
+        });
+
+// listen for expand / collapse events
         expandableTextViewedu.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
             @Override
             public void onExpand(final ExpandableTextView view) {
-                Log.d("Expand", "ExpandableTextView expanded");
+                Log.d(TAG, "ExpandableTextView expanded");
             }
 
             @Override
             public void onCollapse(final ExpandableTextView view) {
-                Log.d("Expand", "ExpandableTextView collapsed");
+                Log.d(TAG, "ExpandableTextView collapsed");
+            }
+        });
+// set animation duration via code, but preferable in your layout files by using the animation_duration attribute
+        expandableTextView.setAnimationDuration(750L);
+
+        // set interpolators for both expanding and collapsing animations
+        expandableTextView.setInterpolator(new OvershootInterpolator());
+
+// or set them separately
+        expandableTextView.setExpandInterpolator(new OvershootInterpolator());
+        expandableTextView.setCollapseInterpolator(new OvershootInterpolator());
+
+// toggle the ExpandableTextView
+        buttonToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                buttonToggle.setText(expandableTextView.isExpanded() ? "MORE" : "LESS");
+                expandableTextView.toggle();
+            }
+        });
+
+// but, you can also do the checks yourself
+        buttonToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (expandableTextView.isExpanded()) {
+                    expandableTextView.collapse();
+                    buttonToggle.setText("MORE");
+                } else {
+                    expandableTextView.expand();
+                    buttonToggle.setText("LESS");
+                }
+            }
+        });
+
+// listen for expand / collapse events
+        expandableTextView.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
+            @Override
+            public void onExpand(final ExpandableTextView view) {
+                Log.d(TAG, "ExpandableTextView expanded");
+            }
+
+            @Override
+            public void onCollapse(final ExpandableTextView view) {
+                Log.d(TAG, "ExpandableTextView collapsed");
             }
         });
 
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -574,20 +643,19 @@ public class Available_Tutor_Expanded extends Fragment {
     }
 
 
-
-//Initialize exoplayer
+    //Initialize exoplayer
     private void InitializePLayer(String link) throws android.net.ParseException {
 
-        if (player==null){
-            TrackSelection.Factory factory=new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
+        if (player == null) {
+            TrackSelection.Factory factory = new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
 
-            player= ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(getContext()), new DefaultTrackSelector(factory),new DefaultLoadControl());
+            player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(getContext()), new DefaultTrackSelector(factory), new DefaultLoadControl());
             player.addListener(componentListener);
             player.setAudioDebugListener(componentListener);
             player.setVideoDebugListener(componentListener);
             playerView.setPlayer(player);
             player.setPlayWhenReady(false);
-            player.seekTo(CurrentWindow,PlayBackPosition);
+            player.seekTo(CurrentWindow, PlayBackPosition);
 
         }
 
@@ -599,27 +667,25 @@ public class Available_Tutor_Expanded extends Fragment {
         MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(/*"https://www.thetalklist.com/uploads/video/2015/05/26/757514f83fa063fa6d9732e54299de10.MOV"*/link),
                 dataSourceFactory, extractorsFactory, null, null);
 
-        player.prepare(mediaSource,true,false);
+        player.prepare(mediaSource, true, false);
     }
 
-//Release Exoplayer
-    private void ReleasePlayer(){
-        if (player != null){
-            PlayBackPosition=player.getCurrentPosition();
-            CurrentWindow=player.getCurrentWindowIndex();
-            playWhenReady=player.getPlayWhenReady();
+    //Release Exoplayer
+    private void ReleasePlayer() {
+        if (player != null) {
+            PlayBackPosition = player.getCurrentPosition();
+            CurrentWindow = player.getCurrentWindowIndex();
+            playWhenReady = player.getPlayWhenReady();
             player.removeListener(componentListener);
             player.setVideoListener(null);
             player.setVideoDebugListener(null);
             player.setAudioDebugListener(null);
             player.release();
-            player=null;
+            player = null;
 
 
         }
     }
-
-
 
 
     private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener, AudioRendererEventListener {
@@ -642,30 +708,30 @@ public class Available_Tutor_Expanded extends Fragment {
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
 
             String stateString;
-            switch (playbackState){
+            switch (playbackState) {
                 case ExoPlayer.STATE_IDLE:
-                    stateString="ExoPlayer.STATE_IDLE   -";
+                    stateString = "ExoPlayer.STATE_IDLE   -";
                     break;
 
 
                 case ExoPlayer.STATE_BUFFERING:
-                    stateString="ExoPlayer.STATE_BUFFERING   -";
+                    stateString = "ExoPlayer.STATE_BUFFERING   -";
                     break;
 
 
                 case ExoPlayer.STATE_READY:
-                    stateString="ExoPlayer.STATE_READY  -";
+                    stateString = "ExoPlayer.STATE_READY  -";
                     break;
                 case ExoPlayer.STATE_ENDED:
-                    stateString="ExoPlayer.STATE_ENDED  -";
+                    stateString = "ExoPlayer.STATE_ENDED  -";
                     break;
 
                 default:
-                    stateString="Unknown State  -";
+                    stateString = "Unknown State  -";
                     break;
             }
 
-            Log.e(TAG,"changed state to "+stateString+"PLay when ready "+playWhenReady);
+            Log.e(TAG, "changed state to " + stateString + "PLay when ready " + playWhenReady);
 
         }
 
@@ -751,7 +817,6 @@ public class Available_Tutor_Expanded extends Fragment {
     }
 
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -777,8 +842,6 @@ public class Available_Tutor_Expanded extends Fragment {
         super.onDestroyView();
         toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
     }
-
-
 
 
     private class subjectHandler extends AsyncTask<Void, Void, Void> {
@@ -815,21 +878,20 @@ public class Available_Tutor_Expanded extends Fragment {
 
 
                                 String nativeLang = obj.getString("tutoring_subjects");
-                                String sub ="";
-                                JSONArray ar=new JSONArray(nativeLang);
-                                for (int i=0;i<ar.length();i++)
-                                {
-                                    if (sub.equals("")){
-                                        sub=ar.getString(i);
-                                    }else {
-                                        sub=sub+", "+ar.getString(i);
+                                String sub = "";
+                                JSONArray ar = new JSONArray(nativeLang);
+                                for (int i = 0; i < ar.length(); i++) {
+                                    if (sub.equals("")) {
+                                        sub = ar.getString(i);
+                                    } else {
+                                        sub = sub + ", " + ar.getString(i);
                                     }
                                 }
 //                                TutorExpanded_tutorin_languages.setText(sub);
                                 TutorExpanded_tutorin_languages_webview.setVisibility(View.VISIBLE);
                                 TutorExpanded_tutorin_languages_webview.loadData(String.format(htmlText, "<html><head><style type=\\\"text/css\\\">  @font-face {  font-family: MyFont;      src: url(\\\"file:///android_asset/fonts/GothamBookRegular.ttf\\\")  }    body { font-family: MyFont; font-color:#616A6B;  font-size: 12px;  text-align: justify;   }   </style> </head>\n" +
                                         "\t<body >"/*style=\"text-align:justify; font-size: 13px;\"*/ +
-                                        "\t <font color='#616A6B'>"+sub+"</font>\n" +
+                                        "\t <font color='#616A6B'>" + sub + "</font>\n" +
                                         "\t </body>\n" +
                                         "</Html>"), "text/html", "utf-8");
                                 convertView.findViewById(R.id.TutorExpanded_tutorin_languages_progress).setVisibility(View.GONE);
@@ -884,9 +946,9 @@ public class Available_Tutor_Expanded extends Fragment {
                                 expanded_fullscreen.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Intent i=new Intent(getContext(),Exoplayer_fullscreen.class);
+                                        Intent i = new Intent(getContext(), Exoplayer_fullscreen.class);
                                         i.putExtra("fullscreen_video_url", finalLink);
-                                        i.putExtra("position",player.getCurrentPosition());
+                                        i.putExtra("position", player.getCurrentPosition());
                                         startActivity(i);
                                     }
                                 });

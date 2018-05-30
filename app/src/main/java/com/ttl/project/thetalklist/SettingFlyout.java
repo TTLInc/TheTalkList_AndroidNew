@@ -558,6 +558,7 @@ public class SettingFlyout extends AppCompatActivity {
         settingFlyout_bottomcontrol_favorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DefoultColorNavigation();
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 fragmentStack.push(new Available_tutor());
                 final FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
@@ -581,6 +582,7 @@ public class SettingFlyout extends AppCompatActivity {
         settingFlyout_bottomcontrol_videosearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DefoultColorNavigation();
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 fragmentStack.push(new Available_tutor());
                 final FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
@@ -602,6 +604,7 @@ public class SettingFlyout extends AppCompatActivity {
         settingFlyout_bottomcontrol_Message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DefoultColorNavigation();
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 fragmentStack.push(new Available_tutor());
                 final FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
@@ -624,6 +627,7 @@ public class SettingFlyout extends AppCompatActivity {
         settingFlyout_bottomcontrol_tutorSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DefoultColorNavigation();
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 final FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
                 fragmentTransaction1.replace(R.id.viewpager, new Available_tutor()).commit();
@@ -647,7 +651,7 @@ public class SettingFlyout extends AppCompatActivity {
         settingFlyout_bottomcontrol_payments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DefoultColorNavigation();
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 fragmentStack.push(new Available_tutor());
                 final FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
@@ -807,6 +811,20 @@ public class SettingFlyout extends AppCompatActivity {
         });
 
 
+    }
+
+    public void DefoultColorNavigation() {
+        drawerItem = new DrawerModel[8];
+        drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+        drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+        drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
+        drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+        drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+        drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+        drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+        drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+        adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+        mDrawerList.setAdapter(adapter);
     }
 
     //check availibility api call
@@ -1392,6 +1410,11 @@ public class SettingFlyout extends AppCompatActivity {
             ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
             ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
             ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+            txtTutors.setTextColor(Color.parseColor("#666666"));
+            txtVideos.setTextColor(Color.parseColor("#666666"));
+            txtMessages.setTextColor(Color.parseColor("#666666"));
+            txtPayment.setTextColor(Color.parseColor("#666666"));
+            txtFavorits.setTextColor(Color.parseColor("#666666"));
             SharedPreferences prefVideoList = getSharedPreferences("videoListResponse", Context.MODE_PRIVATE);
             final SharedPreferences.Editor edvideo = prefVideoList.edit();
 

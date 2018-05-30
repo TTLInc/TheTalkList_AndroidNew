@@ -244,20 +244,20 @@
                                     <WebView
                                         android:id="@+id/TutorExpanded_tutorin_languages_webview"
                                         android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_below="@+id/textView9"
-                                        android:layout_marginLeft="-13dp"
-                                        android:layout_gravity="fill_vertical"
                                         android:layout_centerHorizontal="true"
+                                        android:layout_gravity="fill_vertical"
+                                        android:layout_marginLeft="-13dp"
                                         android:gravity="start"
-                                        android:visibility="gone"
-                                        android:layout_height="wrap_content"/>
+                                        android:visibility="gone" />
 
                                     <TextView
                                         android:id="@+id/TutorExpanded_tutorin_languages"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:visibility="gone"
-                                        android:text="" />
+                                        android:text=""
+                                        android:visibility="gone" />
 
 
                                     <ProgressBar
@@ -327,7 +327,7 @@
                                         android:background="#616A6B" />
 
                                     <LinearLayout
-                                        android:id = "@+id/personalLinearLayout"
+                                        android:id="@+id/personalLinearLayout"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginBottom="10dp"
@@ -351,38 +351,36 @@
                                             android:ellipsize="end"
                                             android:maxLines="3"
                                             android:text="@string/personal"
-                                            android:textColor="#616A6B"
-                                            android:textSize="12sp"
-                                            app:animation_duration="1000" />
+                                            app:animation_duration="750" />
 
 
-                                        <com.elyeproj.loaderviewlibrary.LoaderTextView
-                                            android:id="@+id/TutorExpanded_personal_alter"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="30dp"
-                                            android:visibility="gone" />
+                                           <com.elyeproj.loaderviewlibrary.LoaderTextView
+                                               android:id="@+id/TutorExpanded_personal_alter"
+                                               android:layout_width="match_parent"
+                                               android:layout_height="30dp"
+                                               android:visibility="gone" />
 
 
-                                        <LinearLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="24dp"
-                                            android:weightSum="3">
+                                           <LinearLayout
+                                               android:layout_width="match_parent"
+                                               android:layout_height="24dp"
+                                               android:weightSum="3">
 
-                                            <View
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_weight="2" />
+                                               <View
+                                                   android:layout_width="wrap_content"
+                                                   android:layout_height="wrap_content"
+                                                   android:layout_weight="2" />
 
-                                            <Button
-                                                android:id="@+id/more"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="match_parent"
-                                                android:layout_weight="1"
-                                                android:background="#00000000"
-                                                android:text="more..."
-                                                android:textColor="#03A9F4"
-                                                android:textSize="12sp" />
-                                        </LinearLayout>
+                                               <Button
+                                                   android:id="@+id/button_toggle"
+                                                   android:layout_width="wrap_content"
+                                                   android:layout_height="match_parent"
+                                                   android:layout_weight="1"
+                                                   android:background="#00000000"
+                                                   android:text="more..."
+                                                   android:textColor="#03A9F4"
+                                                   android:textSize="12sp" />
+                                           </LinearLayout>
 
                                         <View
                                             android:layout_width="match_parent"
@@ -520,12 +518,13 @@
                                     <RelativeLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent">
+
                                         <LinearLayout
                                             android:id="@+id/ratingLinearLayout"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:orientation="horizontal"
                                             android:gravity="center"
+                                            android:orientation="horizontal"
                                             android:weightSum="4">
 
                                             <me.grantland.widget.AutofitTextView
@@ -539,10 +538,10 @@
 
 
                                             <LinearLayout
-                                                android:layout_marginTop="3dp"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_gravity="center"
+                                                android:layout_marginTop="3dp"
                                                 android:layout_weight="3.98"
                                                 android:gravity="center">
 
@@ -571,7 +570,6 @@
                                             </LinearLayout>
 
 
-
                                             <ImageView
                                                 android:id="@+id/TutorExpanded_review_minus"
                                                 android:layout_width="25dp"
@@ -583,10 +581,10 @@
 
 
                                             <LinearLayout
-                                                android:layout_marginTop="2dp"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="25dp"
                                                 android:layout_alignParentRight="true"
+                                                android:layout_marginTop="2dp"
                                                 android:gravity="center">
 
 
@@ -595,11 +593,11 @@
                                                     style="?android:attr/ratingBarStyleSmall"
                                                     android:layout_width="80dp"
                                                     android:layout_height="wrap_content"
+                                                    android:layout_gravity="center"
                                                     android:layout_margin="5dp"
+                                                    android:layout_marginTop="3dp"
                                                     android:clickable="false"
                                                     android:focusable="false"
-                                                    android:layout_marginTop="3dp"
-                                                    android:layout_gravity="center"
                                                     android:focusableInTouchMode="false"
                                                     android:isIndicator="true"
                                                     android:maxHeight="20dp"

@@ -85,7 +85,6 @@
                 android:background="@drawable/shadow"
                 android:baselineAligned="false"
                 android:elevation="3dp"
-
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:theme="@style/AppBarOverlay">
