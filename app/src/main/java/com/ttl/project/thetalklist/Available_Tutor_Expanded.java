@@ -91,13 +91,13 @@ public class Available_Tutor_Expanded extends Fragment {
     ExpandableTextView expandableTextView;
     ExpandableTextView expandableTextViewedu;
     ExpandableTextView expandableTextViewpro;
+    ExpandableTextView TutorExpanded_review;
 
     Button buttonToggle;
     Button buttonToggleedu;
     Button buttonTogglepro;
-
-    ImageView minus;
     Button morelist;
+    ImageView minus;
 
 
     View view1;
@@ -174,6 +174,7 @@ public class Available_Tutor_Expanded extends Fragment {
         expandableTextView = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_personal);
         expandableTextViewedu = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_educational);
         expandableTextViewpro = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_professional);
+        TutorExpanded_review = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_review);
 //        final ExpandableTextView expandableTextViewpro = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_professional);
 
         buttonToggle = (Button) convertView.findViewById(R.id.button_toggle);
@@ -225,13 +226,18 @@ public class Available_Tutor_Expanded extends Fragment {
                 buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "more..." : "Less...");
             }
         });*/
-        if (Flag.equals("0")) {
-            Log.e(TAG, "disable ");
-            videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.disabled_video));
-        } else {
-            Log.e(TAG, "Enable");
-            videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.video));
+        try {
+            if (Flag.equals("0")) {
+                Log.e(TAG, "disable ");
+                videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.disabled_video));
+            } else {
+                Log.e(TAG, "Enable");
+                videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.video));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
 
       /*  expandableTextViewpro.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
             @Override
@@ -392,9 +398,6 @@ public class Available_Tutor_Expanded extends Fragment {
         });
 
 
-        morelist.setText("MORE...");
-
-
         subHandler = (subjectHandler) new subjectHandler().execute();
         videoUrlHandler = (VideoUrlHandler) new VideoUrlHandler().execute();
 
@@ -406,7 +409,7 @@ public class Available_Tutor_Expanded extends Fragment {
         });
 
 
-        ratingLinearLayout.setOnClickListener(new View.OnClickListener() {
+       /* ratingLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -422,7 +425,7 @@ public class Available_Tutor_Expanded extends Fragment {
 
             }
         });
-
+*/
 
         {
             String URL = "http://www.thetalklist.com/api/reviews?uid=" + tutorId;
@@ -497,6 +500,50 @@ public class Available_Tutor_Expanded extends Fragment {
             });
             Volley.newRequestQueue(getContext()).add(sr);
         }
+        TutorExpanded_review.setAnimationDuration(750L);
+
+        // set interpolators for both expanding and collapsing animations
+        TutorExpanded_review.setInterpolator(new OvershootInterpolator());
+
+// or set them separately
+        TutorExpanded_review.setExpandInterpolator(new OvershootInterpolator());
+        TutorExpanded_review.setCollapseInterpolator(new OvershootInterpolator());
+
+// toggle the ExpandableTextView
+        morelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                morelist.setText(TutorExpanded_review.isExpanded() ? "MORE" : "LESS");
+                TutorExpanded_review.toggle();
+            }
+        });
+
+// but, you can also do the checks yourself
+        morelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (TutorExpanded_review.isExpanded()) {
+                    TutorExpanded_review.collapse();
+                    morelist.setText("MORE");
+                } else {
+                    TutorExpanded_review.expand();
+                    morelist.setText("LESS");
+                }
+            }
+        });
+
+// listen for expand / collapse events
+        TutorExpanded_review.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
+            @Override
+            public void onExpand(final ExpandableTextView view) {
+                Log.d(TAG, "ExpandableTextView expanded");
+            }
+
+            @Override
+            public void onCollapse(final ExpandableTextView view) {
+                Log.d(TAG, "ExpandableTextView collapsed");
+            }
+        });
 
 
         expandableTextViewpro.setAnimationDuration(750L);

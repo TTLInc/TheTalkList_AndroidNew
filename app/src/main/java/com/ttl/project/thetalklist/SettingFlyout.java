@@ -101,7 +101,7 @@ import me.grantland.widget.AutofitHelper;
 //Main Activity where all data fragment attached with
 public class SettingFlyout extends AppCompatActivity {
 
-
+    private static final String TAG = "SettingFlyout";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
@@ -1205,7 +1205,18 @@ public class SettingFlyout extends AppCompatActivity {
 
 
         credits.setText(String.format("%.02f", pref.getFloat("money", 0.0f)));
-        Log.e("money", String.valueOf(pref.getFloat("money", 0.0f)));
+
+        String mCredits = String.valueOf(pref.getFloat("money", 0.0f));
+        Log.e("money", mCredits);
+        try {
+            BuyCredits buyCredits = new BuyCredits();
+            Bundle bundle = new Bundle();
+            bundle.putString("Credits", mCredits);
+            buyCredits.setArguments(bundle);
+            Log.e(TAG, "Credit-->SettingClass: "+mCredits );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         credits.setTypeface(typeface);
         credits.setOnClickListener(new View.OnClickListener() {
             @Override

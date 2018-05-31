@@ -354,33 +354,33 @@
                                             app:animation_duration="750" />
 
 
-                                           <com.elyeproj.loaderviewlibrary.LoaderTextView
-                                               android:id="@+id/TutorExpanded_personal_alter"
-                                               android:layout_width="match_parent"
-                                               android:layout_height="30dp"
-                                               android:visibility="gone" />
+                                        <com.elyeproj.loaderviewlibrary.LoaderTextView
+                                            android:id="@+id/TutorExpanded_personal_alter"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="30dp"
+                                            android:visibility="gone" />
 
 
-                                           <LinearLayout
-                                               android:layout_width="match_parent"
-                                               android:layout_height="24dp"
-                                               android:weightSum="3">
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="24dp"
+                                            android:weightSum="3">
 
-                                               <View
-                                                   android:layout_width="wrap_content"
-                                                   android:layout_height="wrap_content"
-                                                   android:layout_weight="2" />
+                                            <View
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="2" />
 
-                                               <Button
-                                                   android:id="@+id/button_toggle"
-                                                   android:layout_width="wrap_content"
-                                                   android:layout_height="match_parent"
-                                                   android:layout_weight="1"
-                                                   android:background="#00000000"
-                                                   android:text="more..."
-                                                   android:textColor="#03A9F4"
-                                                   android:textSize="12sp" />
-                                           </LinearLayout>
+                                            <Button
+                                                android:id="@+id/button_toggle"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="match_parent"
+                                                android:layout_weight="1"
+                                                android:background="#00000000"
+                                                android:text="more..."
+                                                android:textColor="#03A9F4"
+                                                android:textSize="12sp" />
+                                        </LinearLayout>
 
                                         <View
                                             android:layout_width="match_parent"
@@ -515,9 +515,10 @@
 
                                     </LinearLayout>
 
-                                    <RelativeLayout
+                                    <LinearLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
 
                                         <LinearLayout
                                             android:id="@+id/ratingLinearLayout"
@@ -532,7 +533,6 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:text="Reviews"
-
                                                 android:textColor="#616A6B"
                                                 android:textSize="20sp" />
 
@@ -605,9 +605,25 @@
                                                     android:numStars="5"
                                                     android:progressTint="@color/yellow" />
                                             </LinearLayout>
+
                                         </LinearLayout>
 
-                                    </RelativeLayout>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <at.blogc.android.views.ExpandableTextView
+                                                android:id="@+id/TutorExpanded_review"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:ellipsize="end"
+                                                android:maxLines="3"
+                                                android:text="@string/personal"
+                                                android:textColor="#616A6B"
+                                                android:textSize="12sp"
+                                                app:animation_duration="1000" />
+                                        </LinearLayout>
+                                    </LinearLayout>
 
 
                                 </LinearLayout>

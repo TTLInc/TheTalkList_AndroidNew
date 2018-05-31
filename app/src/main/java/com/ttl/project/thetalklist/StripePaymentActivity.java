@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class StripePaymentActivity extends AppCompatActivity {
     private Stripe mStripe;
     private CompositeSubscription mCompositeSubscription;
     Card card;
+    private static final String TAG = "StripePaymentActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +143,14 @@ public class StripePaymentActivity extends AppCompatActivity {
                                                 public void onClick(View v) {
 //                                                    startActivity(new Intent(getApplicationContext(),SettingFlyout.class));
 
-                                                    finish();
+                                                    try {
+                                                        final FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
+                                                        fragmentTransaction1.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
+                                                        finish();
+                                                    } catch (Exception e) {
+                                                        Log.e(TAG, "Reload Error " + e);
+                                                    }
+
                                                 }
                                             });
 
