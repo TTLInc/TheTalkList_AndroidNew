@@ -143,13 +143,18 @@ public class StripePaymentActivity extends AppCompatActivity {
                                                 public void onClick(View v) {
 //                                                    startActivity(new Intent(getApplicationContext(),SettingFlyout.class));
 
-                                                    try {
+                                                    Intent i=new Intent(getApplicationContext(),SettingFlyout.class);
+                                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(i);
+
+
+                                                   /* try {
                                                         final FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                                                         fragmentTransaction1.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
                                                         finish();
                                                     } catch (Exception e) {
                                                         Log.e(TAG, "Reload Error " + e);
-                                                    }
+                                                    }*/
 
                                                 }
                                             });
