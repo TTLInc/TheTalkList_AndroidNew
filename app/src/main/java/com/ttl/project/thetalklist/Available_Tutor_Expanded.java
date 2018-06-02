@@ -1,9 +1,11 @@
 
 package com.ttl.project.thetalklist;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,7 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.borjabravo.readmoretextview.ReadMoreTextView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -56,6 +58,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import com.stripe.android.net.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -155,9 +158,9 @@ public class Available_Tutor_Expanded extends Fragment {
 
         Log.e("pic tutor expanded", pic);
 
-        Bundle args = this.getArguments();
+      /*  Bundle args = this.getArguments();
         String Flag = args.getString("Flag");
-        Log.e(TAG, "ImageId " + Flag);
+        Log.e(TAG, "ImageId " + Flag);*/
         componentListener = new ComponentListener();
         playerView = (SimpleExoPlayerView) convertView.findViewById(R.id.exo_player_view);
 
@@ -174,7 +177,7 @@ public class Available_Tutor_Expanded extends Fragment {
         expandableTextView = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_personal);
         expandableTextViewedu = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_educational);
         expandableTextViewpro = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_professional);
-        TutorExpanded_review = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_review);
+        // TutorExpanded_review = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_review);
 //        final ExpandableTextView expandableTextViewpro = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_professional);
 
         buttonToggle = (Button) convertView.findViewById(R.id.button_toggle);
@@ -226,18 +229,18 @@ public class Available_Tutor_Expanded extends Fragment {
                 buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "more..." : "Less...");
             }
         });*/
-        try {
+      /*  try {
             if (Flag.equals("0")) {
                 Log.e(TAG, "disable ");
                 videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.disabled_video));
             } else {
-                Log.e(TAG, "Enable");
+                Log.e(TAG, "Enable");*/
                 videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.video));
-            }
+          /*  }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+*/
 
       /*  expandableTextViewpro.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
             @Override
@@ -276,6 +279,7 @@ public class Available_Tutor_Expanded extends Fragment {
         if (!pic.equals("")) {
             Glide.with(getContext()).load("https://www.thetalklist.com/uploads/images/" + pic)
                     .crossFade()
+                    .centerCrop()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -283,6 +287,7 @@ public class Available_Tutor_Expanded extends Fragment {
         } else {
             Glide.with(getContext()).load("https://www.thetalklist.com/images/header.jpg")
                     .crossFade()
+                    .centerCrop()
                     .thumbnail(0.5f)
                     .bitmapTransform(new CircleTransform(getContext()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -409,7 +414,7 @@ public class Available_Tutor_Expanded extends Fragment {
         });
 
 
-       /* ratingLinearLayout.setOnClickListener(new View.OnClickListener() {
+        morelist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -425,7 +430,6 @@ public class Available_Tutor_Expanded extends Fragment {
 
             }
         });
-*/
 
         {
             String URL = "http://www.thetalklist.com/api/reviews?uid=" + tutorId;
@@ -500,7 +504,19 @@ public class Available_Tutor_Expanded extends Fragment {
             });
             Volley.newRequestQueue(getContext()).add(sr);
         }
-        TutorExpanded_review.setAnimationDuration(750L);
+        /*morelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (TutorExpanded_review.isExpanded()) {
+                    TutorExpanded_review.collapse();
+                    morelist.setText("MORE");
+                } else {
+                    TutorExpanded_review.expand();
+                    morelist.setText("LESS");
+                }
+            }
+        });*/
+       /* TutorExpanded_review.setAnimationDuration(750L);
 
         // set interpolators for both expanding and collapsing animations
         TutorExpanded_review.setInterpolator(new OvershootInterpolator());
@@ -519,18 +535,7 @@ public class Available_Tutor_Expanded extends Fragment {
         });
 
 // but, you can also do the checks yourself
-        morelist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (TutorExpanded_review.isExpanded()) {
-                    TutorExpanded_review.collapse();
-                    morelist.setText("MORE");
-                } else {
-                    TutorExpanded_review.expand();
-                    morelist.setText("LESS");
-                }
-            }
-        });
+
 
 // listen for expand / collapse events
         TutorExpanded_review.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
@@ -543,7 +548,7 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onCollapse(final ExpandableTextView view) {
                 Log.d(TAG, "ExpandableTextView collapsed");
             }
-        });
+        });*/
 
 
         expandableTextViewpro.setAnimationDuration(750L);
@@ -884,6 +889,7 @@ public class Available_Tutor_Expanded extends Fragment {
         toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     public void onDestroy() {
         super.onDestroyView();
