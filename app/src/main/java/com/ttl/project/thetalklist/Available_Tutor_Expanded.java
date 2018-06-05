@@ -58,6 +58,7 @@ import com.google.android.exoplayer2.video.VideoRendererEventListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -109,6 +110,7 @@ public class Available_Tutor_Expanded extends Fragment {
     View convertView;
     TextView firstNameTV;
     TextView availableTutorListCPS;
+    TextView ratingTextview;
     RatingBar ratingBar,TutorExpanded_review_ratingBar1;
 
     ImageView expanded_fullscreen;
@@ -195,19 +197,20 @@ public class Available_Tutor_Expanded extends Fragment {
         msgBtn = (ImageButton) convertView.findViewById(R.id.imageButton3);
         videoBtn = (ImageButton) convertView.findViewById(R.id.imageButton6);
         tutorImage = (ImageView) convertView.findViewById(R.id.TutorImg);
-        minus = (ImageView) convertView.findViewById(R.id.TutorExpanded_review_minus);
         morelist = (Button) convertView.findViewById(R.id.moreList);
 //        controlLayout = (LinearLayout) convertView.findViewById(R.id.controlLayout);
+        ratingTextview = (TextView)convertView.findViewById( R.id.ratingTextView );
         ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
-        TutorExpanded_review_ratingBar1 = (RatingBar) convertView.findViewById(R.id.TutorExpanded_review_ratingBar1);
         if (avgRate.equalsIgnoreCase("")) {
             ratingBar.setRating(0f);
-            TutorExpanded_review_ratingBar1.setRating(0f);
+            ratingTextview.setText( "0.0");
+            //TutorExpanded_review_ratingBar1.setRating(0f);
         } else {
             Float rate = Float.parseFloat(avgRate);
 //            Toast.makeText(getContext(), "rate "+rate, Toast.LENGTH_SHORT).show();
             ratingBar.setRating(rate);
-            TutorExpanded_review_ratingBar1.setRating(rate);
+            ratingTextview.setText( rate + "");
+            //TutorExpanded_review_ratingBar1.setRating(rate);
         }
 
 //        TutorExpanded_tutorin_languages = (TextView) convertView.findViewById(R.id.TutorExpanded_tutorin_languages);
@@ -398,12 +401,6 @@ public class Available_Tutor_Expanded extends Fragment {
         subHandler = (subjectHandler) new subjectHandler().execute();
         videoUrlHandler = (VideoUrlHandler) new VideoUrlHandler().execute();
 
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
 
         ratingLinearLayout.setOnClickListener(new View.OnClickListener() {
@@ -439,8 +436,7 @@ public class Available_Tutor_Expanded extends Fragment {
                         if (res.getInt("status")==0){
                             JSONArray reviewAry=res.getJSONArray("review");
 
-                            ((TextView)convertView.findViewById(R.id.TutorExpanded_review_count)).setText((String.valueOf(res.getInt("total_session"))));
-
+    
                             for (int i=0;i<reviewAry.length();i++)
                             {
 
@@ -461,9 +457,7 @@ public class Available_Tutor_Expanded extends Fragment {
                                 review_rate.setText(obj.getString("msg"));
 
                                 RatingBar ratingBar1= (RatingBar) view1.findViewById(R.id.ratingBar1);
-
                                 ratingBar1.setRating(Float.parseFloat(obj.getString("clearReception")));
-
                                 String date=obj.getString("create_at");
                                 Date date_txt=null;
                                 String[] months={"Jan","Feb","Mar","April","may","June","July","Aug","Sep","Oct","Nov","Dec"};
