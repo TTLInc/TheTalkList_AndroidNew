@@ -21,7 +21,7 @@
             android:layout_marginLeft="40dp"
             android:gravity="center"
             android:text="Messages"
-            android:textColor="#B3B6B7"
+            android:textColor="#000000"
             android:textSize="15sp" />
 
     </LinearLayout>

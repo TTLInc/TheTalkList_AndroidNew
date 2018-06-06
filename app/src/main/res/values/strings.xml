@@ -315,11 +315,13 @@
     </string-array>
 
 
-    <string name="buycredit">
-        Purchase credits to talk with tutors. Credits are deducted based
-        on tutor\'s rate per minute.
+    <string name="buycredit1">
+        Purchase credits to talk with tutors.
     </string>
 
+    <string name="buycredit2">
+        Debits based on tutor’s rate per minute.
+    </string>
 
     <string name="ttltext1">
         Your TTL Score is a result of your activity and global
