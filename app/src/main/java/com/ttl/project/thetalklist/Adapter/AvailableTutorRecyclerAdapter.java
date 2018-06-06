@@ -281,8 +281,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 try {
                     JSONObject jsonObject = array.getJSONObject(position);
                     Bundle bundle = new Bundle();
-                    bundle.putString("Flag", Flag);
-                    Log.e("TAG", "ImageId--> "+Flag );
+                    bundle.putString("Tutorid", jsonObject.getString("uid"));
+                    Log.e("TAG", "ImageId--> "+jsonObject.getString("uid") );
                     SharedPreferences preferences = context.getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("tutorName", jsonObject.getString("firstName"));

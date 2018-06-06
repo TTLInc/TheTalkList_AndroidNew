@@ -276,6 +276,9 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                 try {
                     JSONObject jsonObject = array.getJSONObject(position);
                     Bundle bundle = new Bundle();
+
+                    bundle.putString("Tutorid", jsonObject.getString("uid"));
+                    Log.e("TAG", "ImageId--> "+jsonObject.getString("uid") );
                     SharedPreferences preferences=context.getSharedPreferences("availableTutoeExpPref",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor=preferences.edit();
                     editor.putString("tutorName", jsonObject.getString("firstName"));

@@ -1,7 +1,10 @@
 package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
-import android.app.*;
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,10 +14,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,25 +22,24 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.NotificationCompat;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -53,30 +52,30 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.ttl.project.thetalklist.Config.Config;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.ttl.project.thetalklist.Services.LoginService;
-import com.ttl.project.thetalklist.Services.MessageCountService;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.ttl.project.thetalklist.Config.Config;
+import com.ttl.project.thetalklist.Services.LoginService;
+import com.ttl.project.thetalklist.Services.MessageCountService;
 import com.ttl.project.thetalklist.util.NotificationUtils;
 
 import org.json.JSONException;
@@ -1221,7 +1220,7 @@ public class SettingFlyout extends AppCompatActivity {
         credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getDefultIcon();
                 fragmentStack.push(new Available_tutor());
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
@@ -1230,9 +1229,11 @@ public class SettingFlyout extends AppCompatActivity {
         num_ttlScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getDefultIcon();
                 fragmentStack.push(new Available_tutor());
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.viewpager, new TTL_Score()).commit();
+
             }
         });
         talkNow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1282,6 +1283,31 @@ public class SettingFlyout extends AppCompatActivity {
         });
 
 
+    }
+
+    private void getDefultIcon() {
+        drawerItem = new DrawerModel[8];
+        drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
+        drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
+        drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
+        drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
+        drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
+        drawerItem[5] = new DrawerModel(R.drawable.history, "History");
+        drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
+        drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
+
+        adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
+        mDrawerList.setAdapter(adapter);
+        ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+        ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+        txtTutors.setTextColor(Color.parseColor("#666666"));
+        txtVideos.setTextColor(Color.parseColor("#666666"));
+        txtMessages.setTextColor(Color.parseColor("#666666"));
+        txtPayment.setTextColor(Color.parseColor("#666666"));
+        txtFavorits.setTextColor(Color.parseColor("#666666"));
     }
 
     StringRequest sr;
