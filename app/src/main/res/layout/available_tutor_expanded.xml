@@ -13,53 +13,49 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
 
             <LinearLayout
-                android:id="@+id/Profile_heading"
+                android:id="@+id/profile_image_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:weightSum="2">
+
+                <ImageView
+                    android:id="@+id/TutorImg"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/circle"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/user2" />
 
                 <LinearLayout
                     android:id="@+id/nameLayout"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/TutorImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="3dp"
-                        android:layout_weight="1.2"
-                        android:adjustViewBounds="true"
-                        android:background="@drawable/circle"
-                        android:paddingLeft="16dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/user2" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="3dp"
                         android:text="Hi, I'm"
-                        android:textSize="15dp" />
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/expandedToolbartutorName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="3dp"
                         android:text="Denial"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -67,7 +63,7 @@
                     <RatingBar
                         android:id="@+id/ratingBar"
                         style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="90dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
                         android:focusable="false"
@@ -76,26 +72,17 @@
                         android:maxHeight="20dp"
                         android:minHeight="5dp"
                         android:numStars="5"
-                        android:padding="3dp"
                         android:progressTint="@color/yellow" />
-
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="3dp">
+                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="$ "
-                            android:textColor="#85929E"
-                            android:textSize="12dp" />
 
                         <TextView
                             android:id="@+id/availableTutorListCPS"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
                             android:text="0.00"
                             android:textColor="#85929E"
                             android:textSize="12dp" />
@@ -103,134 +90,148 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="/min"
+                            android:text="Credits/Min"
                             android:textColor="#85929E"
                             android:textSize="12dp" />
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:paddingRight="8dp"
                         android:orientation="horizontal"
-                        android:padding="8dp">
+                        android:weightSum="1">
+
+                        <ImageButton
+                            android:id="@+id/imageButton3"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:background="#00000000"
+                            android:paddingTop="5dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/message" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="5dp">
-
-                            <ImageButton
-                                android:id="@+id/imageButton3"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_gravity="center"
-                                android:adjustViewBounds="true"
-                                android:background="#00000000"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/message" />
+                            android:layout_width="8dp"
+                            android:layout_height="wrap_content">
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingLeft="16dp">
+                        <ImageButton
+                            android:id="@+id/imageButton6"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:background="#00000000"
+                            android:paddingTop="5dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/video" />
 
-                            <ImageButton
-                                android:id="@+id/imageButton6"
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_gravity="center"
-                                android:adjustViewBounds="true"
-                                android:background="#00000000"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/video" />
-
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/subjects_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <me.grantland.widget.AutofitTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Subjects"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="8dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
 
-
-                    <WebView
-                        android:id="@+id/TutorExpanded_tutorin_languages_webview"
+                    <!--<TextView-->
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView9"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="fill_vertical"
-                        android:layout_marginLeft="-13dp"
-                        android:gravity="start"
-                        android:visibility="gone" />
+                        android:layout_marginTop="5dp"
+                        android:text="Subjects"
+                        android:textColor="#616A6B"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/TutorExpanded_tutorin_languages"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:visibility="gone" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
+                        <WebView
+                            android:id="@+id/TutorExpanded_tutorin_languages_webview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textView9"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="fill_vertical"
+                            android:layout_marginLeft="-13dp"
+                            android:gravity="start"
+                            android:visibility="gone" />
 
-                    <ProgressBar
-                        android:id="@+id/TutorExpanded_tutorin_languages_progress"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp" />
-                </RelativeLayout>
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/TutorExpanded_tutorin_languages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:visibility="gone" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-                <RelativeLayout
+                        <ProgressBar
+                            android:id="@+id/TutorExpanded_tutorin_languages_progress"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="16dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
 
-                    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-                        android:id="@+id/exo_player_view"
-                        android:layout_width="150dp"
-                        android:layout_height="200dp" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id = "@+id/personalLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
+                </LinearLayout>
 
 
                 <!--<TextView-->
                 <me.grantland.widget.AutofitTextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="About Me"
+                    android:layout_height="3dp"
                     android:textColor="#616A6B"
                     android:textSize="20sp" />
+
+
+                <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                    android:id="@+id/exo_player_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/personalLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="About Me"
+                        android:textColor="#616A6B"
+                        android:textSize="20sp" />
+                </LinearLayout>
+                <!--<TextView-->
+
 
                 <!--<at.blogc.android.views.Expandableme.grantland.widget.AutofitTextView-->
                 <at.blogc.android.views.ExpandableTextView
@@ -240,9 +241,7 @@
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text="@string/personal"
-                    android:textColor="#616A6B"
-                    android:textSize="12sp"
-                    app:animation_duration="1000" />
+                    app:animation_duration="750" />
 
 
                 <com.elyeproj.loaderviewlibrary.LoaderTextView
@@ -263,7 +262,7 @@
                         android:layout_weight="2" />
 
                     <Button
-                        android:id="@+id/more"
+                        android:id="@+id/button_toggle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -272,79 +271,7 @@
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#616A6B" />
-
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/proLinearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-
-                <!--<TextView-->
-                <me.grantland.widget.AutofitTextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Professions"
-                    android:textColor="#616A6B"
-                    android:textSize="20sp" />
-
-                <at.blogc.android.views.ExpandableTextView
-                    android:id="@+id/TutorExpanded_professional"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:text="@string/personal"
-                    android:textColor="#616A6B"
-                    android:textSize="12sp"
-                    app:animation_duration="1000" />
-
-                <com.elyeproj.loaderviewlibrary.LoaderTextView
-                    android:id="@+id/TutorExpanded_professional_alter"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:visibility="gone" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:weightSum="3">
-
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2" />
-
-                    <Button
-                        android:id="@+id/moreprof"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="#00000000"
-                        android:text="more..."
-                        android:textColor="#03A9F4"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#616A6B" />
-
-            </LinearLayout>
-
-
             <LinearLayout
                 android:id="@+id/eduLinearLayout"
                 android:layout_width="match_parent"
@@ -405,68 +332,160 @@
                     android:layout_height="1dp"
                     android:background="#78909C" />
 
+
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/ratingLinearLayout"
+                android:id="@+id/proLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:orientation="vertical">
 
-                <LinearLayout
+
+                <!--<TextView-->
+                <me.grantland.widget.AutofitTextView
+
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Professional"
+                    android:textColor="#616A6B"
+                    android:textSize="20sp" />
+
+                <at.blogc.android.views.ExpandableTextView
+                    android:id="@+id/TutorExpanded_professional"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="@string/personal"
+                    android:textColor="#616A6B"
+                    android:textSize="12sp"
+                    app:animation_duration="1000" />
+
+                <com.elyeproj.loaderviewlibrary.LoaderTextView
+                    android:id="@+id/TutorExpanded_professional_alter"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:visibility="gone" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="24dp"
-                    android:orientation="horizontal"
                     android:weightSum="3">
-                    <me.grantland.widget.AutofitTextView
+
+                    <View
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="-3dp"
-                        android:text="Rate"
-                        android:textColor="#616A6B"
-                        android:textSize="20sp" />
+                        android:layout_weight="2" />
 
-                    <LinearLayout
-                        android:layout_width="206dp"
-                        android:layout_height="10dp"></LinearLayout>
                     <Button
-                        android:id="@+id/moreList"
+                        android:id="@+id/moreprof"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
-                        android:text="See All..."
+                        android:text="more..."
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
                 </LinearLayout>
-                <!--<TextView-->
 
-
-
-                <TextView
-                    android:id="@+id/ratingTextView"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0.0"
-                    android:textStyle="bold"
-                    android:textSize="20dp"/>
+                    android:layout_height="1dp"
+                    android:background="#616A6B" />
+            </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/TutorExpanded_review_minus"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/minus"
-                    android:visibility="gone" />
-
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <LinearLayout
-                    android:id="@+id/review_root_expanded"
+                    android:id="@+id/ratingLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone" />
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/Review_heading_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <me.grantland.widget.AutofitTextView
+
+                            android:layout_width="274dp"
+                            android:layout_height="wrap_content"
+                            android:text="Reviews"
+                            android:textColor="#616A6B"
+                            android:textSize="20sp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <Button
+                                android:id="@+id/moreList"
+                                android:layout_width="wrap_content"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                android:background="#00000000"
+                                android:text="See All"
+                                android:textColor="#03A9F4"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/TutorExpanded_review_minus"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:src="@drawable/minus"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/rating_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.0"
+                            android:textSize="25dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="out of 5"
+                            android:textSize="15dp" />
+                    </LinearLayout>
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/TutorExpanded_review_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textAlignment="viewStart"
+                        android:textColor="#616A6B"
+                        android:visibility="gone" />
+                    <LinearLayout
+                        android:id="@+id/review_root_expanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone" />
+
                 </LinearLayout>
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

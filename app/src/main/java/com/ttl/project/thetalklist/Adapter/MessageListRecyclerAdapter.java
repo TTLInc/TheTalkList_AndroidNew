@@ -72,7 +72,7 @@ public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageLis
 
         String date=chatroomModel.getLastTime();
         Date date_txt=null;
-        String[] months={"Jan","Feb","Mar","April","may","June","July","Aug","Sep","Oct","Nov","Dec"};
+        String[] months={"Jan","Feb","Mar","April","May","June","July","Aug","Sep","Oct","Nov","Dec"};
         try {
             if (date!=null) {
                 date_txt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(date);

@@ -197,7 +197,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         chat_header = (TextView) view.findViewById(R.id.chat_header);
 
         messageModelList = new ArrayList<>();
-        //   Collections.reverse(messageModelList);
+        //Collections.reverse(messageModelList);
 
         preset_how_are_you = (Button) view.findViewById(R.id.how_are_you);
         preset_when_available = (Button) view.findViewById(R.id.when_available);
@@ -229,7 +229,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         queue = Volley.newRequestQueue(getContext());
         queue1 = Volley.newRequestQueue(getContext());
         mLayoutManager = new LinearLayoutManager(getActivity());
-        //  mLayoutManager.setReverseLayout(true);
+      //  mLayoutManager.setReverseLayout(true);
 
         ImageView message_onetoone_attachment = (ImageView) view.findViewById(R.id.message_onetoone_attachment);
 
@@ -494,10 +494,12 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"));
                             recyclerView.setAdapter(messageRecyclarAdapter);
-                            //   mLayoutManager.scrollToPosition(messageModelList.size() - 1);
                             recyclerView.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                   /* mLayoutManager = new LinearLayoutManager(getActivity());
+                                    mLayoutManager.setReverseLayout(true);
+                                    recyclerView.setLayoutManager(mLayoutManager);*/
                                     recyclerView.smoothScrollToPosition(messageRecyclarAdapter.getItemCount() - 1);
                                 }
                             });

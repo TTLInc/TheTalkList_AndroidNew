@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
@@ -86,6 +87,7 @@ public class Available_tutor extends Fragment {
 
     String desire_subject, desire_lang1, desire_lang2, desire_country, desire_state, desire_keyword, desired_gender;
 
+    @SuppressLint("ValidFragment")
     public Available_tutor(String desire_subject, String desire_lang1, String desire_lang2, String desire_country, String desire_state, String desire_keyword, String desired_gender) {
         this.desire_subject = desire_subject;
         this.desire_lang1 = desire_lang1;
@@ -98,6 +100,7 @@ public class Available_tutor extends Fragment {
         tutorSearch(desire_subject, desire_lang1, desire_lang2, desire_country, desire_state, desire_keyword, desired_gender);
     }
 
+    @SuppressLint("ValidFragment")
     public Available_tutor(int flag, Float credit, String tutorName) {
         this.flag = flag;
         this.credit = credit;

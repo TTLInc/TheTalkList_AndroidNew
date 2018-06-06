@@ -44,7 +44,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
 
     private final Context context;
     private JSONArray array;
-     FragmentManager fragmentManager;
+    FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     FragmentStack fragmentStack;
 
@@ -53,9 +53,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
     int pos;
 
 
-
     public AvailableTutorRecyclerAdapter(Context context) {
-        this.context=context;
+        this.context = context;
     }
 
     public AvailableTutorRecyclerAdapter(Context context, JSONArray array, FragmentManager fragmentManager) {
@@ -63,7 +62,6 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
         this.array = array;
         this.fragmentManager = fragmentManager;
     }
-
 
 
     @Override
@@ -89,6 +87,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
     SharedPreferences pref1;
     SharedPreferences.Editor ed;
     SharedPreferences pref;
+    String Flag = "1";
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
@@ -102,8 +101,9 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 holder.ratingBar.setRating(Float.parseFloat(object.getString("avgRate")));
             else holder.ratingBar.setRating(0f);
             Log.e("available tutor obj", object.toString());
-
-            if (object.getInt("readytotalk")==0){
+            Log.e("Tag", "onBindViewHolder: " +object.getInt("readytotalk"));
+            if (object.getInt("readytotalk") == 0) {
+                Flag = "0";
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
             }
 
@@ -180,7 +180,6 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
 
             SharedPreferences chatPref = context.getSharedPreferences("chatPref", Context.MODE_PRIVATE);
             final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
-
 
 
             holder.msgButton.setOnClickListener(new View.OnClickListener() {
@@ -282,6 +281,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 try {
                     JSONObject jsonObject = array.getJSONObject(position);
                     Bundle bundle = new Bundle();
+                    bundle.putString("Flag", Flag);
+                    Log.e("TAG", "ImageId--> "+Flag );
                     SharedPreferences preferences = context.getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("tutorName", jsonObject.getString("firstName"));
@@ -289,6 +290,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                     editor.putString("tutorPic", jsonObject.getString("pic"));
                     editor.putString("hRate", jsonObject.getString("hRate"));
                     editor.putString("avgRate", jsonObject.getString("avgRate"));
+
                     editor.putInt("tutorid", jsonObject.getInt("uid")).apply();
                     available_tutoe_expanded.setArguments(bundle);
                 } catch (JSONException e) {
