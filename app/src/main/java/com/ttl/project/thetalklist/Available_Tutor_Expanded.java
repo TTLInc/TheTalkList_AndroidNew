@@ -69,6 +69,7 @@ import com.ttl.project.thetalklist.retrofit.ApiInterface;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -115,9 +116,9 @@ public class Available_Tutor_Expanded extends Fragment {
     View convertView;
     TextView firstNameTV;
     TextView availableTutorListCPS;
-
+    TextView rating_textview;
     //Exo player initialization
-    RatingBar ratingBar, TutorExpanded_review_ratingBar1;
+    RatingBar ratingBar;
     ImageView expanded_fullscreen;
     SimpleExoPlayer player;
     SimpleExoPlayerView playerView;
@@ -242,15 +243,18 @@ public class Available_Tutor_Expanded extends Fragment {
         morelist = (Button) convertView.findViewById(R.id.moreList);
 //        controlLayout = (LinearLayout) convertView.findViewById(R.id.controlLayout);
         ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
-        TutorExpanded_review_ratingBar1 = (RatingBar) convertView.findViewById(R.id.TutorExpanded_review_ratingBar1);
+        //TutorExpanded_review_ratingBar1 = (RatingBar) convertView.findViewById(R.id.TutorExpanded_review_ratingBar1);
+        rating_textview = (TextView)convertView.findViewById( R.id.rating_textview );
         if (avgRate.equalsIgnoreCase("")) {
             ratingBar.setRating(0f);
-            TutorExpanded_review_ratingBar1.setRating(0f);
+            //TutorExpanded_review_ratingBar1.setRating(0f);
+            rating_textview.setText( 0f + "");
         } else {
             Float rate = Float.parseFloat(avgRate);
 //            Toast.makeText(getContext(), "rate "+rate, Toast.LENGTH_SHORT).show();
             ratingBar.setRating(rate);
-            TutorExpanded_review_ratingBar1.setRating(rate);
+            //TutorExpanded_review_ratingBar1.setRating(rate);
+            rating_textview.setText( rate + "" );
         }
 
 //        TutorExpanded_tutorin_languages = (TextView) convertView.findViewById(R.id.TutorExpanded_tutorin_languages);
@@ -282,17 +286,14 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onExpand(final ExpandableTextView view) {
                 Log.d("Expand", "ExpandableTextView expanded");
             }
-
             @Override
             public void onCollapse(final ExpandableTextView view) {
                 Log.d("Expand", "ExpandableTextView collapsed");
             }
         });
         expandableTextViewpro.setAnimationDuration(1000L);
-
 //         set interpolators for both expanding and collapsing animations
         expandableTextViewpro.setInterpolator(new OvershootInterpolator());
-
 // or set them separately
         expandableTextViewpro.setExpandInterpolator(new OvershootInterpolator());
         expandableTextViewpro.setCollapseInterpolator(new OvershootInterpolator());
@@ -551,14 +552,11 @@ public class Available_Tutor_Expanded extends Fragment {
             }
         });*/
        /* TutorExpanded_review.setAnimationDuration(750L);
-
         // set interpolators for both expanding and collapsing animations
         TutorExpanded_review.setInterpolator(new OvershootInterpolator());
-
 // or set them separately
         TutorExpanded_review.setExpandInterpolator(new OvershootInterpolator());
         TutorExpanded_review.setCollapseInterpolator(new OvershootInterpolator());
-
 // toggle the ExpandableTextView
         morelist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -567,17 +565,13 @@ public class Available_Tutor_Expanded extends Fragment {
                 TutorExpanded_review.toggle();
             }
         });
-
 // but, you can also do the checks yourself
-
-
 // listen for expand / collapse events
         TutorExpanded_review.setOnExpandListener(new ExpandableTextView.OnExpandListener() {
             @Override
             public void onExpand(final ExpandableTextView view) {
                 Log.d(TAG, "ExpandableTextView expanded");
             }
-
             @Override
             public void onCollapse(final ExpandableTextView view) {
                 Log.d(TAG, "ExpandableTextView collapsed");
@@ -1071,4 +1065,3 @@ public class Available_Tutor_Expanded extends Fragment {
         }
     }
 }
-
