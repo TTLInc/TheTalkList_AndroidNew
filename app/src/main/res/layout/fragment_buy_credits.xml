@@ -38,7 +38,7 @@
                         android:gravity="center"
                         android:singleLine="true"
                         android:text="Current Balance: "
-                        android:textColor="#5DADE2"
+                        android:textColor="#000000"
                         android:textSize="20sp"
                         autofit:minTextSize="16sp" />
 
@@ -66,7 +66,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="$1 USD = 1 Credit"
-                        android:textColor="#5DADE2"
+                        android:textColor="#000000"
                         android:textSize="15sp"
                         autofit:minTextSize="12sp" />
 

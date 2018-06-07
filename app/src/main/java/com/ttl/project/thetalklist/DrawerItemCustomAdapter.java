@@ -2,6 +2,7 @@ package com.ttl.project.thetalklist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
@@ -43,14 +44,16 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<DrawerModel> {
 
         final ImageView imageViewIcon = (ImageView) listItem.findViewById(R.id.customDrawerIcon);
         TextView textViewName = (TextView) listItem.findViewById(R.id.customDrawerText);
-        LinearLayout linearLayout = (LinearLayout) listItem.findViewById(R.id.linearLayout);
-
+        LinearLayout linearLayout = (LinearLayout) listItem.findViewById( R.id.drawer_item_layout);
         DrawerModel folder = data[position];
 
 
         imageViewIcon.setImageResource(folder.icon);
         textViewName.setText(folder.name);
-
+        if ( folder.isSelected == true ) {
+            textViewName.setTextColor( Color.rgb( 3, 169, 244) );
+            linearLayout.setBackgroundColor( Color.rgb( 240, 240, 240) );
+        }
         return listItem;
     }
 }

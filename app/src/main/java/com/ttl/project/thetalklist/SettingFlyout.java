@@ -1469,7 +1469,7 @@ public class SettingFlyout extends AppCompatActivity {
                     }, 200);*/
                     fragment = new Tablayout_with_viewpager(1);
                     drawerItem = new DrawerModel[8];
-                    drawerItem[0] = new DrawerModel(R.drawable.profile_activated, "Profile");
+                    drawerItem[0] = new DrawerModel(R.drawable.profile_activated, "Profile", true);
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
                     drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
@@ -1485,7 +1485,7 @@ public class SettingFlyout extends AppCompatActivity {
                     fragment = new Availability_page_fragment();
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
-                    drawerItem[1] = new DrawerModel(R.drawable.availability_activated, "Availability");
+                    drawerItem[1] = new DrawerModel(R.drawable.availability_activated, "Availability", true);
                     drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
@@ -1504,7 +1504,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desired_activated, "Desired Tutor");
+                    drawerItem[2] = new DrawerModel(R.drawable.desired_activated, "Desired Tutor",true);
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
@@ -1520,7 +1520,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
                     drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
-                    drawerItem[3] = new DrawerModel(R.drawable.payments_activated, "Payments");
+                    drawerItem[3] = new DrawerModel(R.drawable.payments_activated, "Payments", true);
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
                     drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
@@ -1538,7 +1538,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
                     drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
-                    drawerItem[4] = new DrawerModel(R.drawable.rewards_activated, "Rewards");
+                    drawerItem[4] = new DrawerModel(R.drawable.rewards_activated, "Rewards", true);
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
                     drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
                     drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
@@ -1555,7 +1555,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem[2] = new DrawerModel(R.drawable.disired, "Desired Tutor");
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
-                    drawerItem[5] = new DrawerModel(R.drawable.history_activated, "History");
+                    drawerItem[5] = new DrawerModel(R.drawable.history_activated, "History", true);
                     drawerItem[6] = new DrawerModel(R.drawable.support, "Support");
                     drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
 
@@ -1575,7 +1575,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");
-                    drawerItem[6] = new DrawerModel(R.drawable.support_activated, "Support");
+                    drawerItem[6] = new DrawerModel(R.drawable.support_activated, "Support", true);
                     drawerItem[7] = new DrawerModel(R.drawable.signout, "Sign out");
 
                     adapter = new DrawerItemCustomAdapter(SettingFlyout.this, R.layout.customdrawerlayout, drawerItem);
