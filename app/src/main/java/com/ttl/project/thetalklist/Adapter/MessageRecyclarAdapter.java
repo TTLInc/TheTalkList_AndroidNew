@@ -2,8 +2,8 @@ package com.ttl.project.thetalklist.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,27 +21,26 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.rockerhieu.emojicon.EmojiconTextView;
 import com.ttl.project.thetalklist.Available_Tutor_Expanded;
 import com.ttl.project.thetalklist.Bean.MessageModel;
 import com.ttl.project.thetalklist.CircleTransform;
 import com.ttl.project.thetalklist.FragmentStack;
 import com.ttl.project.thetalklist.MessageOneToOne;
 import com.ttl.project.thetalklist.R;
-import com.rockerhieu.emojicon.EmojiconTextView;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
+
+;
 
 /**
  * Created by Saubhagyam on 21/06/2017.
@@ -53,14 +51,12 @@ import java.util.TimeZone;
 public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclarAdapter.MyViewHolder> {
 
     final Context context;
-    private List<MessageModel> messageModelList;
     String pic;
-
     String op;
     String min;
     String hr;
-
     String time;
+    private List<MessageModel> messageModelList;
 
     public MessageRecyclarAdapter(Context context, List<MessageModel> messageModelList, String pic) {
         this.context = context;
@@ -69,11 +65,10 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
     }
 
 
-
     @Override
     public MessageRecyclarAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_sender_user_layout, parent, false);
-        
+
         return new MyViewHolder(view);
     }
 
@@ -139,7 +134,7 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
         holder.senderImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://www.thetalklist.com/api/tutor_info?tutor_id=" +messageModel.getSender_id();
+                String url = "https://www.thetalklist.com/api/tutor_info?tutor_id=" + messageModel.getSender_id();
                 Log.e("url", url);
                 StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
@@ -153,21 +148,24 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
                                 JSONArray ary = obj.getJSONArray("tutor");
                                 final JSONObject o = ary.getJSONObject(0);
 
-
-
-
-
+                                Available_Tutor_Expanded availableTutorExpanded = new Available_Tutor_Expanded();
                                 final SharedPreferences preferences = context.getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
                                 final SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("tutorName", o.getString("firstName")+" "+o.getString("lastName"));
+                                editor.putString("tutorName", o.getString("firstName") + " " + o.getString("lastName"));
                                 editor.putInt("tutorRoleId", o.getInt("roleId"));
                                 editor.putString("tutorPic", o.getString("pic"));
                                 editor.putString("hRate", o.getString("hRate"));
                                 editor.putString("avgRate", o.getString("avgRate"));
                                 editor.putInt("tutorid", messageModel.getSender_id()).apply();
-
+                                Log.e("TAG", "Tutor_Role_id " + messageModel.getSender_id());
                                 FragmentStack.getInstance().push(new MessageOneToOne());
-                                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.viewpager,new Available_Tutor_Expanded()).commit();
+
+                                Bundle bundle = new Bundle();
+                                int mToturId = messageModel.getSender_id();
+                                bundle.putString("Tutorid", String.valueOf(mToturId));
+                                Log.e("Tag", "OnClikkokkkk: "+mToturId);
+                                availableTutorExpanded.setArguments(bundle);
+                                ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, availableTutorExpanded).commit();
 
                             }
 
@@ -204,8 +202,8 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
                 String a = new SimpleDateFormat("a").format(date_txt); // 9:00
 
 
-                holder.sender_time.setText(months[month - 1] + " " + String.valueOf(day + 1) + " " +h+":"+m+" "+a);
-                holder.receiver_time.setText(months[month - 1] + " " + String.valueOf(day + 1) + " " +h+":"+m+" "+a);
+                holder.sender_time.setText(months[month - 1] + " " + String.valueOf(day + 1) + " " + h + ":" + m + " " + a);
+                holder.receiver_time.setText(months[month - 1] + " " + String.valueOf(day + 1) + " " + h + ":" + m + " " + a);
                /* hour = Integer.parseInt(h);
                 int minf = Integer.parseInt(m);
 
@@ -250,7 +248,6 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
         }
 
 
-
     }
 
     @Override
@@ -259,14 +256,13 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
     }
 
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         final EmojiconTextView user_msg, sender_msg;
-        TextView sender_time, receiver_time;
         final LinearLayout senderLayout;
-                RelativeLayout userLayout;
         final ImageView senderImg, userImg;
+        TextView sender_time, receiver_time;
+        RelativeLayout userLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);

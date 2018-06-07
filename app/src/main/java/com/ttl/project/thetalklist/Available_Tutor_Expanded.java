@@ -1,11 +1,9 @@
-
 package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.webkit.WebView;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,7 +34,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -58,7 +62,9 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
-import com.stripe.android.net.RequestOptions;
+import com.ttl.project.thetalklist.model.TutorInformationModel;
+import com.ttl.project.thetalklist.retrofit.ApiClient;
+import com.ttl.project.thetalklist.retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,6 +76,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import at.blogc.android.views.ExpandableTextView;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -79,51 +87,38 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Available_Tutor_Expanded extends Fragment {
 
+    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
+    private static final String TAG = "ExoPlayer";
+    final FragmentStack fragmentStack = FragmentStack.getInstance();
     android.support.v7.widget.Toolbar toolbar;
     ImageButton msgBtn, videoBtn;
     FragmentManager fragmentManager;
-    final FragmentStack fragmentStack = FragmentStack.getInstance();
     FragmentTransaction fragmentTransaction;
     ImageView tutorImage;
     String firstName;
-
-
     LinearLayout review_root_biography, personalLinearLayout, eduLinearLayout, proLinearLayout,
             ratingLinearLayout;
-
     ExpandableTextView expandableTextView;
     ExpandableTextView expandableTextViewedu;
     ExpandableTextView expandableTextViewpro;
     ExpandableTextView TutorExpanded_review;
-
     Button buttonToggle;
     Button buttonToggleedu;
     Button buttonTogglepro;
     Button morelist;
     ImageView minus;
-
-
     View view1;
-
-
     WebView TutorExpanded_tutorin_languages_webview;
     int roleId, roleIdUser;
     String pic, hRate, avgRate;
-
     int tutorId;
     View convertView;
     TextView firstNameTV;
     TextView availableTutorListCPS;
-    RatingBar ratingBar, TutorExpanded_review_ratingBar1;
-
-    ImageView expanded_fullscreen;
 
     //Exo player initialization
-
-    private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
-    private static final String TAG = "ExoPlayer";
-
-
+    RatingBar ratingBar, TutorExpanded_review_ratingBar1;
+    ImageView expanded_fullscreen;
     SimpleExoPlayer player;
     SimpleExoPlayerView playerView;
 
@@ -134,8 +129,48 @@ public class Available_Tutor_Expanded extends Fragment {
     int CurrentWindow;
     boolean playWhenReady = true;
     SharedPreferences preferences1, preferences;
-
+    String mTutorId;
     //exo player over
+    int playing = 0;
+    subjectHandler subHandler;
+    VideoUrlHandler videoUrlHandler;
+    ApiInterface apiService;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        try {
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                mTutorId = bundle.getString("Tutorid");
+                Log.e(TAG, "mTutorId-->: " + mTutorId);
+
+            }
+        } catch (Exception e) {
+
+        }
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<TutorInformationModel> modelCall = apiService.getInformation(mTutorId);
+        modelCall.enqueue(new Callback<TutorInformationModel>() {
+            @Override
+            public void onResponse(Call<TutorInformationModel> call, retrofit2.Response<TutorInformationModel> response) {
+                String mReadyTotalk = response.body().getTutor().get(0).getReadytotalk();
+                Log.e(TAG, "mReadyTotalk" + mReadyTotalk);
+                if (response.body().getTutor().get(0).getReadytotalk().equals("0")) {
+                    videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.disabled_video));
+                } else {
+                    videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.video));
+                }
+                Log.e(TAG, "onResponse: ");
+            }
+
+            @Override
+            public void onFailure(Call<TutorInformationModel> call, Throwable t) {
+                Log.e(TAG, "onFailure: " + t);
+
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -229,14 +264,14 @@ public class Available_Tutor_Expanded extends Fragment {
                 buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "more..." : "Less...");
             }
         });*/
-      /*  try {
-            if (Flag.equals("0")) {
+     /*   try {
+            if (mTutorId.equals("0")) {
                 Log.e(TAG, "disable ");
                 videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.disabled_video));
             } else {
-                Log.e(TAG, "Enable");*/
+                Log.e(TAG, "Enable");
                 videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.video));
-          /*  }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -265,7 +300,6 @@ public class Available_Tutor_Expanded extends Fragment {
 
         return convertView;
     }
-
 
     @Override
     public void onResume() {
@@ -687,13 +721,11 @@ public class Available_Tutor_Expanded extends Fragment {
 
     }
 
-
     @Override
     public void onAttach(Context context) {
         toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
         super.onAttach(context);
     }
-
 
     //Initialize exoplayer
     private void InitializePLayer(String link) throws android.net.ParseException {
@@ -739,6 +771,48 @@ public class Available_Tutor_Expanded extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+        ReleasePlayer();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onDestroy() {
+        super.onDestroyView();
+        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
+    }
+
+    public void setToolbar() {
+        View view = toolbar.getRootView();
+        view.findViewById(R.id.tutorToolbar).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+
+        if (subHandler != null)
+            subHandler.cancel(true);
+        if (videoUrlHandler != null)
+            videoUrlHandler.cancel(true);
+
+    }
 
     private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener, AudioRendererEventListener {
         @Override
@@ -868,35 +942,6 @@ public class Available_Tutor_Expanded extends Fragment {
         }
     }
 
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
-        ReleasePlayer();
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
-    }
-
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onDestroy() {
-        super.onDestroyView();
-        toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
-    }
-
-
     private class subjectHandler extends AsyncTask<Void, Void, Void> {
 
 
@@ -967,8 +1012,6 @@ public class Available_Tutor_Expanded extends Fragment {
         }
     }
 
-    int playing = 0;
-
     private class VideoUrlHandler extends AsyncTask<Void, Void, Void> {
 
 
@@ -1026,26 +1069,6 @@ public class Available_Tutor_Expanded extends Fragment {
             queue1.add(sr);
             return null;
         }
-    }
-
-    subjectHandler subHandler;
-    VideoUrlHandler videoUrlHandler;
-
-    public void setToolbar() {
-        View view = toolbar.getRootView();
-        view.findViewById(R.id.tutorToolbar).setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-
-        if (subHandler != null)
-            subHandler.cancel(true);
-        if (videoUrlHandler != null)
-            videoUrlHandler.cancel(true);
-
     }
 }
 
