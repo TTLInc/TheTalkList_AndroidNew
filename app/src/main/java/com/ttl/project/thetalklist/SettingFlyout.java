@@ -758,7 +758,7 @@ public class SettingFlyout extends AppCompatActivity {
                     FragmentStack.getInstance().push(new Available_tutor());
 
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.viewpager, new MessageOneToOne()).commit();
+                    ft.replace(R.id.viewpager, new MessageFragment()).commit();
                 }
             } else if (pref123.getInt("roleId", 0) == 0) {
                 editor123.putInt("roleId", -1).apply();
@@ -2055,7 +2055,7 @@ public class SettingFlyout extends AppCompatActivity {
                 FragmentStack.getInstance().push(new Available_tutor());
 
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.viewpager, new MessageOneToOne()).commit();
+                ft.replace(R.id.viewpager, new MessageFragment()).commit();
             }
         } else if (pref.getInt("roleId", 0) == 0) {
             getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new Available_tutor()).commit();

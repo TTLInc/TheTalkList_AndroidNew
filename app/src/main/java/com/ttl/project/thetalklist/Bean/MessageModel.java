@@ -14,6 +14,17 @@ public class MessageModel {
     String sender_name;
     String time;
 
+    /*public MessageModel(int msg_id, String msg_text, int sender_id, String sender_name, String time) {
+
+
+        this.msg_id = msg_id;
+        this.msg_text = msg_text;
+        this.sender_id = sender_id;
+        this.sender_name = sender_name;
+        this.time = time;
+
+
+    }*/
 
     public int getMsg_id() {
         return msg_id;

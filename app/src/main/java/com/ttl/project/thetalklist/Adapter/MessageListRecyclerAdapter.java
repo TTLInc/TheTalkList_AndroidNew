@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.ttl.project.thetalklist.Bean.ChatroomModel;
 import com.ttl.project.thetalklist.CircleTransform;
 import com.ttl.project.thetalklist.FragmentStack;
+import com.ttl.project.thetalklist.MessageFragment;
 import com.ttl.project.thetalklist.MessageList;
 import com.ttl.project.thetalklist.MessageOneToOne;
 import com.ttl.project.thetalklist.R;
@@ -131,8 +132,7 @@ public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageLis
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                 FragmentStack fragmentStack=FragmentStack.getInstance();
                 fragmentStack.push(new MessageList());
-                MessageOneToOne messageOneToOne=new MessageOneToOne();
-                fragmentTransaction.replace(R.id.viewpager, messageOneToOne).commit();
+                fragmentTransaction.replace(R.id.viewpager, new MessageFragment()).commit();
             }
         });
 

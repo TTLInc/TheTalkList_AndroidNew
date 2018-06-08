@@ -1,21 +1,19 @@
 package com.ttl.project.thetalklist;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +28,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,34 +37,50 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.ttl.project.thetalklist.Adapter.MessageRecyclarAdapter;
-import com.ttl.project.thetalklist.Bean.MessageModel;
-import com.ttl.project.thetalklist.Decorations.DividerItemDecoration;
-import com.ttl.project.thetalklist.Services.MessageCountService;
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconTextView;
 import com.rockerhieu.emojicon.EmojiconsFragment;
 import com.rockerhieu.emojicon.emoji.Emojicon;
+import com.ttl.project.thetalklist.Adapter.MessageRecyclarAdapter;
+import com.ttl.project.thetalklist.Bean.MessageModel;
+import com.ttl.project.thetalklist.Decorations.DividerItemDecoration;
+import com.ttl.project.thetalklist.Services.MessageCountService;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-/**
- * Created by Saubhagyam on 18/04/2017.
- */
+
+
+
 
 //CHatroom all messeges
 public class MessageOneToOne extends Fragment implements EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
-
+    private static final String TAG = "MessageOneToOne";
+    public RecyclerView recyclerView;
+    public List<MessageModel> messageModelList;
+    public MessageRecyclarAdapter messageRecyclarAdapter;
+    ProgressDialog progressDialog;
+    String Json_String;
     View view;
     View msgDisplayLayoutview;
     Button preset_how_are_you, preset_when_available, preset_tutor_now;
@@ -77,28 +90,22 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     EmojiconTextView user_msg, sender_msg;
     LinearLayout senderLayout;
     RelativeLayout userLayout;
-    ImageView message_sendBtn, message_searchBtn, senderImg, userImg/*, message_onetoone_backbtn*/;
-    public RecyclerView recyclerView;
-    public List<MessageModel> messageModelList;
-    public MessageRecyclarAdapter messageRecyclarAdapter;
+    ImageView message_sendBtn, message_searchBtn, senderImg, userImg;
+
     LinearLayoutManager mLayoutManager;
-    private static final String TAG = "MessageOneToOne";
     int receiver_id;
     int sender_id;
     String sender_name;
     RequestQueue queue, queue1;
     TextView chat_header;
-
+    SharedPreferences chatPref, loginPref;
+    BroadcastReceiver appendChatScreenMsgReceiver;
+    String op;
     private int request_form_success = 0;
+
 
     public MessageOneToOne() {
     }
-
-
-    SharedPreferences chatPref, loginPref;
-
-    BroadcastReceiver appendChatScreenMsgReceiver;
-
 
     @Override
     public boolean getUserVisibleHint() {
@@ -182,7 +189,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.message_one_to_one, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.messages);
+        //recyclerView = (RecyclerView) view.findViewById(R.id.messages);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL) {
             @Override
@@ -229,11 +236,11 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         queue = Volley.newRequestQueue(getContext());
         queue1 = Volley.newRequestQueue(getContext());
         mLayoutManager = new LinearLayoutManager(getActivity());
-      //  mLayoutManager.setReverseLayout(true);
+        //  mLayoutManager.setReverseLayout(true);
 
         ImageView message_onetoone_attachment = (ImageView) view.findViewById(R.id.message_onetoone_attachment);
 
-       /* message_onetoone_attachment.setOnClickListener(new View.OnClickListener() {
+ message_onetoone_attachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(getActivity());
@@ -262,7 +269,8 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
 
             }
-        });*/
+        });
+
 
         msgDisplayLayoutview = inflater.inflate(R.layout.message_sender_user_layout, null);
         senderLayout = (LinearLayout) msgDisplayLayoutview.findViewById(R.id.chat_sender_layout);
@@ -273,7 +281,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         user_msg = (EmojiconTextView) msgDisplayLayoutview.findViewById(R.id.chat_user_text);
 //        message_onetoone_backbtn = (ImageView) view.findViewById(R.id.message_onetoone_backbtn);
 
-        /*{
+{
             String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + loginPref.getInt("id", 0);
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
@@ -300,7 +308,8 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                 }
             });
             Volley.newRequestQueue(getApplicationContext()).add(sr);
-        }*/
+        }
+
         MessageCountService messageCountService = new MessageCountService();
         messageCountService.MessageCount(getActivity(), loginPref);
 
@@ -348,7 +357,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
                                         Log.e("locale android ", new TTL().getUserCountry(getContext()));
 
-                                       /* try {
+ try {
                                             JSONArray timeZoneObj=new JSONArray(new TTL().json);
 
                                             for (int i=0;i<timeZoneObj.length();i++){
@@ -373,16 +382,17 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                                     Log.e("hour",splitStr[0]);
                                                     Log.e("min",splitStr[1]);
 
-                                                    messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"),op,splitStr[1],splitStr[0]);
+                                                    messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"));
                                                 }
                                             }
 
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
-                                        }*/
+                                        }
+
                                         recyclerView.setAdapter(messageRecyclarAdapter);
-                                        recyclerView.setAdapter(messageRecyclarAdapter);
+
                                         recyclerView.post(new Runnable() {
                                             @Override
                                             public void run() {
@@ -452,15 +462,15 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     @Override
     public void onResume() {
         super.onResume();
-
-
+        MessageBack bg = new MessageBack();
+        bg.execute("17600", "405");
         final Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.threedotprogressbar);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
 
-//        RefreshFragment();
+
         String URL = "https://www.thetalklist.com/api/all_messages?sender_id=" + sender_id + "&receiver_id=" + receiver_id;
         Log.e("Message list url", URL);
 
@@ -471,13 +481,13 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                 Log.e("message response", response);
 
                 try {
-                    JSONObject jsonObject = new JSONObject(response);
+                    final JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getInt("status") == 0) {
                         JSONArray msgAry = jsonObject.getJSONArray("messages");
                         String pic = jsonObject.getString("tutor_pic");
                         chat_header.setText(jsonObject.getString("tutor_name"));
                         if (msgAry.length() == 0) {
-//                            dialog.dismiss();
+
                         } else {
                             for (int i = 0; i < msgAry.length(); i++) {
                                 JSONObject msgObj = msgAry.getJSONObject(i);
@@ -490,21 +500,10 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                 messageModelList.add(0, messageModel);
                             }
                             Log.e(TAG, "onResponse:----->514 ");
-                            recyclerView.setLayoutManager(mLayoutManager);
-                            recyclerView.setItemAnimator(new DefaultItemAnimator());
                             messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"));
                             recyclerView.setAdapter(messageRecyclarAdapter);
-                            recyclerView.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                   /* mLayoutManager = new LinearLayoutManager(getActivity());
-                                    mLayoutManager.setReverseLayout(true);
-                                    recyclerView.setLayoutManager(mLayoutManager);*/
-                                    recyclerView.smoothScrollToPosition(messageRecyclarAdapter.getItemCount() - 1);
-                                }
-                            });
-                            Collections.reverse(messageModelList);
                             messageRecyclarAdapter.notifyDataSetChanged();
+
 
                         }
                     }
@@ -572,7 +571,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             }
         });
 
-        //Request Form
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Request_Form", Context.MODE_PRIVATE);
         int isSubmitted;
         try {
@@ -594,19 +592,9 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             editor.putInt("Request Submitted", 0);
             editor.commit();
         }
-       /* message_onetoone_backbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
 
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                getActivity().onBackPressed();
-            }
-        });*/
     }
-
-    String op;
 
     @Override
     public void onPause() {
@@ -752,5 +740,92 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                 startActivity(intent);
             }
         });
+    }
+
+    class MessageBack extends AsyncTask<String, Void, String> {
+        String json_url;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setTitle("Messages");
+            progressDialog.setMessage("Loading..Please Wait..!!");
+            progressDialog.show();
+            // json_url = p.path + "employee_msg_display.php";
+            json_url = "https://www.thetalklist.com/api/all_messages_new";
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String email, Rid;
+            email = params[0];
+            Rid = params[1];
+            Log.e(TAG, "doInBackground:====> " );
+            try {
+                URL url = new URL(json_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("sender_id", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&" +
+                        URLEncoder.encode("receiver_id", "UTF-8") + "=" + URLEncoder.encode(Rid, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((Json_String = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(Json_String + "\n");
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            try {
+                Log.e(TAG, "onPostExecute: =====>" );
+                final JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray = jsonObject.getJSONArray("messages");
+                JSONArray msgAry = jsonObject.getJSONArray("messages");
+                String pic = jsonObject.getString("tutor_pic");
+                chat_header.setText(jsonObject.getString("tutor_name"));
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject msgObj = msgAry.getJSONObject(i);
+                    MessageModel messageModel = new MessageModel();
+                    messageModel.setMsg_id(msgObj.getInt("id"));
+                    messageModel.setMsg_text(msgObj.getString("message"));
+                    messageModel.setSender_id(msgObj.getInt("user_id"));
+                    messageModel.setSender_name(msgObj.getString("user_name"));
+                    messageModel.setTime(msgObj.getString("time"));
+                    messageModelList.add(0, messageModel);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            progressDialog.dismiss();
+
+            messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, "null");
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setAdapter(messageRecyclarAdapter);
+   /*  MessageFragment.MessageAdapter adapter = new MessageFragment.MessageAdapter(getApplicationContext(), R.layout.m, messageModelList);
+            adapter.notifyDataSetChanged();
+            lv.setAdapter(adapter);*/
+
+        }
     }
 }

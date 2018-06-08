@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:emojicon="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/message_one_to_one"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,12 +37,15 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="29"
-        android:focusableInTouchMode="true" />
+        android:dividerHeight="0dp"
+        android:divider="#00000000"
+        android:focusableInTouchMode="true"
+        android:stackFromBottom="true" />
 
     <include
         layout="@layout/message_preset"

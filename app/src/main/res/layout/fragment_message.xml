@@ -1,8 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.ttl.project.thetalklist.com.Application.saubhagyam.thetalklist.Message">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/chatroom_list_layout"
@@ -14,9 +13,9 @@
         android:weightSum="3">
 
         <FrameLayout
-            android:layout_marginStart="-30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-30dp"
             android:layout_weight="1">
 
 
@@ -29,25 +28,24 @@
 
             <ImageView
                 android:id="@+id/messagelist_indicator"
-                android:visibility="gone"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/green_circle"
-                android:layout_gravity="center_horizontal"
-                />
+                android:visibility="gone" />
         </FrameLayout>
 
-        <TextView      
+        <TextView
             android:id="@+id/senderName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:singleLine="true"
-            android:layout_marginStart="-20dp"
             android:layout_marginEnd="-30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="-20dp"
             android:layout_weight="1"
+            android:singleLine="true"
             android:text="Kelly Metz-Mathews"
             android:textColor="#B2BABB"
             android:textSize="15sp" />
@@ -60,7 +58,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView      
+            <TextView
                 android:id="@+id/Messageday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -70,7 +68,7 @@
                 android:textColor="#B2BABB"
                 android:textSize="10sp" />
 
-            <TextView      
+            <TextView
                 android:id="@+id/Messagetime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
