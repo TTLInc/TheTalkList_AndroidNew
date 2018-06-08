@@ -26,7 +26,7 @@ import com.ttl.project.thetalklist.Available_Tutor_Expanded;
 import com.ttl.project.thetalklist.Available_tutor;
 import com.ttl.project.thetalklist.CircleTransform;
 import com.ttl.project.thetalklist.FragmentStack;
-import com.ttl.project.thetalklist.MessageOneToOne;
+import com.ttl.project.thetalklist.MessageFragment;
 import com.ttl.project.thetalklist.R;
 import com.ttl.project.thetalklist.TTL;
 import com.ttl.project.thetalklist.TabBackStack;
@@ -46,16 +46,20 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHolder> {
 
+    final FragmentManager fragmentManager;
     private final Context context;
     private final JSONArray array;
-    final FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     FragmentStack fragmentStack;
 
     int withPos = 0;
     int pos;
-
-
+    JSONObject object;
+    String FirstName;
+    SharedPreferences pref1;
+    SharedPreferences.Editor ed;
+    SharedPreferences pref;
+    TabBackStack tabBackStack;
 
     public FaoriteAdapter(Context context, JSONArray array, FragmentManager fragmentManager) {
         this.context = context;
@@ -63,25 +67,15 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
         this.fragmentManager = fragmentManager;
     }
 
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.available_tutor_list_layout, parent, false);
         return new MyViewHolder(view);
     }
 
-    JSONObject object;
-    String FirstName;
-
-    SharedPreferences pref1;
-    SharedPreferences.Editor ed;
-    SharedPreferences pref;
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         fragmentTransaction = fragmentManager.beginTransaction();
-
-
-
 
 
         fragmentStack = FragmentStack.getInstance();
@@ -110,7 +104,7 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
 
                             if (!picPath.equals("")) {
 
-                                Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/"+picPath)
+                                Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + picPath)
                                         .crossFade()
                                         .thumbnail(0.5f)
                                         .bitmapTransform(new CircleTransform(getApplicationContext()))
@@ -127,48 +121,40 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                     }.start();
                 }
             }
-            holder.fn.setText(object.getString("firstName") +" "+ object.getString("lastName"));
+            holder.fn.setText(object.getString("firstName") + " " + object.getString("lastName"));
             holder.uid.setText(object.getString("uid"));
             holder.hpr.setText(object.getString("hRate"));
-            final SharedPreferences preferences =context.getSharedPreferences("videoCallTutorDetails",Context.MODE_PRIVATE);
-            final SharedPreferences.Editor editor=preferences.edit();
-            final Float hPr=(Float.parseFloat(holder.hpr.getText().toString())/25);
-            String h_str=String.format("%.02f",hPr);
+            final SharedPreferences preferences = context.getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+            final SharedPreferences.Editor editor = preferences.edit();
+            final Float hPr = (Float.parseFloat(holder.hpr.getText().toString()) / 25);
+            String h_str = String.format("%.02f", hPr);
             holder.CpM.setText(h_str);
 
 
-
-            if (object.getInt("readytotalk")==0){
+            if (object.getInt("readytotalk") == 0) {
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
                 holder.VideocallButton1.setClickable(false);
                 holder.VideocallButton.setClickable(false);
-            }else {
+            } else {
                 holder.VideocallButton1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-
-
-                        TTL ttl=(TTL) context.getApplicationContext();
-                        ttl.ExitBit=1;
+                        TTL ttl = (TTL) context.getApplicationContext();
+                        ttl.ExitBit = 1;
                         fragmentStack.push(new Available_tutor());
 
-
-
-
-
-
-                        editor.putString("tutorName",holder.fn.getText().toString());
-                        editor.putInt("flag",1);
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("flag", 1);
                         pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-                        editor.putInt("studentId",pref.getInt("id", 0));
-                        editor.putString("tutorName",holder.fn.getText().toString());
-                        editor.putInt("tutorId",Integer.parseInt(holder.uid.getText().toString()));
-                        editor.putFloat("hRate",Float.parseFloat(holder.CpM.getText().toString()));
-                        editor.putFloat("credit",hPr ).apply();
+                        editor.putInt("studentId", pref.getInt("id", 0));
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
+                        editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
+                        editor.putFloat("credit", hPr).apply();
 
 
-                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag",0), preferences.getFloat("credit",0),preferences.getString("tutorName","")), "Available Tutor").commit();
+                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
                     }
                 });
 
@@ -176,36 +162,32 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                 holder.VideocallButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TTL ttl=(TTL) context.getApplicationContext();
-                        ttl.ExitBit=1;
+                        TTL ttl = (TTL) context.getApplicationContext();
+                        ttl.ExitBit = 1;
                         fragmentStack.push(new Available_tutor());
 
 
-
-
-
-
-                        editor.putString("tutorName",holder.fn.getText().toString());
-                        editor.putInt("flag",1);
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("flag", 1);
                         pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-                        editor.putInt("studentId",pref.getInt("id", 0));
-                        editor.putString("tutorName",holder.fn.getText().toString());
-                        editor.putInt("tutorId",Integer.parseInt(holder.uid.getText().toString()));
-                        editor.putFloat("hRate",Float.parseFloat(holder.CpM.getText().toString()));
-                        editor.putFloat("credit",hPr ).apply();
-                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag",0), preferences.getFloat("credit",0),preferences.getString("tutorName","")), "Available Tutor").commit();
+                        editor.putInt("studentId", pref.getInt("id", 0));
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
+                        editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
+                        editor.putFloat("credit", hPr).apply();
+                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
 
                     }
                 });
+
+
             }
 
             FirstName = object.getString("firstName");
 
 
-
-
             if (!picPath.equals("")) {
-                Glide.with(context).load("https://www.thetalklist.com/uploads/images/"+picPath)
+                Glide.with(context).load("https://www.thetalklist.com/uploads/images/" + picPath)
                         .crossFade()
                         .thumbnail(0.5f)
                         .bitmapTransform(new CircleTransform(context))
@@ -220,17 +202,17 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                         .into(holder.TutorImg);
 
 
-            SharedPreferences chatPref=context.getSharedPreferences("chatPref",Context.MODE_PRIVATE);
-            final SharedPreferences.Editor chatPrefEditor=chatPref.edit();
+            SharedPreferences chatPref = context.getSharedPreferences("chatPref", Context.MODE_PRIVATE);
+            final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
 
             holder.msgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MessageOneToOne messageList = new MessageOneToOne();
-                    chatPrefEditor.putString("firstName",FirstName);
-                    chatPrefEditor.putInt("receiverId",tutorId).apply();
-                    TTL ttl=(TTL) context.getApplicationContext();
-                    ttl.ExitBit=1;
+                    MessageFragment messageList = new MessageFragment();
+                    chatPrefEditor.putString("firstName", FirstName);
+                    chatPrefEditor.putInt("receiverId", tutorId).apply();
+                    TTL ttl = (TTL) context.getApplicationContext();
+                    ttl.ExitBit = 1;
                     fragmentStack.push(new Available_tutor());
                     tabBackStack.setTabPosition(0);
                     fragmentTransaction.replace(R.id.viewpager, messageList).commit();
@@ -240,20 +222,17 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
             holder.msgButton1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MessageOneToOne messageList = new MessageOneToOne();
-                    chatPrefEditor.putString("firstName",FirstName);
-                    chatPrefEditor.putInt("receiverId",tutorId).apply();
-                    TTL ttl=(TTL) context.getApplicationContext();
-                    ttl.ExitBit=1;
+                    MessageFragment messageList = new MessageFragment();
+                    chatPrefEditor.putString("firstName", FirstName);
+                    chatPrefEditor.putInt("receiverId", tutorId).apply();
+                    TTL ttl = (TTL) context.getApplicationContext();
+                    ttl.ExitBit = 1;
                     fragmentStack.push(new Available_tutor());
                     tabBackStack.setTabPosition(0);
                     fragmentTransaction.replace(R.id.viewpager, messageList).commit();
 
                 }
             });
-
-
-
 
 
         } catch (JSONException e) {
@@ -267,8 +246,8 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                 pref1 = context.getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
                 ed = pref1.edit();
                 ed.putInt("position", position).apply();
-                TTL ttl=(TTL) context.getApplicationContext();
-                ttl.ExitBit=1;
+                TTL ttl = (TTL) context.getApplicationContext();
+                ttl.ExitBit = 1;
 
                 fragmentStack.push(new Available_tutor());
                 Available_Tutor_Expanded available_tutoe_expanded = new Available_Tutor_Expanded();
@@ -278,9 +257,9 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
                     Bundle bundle = new Bundle();
 
                     bundle.putString("Tutorid", jsonObject.getString("uid"));
-                    Log.e("TAG", "ImageId--> "+jsonObject.getString("uid") );
-                    SharedPreferences preferences=context.getSharedPreferences("availableTutoeExpPref",Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor=preferences.edit();
+                    Log.e("TAG", "ImageId--> " + jsonObject.getString("uid"));
+                    SharedPreferences preferences = context.getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("tutorName", jsonObject.getString("firstName"));
                     editor.putInt("tutorRoleId", jsonObject.getInt("roleId"));
                     editor.putString("tutorPic", jsonObject.getString("pic"));
@@ -302,10 +281,6 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
 
 
     }
-
-
-
-    TabBackStack tabBackStack;
 
     @Override
     public int getItemCount() {
@@ -350,7 +325,6 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
 
         }
     }
-
 
 
 }

@@ -58,7 +58,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/chat_user_img"
+                        android:id="@+id/imageSender"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="start"
@@ -79,7 +79,7 @@
                 android:visibility="visible">
 
                 <ImageView
-                    android:id="@+id/chat_sender_img"
+                    android:id="@+id/imageReceiver"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="start"

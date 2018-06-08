@@ -70,9 +70,6 @@ import java.util.List;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-
-
-
 //CHatroom all messeges
 public class MessageOneToOne extends Fragment implements EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
     private static final String TAG = "MessageOneToOne";
@@ -240,7 +237,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
         ImageView message_onetoone_attachment = (ImageView) view.findViewById(R.id.message_onetoone_attachment);
 
- message_onetoone_attachment.setOnClickListener(new View.OnClickListener() {
+        message_onetoone_attachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(getActivity());
@@ -281,7 +278,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         user_msg = (EmojiconTextView) msgDisplayLayoutview.findViewById(R.id.chat_user_text);
 //        message_onetoone_backbtn = (ImageView) view.findViewById(R.id.message_onetoone_backbtn);
 
-{
+        {
             String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + loginPref.getInt("id", 0);
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
@@ -357,30 +354,30 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
                                         Log.e("locale android ", new TTL().getUserCountry(getContext()));
 
- try {
-                                            JSONArray timeZoneObj=new JSONArray(new TTL().json);
+                                        try {
+                                            JSONArray timeZoneObj = new JSONArray(new TTL().json);
 
-                                            for (int i=0;i<timeZoneObj.length();i++){
-                                                JSONObject obj=timeZoneObj.getJSONObject(i);
-                                                if (obj.getString("IsoAlpha2").equalsIgnoreCase( new TTL().getUserCountry(getContext()).toUpperCase())){
-                                                    JSONArray winAry=obj.getJSONArray("WindowsTimeZones");
-                                                    JSONObject o=winAry.getJSONObject(0);
-                                                    String name=o.getString("Name");
+                                            for (int i = 0; i < timeZoneObj.length(); i++) {
+                                                JSONObject obj = timeZoneObj.getJSONObject(i);
+                                                if (obj.getString("IsoAlpha2").equalsIgnoreCase(new TTL().getUserCountry(getContext()).toUpperCase())) {
+                                                    JSONArray winAry = obj.getJSONArray("WindowsTimeZones");
+                                                    JSONObject o = winAry.getJSONObject(0);
+                                                    String name = o.getString("Name");
 
                                                     String userName = name.substring(name.lastIndexOf("(") + 1, name.lastIndexOf(")"));
-                                                    String time=userName.replace("UTC","");
-                                                    Log.e("time diff ",time);
+                                                    String time = userName.replace("UTC", "");
+                                                    Log.e("time diff ", time);
 
 
                                                     if (time.contains("+"))
-                                                        op="plus";
-                                                    else op="minus";
-                                                    time= (String) time.subSequence(1,time.length());
-                                                    String[] splitStr=time.split(":");
+                                                        op = "plus";
+                                                    else op = "minus";
+                                                    time = (String) time.subSequence(1, time.length());
+                                                    String[] splitStr = time.split(":");
 
-                                                    Log.e("operator",op);
-                                                    Log.e("hour",splitStr[0]);
-                                                    Log.e("min",splitStr[1]);
+                                                    Log.e("operator", op);
+                                                    Log.e("hour", splitStr[0]);
+                                                    Log.e("min", splitStr[1]);
 
                                                     messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, jsonObject.getString("tutor_pic"));
                                                 }
@@ -468,7 +465,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         dialog.setContentView(R.layout.threedotprogressbar);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
 
 
         String URL = "https://www.thetalklist.com/api/all_messages?sender_id=" + sender_id + "&receiver_id=" + receiver_id;
@@ -760,7 +756,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             String email, Rid;
             email = params[0];
             Rid = params[1];
-            Log.e(TAG, "doInBackground:====> " );
+            Log.e(TAG, "doInBackground:====> ");
             try {
                 URL url = new URL(json_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -797,7 +793,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         protected void onPostExecute(String result) {
 
             try {
-                Log.e(TAG, "onPostExecute: =====>" );
+                Log.e(TAG, "onPostExecute: =====>");
                 final JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray = jsonObject.getJSONArray("messages");
                 JSONArray msgAry = jsonObject.getJSONArray("messages");
@@ -822,9 +818,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             messageRecyclarAdapter = new MessageRecyclarAdapter(getContext(), messageModelList, "null");
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setAdapter(messageRecyclarAdapter);
-   /*  MessageFragment.MessageAdapter adapter = new MessageFragment.MessageAdapter(getApplicationContext(), R.layout.m, messageModelList);
-            adapter.notifyDataSetChanged();
-            lv.setAdapter(adapter);*/
+
 
         }
     }

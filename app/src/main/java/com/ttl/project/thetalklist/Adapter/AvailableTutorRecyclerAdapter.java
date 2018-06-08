@@ -16,16 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.ttl.project.thetalklist.Available_Tutor_Expanded;
-import com.ttl.project.thetalklist.Available_tutor;
-import com.ttl.project.thetalklist.FragmentStack;
-import com.ttl.project.thetalklist.MessageOneToOne;
-import com.ttl.project.thetalklist.TTL;
-import com.ttl.project.thetalklist.TabBackStack;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.ttl.project.thetalklist.Available_Tutor_Expanded;
+import com.ttl.project.thetalklist.Available_tutor;
 import com.ttl.project.thetalklist.CircleTransform;
+import com.ttl.project.thetalklist.FragmentStack;
+import com.ttl.project.thetalklist.MessageFragment;
 import com.ttl.project.thetalklist.R;
+import com.ttl.project.thetalklist.TTL;
+import com.ttl.project.thetalklist.TabBackStack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,15 +43,20 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<AvailableTutorRecyclerAdapter.MyViewHolder> {
 
     private final Context context;
-    private JSONArray array;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     FragmentStack fragmentStack;
-
     int withPos = 0;
     int withfav = 0;
     int pos;
-
+    JSONObject object;
+    String FirstName;
+    SharedPreferences pref1;
+    SharedPreferences.Editor ed;
+    SharedPreferences pref;
+    String Flag = "1";
+    TabBackStack tabBackStack;
+    private JSONArray array;
 
     public AvailableTutorRecyclerAdapter(Context context) {
         this.context = context;
@@ -63,13 +68,11 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
         this.fragmentManager = fragmentManager;
     }
 
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.available_tutor_list_layout, parent, false);
         return new MyViewHolder(view);
     }
-
 
     @Override
     public long getItemId(int position) {
@@ -80,14 +83,6 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
     public int getItemViewType(int position) {
         return position;
     }
-
-    JSONObject object;
-    String FirstName;
-
-    SharedPreferences pref1;
-    SharedPreferences.Editor ed;
-    SharedPreferences pref;
-    String Flag = "1";
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
@@ -101,7 +96,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 holder.ratingBar.setRating(Float.parseFloat(object.getString("avgRate")));
             else holder.ratingBar.setRating(0f);
             Log.e("available tutor obj", object.toString());
-            Log.e("Tag", "onBindViewHolder: " +object.getInt("readytotalk"));
+            Log.e("Tag", "onBindViewHolder: " + object.getInt("readytotalk"));
             if (object.getInt("readytotalk") == 0) {
                 Flag = "0";
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
@@ -185,7 +180,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
             holder.msgButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MessageOneToOne messageList = new MessageOneToOne();
+                    MessageFragment messageList = new MessageFragment();
                     chatPrefEditor.putString("firstName", FirstName);
                     chatPrefEditor.putInt("receiverId", tutorId).apply();
                     TTL ttl = (TTL) context.getApplicationContext();
@@ -199,7 +194,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
             holder.msgButton1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MessageOneToOne messageList = new MessageOneToOne();
+                    MessageFragment messageList = new MessageFragment();
                     chatPrefEditor.putString("firstName", FirstName);
                     chatPrefEditor.putInt("receiverId", tutorId).apply();
                     TTL ttl = (TTL) context.getApplicationContext();
@@ -216,50 +211,55 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
             final Float hPr = (Float.parseFloat(holder.hpr.getText().toString()) / 25);
             String h_str = String.format("%.02f", hPr);
             holder.CpM.setText(h_str);
-            holder.VideocallButton1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            if (object.getInt("readytotalk") == 0) {
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
+               /* holder.VideocallButton1.setClickable(false);
+                holder.VideocallButton.setClickable(false);*/
+            } else {
+                holder.VideocallButton1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
 
-                    TTL ttl = (TTL) context.getApplicationContext();
-                    ttl.ExitBit = 1;
-                    fragmentStack.push(new Available_tutor());
+                        TTL ttl = (TTL) context.getApplicationContext();
+                        ttl.ExitBit = 1;
+                        fragmentStack.push(new Available_tutor());
 
 
-                    editor.putString("tutorName", holder.fn.getText().toString());
-                    editor.putInt("flag", 1);
-                    pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-                    editor.putInt("studentId", pref.getInt("id", 0));
-                    editor.putString("tutorName", holder.fn.getText().toString());
-                    editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
-                    editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
-                    editor.putFloat("credit", hPr).apply();
-                    fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
-                }
-            });
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("flag", 1);
+                        pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                        editor.putInt("studentId", pref.getInt("id", 0));
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
+                        editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
+                        editor.putFloat("credit", hPr).apply();
+                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
+                    }
+                });
 
 
-            holder.VideocallButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TTL ttl = (TTL) context.getApplicationContext();
-                    ttl.ExitBit = 1;
-                    fragmentStack.push(new Available_tutor());
+                holder.VideocallButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TTL ttl = (TTL) context.getApplicationContext();
+                        ttl.ExitBit = 1;
+                        fragmentStack.push(new Available_tutor());
 
 
-                    editor.putString("tutorName", holder.fn.getText().toString());
-                    editor.putInt("flag", 1);
-                    pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-                    editor.putInt("studentId", pref.getInt("id", 0));
-                    editor.putString("tutorName", holder.fn.getText().toString());
-                    editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
-                    editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
-                    editor.putFloat("credit", hPr).apply();
-                    fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("flag", 1);
+                        pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                        editor.putInt("studentId", pref.getInt("id", 0));
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
+                        editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
+                        editor.putFloat("credit", hPr).apply();
+                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
 
-                }
-            });
-
+                    }
+                });
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -274,15 +274,20 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 ed.putInt("position", position).apply();
                 TTL ttl = (TTL) context.getApplicationContext();
                 ttl.ExitBit = 1;
-
+                int redyTtalk = 0;
                 fragmentStack.push(new Available_tutor());
                 Available_Tutor_Expanded available_tutoe_expanded = new Available_Tutor_Expanded();
-
+                try {
+                    redyTtalk = object.getInt("readytotalk");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 try {
                     JSONObject jsonObject = array.getJSONObject(position);
                     Bundle bundle = new Bundle();
                     bundle.putString("Tutorid", jsonObject.getString("uid"));
-                    Log.e("TAG", "ImageId--> "+jsonObject.getString("uid") );
+                    bundle.putInt("redyTotalk", redyTtalk);
+                    Log.e("TAG", "ImageId--> " + jsonObject.getString("uid"));
                     SharedPreferences preferences = context.getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("tutorName", jsonObject.getString("firstName"));
@@ -307,9 +312,6 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
 
 
     }
-
-
-    TabBackStack tabBackStack;
 
     @Override
     public int getItemCount() {

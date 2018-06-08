@@ -69,7 +69,6 @@ import com.ttl.project.thetalklist.retrofit.ApiInterface;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -131,11 +130,14 @@ public class Available_Tutor_Expanded extends Fragment {
     boolean playWhenReady = true;
     SharedPreferences preferences1, preferences;
     String mTutorId;
+    int mRedyTotalk;
     //exo player over
     int playing = 0;
     subjectHandler subHandler;
     VideoUrlHandler videoUrlHandler;
     ApiInterface apiService;
+    String mReadyTotalk = "0";
+
 
     @Override
     public void onStart() {
@@ -144,6 +146,7 @@ public class Available_Tutor_Expanded extends Fragment {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
                 mTutorId = bundle.getString("Tutorid");
+                mRedyTotalk = bundle.getInt("redyTotalk");
                 Log.e(TAG, "mTutorId-->: " + mTutorId);
 
             }
@@ -155,7 +158,7 @@ public class Available_Tutor_Expanded extends Fragment {
         modelCall.enqueue(new Callback<TutorInformationModel>() {
             @Override
             public void onResponse(Call<TutorInformationModel> call, retrofit2.Response<TutorInformationModel> response) {
-                String mReadyTotalk = response.body().getTutor().get(0).getReadytotalk();
+                mReadyTotalk = response.body().getTutor().get(0).getReadytotalk();
                 Log.e(TAG, "mReadyTotalk" + mReadyTotalk);
                 if (response.body().getTutor().get(0).getReadytotalk().equals("0")) {
                     videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.disabled_video));
@@ -244,17 +247,17 @@ public class Available_Tutor_Expanded extends Fragment {
 //        controlLayout = (LinearLayout) convertView.findViewById(R.id.controlLayout);
         ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
         //TutorExpanded_review_ratingBar1 = (RatingBar) convertView.findViewById(R.id.TutorExpanded_review_ratingBar1);
-        rating_textview = (TextView)convertView.findViewById( R.id.rating_textview );
+        rating_textview = (TextView) convertView.findViewById(R.id.rating_textview);
         if (avgRate.equalsIgnoreCase("")) {
             ratingBar.setRating(0f);
             //TutorExpanded_review_ratingBar1.setRating(0f);
-            rating_textview.setText( 0f + "");
+            rating_textview.setText(0f + "");
         } else {
             Float rate = Float.parseFloat(avgRate);
 //            Toast.makeText(getContext(), "rate "+rate, Toast.LENGTH_SHORT).show();
             ratingBar.setRating(rate);
             //TutorExpanded_review_ratingBar1.setRating(rate);
-            rating_textview.setText( rate + "" );
+            rating_textview.setText(rate + "");
         }
 
 //        TutorExpanded_tutorin_languages = (TextView) convertView.findViewById(R.id.TutorExpanded_tutorin_languages);
@@ -343,99 +346,100 @@ public class Available_Tutor_Expanded extends Fragment {
                 chatPrefEditor.putInt("receiverId", tutorId).apply();
 
                 fragmentStack.push(new Available_Tutor_Expanded());
-                MessageOneToOne messageList = new MessageOneToOne();
+                MessageFragment messageList = new MessageFragment();
                 fragmentTransaction.replace(R.id.viewpager, messageList).commit();
             }
         });
 
+        if (mRedyTotalk==0) {
+            Log.e(TAG, "onResume: " + mReadyTotalk);
+        } else {
+            videoBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setToolbar();
 
-        videoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setToolbar();
-//                fragmentStack.push(new Available_Tutor_Expanded());
-//                fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag",0), preferences.getFloat("credit",0),preferences.getString("tutorName",""))).commit();
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
 
-                LayoutInflater inflater = LayoutInflater.from(getContext());
+                    View view1 = inflater.inflate(R.layout.talknow_confirmation_layout, null);
+                    final PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+                    popupWindow.showAtLocation(convertView, Gravity.CENTER, 0, 0);
+                    popupWindow.setFocusable(true);
+                    popupWindow.setOutsideTouchable(false);
 
-                View view1 = inflater.inflate(R.layout.talknow_confirmation_layout, null);
-                final PopupWindow popupWindow = new PopupWindow(view1, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
-                popupWindow.showAtLocation(convertView, Gravity.CENTER, 0, 0);
-                popupWindow.setFocusable(true);
-                popupWindow.setOutsideTouchable(false);
-
-                final View view2 = inflater.inflate(R.layout.talknow_insufficient_layout, null);
-                final PopupWindow popupWindow1 = new PopupWindow(view2, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
-
-
-                TextView confirmation_tutorCredits = (TextView) view1.findViewById(R.id.confirmation_tutorCredits);
-                TextView confirmation_tutorName = (TextView) view1.findViewById(R.id.confirmation_tutorName);
-
-                confirmation_tutorName.setText(firstName);
-                confirmation_tutorCredits.setText(h_str);
+                    final View view2 = inflater.inflate(R.layout.talknow_insufficient_layout, null);
+                    final PopupWindow popupWindow1 = new PopupWindow(view2, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
 
 
-                Button yesbtn = (Button) view1.findViewById(R.id.yesbtn);
-                final Button nobtn = (Button) view1.findViewById(R.id.nobtn);
+                    TextView confirmation_tutorCredits = (TextView) view1.findViewById(R.id.confirmation_tutorCredits);
+                    TextView confirmation_tutorName = (TextView) view1.findViewById(R.id.confirmation_tutorName);
 
-                yesbtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-
-                        editor.putString("tutorName", firstName);
-                        editor.putInt("flag", 1);
-                        SharedPreferences pref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
-                        editor.putInt("studentId", pref.getInt("id", 0));
-                        editor.putString("tutorName", firstName);
-                        editor.putInt("tutorId", tutorId);
-                        editor.putFloat("hRate", Float.parseFloat(availableTutorListCPS.getText().toString()));
-                        editor.putFloat("credit", pref.getFloat("money", 0.0f)).apply();
-
-                        popupWindow.dismiss();
-                        if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) <= getContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)) {
-
-                            popupWindow1.showAtLocation(convertView, Gravity.CENTER, 0, 0);
-                            popupWindow1.setFocusable(true);
-                            popupWindow1.setOutsideTouchable(false);
+                    confirmation_tutorName.setText(firstName);
+                    confirmation_tutorCredits.setText(h_str);
 
 
-                            Button okbtn = (Button) view2.findViewById(R.id.okbtn);
+                    Button yesbtn = (Button) view1.findViewById(R.id.yesbtn);
+                    final Button nobtn = (Button) view1.findViewById(R.id.nobtn);
 
-                            okbtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    popupWindow1.dismiss();
-                                    TTL ttl = (TTL) getApplicationContext();
-                                    ttl.ExitBit = 2;
-                                    startActivity(new Intent(getApplicationContext(), new StripePaymentActivity().getClass()));
-                                }
-                            });
-                        } else {
-                            Intent i = new Intent(getContext(), New_videocall_activity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            i.putExtra("from", "availabletutor");
-                            getContext().startActivity(i);
+                    yesbtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+
+                            editor.putString("tutorName", firstName);
+                            editor.putInt("flag", 1);
+                            SharedPreferences pref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                            editor.putInt("studentId", pref.getInt("id", 0));
+                            editor.putString("tutorName", firstName);
+                            editor.putInt("tutorId", tutorId);
+                            editor.putFloat("hRate", Float.parseFloat(availableTutorListCPS.getText().toString()));
+                            editor.putFloat("credit", pref.getFloat("money", 0.0f)).apply();
+
+                            popupWindow.dismiss();
+                            if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) <= getContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)) {
+
+                                popupWindow1.showAtLocation(convertView, Gravity.CENTER, 0, 0);
+                                popupWindow1.setFocusable(true);
+                                popupWindow1.setOutsideTouchable(false);
+
+
+                                Button okbtn = (Button) view2.findViewById(R.id.okbtn);
+
+                                okbtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        popupWindow1.dismiss();
+                                        TTL ttl = (TTL) getApplicationContext();
+                                        ttl.ExitBit = 2;
+                                        startActivity(new Intent(getApplicationContext(), new StripePaymentActivity().getClass()));
+                                    }
+                                });
+                            } else {
+                                Intent i = new Intent(getContext(), New_videocall_activity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.putExtra("from", "availabletutor");
+                                getContext().startActivity(i);
+                                getActivity().onBackPressed();
+                            }
+
+
+                        }
+                    });
+                    nobtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TTL ttl = (TTL) getApplicationContext();
+                            ttl.ExitBit = 2;
+                            popupWindow.dismiss();
                             getActivity().onBackPressed();
                         }
+                    });
 
 
-                    }
-                });
-                nobtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TTL ttl = (TTL) getApplicationContext();
-                        ttl.ExitBit = 2;
-                        popupWindow.dismiss();
-                        getActivity().onBackPressed();
-                    }
-                });
-
-
-            }
-        });
+                }
+            });
+        }
 
 
         subHandler = (subjectHandler) new subjectHandler().execute();
