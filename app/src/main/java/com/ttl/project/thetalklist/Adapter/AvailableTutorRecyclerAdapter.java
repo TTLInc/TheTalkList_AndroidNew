@@ -100,6 +100,9 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
             if (object.getInt("readytotalk") == 0) {
                 Flag = "0";
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
+            }else {
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.video));
+
             }
 
             final String picPath = object.getString("pic");
@@ -295,7 +298,6 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                     editor.putString("tutorPic", jsonObject.getString("pic"));
                     editor.putString("hRate", jsonObject.getString("hRate"));
                     editor.putString("avgRate", jsonObject.getString("avgRate"));
-
                     editor.putInt("tutorid", jsonObject.getInt("uid")).apply();
                     available_tutoe_expanded.setArguments(bundle);
                 } catch (JSONException e) {

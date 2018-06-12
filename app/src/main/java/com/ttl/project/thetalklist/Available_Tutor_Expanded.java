@@ -109,7 +109,7 @@ public class Available_Tutor_Expanded extends Fragment {
     ImageView minus;
     View view1;
     WebView TutorExpanded_tutorin_languages_webview;
-    int roleId, roleIdUser;
+    int roleId, roleIdUser, getTutorId;
     String pic, hRate, avgRate;
     int tutorId;
     View convertView;
@@ -153,8 +153,9 @@ public class Available_Tutor_Expanded extends Fragment {
         } catch (Exception e) {
 
         }
+        getSharedPreferencesData();
         apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<TutorInformationModel> modelCall = apiService.getInformation(mTutorId);
+        Call<TutorInformationModel> modelCall = apiService.getInformation(String.valueOf(tutorId));
         modelCall.enqueue(new Callback<TutorInformationModel>() {
             @Override
             public void onResponse(Call<TutorInformationModel> call, retrofit2.Response<TutorInformationModel> response) {
@@ -166,6 +167,8 @@ public class Available_Tutor_Expanded extends Fragment {
                     videoBtn.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.video));
                 }
                 Log.e(TAG, "onResponse: ");
+
+
             }
 
             @Override
@@ -174,6 +177,22 @@ public class Available_Tutor_Expanded extends Fragment {
 
             }
         });
+    }
+
+    private void getSharedPreferencesData() {
+        preferences1 = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+
+        roleIdUser = preferences1.getInt("roleId", 0);
+
+        preferences = getContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getContext().getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
+        firstName = preferences.getString("tutorName", "");
+        roleId = preferences.getInt("tutorRoleId", 0);
+        pic = preferences.getString("tutorPic", "");
+        tutorId = preferences.getInt("tutorid", 0);
+        hRate = preferences.getString("hRate", "");
+        avgRate = preferences.getString("avgRate", "");
+
     }
 
     @Override
@@ -257,7 +276,8 @@ public class Available_Tutor_Expanded extends Fragment {
 //            Toast.makeText(getContext(), "rate "+rate, Toast.LENGTH_SHORT).show();
             ratingBar.setRating(rate);
             //TutorExpanded_review_ratingBar1.setRating(rate);
-            rating_textview.setText(rate + "");
+            String test = String.format("%.01f", rate);
+            rating_textview.setText(test + "");
         }
 
 //        TutorExpanded_tutorin_languages = (TextView) convertView.findViewById(R.id.TutorExpanded_tutorin_languages);
@@ -351,7 +371,7 @@ public class Available_Tutor_Expanded extends Fragment {
             }
         });
 
-        if (mRedyTotalk==0) {
+        if (mRedyTotalk == 0) {
             Log.e(TAG, "onResume: " + mReadyTotalk);
         } else {
             videoBtn.setOnClickListener(new View.OnClickListener() {

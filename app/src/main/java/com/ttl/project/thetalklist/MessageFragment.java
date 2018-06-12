@@ -281,10 +281,10 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected void onPreExecute() {
-            progressDialog = new ProgressDialog(getActivity());
+          /*  progressDialog = new ProgressDialog(getActivity());
             progressDialog.setTitle("Messages");
             progressDialog.setMessage("Please Wait..!!");
-            progressDialog.show();
+            progressDialog.show();*/
             json_url = "https://www.thetalklist.com/api/all_messages_new";
         }
 
@@ -351,7 +351,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            progressDialog.dismiss();
+         //   progressDialog.dismiss();
 
             MessageAdapter adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
             adapter.notifyDataSetChanged();
