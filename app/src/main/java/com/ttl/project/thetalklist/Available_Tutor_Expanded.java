@@ -141,6 +141,7 @@ public class Available_Tutor_Expanded extends Fragment {
 
     @Override
     public void onStart() {
+
         super.onStart();
         try {
             Bundle bundle = this.getArguments();
@@ -203,6 +204,7 @@ public class Available_Tutor_Expanded extends Fragment {
         preferences1 = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 
         roleIdUser = preferences1.getInt("roleId", 0);
+     //  getActivity.((ImageView) convertView.findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
 
         preferences = getContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
         SharedPreferences preferences = getContext().getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
@@ -371,7 +373,7 @@ public class Available_Tutor_Expanded extends Fragment {
             }
         });
 
-        if (mRedyTotalk == 0) {
+        if (tutorId == 0) {
             Log.e(TAG, "onResume: " + mReadyTotalk);
         } else {
             videoBtn.setOnClickListener(new View.OnClickListener() {

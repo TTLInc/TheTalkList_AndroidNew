@@ -133,13 +133,17 @@ public class FaoriteAdapter extends RecyclerView.Adapter<FaoriteAdapter.MyViewHo
 
             if (object.getInt("readytotalk") == 0) {
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
-                holder.VideocallButton1.setClickable(false);
-                holder.VideocallButton.setClickable(false);
+              //  holder.VideocallButton1.setClickable(false);
+               // holder.VideocallButton.setClickable(false);
+                Log.e("TAG", "DisableVideo " );
             } else {
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.video));
+                Log.e("TAG", "EnableVideoCall " );
+
                 holder.VideocallButton1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Log.e("TAG", "DisableVideo " );
                         TTL ttl = (TTL) context.getApplicationContext();
                         ttl.ExitBit = 1;
                         fragmentStack.push(new Available_tutor());
