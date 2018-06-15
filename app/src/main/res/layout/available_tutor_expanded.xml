@@ -242,6 +242,7 @@
                         android:layout_marginTop="5dp"
                         android:text="About Me"
                         android:textColor="#616A6B"
+                        android:textStyle="bold"
                         android:textSize="20sp" />
                 </LinearLayout>
                 <!--<TextView-->
@@ -301,6 +302,7 @@
                     android:layout_marginTop="-3dp"
                     android:text="Educational"
                     android:textColor="#616A6B"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
 
                 <at.blogc.android.views.ExpandableTextView
@@ -359,6 +361,7 @@
                     android:layout_marginTop="5dp"
                     android:text="Professional"
                     android:textColor="#616A6B"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
 
                 <at.blogc.android.views.ExpandableTextView
@@ -438,7 +441,7 @@
                             <Button
                                 android:id="@+id/moreList"
                                 android:layout_width="wrap_content"
-                                android:layout_height="50dp"
+                                android:layout_height="26dp"
                                 android:layout_weight="1"
                                 android:background="#00000000"
                                 android:text="See All"

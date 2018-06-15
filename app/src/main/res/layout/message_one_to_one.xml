@@ -26,14 +26,14 @@
                 android:layout_marginLeft="20dp"
                 android:layout_weight="0.3"
                 android:text="Chat Window"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#000000"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorPrimary" />
+            android:background="#000000" />
 
     </LinearLayout>
 
