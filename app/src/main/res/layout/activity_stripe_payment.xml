@@ -40,7 +40,6 @@
         android:layout_gravity="center"
         android:layout_marginBottom="-25dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -62,7 +61,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:paddingBottom="3dp"
-                android:src="@drawable/stripe_logo" />
+                android:src="@drawable/stripe_logo_2016" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,7 +91,7 @@
                     android:textSize="10dp" />
 
                 <TextView
-                    android:layout_width="110dp"
+                    android:layout_width="130dp"
                     android:layout_height="30dp"
                     android:text="256 bit SSL"
                     android:textSize="20dp" />
