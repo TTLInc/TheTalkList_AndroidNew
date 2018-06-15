@@ -10,51 +10,12 @@
     tools:context="com.ttl.project.thetalklist.StripePaymentActivity">
     <!--tools:context="com.example.saubhagyam.thetalklist.com.Application.saubhagyam.thetalklist.StripePaymentActivity">-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="-25dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="45dp"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="Payment with"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="-27dp"
-            android:layout_marginRight="22dp"
-            android:layout_weight="1"
-            android:paddingBottom="3dp"
-            android:src="@drawable/stripe_logo" />
-
-    </LinearLayout>
-
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/cardView"
+        android:layout_width="184dp"
+        android:layout_height="141dp"
         android:layout_margin="15dp"
-        android:src="@drawable/wallet" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/ssl_secure_connection1" />
-
+        android:src="@drawable/empty_payment" />
     <com.stripe.android.view.CardInputWidget
         android:id="@+id/card_input_widget"
         android:layout_width="match_parent"
@@ -67,8 +28,76 @@
         android:id="@+id/purchase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#42A5F5"
+        android:layout_marginTop="20dp"
+        android:background="#e36b0a"
         android:text="Pay"
         android:textColor="#ffffff"
         android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="181dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="-25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Payment with"
+                android:textAlignment="center"
+                android:textSize="20dp" />
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingBottom="3dp"
+                android:src="@drawable/stripe_logo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="60dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingBottom="3dp"
+                android:src="@drawable/artboard_2" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="PROTECTED BY"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="110dp"
+                    android:layout_height="30dp"
+                    android:text="256 bit SSL"
+                    android:textSize="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>
