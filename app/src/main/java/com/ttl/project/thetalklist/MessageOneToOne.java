@@ -590,6 +590,7 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
         }
 
 
+
     }
 
     @Override

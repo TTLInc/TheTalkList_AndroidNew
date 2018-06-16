@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,10 +64,7 @@ public class StripePaymentActivity extends AppCompatActivity {
 
 
         mCardInputWidget = (CardInputWidget) findViewById(R.id.card_input_widget);
-
         mCompositeSubscription = new CompositeSubscription();
-
-
         mStripe = new Stripe(this, PUBLISHABLE_KEY);
 
 
@@ -84,7 +82,18 @@ public class StripePaymentActivity extends AppCompatActivity {
                     if (card == null) {
                         displayError("Card Input Error");
                         return;
-                    } else buy();
+                    } else {
+                        ImageView cardView = (ImageView)findViewById( R.id.cardView);
+                        if ( card.getBrand().equals( Card.AMERICAN_EXPRESS ))
+                            cardView.setImageDrawable( getDrawable( R.drawable.amex_payment));
+                        else if( card.getBrand().equals( Card.DISCOVER) )
+                            cardView.setImageDrawable( getDrawable( R.drawable.discover_payment));
+                        else if( card.getBrand().equals( Card.VISA) )
+                            cardView.setImageDrawable( getDrawable( R.drawable.visa_payment));
+                        else if( card.getBrand().equals( Card.MASTERCARD) )
+                            cardView.setImageDrawable( getDrawable( R.drawable.master_card_payment));
+                        buy();
+                    }
                 } catch (IllegalStateException e) {
                     Toast.makeText(StripePaymentActivity.this, "Reopen application", Toast.LENGTH_SHORT).show();
                 }
