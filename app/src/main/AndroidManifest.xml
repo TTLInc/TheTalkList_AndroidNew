@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.ttl.project.thetalklist">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -209,7 +208,10 @@
         <activity
             android:name=".Request_Form"
             android:label="@string/title_activity_request"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name="SearchViewActivity"
+            />
     </application>
 
 </manifest>

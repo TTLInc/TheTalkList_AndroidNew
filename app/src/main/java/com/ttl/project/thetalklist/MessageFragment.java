@@ -85,6 +85,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     Button preset_how_are_you, preset_when_available, preset_tutor_now, preset_call_me, preset_what_subject, preset_busy;
     EmojiconEditText message_editText_msg;
     BroadcastReceiver appendChatScreenMsgReceiver;
+    MessageAdapter adapter;
 
     @Nullable
     @Override
@@ -219,6 +220,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.message_sendBtn:
+                adapter.clear();
                 sendTextMessage();
                 break;
         }
@@ -351,9 +353,9 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-         //   progressDialog.dismiss();
+            //   progressDialog.dismiss();
 
-            MessageAdapter adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
+            adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
             adapter.notifyDataSetChanged();
             lv.setAdapter(adapter);
         }
@@ -486,9 +488,10 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                     String a = new SimpleDateFormat("a").format(date_txt); // 9:00
 
 
-                    senddate.setText(String.valueOf(day + 1) + " " + months[month - 1] + " " + Year + " " + h + ":" + m + " " + a);
-                    recd.setText(String.valueOf(day + 1) + " " + months[month - 1] + " " + Year + " " + h + ":" + m + " " + a);
-
+                    senddate.setText(String.valueOf(day) + " " + months[month - 1] + " " + Year + " " + h + ":" + m + " " + a);
+                    recd.setText(String.valueOf(day) + " " + months[month - 1] + " " + Year + " " + h + ":" + m + " " + a);
+                    /*senddate.setText(time);
+                    recd.setText(time);*/
                 }
 
             } catch (ParseException e) {

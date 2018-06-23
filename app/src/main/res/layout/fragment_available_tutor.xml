@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,50 +15,50 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_margin="10dp"
             android:layout_height="40dp"
+            android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_weight="1"
-                android:background="@drawable/backgroubnd_black_border_square"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-               <!-- <ImageView
-                    android:layout_width="30dp"
-                    android:layout_gravity="center"
-                    android:layout_height="30dp"
-                    android:src="@drawable/searchblack"
-                    />
-                <EditText
-                    android:id="@+id/search_tutor_edittext"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#00000000"
-                    android:hint=""
-                    />-->
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/backgroubnd_black_border_square">
+                <!-- <ImageView
+                     android:layout_width="30dp"
+                     android:layout_gravity="center"
+                     android:layout_height="30dp"
+                     android:src="@drawable/searchblack"
+                     />
+                 <EditText
+                     android:id="@+id/search_tutor_edittext"
+                     android:imeOptions="actionNext"
+                     android:maxLines="1"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:backgroundTint="#00000000"
+                     android:hint=""
+                     />-->
                 <android.support.v7.widget.SearchView
                     android:id="@+id/tutorsearch_searchView"
-                    android:layout_gravity="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
+                    android:layout_gravity="end"
                     android:background="@drawable/backgroubnd_black_border_square"
+                    android:focusable="false"
                     android:queryHint="Enter Name, Location or Keyword" />
-
             </LinearLayout>
+
             <Button
-                    android:id="@+id/available_tutor_filter"
+                android:id="@+id/available_tutor_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:background="#00000000"
                 android:text="Filters"
-                android:textSize="17dp"
                 android:textAllCaps="false"
                 android:textColor="#2696CA"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:textSize="17dp" />
         </LinearLayout>
 
         <View
