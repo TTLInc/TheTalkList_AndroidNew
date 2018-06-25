@@ -3,6 +3,7 @@ package com.ttl.project.thetalklist;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -20,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pchmn.materialchips.ChipView;
@@ -106,7 +106,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
         linearLayoutSubjectTextView = (LinearLayout) findViewById(R.id.linearLayoutSubjectTextView);
         linearLayoutSubjectImageView = (LinearLayout) findViewById(R.id.linearLayoutSubjectImageView);
-        linearLayoutlinear = (LinearLayout) findViewById(R.id.linearLayoutlinear1);
+   //     linearLayoutlinear = (LinearLayout) findViewById(R.id.linearLayoutlinear1);
         linearLayoutLocationImageView = (LinearLayout) findViewById(R.id.linearLayoutLocationImageView);
         linearLayoutLocationTextView = (LinearLayout) findViewById(R.id.linearLayoutLocationTextView);
         linearLayoutPeopleImageView = (LinearLayout) findViewById(R.id.linearLayoutPeopleImageView);
@@ -143,7 +143,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     //  mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
 
                 }
-                if(String.valueOf(acb).equals("0")){
+                if (String.valueOf(acb).equals("0")) {
                     txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
                     txtPeopleName.setVisibility(View.GONE);
@@ -249,7 +249,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                 linearLayoutPeopleTextView.removeAllViews();
                 linearLayoutLocationImageView.removeAllViews();
                 linearLayoutPeopleImageView.removeAllViews();
-                linearLayoutlinear.removeAllViews();
+
             }
         });
 
@@ -321,7 +321,11 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         viewModelCall.enqueue(new Callback<SearchViewModel>() {
             @Override
             public void onResponse(Call<SearchViewModel> call, Response<SearchViewModel> response) {
-                mProgressDialog.dismiss();
+                if (mProgressDialog != null) {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                }
                 try {
                     mSubjectListSize = response.body().getSubject().size();
                     mLocationListSize = response.body().getLocation().size();
@@ -366,13 +370,21 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     //getContactList(mPeopleListSize, arryListPeople);
                     Log.e(TAG, "onResponse: " + mPeopleListSize + "==" + arryListPeople);
                 } catch (Exception e) {
-                    mProgressDialog.dismiss();
+                    if (mProgressDialog != null) {
+                        if (mProgressDialog.isShowing()) {
+                            mProgressDialog.dismiss();
+                        }
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<SearchViewModel> call, Throwable t) {
-                mProgressDialog.dismiss();
+                if (mProgressDialog != null) {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                }
             }
         });
     }
@@ -386,9 +398,8 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         for (int i = 0; i < mPeopleListSize; i++) {
 
             rowTextView2 = new TextView(this);
-            rowTextView2.setPadding(0, 15, 0, 0);
             rowTextView2.setText(arryListPeople.get(i));
-            linearLayoutPeopleTextView.addView(rowTextView2);
+
             myTextViews2[i] = rowTextView2;
             final int finalI = i;
             SearchFilterModel contactChip = new SearchFilterModel(arryListPeople.get(i));
@@ -410,12 +421,13 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                 }
 
             });
+            rowTextView2.setPadding(5, 52, 0, 10);
+            rowTextView2.setTextColor(Color.parseColor("#000000"));
             imagePeople = new ImageView(this);
-            imagePeople.setLayoutParams(new android.view.ViewGroup.LayoutParams(80, 60));
-            imagePeople.setMaxHeight(30);
-            imagePeople.setMaxWidth(30);
-            imagePeople.setPadding(0, 10, 0, 0);
+            imagePeople.setLayoutParams(new android.view.ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
+            imagePeople.setPadding(0, 50, 0, 10);
             imagePeople.setImageResource(R.drawable.people);
+            linearLayoutPeopleTextView.addView(rowTextView2);
             linearLayoutPeopleImageView.addView(imagePeople);
         }
     }
@@ -427,10 +439,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         for (int i = 0; i < mLocationListSize; i++) {
 
             rowTextView1 = new TextView(this);
-            rowTextView1.setPadding(0, 15, 0, 0);
             rowTextView1.setText(arryListSubject.get(i));
-            rowTextView1.setTextColor(black);
-            linearLayoutLocationTextView.addView(rowTextView1);
             myTextViews1[i] = rowTextView1;
             final int finalI = i;
             myTextViews1[i].setOnClickListener(new View.OnClickListener() {
@@ -449,13 +458,15 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     mSizeAfter = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
                 }
             });
+            rowTextView1.setPadding(5, 52, 0, 10);
+            rowTextView1.setTextColor(Color.parseColor("#000000"));
             imageLocation = new ImageView(this);
-            imageLocation.setLayoutParams(new android.view.ViewGroup.LayoutParams(80, 60));
-            imageLocation.setMaxHeight(30);
-            imageLocation.setMaxWidth(30);
-            imageLocation.setPadding(0, 10, 0, 0);
+            imageLocation.setLayoutParams(new android.view.ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            imageLocation.setPadding(0, 50, 0, 10);
             imageLocation.setImageResource(R.drawable.location);
-            Log.e(TAG, "onCreate: " + myTextViews1[i].getText());
+
+            linearLayoutLocationTextView.addView(rowTextView1);
             linearLayoutLocationImageView.addView(imageLocation);
         }
 
@@ -467,12 +478,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
         for (int i = 0; i < mSubjectListSize; i++) {
             rowTextView = new TextView(this);
-            lLayour = new LinearLayout(this);
-            rowTextView.setPadding(0, 15, 0, 10);
             rowTextView.setText(arryList.get(i));
-            rowTextView.setTextColor(black);
+            rowTextView.setTextColor(Color.parseColor("#000000"));
             myTextViews[i] = rowTextView;
-
             final int finalI = i;
             myTextViews[i].setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -491,18 +499,16 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     mSizeAfter = mTagsEditText.getText().length();
                 }
             });
+
+            rowTextView.setPadding(5, 50, 0, 10);
             imageSubject = new ImageView(this);
-            imageSubject.setLayoutParams(new android.view.ViewGroup.LayoutParams(80, 60));
-            imageSubject.setMaxHeight(30);
-            imageSubject.setMaxWidth(30);
-            imageSubject.setPadding(0, 10, 0, 10);
+            imageSubject.setLayoutParams(new android.view.ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            imageSubject.setPadding(0, 50, 0, 10);
             imageSubject.setImageResource(R.drawable.notebook);
 
-            lLayour.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
-            lLayour.setBackgroundColor(R.color.black);
             linearLayoutSubjectTextView.addView(rowTextView);
             linearLayoutSubjectImageView.addView(imageSubject);
-            linearLayoutlinear.addView(lLayour);
 
         }
     }
