@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,6 +58,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
     EditText etSearch;
     String FLAG;
     ImageView imageSubject, imageLocation, imagePeople;
+    LinearLayout lLayour;
     Button btnCancel;
     Toolbar toolbar;
     ChipView chipsInput1;
@@ -74,6 +74,10 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
     String valu = "0";
     int pluseVlue;
     int mmSize;
+    int langths;
+    int mainString;
+    int acb;
+    int mDiffrentValue;
     private ProgressDialog mProgressDialog;
     private RecyclerView.LayoutManager mLayoutManagerCountry;
     private RecyclerView.LayoutManager mLayoutManagerSubject;
@@ -102,7 +106,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
         linearLayoutSubjectTextView = (LinearLayout) findViewById(R.id.linearLayoutSubjectTextView);
         linearLayoutSubjectImageView = (LinearLayout) findViewById(R.id.linearLayoutSubjectImageView);
-        linearLayoutlinear = (LinearLayout) findViewById(R.id.linearLayoutlinear);
+        linearLayoutlinear = (LinearLayout) findViewById(R.id.linearLayoutlinear1);
         linearLayoutLocationImageView = (LinearLayout) findViewById(R.id.linearLayoutLocationImageView);
         linearLayoutLocationTextView = (LinearLayout) findViewById(R.id.linearLayoutLocationTextView);
         linearLayoutPeopleImageView = (LinearLayout) findViewById(R.id.linearLayoutPeopleImageView);
@@ -129,14 +133,26 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
         final Runnable r = new Runnable() {
             public void run() {
+                mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
+                acb = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
+                Log.e(TAG, "onTextChanged-->: " + acb + "--->" + mainString);
+                if (acb < mainString) {
 
-                //  size1 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
+                    mStringDataSubject = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
+                    Log.e(TAG, "run: " + mStringDataSubject);
+                    //  mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
 
-                handler.postDelayed(this, 100);
+                }
+                if(String.valueOf(acb).equals("0")){
+                    txtLocationName.setVisibility(View.GONE);
+                    txtSubjectName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);
+                }
+                handler.postDelayed(this, 10);
             }
         };
 
-        handler.postDelayed(r, 100);
+        handler.postDelayed(r, 10);
 
 
         mTagsEditText.addTextChangedListener(new TextWatcher() {
@@ -148,13 +164,19 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                Toast.makeText(SearchViewActivity.this, "helloooo" + mmSize, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
 
                 Log.e(TAG, " mSubject" + mSubject + "-->" + mSubject.length());
                 if (!mStringDataSubject.equals("") || !mStringDataLocation.equals("") || !mStringDataPeople.equals("")) {
                     try {
 
                         if (FLAG.equals("0")) {
+
 
                             String a1 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                             int b1 = a1.length();
@@ -215,41 +237,30 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     }
 
                 } else {
-                    ApiCallSearchView(String.valueOf(charSequence));
+                    ApiCallSearchView(String.valueOf(editable));
                     Log.e(TAG, "onTextChanged: ");
                 }
 
 
-                Log.e(TAG, "onQueryTextChange: " + charSequence);
+                Log.e(TAG, "onQueryTextChange: " + editable);
                 linearLayoutSubjectTextView.removeAllViews();
                 linearLayoutSubjectImageView.removeAllViews();
                 linearLayoutLocationTextView.removeAllViews();
                 linearLayoutPeopleTextView.removeAllViews();
                 linearLayoutLocationImageView.removeAllViews();
                 linearLayoutPeopleImageView.removeAllViews();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                Log.e(TAG, "afterTextChanged: " + mTagsEditText.length());
-                mSizeAfter = mTagsEditText.length();
+                linearLayoutlinear.removeAllViews();
             }
         });
 
 
-        mTagsEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e(TAG, "onItemClick: ");
-            }
-        });
         mTagsEditText.setTagsListener(new TagsEditText.TagsEditListener() {
             @Override
             public void onTagsChanged(Collection<String> collection) {
 
-                mmSize = collection.toString().trim().replaceAll("\\s+", "").length();
-                Log.e(TAG, "onTagsChanged: ");
+                mmSize = collection.size();
+                langths = collection.toString().length();
+                Log.e(TAG, "onTagsChanged: " + collection + "Size-->" + collection.toString().length());
             }
 
             @Override
@@ -388,8 +399,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     FLAG = "2";
                     mPeople = myTextViews2[finalI].getText().toString();
                     Log.e(TAG, "PEOPLE: " + mPeople);
-                    //  mSearchView.setQuery(mSubject + "" + mLocation + "" + mPeople, true);
-                    mStringDataPeople = mStringDataPeople + mPeople;
+                    mStringDataSubject = mStringDataSubject + mPeople.replaceAll("\\s+", "");
                     mTagsEditText.setText(mPeople);
                     txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
@@ -406,8 +416,6 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
             imagePeople.setMaxWidth(30);
             imagePeople.setPadding(0, 10, 0, 0);
             imagePeople.setImageResource(R.drawable.people);
-
-            //  linearLayoutPeopleTextView.addView(rowTextView2);
             linearLayoutPeopleImageView.addView(imagePeople);
         }
     }
@@ -432,8 +440,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     FLAG = "1";
                     mLocation = myTextViews1[finalI].getText().toString();
                     Log.e(TAG, "LOCATION: " + mLocation);
-                    //    mSearchView.setQuery(mSubject + "" + mLocation + "" + mPeople, true);
-                    mStringDataLocation = mStringDataLocation + mLocation;
+                    mStringDataSubject = mStringDataSubject + mLocation.replaceAll("\\s+", "");
                     mTagsEditText.setText(mLocation);
                     txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
@@ -449,7 +456,6 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
             imageLocation.setPadding(0, 10, 0, 0);
             imageLocation.setImageResource(R.drawable.location);
             Log.e(TAG, "onCreate: " + myTextViews1[i].getText());
-            //   linearLayoutLocationTextView.addView(rowTextView1);
             linearLayoutLocationImageView.addView(imageLocation);
         }
 
@@ -458,10 +464,11 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
     @SuppressLint("ResourceAsColor")
     private void setSubjectListView(int mSubjectListSize, ArrayList<String> arryList) {
         myTextViews = new TextView[mSubjectListSize];
-        LinearLayout lLayour;
+
         for (int i = 0; i < mSubjectListSize; i++) {
             rowTextView = new TextView(this);
-            rowTextView.setPadding(0, 15, 0, 0);
+            lLayour = new LinearLayout(this);
+            rowTextView.setPadding(0, 15, 0, 10);
             rowTextView.setText(arryList.get(i));
             rowTextView.setTextColor(black);
             myTextViews[i] = rowTextView;
@@ -474,10 +481,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     valu = "0";
                     mSubject = myTextViews[finalI].getText().toString();
                     Log.e(TAG, "SUBJECT: " + mSubject);
-                    //    mSearchView.setQuery(mSubject + "" + mLocation + "" + mPeople, true);
-                    mStringDataSubject = mStringDataSubject + mSubject;
+                    mStringDataSubject = mStringDataSubject + mSubject.replaceAll("\\s+", "");
                     mTagsEditText.setText(mSubject);
-                    pluseVlue = mSubject.length();
+
                     txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
                     txtPeopleName.setVisibility(View.GONE);
@@ -489,14 +495,15 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
             imageSubject.setLayoutParams(new android.view.ViewGroup.LayoutParams(80, 60));
             imageSubject.setMaxHeight(30);
             imageSubject.setMaxWidth(30);
-            imageSubject.setPadding(0, 10, 0, 0);
+            imageSubject.setPadding(0, 10, 0, 10);
             imageSubject.setImageResource(R.drawable.notebook);
-            lLayour = new LinearLayout(this);
+
             lLayour.setLayoutParams(new android.view.ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
             lLayour.setBackgroundColor(R.color.black);
             linearLayoutSubjectTextView.addView(rowTextView);
             linearLayoutSubjectImageView.addView(imageSubject);
             linearLayoutlinear.addView(lLayour);
+
         }
     }
 

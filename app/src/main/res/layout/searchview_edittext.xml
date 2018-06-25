@@ -7,8 +7,9 @@
     <HorizontalScrollView
         android:id="@+id/hsv"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
+        android:background="@drawable/searchview_boader"
         android:fillViewport="true"
         android:measureAllChildren="false"
         android:scrollbars="none">
@@ -21,6 +22,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/searchview_boader"
             android:padding="10dp"
+            android:gravity="center|left"
             TagsEditText:allowSpaceInTag="true"
             TagsEditText:tagsBackground="@drawable/square"
             TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
