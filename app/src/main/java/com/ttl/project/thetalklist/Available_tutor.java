@@ -2,6 +2,7 @@ package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,14 +24,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.InputType;
 import android.transition.Explode;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -47,17 +53,28 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.ttl.project.thetalklist.Adapter.AvailableTutorRecyclerAdapter;
 import com.ttl.project.thetalklist.Services.LoginService;
+import com.ttl.project.thetalklist.model.FilterTutorsModel;
+import com.ttl.project.thetalklist.retrofit.ApiClient;
+import com.ttl.project.thetalklist.retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import mabbas007.tagsedittext.TagsEditText;
+import retrofit2.Call;
+import retrofit2.Callback;
+
+import static android.content.Context.MODE_PRIVATE;
+import static android.util.TypedValue.TYPE_NULL;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Available_tutor extends Fragment {
@@ -75,9 +92,10 @@ public class Available_tutor extends Fragment {
     Float credit;
     String tutorName;
     SearchView searchView;
-
+    ApiInterface mApiInterface;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
     LinearLayout linearLayout;
-
+    FilterTutorsModel mResponse;
     SharedPreferences prefDesired;
     SharedPreferences.Editor editor1;
     String desire_subject, desire_lang1, desire_lang2, desire_country, desire_state, desire_keyword, desired_gender;
@@ -89,7 +107,11 @@ public class Available_tutor extends Fragment {
     String desireState;
     String desireKeyword;
     String URL;
+    ImageView mClearSearch;
     SharedPreferences.Editor edi;
+    String mSearch_keyword;
+    private static final String TAG = "Available_tutor";
+    TagsEditText mTagsEditText;
 
     public Available_tutor() {
     }
@@ -126,15 +148,23 @@ public class Available_tutor extends Fragment {
         super.onPause();
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_available_tutor, container, false);
 
+
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        SharedPreferences pref = getContext().getSharedPreferences("fromSignup", Context.MODE_PRIVATE);
+        SharedPreferences pref = getContext().getSharedPreferences("fromSignup", MODE_PRIVATE);
         SharedPreferences.Editor editorpref = pref.edit();
 
         if (pref.contains("fromSignup")) {
@@ -143,12 +173,17 @@ public class Available_tutor extends Fragment {
             editorpref.clear().apply();
         }
 
-
         Explode explode = new Explode();
         getActivity().getWindow().setExitTransition(explode);
 
+        SharedPreferences prefs = getContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
-        Button available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
+
+        mSearch_keyword = prefs.getString("search_keyword", "");
+
+        Log.e(TAG, "onCreateView: " + mSearch_keyword);
+
+        //  Button available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
 
         ((ImageView) getActivity().findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
         ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
@@ -164,18 +199,18 @@ public class Available_tutor extends Fragment {
 
         fragmentManager = getActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        available_tutor_filter.setOnClickListener(new View.OnClickListener() {
+      /*  available_tutor_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragmentTransaction.replace(R.id.viewpager, new DesiredTutor()).commit();
             }
-        });
+        });*/
 
         final TextView msg = (TextView) getActivity().findViewById(R.id.bottombar_message_count);
         final RelativeLayout bottombar_messageCount_layout = (RelativeLayout) getActivity().findViewById(R.id.bottombar_messageCount_layout);
 
         {
-            String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
+            String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0);
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -230,7 +265,7 @@ public class Available_tutor extends Fragment {
                 public void onClick(View v) {
 
                     popupWindow.dismiss();
-                    if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) <= getContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)) {
+                    if (getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getFloat("money", 0.0f) <= getContext().getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE).getFloat("hRate", 0.0f)) {
 
                         popupWindow1.showAtLocation(view, Gravity.CENTER, 0, 0);
                         popupWindow1.setFocusable(true);
@@ -253,7 +288,7 @@ public class Available_tutor extends Fragment {
                     } else {
                         final TTL ttl = new TTL();
 
-                        if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) >= credit * 10) {
+                        if (getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getFloat("money", 0.0f) >= credit * 10) {
                             ttl.setCallmin(-100);
                             Intent i = new Intent(getContext(), New_videocall_activity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             i.putExtra("from", "availabletutor");
@@ -271,7 +306,7 @@ public class Available_tutor extends Fragment {
                             Button buyCredits = (Button) view3.findViewById(R.id.talknow_buycredits);
                             TextView tv = (TextView) view3.findViewById(R.id.talknow_text);
 
-                            final int min = (int) (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) / credit);
+                            final int min = (int) (getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getFloat("money", 0.0f) / credit);
 
                             if (min > 1)
                                 tv.setText("Your credits are low and this call will expire in " + min + " minutes.");
@@ -326,7 +361,7 @@ public class Available_tutor extends Fragment {
 
         } else {
 
-            final SharedPreferences loginPref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+            final SharedPreferences loginPref = getContext().getSharedPreferences("loginStatus", MODE_PRIVATE);
             LoginService loginService = new LoginService();
             loginService.login(loginPref.getString("email", ""), loginPref.getString("pass", ""), getContext());
             Handler handler = new Handler();
@@ -401,21 +436,81 @@ public class Available_tutor extends Fragment {
         }
 
         linearLayout = (LinearLayout) view.findViewById(R.id.AvailableTutor_ProgressBar);
-        available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
+        //available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
 
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) view.findViewById(R.id.availableTutorList);
 
 
-        prefDesired = getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE);
+        prefDesired = getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE);
         editor1 = prefDesired.edit();
 
-        preference = getApplicationContext().getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
+        preference = getApplicationContext().getSharedPreferences("AvailableTutorPref", MODE_PRIVATE);
         edi = preference.edit();
-        searchView = (SearchView) view.findViewById(R.id.tutorsearch_searchView);
-        searchView.setFocusable(false);
-        searchView.setIconified(true);
+        mTagsEditText = (TagsEditText) view.findViewById(R.id.tagsEditText);
+        mTagsEditText.setInputType(TYPE_NULL);
+        mClearSearch = (ImageView) view.findViewById(R.id.imgeClear);
+        mClearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTagsEditText.setText("");
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                editor.putString("search_keyword", "");
+                editor.clear();
+                editor.apply();
+            }
+        });
+        String[] animalsArray = mSearch_keyword.split(",");
+        Log.e(TAG, "String " + animalsArray.length);
+        for (int i = 0; i < animalsArray.length; i++) {
+            String abc = animalsArray[i].trim();
+            Log.e(TAG, "onCreateView: " + abc);
+            if (abc.length() > 5) {
+                String charc = abc.substring(0, 5);
+                mTagsEditText.setText(charc + "..");
+            } else {
+                mTagsEditText.setText(abc);
+            }
+
+        }
+
+        mTagsEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+       /* mTagsEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        mTagsEditText.requestFocus();
+        InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.showSoftInput(mTagsEditText, InputMethodManager.SHOW_FORCED);*/
+
+        mTagsEditText.setTagsListener(new TagsEditText.TagsEditListener() {
+            @Override
+            public void onTagsChanged(Collection<String> collection) {
+                String collectionString = collection.toString();
+                Log.e(TAG, "onTagsChanged: " + collection + "Size-->" + collection.toString().length());
+                mSearch_keyword = collectionString.substring(1, collectionString.length() - 1);
+                Log.e(TAG, "final Text: " + mSearch_keyword);
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                editor.putString("search_keyword", mSearch_keyword);
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(getContext(), SettingFlyout.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onEditingFinished() {
+
+            }
+        });
+        //searchView = (SearchView) view.findViewById(R.id.tutorsearch_searchView);
+      /*  searchView.setFocusable(false);
+        searchView.setIconified(true);*/
         if (prefDesired.contains("subject")) {
 
             Log.e("desired pref ", "found");
@@ -432,44 +527,44 @@ public class Available_tutor extends Fragment {
         } else if (preference.contains("query")) {
 
             new AvailableTutor(preference.getString("query", "")).execute();
-            searchView.setQueryHint(preference.getString("query", ""));
+            //  searchView.setQueryHint(preference.getString("query", ""));
         } else {
-            searchView.setQueryHint("Ex. Statistics, USA");
+            //    searchView.setQueryHint("Ex. Statistics, USA");
             linearLayout.setVisibility(View.GONE);
             new AvailableTutor("").execute();
         }
 
 //        }
-        available_tutor_filter.setOnClickListener(new View.OnClickListener() {
+       /* available_tutor_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentStack.getInstance().push(new Available_tutor());
                 fragmentTransaction.replace(R.id.viewpager, new DesiredTutor()).commit();
                 edi.clear().apply();
             }
-        });
+        });*/
 
 
         final SharedPreferences.Editor edi = prefDesired.edit();
 
 
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+       /* searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 view.setFocusable(false);
                 Intent intent = new Intent(getActivity(), SearchViewActivity.class);
                 startActivity(intent);
             }
-        });
-        searchView.setQuery(preference.getString("query", ""), true);
-        searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        });*/
+      /*  searchView.setQuery(preference.getString("query", ""), true);
+        searchView.setIconifiedByDefault(false);*/
+     /*   searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextChange(String newText) {
 
-             /*   Intent intent = new Intent(getActivity(), SearchViewActivity.class);
-                startActivity(intent);*/
+             *//*   Intent intent = new Intent(getActivity(), SearchViewActivity.class);
+                startActivity(intent);*//*
                 return true;
             }
 
@@ -478,43 +573,83 @@ public class Available_tutor extends Fragment {
 
 
                 edi.putString("keyword", query).apply();
-               /* editor.clear().apply();
-                edi.putString("query", query).apply();*/
+               *//* editor.clear().apply();
+                edi.putString("query", query).apply();*//*
                 linearLayout.setVisibility(View.VISIBLE);
-                tutorSearch(getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("subject", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang1", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang2", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("country", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("state", ""), query,
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("gender", ""));
+                tutorSearch(getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("subject", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("lang1", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("lang2", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("country", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("state", ""), query,
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("gender", ""));
 
                 return false;
             }
 
         });
+*/
 
+        //    ImageView closeButton = (ImageView) this.searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
 
-        ImageView closeButton = (ImageView) this.searchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
-
-        closeButton.setOnClickListener(new View.OnClickListener() {
+      /*  closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 edi.putString("keyword", "").apply();
-               /* editor.clear().apply();
-                edi.putString("query", "").apply();*/
-                tutorSearch(getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("subject", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang1", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang2", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("country", ""),
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("state", ""), "",
-                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("gender", ""));
+               *//* editor.clear().apply();
+                edi.putString("query", "").apply();*//*
+                tutorSearch(getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("subject", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("lang1", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("lang2", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("country", ""),
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("state", ""), "",
+                        getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("gender", ""));
                 searchView.setQuery("", true);
             }
-        });
+        });*/
 
-
+        APIFilterTutors();
         return view;
+    }
+
+
+    private void APIFilterTutors() {
+        mApiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<FilterTutorsModel> modelCall = mApiInterface.searchTutors(mSearch_keyword);
+        modelCall.enqueue(new Callback<FilterTutorsModel>() {
+            @Override
+            public void onResponse(Call<FilterTutorsModel> call, retrofit2.Response<FilterTutorsModel> response) {
+                Gson mGson = new Gson();
+                String result = mGson.toJson(response);
+                swipeRefreshLayout.setRefreshing(true);
+
+
+                linearLayout.setVisibility(View.VISIBLE);
+                recyclerView.removeAllViews();
+                final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                mResponse = response.body();
+                availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), mResponse, fragmentManager);
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+//            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+                recyclerView.setAdapter(availableTutorRecyclerAdapter);
+                availableTutorRecyclerAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+                initSwipe();
+                swipeRefreshLayout.setRefreshing(false);
+
+                availableTutorRecyclerAdapter.notifyDataSetChanged();
+                linearLayout.setVisibility(View.GONE);
+
+                Log.e("MainActivity ", "Response------>" + result);
+                Log.e("MainActivity ", "Response------>");
+            }
+
+            @Override
+            public void onFailure(Call<FilterTutorsModel> call, Throwable t) {
+                Log.e(TAG, "onFailure---->>>: " + t);
+            }
+        });
     }
 
     @Override
@@ -530,6 +665,8 @@ public class Available_tutor extends Fragment {
     public void onResume() {
 
         super.onResume();
+
+
       /*  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         searchView.setFocusable(false);*/
 
@@ -584,7 +721,7 @@ public class Available_tutor extends Fragment {
         if (desireCountry.equalsIgnoreCase("Select_country")) desireCountry = "";
         if (desireState.equalsIgnoreCase("state")) desireState = "";
 
-        final String URL = "https://www.thetalklist.com/api/desired_tutor?subject=" + desireSubject + "&language1=" + desireLang1 +/*"&language2="+desireLang2+*/"&gender=" + desireGender + "&country=" + desireCountry + "&state=" + desireState + "&keyword=" + desireKeyword + "&id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
+        final String URL = "https://www.thetalklist.com/api/desired_tutor?subject=" + desireSubject + "&language1=" + desireLang1 +/*"&language2="+desireLang2+*/"&gender=" + desireGender + "&country=" + desireCountry + "&state=" + desireState + "&keyword=" + desireKeyword + "&id=" + getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0);
         Log.e("desired tut search url", URL);
         RequestQueue queue11111 = Volley.newRequestQueue(getApplicationContext());
 
@@ -598,16 +735,16 @@ public class Available_tutor extends Fragment {
                     if (resultObj.getInt("status") == 1) {
 //                        new AvailableTutor("").execute();
 
-                        SharedPreferences pref = getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE);
+                        SharedPreferences pref = getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE);
                         SharedPreferences.Editor editor = pref.edit();
 
                         editor.clear().apply();
-                        tutorSearch(getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("subject", ""),
-                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang1", ""),
-                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("lang2", ""),
-                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("country", ""),
-                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("state", ""), "",
-                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE).getString("gender", ""));
+                        tutorSearch(getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("subject", ""),
+                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("lang1", ""),
+                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("lang2", ""),
+                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("country", ""),
+                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("state", ""), "",
+                                getContext().getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE).getString("gender", ""));
                         Toast.makeText(getContext(), "No search results found.", Toast.LENGTH_SHORT).show();
                         linearLayout.setVisibility(View.GONE);
                     } else {
@@ -643,7 +780,7 @@ public class Available_tutor extends Fragment {
             recyclerView.removeAllViews();
             final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
-            availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), array, fragmentManager);
+            //       availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), array, fragmentManager);
             recyclerView.setLayoutManager(mLayoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
 //            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -677,7 +814,7 @@ public class Available_tutor extends Fragment {
                     try {
                         JSONObject object = (JSONObject) array.get(position);
                         int tutorId = object.getInt("uid");
-                        URL = "https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId;
+                        URL = "https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId;
 
                         new Favorite(URL, position).execute();
 
@@ -734,7 +871,7 @@ public class Available_tutor extends Fragment {
         if (desireGender.equalsIgnoreCase("Select_Gender")) desireGender = "";
         if (desireCountry.equalsIgnoreCase("Select_country")) desireCountry = "";
         if (desireState.equalsIgnoreCase("state")) desireState = "";
-        final String URL = "https://www.thetalklist.com/api/desired_tutor?subject=" + desireSubject + "&language1=" + desireLang1 +/*"&language2="+desireLang2+*/"&gender=" + desireGender + "&country=" + desireCountry + "&state=" + desireState + "&keyword=" + desireKeyword + "&id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
+        final String URL = "https://www.thetalklist.com/api/desired_tutor?subject=" + desireSubject + "&language1=" + desireLang1 +/*"&language2="+desireLang2+*/"&gender=" + desireGender + "&country=" + desireCountry + "&state=" + desireState + "&keyword=" + desireKeyword + "&id=" + getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0);
         Log.e("desired tut search url", URL);
         RequestQueue queue11111 = Volley.newRequestQueue(getApplicationContext());
         final Parcelable recyclerViewState;
@@ -754,15 +891,15 @@ public class Available_tutor extends Fragment {
 
                         swipeRefreshLayout.setRefreshing(true);
                         Log.e("tutor search array", array.toString());
-                        if (array.equals("")) {
+                      /*  if (array.equals("")) {
                             linearLayout.setVisibility(View.GONE);
-                        } else {
-                            linearLayout.setVisibility(View.VISIBLE);
-                            recyclerView.removeAllViews();
-                            final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        } else {*/
+                        linearLayout.setVisibility(View.VISIBLE);
+                        recyclerView.removeAllViews();
+                        final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
 
-                            availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), array, fragmentManager);
+                        availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), mResponse, fragmentManager);
                             /*recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -794,9 +931,9 @@ public class Available_tutor extends Fragment {
 
                                 }
                             });*/
-                            availableTutorRecyclerAdapter.notifyDataSetChanged();
-                            linearLayout.setVisibility(View.GONE);
-                        }
+                        availableTutorRecyclerAdapter.notifyDataSetChanged();
+                        linearLayout.setVisibility(View.GONE);
+                        //  }
                     } else {
 
                         array = resultObj.getJSONArray("tutors");
@@ -835,7 +972,7 @@ public class Available_tutor extends Fragment {
 
             String keyword = keyword_search.replace(" ", "");
             Log.e("keyword", keyword_search);
-            String URL = "https://www.thetalklist.com/api/desired_tutor?subject=&language1=&gender=&country=&state=&keyword=&id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
+            String URL = "https://www.thetalklist.com/api/desired_tutor?subject=&language1=&gender=&country=&state=&keyword=&id=" + getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0);
             Log.e("Available tutor url", URL);
             RequestQueue queue1 = Volley.newRequestQueue(getApplicationContext());
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {

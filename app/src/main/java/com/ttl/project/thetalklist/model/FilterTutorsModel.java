@@ -45,12 +45,20 @@ public class FilterTutorsModel {
         private String roleId;
         private String uid;
         private String firstName;
-        private double hRate;
+        private String hRate;
         private String lastName;
         private String pic;
         private String avgRate;
         private String country;
         private String isMyFavourite;
+
+        public String gethRate() {
+            return hRate;
+        }
+
+        public void sethRate(String hRate) {
+            this.hRate = hRate;
+        }
 
         public String getId() {
             return id;
@@ -92,13 +100,7 @@ public class FilterTutorsModel {
             this.firstName = firstName;
         }
 
-        public double getHRate() {
-            return hRate;
-        }
 
-        public void setHRate(double hRate) {
-            this.hRate = hRate;
-        }
 
         public String getLastName() {
             return lastName;

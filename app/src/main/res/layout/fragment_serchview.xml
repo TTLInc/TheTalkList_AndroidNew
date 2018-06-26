@@ -27,40 +27,32 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_margin="10dp"
             android:orientation="horizontal">
-    
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_weight="1">
 
                 <include
                     android:id="@+id/layout"
                     layout="@layout/searchview_edittext"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_below="@id/toolbar" />
-                <!--
-                                <android.support.v7.widget.SearchView
-                                    android:id="@+id/tutorsearch_searchView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="end"
-                                    android:background="@drawable/backgroubnd_black_border_square"
-                                    android:paddingLeft="10dp"
-                                    android:paddingStart="10dp"
-                                    android:queryHint="Enter Name, Location or Keyword" />-->
+
             </LinearLayout>
+
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="5"
                 android:background="#00000000"
-                android:text="Cancel"
+                android:text="Filter"
                 android:textAllCaps="false"
                 android:textColor="#2696CA"
                 android:textSize="17dp" />

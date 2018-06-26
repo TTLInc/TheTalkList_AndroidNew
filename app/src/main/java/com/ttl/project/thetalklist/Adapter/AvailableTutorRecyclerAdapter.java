@@ -26,6 +26,7 @@ import com.ttl.project.thetalklist.MessageFragment;
 import com.ttl.project.thetalklist.R;
 import com.ttl.project.thetalklist.TTL;
 import com.ttl.project.thetalklist.TabBackStack;
+import com.ttl.project.thetalklist.model.FilterTutorsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,17 +57,18 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
     SharedPreferences pref;
     String Flag = "1";
     TabBackStack tabBackStack;
-    private JSONArray array;
+    FilterTutorsModel body;
 
     public AvailableTutorRecyclerAdapter(Context context) {
         this.context = context;
     }
 
-    public AvailableTutorRecyclerAdapter(Context context, JSONArray array, FragmentManager fragmentManager) {
+    public AvailableTutorRecyclerAdapter(Context context, FilterTutorsModel body, FragmentManager fragmentManager) {
         this.context = context;
-        this.array = array;
+        this.body = body;
         this.fragmentManager = fragmentManager;
     }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -83,8 +85,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
     public int getItemViewType(int position) {
         return position;
     }
-
-    @Override
+/*
+   @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -92,7 +94,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
         fragmentStack = FragmentStack.getInstance();
         try {
             object = (JSONObject) array.get(position);
-            if (!object.getString("avgRate").equalsIgnoreCase(""))
+            if (!.getString("avgRate").equalsIgnoreCase(""))
                 holder.ratingBar.setRating(Float.parseFloat(object.getString("avgRate")));
             else holder.ratingBar.setRating(0f);
             Log.e("available tutor obj", object.toString());
@@ -216,8 +218,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
             holder.CpM.setText(h_str);
             if (object.getInt("readytotalk") == 0) {
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
-               /* holder.VideocallButton1.setClickable(false);
-                holder.VideocallButton.setClickable(false);*/
+               *//* holder.VideocallButton1.setClickable(false);
+                holder.VideocallButton.setClickable(false);*//*
             } else {
                 holder.VideocallButton1.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -313,11 +315,248 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
         });
 
 
+    }*/
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+
+        fragmentStack = FragmentStack.getInstance();
+        try {
+
+            if (!body.getTutors().get(position).getAvgRate().equalsIgnoreCase(""))
+                holder.ratingBar.setRating(Float.parseFloat(body.getTutors().get(position).getAvgRate()));
+            else holder.ratingBar.setRating(0f);
+            //  Log.e("available tutor obj", object.toString());
+            //   Log.e("Tag", "onBindViewHolder: " + object.getInt("readytotalk"));
+            if (body.getTutors().get(position).getReadytotalk().equals("0")) {
+                Flag = "0";
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
+            } else {
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.video));
+
+            }
+
+            final String picPath = body.getTutors().get(position).getPic();
+            final String tutorId = body.getTutors().get(position).getId();
+            if (withPos == 1) {
+                if (position == pos) {
+
+                    if (withfav == 1) {
+                        holder.favoriteTag.setVisibility(View.VISIBLE);
+
+                        pref = getApplicationContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+
+
+                        new CountDownTimer(5000, 1000) { // 5000 = 5 sec
+
+                            public void onTick(long millisUntilFinished) {
+                                holder.TutorImg.setImageResource(R.drawable.favorite);
+                            }
+
+                            public void onFinish() {
+
+
+                                if (!picPath.equals("")) {
+
+                                    Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + picPath)
+                                            .crossFade()
+                                            .thumbnail(0.5f)
+                                            .bitmapTransform(new CircleTransform(getApplicationContext()))
+                                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                            .into(holder.TutorImg);
+                                } else
+                                    Glide.with(getApplicationContext()).load("https://www.thetalklist.com/images/header.jpg")
+                                            .crossFade()
+                                            .thumbnail(0.5f)
+                                            .bitmapTransform(new CircleTransform(getApplicationContext()))
+                                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                            .into(holder.TutorImg);
+                            }
+                        }.start();
+                    } else {
+                        holder.favoriteTag.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            if (body.getTutors().get(position).getIsMyFavourite().equals("1")) {
+                holder.favoriteTag.setVisibility(View.GONE);
+
+            } else holder.favoriteTag.setVisibility(View.GONE);
+            FirstName = body.getTutors().get(position).getFirstName();
+
+
+            holder.fn.setText(body.getTutors().get(position).getFirstName() + " " + body.getTutors().get(position).getLastName());
+            holder.uid.setText(body.getTutors().get(position).getId());
+            holder.hpr.setText(body.getTutors().get(position).gethRate());
+
+
+            if (!picPath.equals("")) {
+                Glide.with(context).load("https://www.thetalklist.com/uploads/images/" + picPath)
+                        .crossFade()
+                        .thumbnail(0.5f)
+                        .bitmapTransform(new CircleTransform(context))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.TutorImg);
+            } else
+                Glide.with(context).load("https://www.thetalklist.com/images/header.jpg")
+                        .crossFade()
+                        .thumbnail(0.5f)
+                        .bitmapTransform(new CircleTransform(context))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.TutorImg);
+
+            SharedPreferences chatPref = context.getSharedPreferences("chatPref", Context.MODE_PRIVATE);
+            final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
+
+
+            holder.msgButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MessageFragment messageList = new MessageFragment();
+                    chatPrefEditor.putString("firstName", FirstName);
+                    chatPrefEditor.putInt("receiverId", Integer.parseInt(tutorId)).apply();
+                    TTL ttl = (TTL) context.getApplicationContext();
+                    ttl.ExitBit = 1;
+                    fragmentStack.push(new Available_tutor());
+                    tabBackStack.setTabPosition(0);
+                    fragmentTransaction.replace(R.id.viewpager, messageList).commit();
+                }
+            });
+
+            holder.msgButton1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MessageFragment messageList = new MessageFragment();
+                    chatPrefEditor.putString("firstName", FirstName);
+                    chatPrefEditor.putInt("receiverId", Integer.parseInt(tutorId)).apply();
+                    TTL ttl = (TTL) context.getApplicationContext();
+                    ttl.ExitBit = 1;
+                    fragmentStack.push(new Available_tutor());
+                    tabBackStack.setTabPosition(0);
+                    fragmentTransaction.replace(R.id.viewpager, messageList).commit();
+
+                }
+            });
+
+            final SharedPreferences preferences = context.getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+            final SharedPreferences.Editor editor = preferences.edit();
+            final Float hPr = (Float.parseFloat(holder.hpr.getText().toString()) / 25);
+            String h_str = String.format("%.02f", hPr);
+            holder.CpM.setText(h_str);
+            if (body.getTutors().get(position).getReadytotalk().equals("0") ) {
+                holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
+                //* holder.VideocallButton1.setClickable(false);
+                holder.VideocallButton.setClickable(false);//*
+            } else {
+                holder.VideocallButton1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        TTL ttl = (TTL) context.getApplicationContext();
+                        ttl.ExitBit = 1;
+                        fragmentStack.push(new Available_tutor());
+
+
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("flag", 1);
+                        pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                        editor.putInt("studentId", pref.getInt("id", 0));
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
+                        editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
+                        editor.putFloat("credit", hPr).apply();
+                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
+                    }
+                });
+
+
+                holder.VideocallButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TTL ttl = (TTL) context.getApplicationContext();
+                        ttl.ExitBit = 1;
+                        fragmentStack.push(new Available_tutor());
+
+
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("flag", 1);
+                        pref = context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                        editor.putInt("studentId", pref.getInt("id", 0));
+                        editor.putString("tutorName", holder.fn.getText().toString());
+                        editor.putInt("tutorId", Integer.parseInt(holder.uid.getText().toString()));
+                        editor.putFloat("hRate", Float.parseFloat(holder.CpM.getText().toString()));
+                        editor.putFloat("credit", hPr).apply();
+                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor(preferences.getInt("flag", 0), preferences.getFloat("credit", 0), preferences.getString("tutorName", "")), "Available Tutor").commit();
+
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tabBackStack = TabBackStack.getInstance();
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                pref1 = context.getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
+                ed = pref1.edit();
+                ed.putInt("position", position).apply();
+                TTL ttl = (TTL) context.getApplicationContext();
+                ttl.ExitBit = 1;
+                String redyTtalk = "0";
+                fragmentStack.push(new Available_tutor());
+                Available_Tutor_Expanded available_tutoe_expanded = new Available_Tutor_Expanded();
+                try {
+                    redyTtalk = body.getTutors().get(position).getReadytotalk();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    //JSONObject jsonObject = array.getJSONObject(position);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("Tutorid", body.getTutors().get(position).getId());
+                    bundle.putInt("redyTotalk", Integer.parseInt(redyTtalk));
+                    Log.e("TAG", "ImageId--> " + body.getTutors().get(position).getId());
+                    SharedPreferences preferences = context.getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("tutorName", body.getTutors().get(position).getFirstName());
+                    editor.putInt("tutorRoleId", Integer.parseInt(body.getTutors().get(position).getRoleId()));
+                    editor.putString("tutorPic", body.getTutors().get(position).getPic());
+                    editor.putString("hRate", body.getTutors().get(position).gethRate());
+                    editor.putString("avgRate", body.getTutors().get(position).getAvgRate());
+                    editor.putInt("tutorid", Integer.parseInt(body.getTutors().get(position).getId())).apply();
+                    available_tutoe_expanded.setArguments(bundle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                tabBackStack.setTabPosition(0);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.viewpager, available_tutoe_expanded).commit();
+
+
+            }
+        });
+
+
     }
+
 
     @Override
     public int getItemCount() {
-        return array.length();
+        if(body.getTutors().size()==0){
+            return 1;
+        }else {
+            return body.getTutors().size();
+
+        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

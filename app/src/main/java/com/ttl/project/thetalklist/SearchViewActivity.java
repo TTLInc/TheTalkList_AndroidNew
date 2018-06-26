@@ -3,6 +3,7 @@ package com.ttl.project.thetalklist;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,13 +34,13 @@ import com.ttl.project.thetalklist.retrofit.ApiInterface;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import mabbas007.tagsedittext.TagsEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.ttl.project.thetalklist.R.color.black;
 
 public class SearchViewActivity extends AppCompatActivity/* implements View.OnClickListener */ {
     private static final String TAG = "SearchViewActivity";
@@ -86,6 +87,10 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
     private List<SearchFilterModel> mContactList;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    ImageView mClearSearch;
+    private Timer timer = new Timer();
+    private final long DELAY = 1000; // milliseconds
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,7 +111,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
         linearLayoutSubjectTextView = (LinearLayout) findViewById(R.id.linearLayoutSubjectTextView);
         linearLayoutSubjectImageView = (LinearLayout) findViewById(R.id.linearLayoutSubjectImageView);
-   //     linearLayoutlinear = (LinearLayout) findViewById(R.id.linearLayoutlinear1);
+        //     linearLayoutlinear = (LinearLayout) findViewById(R.id.linearLayoutlinear1);
         linearLayoutLocationImageView = (LinearLayout) findViewById(R.id.linearLayoutLocationImageView);
         linearLayoutLocationTextView = (LinearLayout) findViewById(R.id.linearLayoutLocationTextView);
         linearLayoutPeopleImageView = (LinearLayout) findViewById(R.id.linearLayoutPeopleImageView);
@@ -116,16 +121,19 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         txtSubjectName = (TextView) findViewById(R.id.subjectName);
         txtPeopleName = (TextView) findViewById(R.id.peopleName);
         mContactList = new ArrayList<>();
+        mClearSearch = (ImageView) findViewById(R.id.imgeClear);
+
 
         mTagsEditText = (TagsEditText) findViewById(R.id.tagsEditText);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         btnCancel = (Button) findViewById(R.id.btnCancel);
-        clearData();
-
+        FilterData();
+        ClearData();
      /*   mSearchView.setFocusable(true);
         mSearchView.setIconified(false);
         mSearchView.setQuery(mSubject, false);*/
@@ -168,7 +176,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(final Editable editable) {
 
 
                 Log.e(TAG, " mSubject" + mSubject + "-->" + mSubject.length());
@@ -187,14 +195,24 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
                             Log.e(TAG, "mSubjectstringLength:--> " + abc1.trim());
                             Log.e(TAG, "mSubjectonQueryTextChange-->: " + a1);
-
+                            if (mProgressDialog != null) {
+                                if (mProgressDialog.isShowing()) {
+                                    mProgressDialog.dismiss();
+                                }
+                            }
                             if (!abc1.equals("")) {
+                                setmProgressDialog();
                                 ApiCallSearchView(abc1);
                             }
 
 
                         } else {
                             if (FLAG.equals("1")) {
+                                if (mProgressDialog != null) {
+                                    if (mProgressDialog.isShowing()) {
+                                        mProgressDialog.dismiss();
+                                    }
+                                }
                                 String a = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                                 int b = a.length();
                                 Log.e(TAG, " LOCATION-->" + a + "-->" + a.length());
@@ -203,12 +221,18 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                 Log.e(TAG, "LOCATIONstringLength:--> " + abc.trim());
                                 Log.e(TAG, "LOCATIONonQueryTextChange-->: " + a);
                                 if (!abc.equals("")) {
+                                    setmProgressDialog();
                                     ApiCallSearchView(abc);
                                 }
 
 
                             } else {
                                 if (FLAG.equals("2")) {
+                                    if (mProgressDialog != null) {
+                                        if (mProgressDialog.isShowing()) {
+                                            mProgressDialog.dismiss();
+                                        }
+                                    }
                                     String a2 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                                     int b2 = a2.length();
                                     Log.e(TAG, " PEOPLE-->" + a2 + "-->" + a2.length());
@@ -218,6 +242,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                     Log.e(TAG, "PEOPLEonQueryTextChange-->: " + a2);
 
                                     if (!abc2.equals("")) {
+                                        setmProgressDialog();
                                         ApiCallSearchView(abc2);
                                     }
                                     txtLocationName.setVisibility(View.GONE);
@@ -230,13 +255,14 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
 
                     } catch (Exception e) {
-
+                        mProgressDialog.dismiss();
                         txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
                         txtPeopleName.setVisibility(View.GONE);
                     }
 
                 } else {
+                    setmProgressDialog();
                     ApiCallSearchView(String.valueOf(editable));
                     Log.e(TAG, "onTextChanged: ");
                 }
@@ -250,9 +276,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                 linearLayoutLocationImageView.removeAllViews();
                 linearLayoutPeopleImageView.removeAllViews();
 
+
             }
         });
-
 
         mTagsEditText.setTagsListener(new TagsEditText.TagsEditListener() {
             @Override
@@ -260,7 +286,14 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
                 mmSize = collection.size();
                 langths = collection.toString().length();
+                String collectionString = collection.toString();
                 Log.e(TAG, "onTagsChanged: " + collection + "Size-->" + collection.toString().length());
+                String SearchKeyword = collectionString.substring(1, collectionString.length() - 1);
+                Log.e(TAG, "final Text: " + SearchKeyword);
+                SharedPreferences.Editor editor = getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                editor.putString("search_keyword", SearchKeyword);
+                editor.clear();
+                editor.apply();
             }
 
             @Override
@@ -270,23 +303,31 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         });
     }
 
+    private void ClearData() {
 
-    private void clearData() {
+        mClearSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTagsEditText.setText("");
+                SharedPreferences.Editor editor = getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                editor.putString("search_keyword", "");
+                editor.clear();
+                editor.apply();
+            }
+        });
+    }
+
+    private void performSearch() {
+
+    }
+
+
+    private void FilterData() {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mTagsEditText.getText().clear();
-                mStringDataSubject = "";
-                mStringDataPeople = "";
-                mStringDataLocation = "";
-                mSubject = "";
-                mLocation = "";
-                mPeople = "";
-                txtLocationName.setVisibility(View.GONE);
-                txtSubjectName.setVisibility(View.GONE);
-                txtPeopleName.setVisibility(View.GONE);
-                Intent intent = getIntent();
-                finish();
+
+                Intent intent = new Intent(SearchViewActivity.this, SettingFlyout.class);
                 startActivity(intent);
             }
         });
@@ -315,7 +356,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
     private void ApiCallSearchView(String mQury) {
 
-        setmProgressDialog();
+
         Call<SearchViewModel> viewModelCall = mApiInterface.getSearchItem(mQury);
         Log.e(TAG, "ApiCallSearchView--->: " + mQury);
         viewModelCall.enqueue(new Callback<SearchViewModel>() {

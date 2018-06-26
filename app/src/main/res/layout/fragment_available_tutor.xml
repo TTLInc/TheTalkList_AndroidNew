@@ -15,16 +15,22 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="45dp"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_weight="1"
                 android:background="@drawable/backgroubnd_black_border_square">
-                <!-- <ImageView
+                <include
+                    android:id="@+id/layout"
+                    layout="@layout/searchview_edittextmainpage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/toolbar" />
+               <!--  <ImageView
                      android:layout_width="30dp"
                      android:layout_gravity="center"
                      android:layout_height="30dp"
@@ -39,17 +45,17 @@
                      android:backgroundTint="#00000000"
                      android:hint=""
                      />-->
-                <android.support.v7.widget.SearchView
+               <!-- <android.support.v7.widget.SearchView
                     android:id="@+id/tutorsearch_searchView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:background="@drawable/backgroubnd_black_border_square"
                     android:focusable="false"
-                    android:queryHint="Enter Name, Location or Keyword" />
+                    android:queryHint="Enter Name, Location or Keyword" />-->
             </LinearLayout>
 
-            <Button
+          <!--  <Button
                 android:id="@+id/available_tutor_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +64,7 @@
                 android:text="Filters"
                 android:textAllCaps="false"
                 android:textColor="#2696CA"
-                android:textSize="17dp" />
+                android:textSize="17dp" />-->
         </LinearLayout>
 
         <View
