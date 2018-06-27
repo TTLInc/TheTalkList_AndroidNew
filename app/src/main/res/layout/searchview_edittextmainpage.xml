@@ -35,7 +35,6 @@
             android:background="@android:color/transparent"
             android:gravity="center|left"
             android:inputType="text"
-
             TagsEditText:allowSpaceInTag="true"
             TagsEditText:tagsBackground="@drawable/square"
             TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"

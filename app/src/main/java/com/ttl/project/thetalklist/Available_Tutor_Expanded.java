@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -204,7 +205,7 @@ public class Available_Tutor_Expanded extends Fragment {
         preferences1 = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
 
         roleIdUser = preferences1.getInt("roleId", 0);
-     //  getActivity.((ImageView) convertView.findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
+        //  getActivity.((ImageView) convertView.findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
 
         preferences = getContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
         SharedPreferences preferences = getContext().getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
@@ -214,7 +215,7 @@ public class Available_Tutor_Expanded extends Fragment {
         tutorId = preferences.getInt("tutorid", 0);
         hRate = preferences.getString("hRate", "");
         avgRate = preferences.getString("avgRate", "");
-
+        hideProgessbar();
 
         Log.e("pic tutor expanded", pic);
 
@@ -960,6 +961,15 @@ public class Available_Tutor_Expanded extends Fragment {
         public void onAudioDisabled(DecoderCounters decoderCounters) {
 
         }
+    }
+
+    public void hideProgessbar() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                convertView.findViewById(R.id.TutorExpanded_tutorin_languages_progress).setVisibility(View.GONE);
+            }
+        }, 7000);
     }
 
     private class subjectHandler extends AsyncTask<Void, Void, Void> {

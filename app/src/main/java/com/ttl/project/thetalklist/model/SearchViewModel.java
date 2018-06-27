@@ -7,7 +7,7 @@ import com.pchmn.materialchips.model.ChipInterface;
 
 import java.util.List;
 
-public class SearchViewModel implements ChipInterface{
+public class SearchViewModel implements ChipInterface {
 
 
     private int status;

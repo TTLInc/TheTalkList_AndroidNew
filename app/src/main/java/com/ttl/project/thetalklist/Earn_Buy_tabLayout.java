@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +39,20 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (convertView==null)
         convertView = inflater.inflate(R.layout.earn_buy_tablayout, container,false);
+        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments_activated));
 
         initScreen(convertView);
         return convertView;
     }
 
-// method to initialize to set data in screen
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments_activated));
+
+    }
+
+    // method to initialize to set data in screen
     public void initScreen(View view){
 
 

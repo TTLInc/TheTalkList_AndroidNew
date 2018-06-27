@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -32,6 +33,7 @@ public class BuyCredits extends Fragment {
         buybtn_cr55 = (Button) view.findViewById(R.id.buybtn_cr55);
         buybtn_cr110 = (Button) view.findViewById(R.id.buybtn_cr110);
         buyCredit_currentBalance = (TextView) view.findViewById(R.id.buyCredit_currentBalance);
+        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments_activated));
 
         try {
             Bundle bundle = this.getArguments();

@@ -2,6 +2,7 @@ package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -125,7 +127,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
 
         mTagsEditText = (TagsEditText) findViewById(R.id.tagsEditText);
-
+        mTagsEditText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mTagsEditText, InputMethodManager.SHOW_IMPLICIT);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -148,7 +152,6 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
                     mStringDataSubject = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                     Log.e(TAG, "run: " + mStringDataSubject);
-                    //  mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
 
                 }
                 if (String.valueOf(acb).equals("0")) {
@@ -317,10 +320,6 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         });
     }
 
-    private void performSearch() {
-
-    }
-
 
     private void FilterData() {
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -333,26 +332,6 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         });
     }
 
-    private void APIFilterTutors() {
-
-        Call<FilterTutorsModel> modelCall = mApiInterface.searchTutors("");
-        modelCall.enqueue(new Callback<FilterTutorsModel>() {
-            @Override
-            public void onResponse(Call<FilterTutorsModel> call, Response<FilterTutorsModel> response) {
-                Gson mGson = new Gson();
-                String result = mGson.toJson(response);
-                Log.e("MainActivity ", "Response------>" + result);
-                Log.e("MainActivity ", "Response------>");
-            }
-
-            @Override
-            public void onFailure(Call<FilterTutorsModel> call, Throwable t) {
-                Log.e(TAG, "onFailure---->>>: " + t);
-            }
-        });
-
-
-    }
 
     private void ApiCallSearchView(String mQury) {
 

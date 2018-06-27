@@ -56,7 +56,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.ttl.project.thetalklist.Adapter.AvailableTutorRecyclerAdapter;
 import com.ttl.project.thetalklist.Services.LoginService;
-import com.ttl.project.thetalklist.model.FilterTutorsModel;
+import com.ttl.project.thetalklist.model.SearchTutorsModel;
 import com.ttl.project.thetalklist.retrofit.ApiClient;
 import com.ttl.project.thetalklist.retrofit.ApiInterface;
 
@@ -67,6 +67,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import mabbas007.tagsedittext.TagsEditText;
@@ -95,7 +96,7 @@ public class Available_tutor extends Fragment {
     ApiInterface mApiInterface;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     LinearLayout linearLayout;
-    FilterTutorsModel mResponse;
+    List<SearchTutorsModel.TutorsBean> mResponse;
     SharedPreferences prefDesired;
     SharedPreferences.Editor editor1;
     String desire_subject, desire_lang1, desire_lang2, desire_country, desire_state, desire_keyword, desired_gender;
@@ -459,6 +460,8 @@ public class Available_tutor extends Fragment {
                 editor.putString("search_keyword", "");
                 editor.clear();
                 editor.apply();
+                Intent intent = new Intent(getContext(), SettingFlyout.class);
+                startActivity(intent);
             }
         });
         String[] animalsArray = mSearch_keyword.split(",");
@@ -615,20 +618,22 @@ public class Available_tutor extends Fragment {
 
     private void APIFilterTutors() {
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<FilterTutorsModel> modelCall = mApiInterface.searchTutors(mSearch_keyword);
-        modelCall.enqueue(new Callback<FilterTutorsModel>() {
+
+        Call<SearchTutorsModel> modelCall = mApiInterface.searchTutors(mSearch_keyword);
+        modelCall.enqueue(new Callback<SearchTutorsModel>() {
             @Override
-            public void onResponse(Call<FilterTutorsModel> call, retrofit2.Response<FilterTutorsModel> response) {
-                Gson mGson = new Gson();
-                String result = mGson.toJson(response);
+            public void onResponse(Call<SearchTutorsModel> call, retrofit2.Response<SearchTutorsModel> response) {
+
                 swipeRefreshLayout.setRefreshing(true);
 
 
                 linearLayout.setVisibility(View.VISIBLE);
                 recyclerView.removeAllViews();
                 final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                mResponse = response.body();
-                availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), mResponse, fragmentManager);
+//                SearchTutorsModel mResponse= (SearchTutorsModel) response.body().getTutors();
+                Log.e(TAG, "onResponse: " + mResponse);
+
+                availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), response.body().getTutors(), fragmentManager);
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
 //            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
@@ -641,15 +646,19 @@ public class Available_tutor extends Fragment {
                 availableTutorRecyclerAdapter.notifyDataSetChanged();
                 linearLayout.setVisibility(View.GONE);
 
-                Log.e("MainActivity ", "Response------>" + result);
+                // Log.e("MainActivity ", "Response------>" + result);
                 Log.e("MainActivity ", "Response------>");
+
+
             }
 
             @Override
-            public void onFailure(Call<FilterTutorsModel> call, Throwable t) {
+            public void onFailure(Call<SearchTutorsModel> call, Throwable t) {
                 Log.e(TAG, "onFailure---->>>: " + t);
             }
         });
+
+
     }
 
     @Override
@@ -677,6 +686,7 @@ public class Available_tutor extends Fragment {
         ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
 
         availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext());
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -900,6 +910,7 @@ public class Available_tutor extends Fragment {
 
 
                         availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), mResponse, fragmentManager);
+
                             /*recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));

@@ -27,10 +27,13 @@ import com.ttl.project.thetalklist.R;
 import com.ttl.project.thetalklist.TTL;
 import com.ttl.project.thetalklist.TabBackStack;
 import com.ttl.project.thetalklist.model.FilterTutorsModel;
+import com.ttl.project.thetalklist.model.SearchTutorsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -57,13 +60,13 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
     SharedPreferences pref;
     String Flag = "1";
     TabBackStack tabBackStack;
-    FilterTutorsModel body;
+    List<SearchTutorsModel.TutorsBean> body;
 
     public AvailableTutorRecyclerAdapter(Context context) {
         this.context = context;
     }
 
-    public AvailableTutorRecyclerAdapter(Context context, FilterTutorsModel body, FragmentManager fragmentManager) {
+    public AvailableTutorRecyclerAdapter(Context context, List<SearchTutorsModel.TutorsBean> body, FragmentManager fragmentManager) {
         this.context = context;
         this.body = body;
         this.fragmentManager = fragmentManager;
@@ -325,12 +328,12 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
         fragmentStack = FragmentStack.getInstance();
         try {
 
-            if (!body.getTutors().get(position).getAvgRate().equalsIgnoreCase(""))
-                holder.ratingBar.setRating(Float.parseFloat(body.getTutors().get(position).getAvgRate()));
+            if (!body.get(position).getAvgRate().equalsIgnoreCase(""))
+                holder.ratingBar.setRating(Float.parseFloat(body.get(position).getAvgRate()));
             else holder.ratingBar.setRating(0f);
             //  Log.e("available tutor obj", object.toString());
             //   Log.e("Tag", "onBindViewHolder: " + object.getInt("readytotalk"));
-            if (body.getTutors().get(position).getReadytotalk().equals("0")) {
+            if (body.get(position).getReadytotalk().equals("0")) {
                 Flag = "0";
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
             } else {
@@ -338,8 +341,8 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
 
             }
 
-            final String picPath = body.getTutors().get(position).getPic();
-            final String tutorId = body.getTutors().get(position).getId();
+            final String picPath = body.get(position).getPic();
+            final String tutorId = body.get(position).getId();
             if (withPos == 1) {
                 if (position == pos) {
 
@@ -382,16 +385,16 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 }
             }
 
-            if (body.getTutors().get(position).getIsMyFavourite().equals("1")) {
+            if (body.get(position).getIsMyFavourite().equals("1")) {
                 holder.favoriteTag.setVisibility(View.GONE);
 
             } else holder.favoriteTag.setVisibility(View.GONE);
-            FirstName = body.getTutors().get(position).getFirstName();
+            FirstName = body.get(position).getFirstName();
 
 
-            holder.fn.setText(body.getTutors().get(position).getFirstName() + " " + body.getTutors().get(position).getLastName());
-            holder.uid.setText(body.getTutors().get(position).getId());
-            holder.hpr.setText(body.getTutors().get(position).gethRate());
+            holder.fn.setText(body.get(position).getFirstName() + " " + body.get(position).getLastName());
+            holder.uid.setText(body.get(position).getId());
+            holder.hpr.setText(body.get(position).getHRate());
 
 
             if (!picPath.equals("")) {
@@ -447,7 +450,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
             final Float hPr = (Float.parseFloat(holder.hpr.getText().toString()) / 25);
             String h_str = String.format("%.02f", hPr);
             holder.CpM.setText(h_str);
-            if (body.getTutors().get(position).getReadytotalk().equals("0") ) {
+            if (body.get(position).getReadytotalk().equals("0")) {
                 holder.VideocallButton1.setImageDrawable(context.getResources().getDrawable(R.drawable.disabled_video));
                 //* holder.VideocallButton1.setClickable(false);
                 holder.VideocallButton.setClickable(false);//*
@@ -514,24 +517,24 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
                 fragmentStack.push(new Available_tutor());
                 Available_Tutor_Expanded available_tutoe_expanded = new Available_Tutor_Expanded();
                 try {
-                    redyTtalk = body.getTutors().get(position).getReadytotalk();
+                    redyTtalk = body.get(position).getReadytotalk();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
                     //JSONObject jsonObject = array.getJSONObject(position);
                     Bundle bundle = new Bundle();
-                    bundle.putString("Tutorid", body.getTutors().get(position).getId());
+                    bundle.putString("Tutorid", body.get(position).getId());
                     bundle.putInt("redyTotalk", Integer.parseInt(redyTtalk));
-                    Log.e("TAG", "ImageId--> " + body.getTutors().get(position).getId());
+                    Log.e("TAG", "ImageId--> " + body.get(position).getId());
                     SharedPreferences preferences = context.getSharedPreferences("availableTutoeExpPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("tutorName", body.getTutors().get(position).getFirstName());
-                    editor.putInt("tutorRoleId", Integer.parseInt(body.getTutors().get(position).getRoleId()));
-                    editor.putString("tutorPic", body.getTutors().get(position).getPic());
-                    editor.putString("hRate", body.getTutors().get(position).gethRate());
-                    editor.putString("avgRate", body.getTutors().get(position).getAvgRate());
-                    editor.putInt("tutorid", Integer.parseInt(body.getTutors().get(position).getId())).apply();
+                    editor.putString("tutorName", body.get(position).getFirstName());
+                    editor.putInt("tutorRoleId", Integer.parseInt(body.get(position).getRoleId()));
+                    editor.putString("tutorPic", body.get(position).getPic());
+                    editor.putString("hRate", body.get(position).getHRate());
+                    editor.putString("avgRate", body.get(position).getAvgRate());
+                    editor.putInt("tutorid", Integer.parseInt(body.get(position).getId())).apply();
                     available_tutoe_expanded.setArguments(bundle);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -551,12 +554,7 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
 
     @Override
     public int getItemCount() {
-        if(body.getTutors().size()==0){
-            return 1;
-        }else {
-            return body.getTutors().size();
-
-        }
+        return body == null ? 0 : body.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
