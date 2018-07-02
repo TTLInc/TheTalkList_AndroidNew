@@ -6,10 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,12 +23,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.ttl.project.thetalklist.StripePaymentGatewayIntegrationFolder.ProgressDialogFragment;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 import com.stripe.android.view.CardInputWidget;
+import com.ttl.project.thetalklist.StripePaymentGatewayIntegrationFolder.ProgressDialogFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,18 +79,18 @@ public class StripePaymentActivity extends AppCompatActivity {
                 try {
                     card = mCardInputWidget.getCard();
                     if (card == null) {
-                        displayError("Card Input Error");
+                        displayError("You have a card input error");
                         return;
                     } else {
-                        ImageView cardView = (ImageView)findViewById( R.id.cardView);
-                        if ( card.getBrand().equals( Card.AMERICAN_EXPRESS ))
-                            cardView.setImageDrawable( getDrawable( R.drawable.amex_payment));
-                        else if( card.getBrand().equals( Card.DISCOVER) )
-                            cardView.setImageDrawable( getDrawable( R.drawable.discover_payment));
-                        else if( card.getBrand().equals( Card.VISA) )
-                            cardView.setImageDrawable( getDrawable( R.drawable.visa_payment));
-                        else if( card.getBrand().equals( Card.MASTERCARD) )
-                            cardView.setImageDrawable( getDrawable( R.drawable.master_card_payment));
+                        ImageView cardView = (ImageView) findViewById(R.id.cardView);
+                        if (card.getBrand().equals(Card.AMERICAN_EXPRESS))
+                            cardView.setImageDrawable(getDrawable(R.drawable.amex_payment));
+                        else if (card.getBrand().equals(Card.DISCOVER))
+                            cardView.setImageDrawable(getDrawable(R.drawable.discover_payment));
+                        else if (card.getBrand().equals(Card.VISA))
+                            cardView.setImageDrawable(getDrawable(R.drawable.visa_payment));
+                        else if (card.getBrand().equals(Card.MASTERCARD))
+                            cardView.setImageDrawable(getDrawable(R.drawable.master_card_payment));
                         buy();
                     }
                 } catch (IllegalStateException e) {
@@ -152,7 +151,7 @@ public class StripePaymentActivity extends AppCompatActivity {
                                                 public void onClick(View v) {
 //                                                    startActivity(new Intent(getApplicationContext(),SettingFlyout.class));
 
-                                                    Intent i=new Intent(getApplicationContext(),SettingFlyout.class);
+                                                    Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
                                                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(i);
 
@@ -220,14 +219,17 @@ public class StripePaymentActivity extends AppCompatActivity {
 
     private void displayError(String errorMessage) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Error");
+        alertDialog.setTitle("Oops!");
         alertDialog.setMessage(errorMessage);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Retry",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent I = new Intent(getApplicationContext(), StripePaymentActivity.class);
-                        startActivity(I);
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                        /*Intent I = new Intent(getApplicationContext(), StripePaymentActivity.class);
+                        startActivity(I);*/
                     }
                 });
         alertDialog.show();

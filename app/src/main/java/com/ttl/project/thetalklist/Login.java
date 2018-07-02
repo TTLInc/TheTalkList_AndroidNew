@@ -436,7 +436,8 @@ public class Login extends Activity {
                                 if (status == 1) {
 
                                     String Err = (String) jsonObject.get("error");
-                                    Toast.makeText(Login.this, Err, Toast.LENGTH_SHORT).show();
+                                  //  Toast.makeText(Login.this, Err, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Incorrect credentials entered", Toast.LENGTH_SHORT).show();
 
                                 }/* else if (status == 10 && pref.getString("firebase id","").equals(jsonObject.getString("firebase_id"))){
 

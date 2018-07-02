@@ -2,7 +2,6 @@ package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,18 +22,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.InputType;
 import android.transition.Explode;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -53,7 +48,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
 import com.ttl.project.thetalklist.Adapter.AvailableTutorRecyclerAdapter;
 import com.ttl.project.thetalklist.Services.LoginService;
 import com.ttl.project.thetalklist.model.SearchTutorsModel;
@@ -113,6 +107,8 @@ public class Available_tutor extends Fragment {
     String mSearch_keyword;
     private static final String TAG = "Available_tutor";
     TagsEditText mTagsEditText;
+    TextView txtNoResultFound;
+    Button btnGender, btnPrice;
 
     public Available_tutor() {
     }
@@ -162,7 +158,9 @@ public class Available_tutor extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_available_tutor, container, false);
 
-
+        txtNoResultFound = (TextView) view.findViewById(R.id.txtNoResultFound);
+        btnGender = (Button) view.findViewById(R.id.btnGender);
+        btnPrice = (Button) view.findViewById(R.id.btnPrice);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         SharedPreferences pref = getContext().getSharedPreferences("fromSignup", MODE_PRIVATE);
@@ -212,6 +210,7 @@ public class Available_tutor extends Fragment {
 
         {
             String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0);
+            Log.e(TAG, "onCreateView: " + "https://www.thetalklist.com/api/count_messages?sender_id=" + getContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0));
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -220,10 +219,17 @@ public class Available_tutor extends Fragment {
 
                     try {
                         JSONObject object = new JSONObject(response);
-                        if (object.getInt("unread_count") > 0)
+                        if (object.getInt("unread_count") > 0) {
                             msg.setText(String.valueOf(object.getInt("unread_count")));
-                        if (object.getInt("unread_count") == 0)
+                            Log.e(TAG, "Available_tutorsMSG==1");
+                        }
+
+
+                        if (object.getInt("unread_count") == 0) {
                             bottombar_messageCount_layout.setVisibility(View.GONE);
+                            Log.e(TAG, "Available_tutorsMSG==0 ");
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -631,8 +637,15 @@ public class Available_tutor extends Fragment {
                 recyclerView.removeAllViews();
                 final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 //                SearchTutorsModel mResponse= (SearchTutorsModel) response.body().getTutors();
-                Log.e(TAG, "onResponse: " + mResponse);
+                int mSizeModel = response.body().getTutors() == null ? 0 : response.body().getTutors().size();
 
+                Log.e(TAG, "onResponse---????: " + mSizeModel);
+                if (mSizeModel == 0) {
+                    btnGender.setVisibility(View.GONE);
+                    btnPrice.setVisibility(View.GONE);
+                    txtNoResultFound.setVisibility(View.VISIBLE);
+                    txtNoResultFound.setText("No Results? Check spelling and limit your criteria.");
+                }
                 availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), response.body().getTutors(), fragmentManager);
                 recyclerView.setLayoutManager(mLayoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());

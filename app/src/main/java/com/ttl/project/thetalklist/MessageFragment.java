@@ -119,10 +119,17 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
                             try {
                                 JSONObject object = new JSONObject(response);
-                                if (object.getInt("unread_count") > 0)
+                                if (object.getInt("unread_count") > 0) {
                                     ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setText(String.valueOf(object.getInt("unread_count")));
-                                if (object.getInt("unread_count") == 0)
+                                    Log.e(TAG, "MassageFragment Count==1 ");
+                                }
+
+                                if (object.getInt("unread_count") == 0) {
                                     getActivity().findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
+                                    Log.e(TAG, "MassageFragment Count==0 ");
+
+                                }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

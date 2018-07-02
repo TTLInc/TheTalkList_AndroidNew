@@ -237,6 +237,8 @@ public class SettingFlyout extends AppCompatActivity {
 
         ratingBar = (RatingBar) view1.findViewById(R.id.ratingBar);
 
+
+
         if (preferences.getFloat("avgRate", 0.0f) != 0.0f)
             ratingBar.setRating(preferences.getFloat("avgRate", 0.0f));
 
@@ -1169,6 +1171,7 @@ public class SettingFlyout extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0);
+                Log.e(TAG, "onReceive: " + "https://www.thetalklist.com/api/count_messages?sender_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0));
                 StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -1180,8 +1183,10 @@ public class SettingFlyout extends AppCompatActivity {
                             if (object.getInt("unread_count") > 0) {
                                 findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.VISIBLE);
                                 bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
+                                Log.e(TAG, "MsgCountDisplay " + String.valueOf(object.getInt("unread_count")));
                             }
                             if (object.getInt("unread_count") == 0)
+                                Log.e(TAG, "Gone " );
                                 findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1192,7 +1197,7 @@ public class SettingFlyout extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.e(TAG, "onErrorResponse-0-0-0: ");
                     }
                 });
                 Volley.newRequestQueue(getApplicationContext()).add(sr);
@@ -1212,7 +1217,7 @@ public class SettingFlyout extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putString("Credits", mCredits);
             buyCredits.setArguments(bundle);
-            Log.e(TAG, "Credit-->SettingClass: "+mCredits );
+            Log.e(TAG, "Credit-->SettingClass: " + mCredits);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1504,7 +1509,7 @@ public class SettingFlyout extends AppCompatActivity {
                     drawerItem = new DrawerModel[8];
                     drawerItem[0] = new DrawerModel(R.drawable.profile, "Profile");
                     drawerItem[1] = new DrawerModel(R.drawable.availability, "Availability");
-                    drawerItem[2] = new DrawerModel(R.drawable.desired_activated, "Desired Tutor",true);
+                    drawerItem[2] = new DrawerModel(R.drawable.desired_activated, "Desired Tutor", true);
                     drawerItem[3] = new DrawerModel(R.drawable.payments, "Payments");
                     drawerItem[4] = new DrawerModel(R.drawable.rewards, "Rewards");
                     drawerItem[5] = new DrawerModel(R.drawable.history, "History");

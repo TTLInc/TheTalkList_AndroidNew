@@ -15,62 +15,71 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/backgroubnd_black_border_square">
+
                 <include
                     android:id="@+id/layout"
                     layout="@layout/searchview_edittextmainpage"
                     android:layout_width="fill_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/toolbar" />
-               <!--  <ImageView
-                     android:layout_width="30dp"
-                     android:layout_gravity="center"
-                     android:layout_height="30dp"
-                     android:src="@drawable/searchblack"
-                     />
-                 <EditText
-                     android:id="@+id/search_tutor_edittext"
-                     android:imeOptions="actionNext"
-                     android:maxLines="1"
+                <!--  <ImageView
+                      android:layout_width="30dp"
+                      android:layout_gravity="center"
+                      android:layout_height="30dp"
+                      android:src="@drawable/searchblack"
+                      />
+                  <EditText
+                      android:id="@+id/search_tutor_edittext"
+                      android:imeOptions="actionNext"
+                      android:maxLines="1"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:backgroundTint="#00000000"
+                      android:hint=""
+                      />-->
+                <!-- <android.support.v7.widget.SearchView
+                     android:id="@+id/tutorsearch_searchView"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:backgroundTint="#00000000"
-                     android:hint=""
-                     />-->
-               <!-- <android.support.v7.widget.SearchView
-                    android:id="@+id/tutorsearch_searchView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="@drawable/backgroubnd_black_border_square"
-                    android:focusable="false"
-                    android:queryHint="Enter Name, Location or Keyword" />-->
+                     android:layout_gravity="end"
+                     android:background="@drawable/backgroubnd_black_border_square"
+                     android:focusable="false"
+                     android:queryHint="Enter Name, Location or Keyword" />-->
             </LinearLayout>
 
-          <!--  <Button
-                android:id="@+id/available_tutor_filter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:background="#00000000"
-                android:text="Filters"
-                android:textAllCaps="false"
-                android:textColor="#2696CA"
-                android:textSize="17dp" />-->
+            <!--  <Button
+                  android:id="@+id/available_tutor_filter"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="3"
+                  android:background="#00000000"
+                  android:text="Filters"
+                  android:textAllCaps="false"
+                  android:textColor="#2696CA"
+                  android:textSize="17dp" />-->
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#90A4AE" />
+
+        <TextView
+            android:id="@+id/txtNoResultFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/systemMsgStudent"
@@ -81,6 +90,35 @@
             android:textSize="13dp"
             android:visibility="gone" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/btnPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonboarder"
+                android:text="Price"
+                android:textAllCaps="false"
+                android:textColor="#9E9E9E" />
+
+            <Button
+                android:id="@+id/btnGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonboarder"
+                android:text="Gender"
+                android:textAllCaps="false"
+                android:textColor="#9E9E9E" />
+        </LinearLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -94,7 +132,11 @@
                 android:animationCache="false"
                 android:padding="10dp"
                 android:scrollingCache="true" />
+
+
         </android.support.v4.widget.SwipeRefreshLayout>
+
+
     </LinearLayout>
 
     <LinearLayout

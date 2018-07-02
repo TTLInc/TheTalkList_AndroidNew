@@ -2,7 +2,6 @@ package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,24 +9,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.pchmn.materialchips.ChipView;
-import com.ttl.project.thetalklist.model.FilterTutorsModel;
 import com.ttl.project.thetalklist.model.SearchFilterModel;
 import com.ttl.project.thetalklist.model.SearchViewModel;
 import com.ttl.project.thetalklist.retrofit.ApiClient;
@@ -36,8 +31,6 @@ import com.ttl.project.thetalklist.retrofit.ApiInterface;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import mabbas007.tagsedittext.TagsEditText;
 import retrofit2.Call;
@@ -47,52 +40,39 @@ import retrofit2.Response;
 public class SearchViewActivity extends AppCompatActivity/* implements View.OnClickListener */ {
     private static final String TAG = "SearchViewActivity";
     TextView[] myTextViews, myTextViews1, myTextViews2;
-    RecyclerView mRecyclerViewCountry;
-    RecyclerView mRecyclerViewSubject;
+
     ApiInterface mApiInterface;
     LinearLayout linearLayoutSubjectTextView, linearLayoutLocationTextView,
             linearLayoutPeopleTextView, linearLayoutSubjectImageView, linearLayoutLocationImageView,
-            linearLayoutPeopleImageView, linearLayoutlinear;
-    //  SearchView mSearchView;
+            linearLayoutPeopleImageView;
+
     TextView rowTextView, rowTextView1, rowTextView2;
-    String mQury = "";
-    ArrayList<String> arryListSubject, arryListLocation, arryListPeople;
+
+    ArrayList<String> arryListSubject, arryListLocation, arryListPeople, mSearchkeyword;
     TextView txtSubjectName, txtPeopleName, txtLocationName;
-    EditText etSearch;
     String FLAG;
     ImageView imageSubject, imageLocation, imagePeople;
-    LinearLayout lLayour;
     Button btnCancel;
     Toolbar toolbar;
-    ChipView chipsInput1;
     String Name;
     TagsEditText mTagsEditText;
     String mStringDataSubject = "", mStringDataPeople = "", mStringDataLocation = "";
-    int mSizeAfter, mSizeOntext;
-    int mCurrentSize;
+    int mSizeAfter;
     Handler handler;
     int size1;
-    int Size;
-    String Temp = "0";
     String valu = "0";
-    int pluseVlue;
     int mmSize;
     int langths;
     int mainString;
     int acb;
-    int mDiffrentValue;
     private ProgressDialog mProgressDialog;
-    private RecyclerView.LayoutManager mLayoutManagerCountry;
-    private RecyclerView.LayoutManager mLayoutManagerSubject;
-    private RecyclerView.Adapter mAdapterCountry;
-    private RecyclerView.Adapter mAdapterSubject;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
     private List<SearchFilterModel> mContactList;
-    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    List<SearchViewModel.PeopleBean> respoBeans;
     ImageView mClearSearch;
-    private Timer timer = new Timer();
-    private final long DELAY = 1000; // milliseconds
+
+    private String mSearchKeyWord;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,9 +107,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
 
         mTagsEditText = (TagsEditText) findViewById(R.id.tagsEditText);
+
         mTagsEditText.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mTagsEditText, InputMethodManager.SHOW_IMPLICIT);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,20 +118,19 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         btnCancel = (Button) findViewById(R.id.btnCancel);
         FilterData();
         ClearData();
-     /*   mSearchView.setFocusable(true);
-        mSearchView.setIconified(false);
-        mSearchView.setQuery(mSubject, false);*/
+
         handler = new Handler();
 
         final Runnable r = new Runnable() {
             public void run() {
                 mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
                 acb = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
-                Log.e(TAG, "onTextChanged-->: " + acb + "--->" + mainString);
+                //  Log.e(TAG, "onTextChanged-->: " + acb + "--->" + mainString);
                 if (acb < mainString) {
 
                     mStringDataSubject = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
-                    Log.e(TAG, "run: " + mStringDataSubject);
+                    // InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    //        imm.showSoftInput(mTagsEditText, InputMethodManager.SHOW_IMPLICIT);    Log.e(TAG, "run: " + mStringDataSubject);
 
                 }
                 if (String.valueOf(acb).equals("0")) {
@@ -164,7 +143,15 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
         };
 
         handler.postDelayed(r, 10);
-
+        mTagsEditText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Toast.makeText(SearchViewActivity.this, mTagsEditText.getText(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         mTagsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -265,9 +252,12 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     }
 
                 } else {
-                    setmProgressDialog();
-                    ApiCallSearchView(String.valueOf(editable));
-                    Log.e(TAG, "onTextChanged: ");
+                    if (!String.valueOf(editable).equals("")) {
+                        setmProgressDialog();
+                        ApiCallSearchView(String.valueOf(editable));
+                        Log.e(TAG, "onTextChanged: ");
+                    }
+
                 }
 
 
@@ -283,11 +273,14 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
             }
         });
 
+
         mTagsEditText.setTagsListener(new TagsEditText.TagsEditListener() {
             @Override
             public void onTagsChanged(Collection<String> collection) {
 
                 mmSize = collection.size();
+                mSearchkeyword = new ArrayList<>();
+
                 langths = collection.toString().length();
                 String collectionString = collection.toString();
                 Log.e(TAG, "onTagsChanged: " + collection + "Size-->" + collection.toString().length());
@@ -312,6 +305,10 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
             @Override
             public void onClick(View v) {
                 mTagsEditText.setText("");
+                mStringDataSubject = "";
+                mStringDataPeople = "";
+                mStringDataPeople = "";
+
                 SharedPreferences.Editor editor = getSharedPreferences("MyPref", MODE_PRIVATE).edit();
                 editor.putString("search_keyword", "");
                 editor.clear();
@@ -350,8 +347,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     mSubjectListSize = response.body().getSubject().size();
                     mLocationListSize = response.body().getLocation().size();
                     mPeopleListSize = response.body().getPeople().size();
+                    respoBeans = response.body().getPeople();
 
-                    if (mSubjectListSize >= 10) {
+                  /*  if (mSubjectListSize >= 10) {
                         mSubjectListSize = 10;
                     }
                     if (mLocationListSize >= 10) {
@@ -359,7 +357,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     }
                     if (mPeopleListSize >= 10) {
                         mPeopleListSize = 10;
-                    }
+                    }*/
                     if (mSubjectListSize >= 0) {
                         txtSubjectName.setVisibility(View.VISIBLE);
                     }
@@ -387,6 +385,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                     setSubjectListView(mSubjectListSize, arryListSubject);
                     setLocationListView(mLocationListSize, arryListLocation);
                     setPeopleListView(mPeopleListSize, arryListPeople);
+                    notifyAll();
                     //getContactList(mPeopleListSize, arryListPeople);
                     Log.e(TAG, "onResponse: " + mPeopleListSize + "==" + arryListPeople);
                 } catch (Exception e) {
@@ -429,9 +428,11 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                 public void onClick(View view) {
                     FLAG = "2";
                     mPeople = myTextViews2[finalI].getText().toString();
+                    String mFirstName = respoBeans.get(finalI).getFirstName();
+                    Log.e(TAG, "onClick-=--=: " + mFirstName);
                     Log.e(TAG, "PEOPLE: " + mPeople);
-                    mStringDataSubject = mStringDataSubject + mPeople.replaceAll("\\s+", "");
-                    mTagsEditText.setText(mPeople);
+                    mStringDataSubject = mStringDataSubject + mFirstName.replaceAll("\\s+", "");
+                    mTagsEditText.setText(mFirstName);
                     txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
                     txtPeopleName.setVisibility(View.GONE);

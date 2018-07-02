@@ -288,10 +288,15 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
 
                     try {
                         JSONObject object = new JSONObject(response);
-                        if (object.getInt("unread_count") > 0)
+                        if (object.getInt("unread_count") > 0) {
                             ((TextView) getActivity().findViewById(R.id.bottombar_message_count)).setText(String.valueOf(object.getInt("unread_count")));
-                        if (object.getInt("unread_count") == 0)
+                            Log.e(TAG, "MassageOneToOne==1");
+                        }
+                        if (object.getInt("unread_count") == 0) {
                             getActivity().findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
+                            Log.e(TAG, "MassageOneToOne==0");
+
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -588,7 +593,6 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
             editor.putInt("Request Submitted", 0);
             editor.commit();
         }
-
 
 
     }

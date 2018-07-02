@@ -2,27 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:TagsEditText="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="35dp"
     android:background="@drawable/searchview_boader"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="5dp">
 
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
+        android:layout_height="22dp"
         android:src="@drawable/ic_search_icon" />
 
     <HorizontalScrollView
-        android:layout_marginRight="27dp"
         android:id="@+id/hsv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="35dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginRight="27dp"
         android:background="@drawable/searchview_boader"
         android:fillViewport="true"
         android:measureAllChildren="false"
@@ -35,7 +32,11 @@
             android:layout_marginRight="25dp"
             android:background="@android:color/transparent"
             android:gravity="center|left"
+            android:hint="Ex: Math, USA, John"
+            android:imeActionLabel="Search"
+            android:imeOptions="actionSend"
             android:inputType="text"
+            android:singleLine="true"
             TagsEditText:allowSpaceInTag="true"
             TagsEditText:tagsBackground="@drawable/square"
             TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
@@ -49,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="13dp"
         android:src="@drawable/ic_clear" />
 </RelativeLayout>
 

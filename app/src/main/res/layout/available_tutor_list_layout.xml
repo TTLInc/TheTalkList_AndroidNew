@@ -3,8 +3,7 @@
     android:id="@+id/available_tutor_layout_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,142 +13,142 @@
 
         <LinearLayout
             android:id="@+id/expandable_layout"
-            android:layout_weight="1.5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-        <FrameLayout
-            android:layout_width="90dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="0"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/TutorImg"
-                android:layout_width="67dp"
-                android:layout_height="83dp"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/user2" />
-
-            <LinearLayout
-                android:id="@+id/availableTutorListLayoutFavoriteTag"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="20dp"
-                android:adjustViewBounds="true"
-                android:background="@mipmap/ic_star"
-                android:orientation="horizontal"
-                android:scaleType="fitCenter"
-                android:visibility="gone" />
-
-
-        </FrameLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2.9"
-            android:orientation="vertical">
+            android:layout_weight="1.5">
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="3dp"
-                android:orientation="horizontal"
-                android:weightSum="1">
+            <FrameLayout
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/availableTutorListFirstName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="First Name"
-                    android:textColor="#85929E"
-                    android:textSize="15dp" />
+                <ImageView
+                    android:id="@+id/TutorImg"
+                    android:layout_width="67dp"
+                    android:layout_height="83dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/user2" />
 
-                <TextView
-                    android:id="@+id/availableTutorListLastName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Last Name"
-                    android:textColor="#85929E"
-                    android:textSize="15dp"
+                <LinearLayout
+                    android:id="@+id/availableTutorListLayoutFavoriteTag"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="20dp"
+                    android:adjustViewBounds="true"
+                    android:background="@mipmap/ic_star"
+                    android:orientation="horizontal"
+                    android:scaleType="fitCenter"
                     android:visibility="gone" />
 
-            </LinearLayout>
 
+            </FrameLayout>
 
             <LinearLayout
-                android:layout_width="120dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="1">
+                android:layout_weight="2.9"
+                android:orientation="vertical">
 
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    style="?android:attr/ratingBarStyleSmall"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:isIndicator="true"
-                    android:minHeight="5dp"
-                    android:numStars="5"
-                    android:progressTint="@color/yellow" />
-                <!--style="@style/customRatingBar"-->
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
+                    <TextView
+                        android:id="@+id/availableTutorListFirstName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="First Name"
+                        android:textColor="#85929E"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/availableTutorListLastName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Last Name"
+                        android:textColor="#85929E"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:isIndicator="true"
+                        android:minHeight="5dp"
+                        android:numStars="5"
+                        android:progressTint="@color/yellow" />
+                    <!--style="@style/customRatingBar"-->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:id="@+id/availableTutorListCPS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"
+                        android:text="0.00"
+                        android:textColor="#85929E"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Credits/Min"
+                        android:textColor="#85929E"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/availableTutor_uid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#85929E"
+                        android:textSize="12dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/availableTutor_hpr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#85929E"
+                        android:textSize="12dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp">
-
-                <TextView
-                    android:id="@+id/availableTutorListCPS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="3dp"
-                    android:text="0.00"
-                    android:textColor="#85929E"
-                    android:textSize="12dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Credits/Min"
-                    android:textColor="#85929E"
-                    android:textSize="12dp" />
-
-                <TextView
-                    android:id="@+id/availableTutor_uid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#85929E"
-                    android:textSize="12dp"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/availableTutor_hpr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#85929E"
-                    android:textSize="12dp"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-        </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -233,6 +232,8 @@
 
         </LinearLayout>
     </LinearLayout>
+
+
 
     <View
         android:layout_width="match_parent"
