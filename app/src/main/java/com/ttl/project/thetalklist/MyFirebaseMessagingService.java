@@ -97,8 +97,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         @Override
                         public void run() {
                             try {
-                                Toast.makeText(getApplicationContext(), data.getString("uname")+" : "+message, Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
+                               // Toast.makeText(getApplicationContext(), data.getString("uname")+" : "+message, Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }

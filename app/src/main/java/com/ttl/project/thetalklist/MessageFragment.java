@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,7 +75,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     ProgressDialog progressDialog;
     EditText send;
     String mSendImage;
-    RequestQueue queue1;
+    RequestQueue queue;
 
     String Json_String;
     View view;
@@ -86,6 +87,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     EmojiconEditText message_editText_msg;
     BroadcastReceiver appendChatScreenMsgReceiver;
     MessageAdapter adapter;
+    int count;
 
     @Nullable
     @Override
@@ -99,6 +101,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        lv.invalidateViews();
         // CallAllMessageList();
     }
 
@@ -108,7 +111,8 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             public void onReceive(Context context, Intent intent) {
                 Bundle b = intent.getExtras();
                 if (b != null) {
-                    adapter.clear();
+                    //   adapter.clear();
+
                     CallAllMessageList();
 
                     String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + loginPref.getInt("id", 0);
@@ -154,7 +158,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initilation() {
-        queue1 = Volley.newRequestQueue(getContext());
+        queue = Volley.newRequestQueue(getContext());
         sender_name = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("firstName", "");
         chatPref = getContext().getSharedPreferences("chatPref", Context.MODE_PRIVATE);
         loginPref = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
@@ -179,6 +183,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         request = (ImageView) view.findViewById(R.id.request);
         onRequestClicked(request);
         staticMsgClick();
+        Log.e(TAG, "initilation: " + count);
     }
 
     private void onRequestClicked(ImageView request) {
@@ -195,7 +200,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
         MessageBack bg = new MessageBack();
         bg.execute(mSenderId, mReceiverId);
-        lv.invalidateViews();
+
     }
 
     private void staticMsgClick() {
@@ -229,11 +234,14 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.message_sendBtn:
-                adapter.clear();
+                for (int i = 0; i < arrayList.size(); i++) {
+                    arrayList.remove(i);
+                }
                 sendTextMessage();
                 break;
         }
     }
+
 
     private void sendTextMessage() {
         String msgTxt = message_editText_msg.getText().toString();
@@ -254,6 +262,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         String URL = "https://www.thetalklist.com/api/message?sender_id=" + sender_id + "&receiver_id=" + receiver_id + "&message=" + msgTxt.replace(" ", "%20") + "&user_name=" + sender_name;
         Log.e("send Message list url", URL);
 
+
         StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -269,7 +278,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                         Log.e("Message list url", URL);
 
                         CallAllMessageList();
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -283,7 +291,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "error t " + error, Toast.LENGTH_SHORT).show();
             }
         });
-        queue1.add(sr);
+        queue.add(sr);
 
     }
 
@@ -293,10 +301,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected void onPreExecute() {
-          /*  progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setTitle("Messages");
-            progressDialog.setMessage("Please Wait..!!");
-            progressDialog.show();*/
             json_url = "https://www.thetalklist.com/api/all_messages_new";
         }
 
@@ -325,6 +329,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 while ((Json_String = bufferedReader.readLine()) != null) {
                     stringBuilder.append(Json_String + "\n");
                 }
+                Log.e(TAG, "doInBackground: " + senderid + "--" + receiverid);
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
@@ -363,11 +368,11 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //   progressDialog.dismiss();
 
             adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
             adapter.notifyDataSetChanged();
             lv.setAdapter(adapter);
+
         }
     }
 
@@ -380,7 +385,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         TextView send, received, recd, senddate;
         ImageView ReceivedImage, SendImage;
 
-        public MessageAdapter(Context context, int resource, ArrayList<MessageGetSet> objects) {
+        private MessageAdapter(Context context, int resource, ArrayList<MessageGetSet> objects) {
             super(context, resource, objects);
 
             this.messageGetSets = objects;
@@ -398,10 +403,14 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             if (getCount() == 0) {
                 return 1;
             } else {
+                count = getCount();
+                Log.e(TAG, "getViewTypeCount: " + count + "--" + arrayList.size());
                 return getCount();
             }
 
+
         }
+
 
         @NonNull
         @Override
