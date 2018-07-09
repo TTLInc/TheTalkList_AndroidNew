@@ -487,8 +487,9 @@ public class Available_tutor extends Fragment {
         mTagsEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchViewActivity.class);
-                startActivity(intent);
+              /*  Intent intent = new Intent(getActivity(), SearchViewActivity.class);
+                startActivity(intent);*/
+                fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment()).commit();
             }
         });
 

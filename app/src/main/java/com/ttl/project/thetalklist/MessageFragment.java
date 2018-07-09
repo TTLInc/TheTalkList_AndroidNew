@@ -108,6 +108,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             public void onReceive(Context context, Intent intent) {
                 Bundle b = intent.getExtras();
                 if (b != null) {
+                    adapter.clear();
                     CallAllMessageList();
 
                     String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + loginPref.getInt("id", 0);
@@ -191,6 +192,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     }
 
     private void CallAllMessageList() {
+
         MessageBack bg = new MessageBack();
         bg.execute(mSenderId, mReceiverId);
         lv.invalidateViews();
@@ -265,6 +267,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
                         String URL = "https://www.thetalklist.com/api/all_messages?sender_id=" + sender_id + "&receiver_id=" + receiver_id;
                         Log.e("Message list url", URL);
+
                         CallAllMessageList();
 
                     }
