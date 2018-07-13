@@ -2,6 +2,7 @@ package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -114,7 +116,11 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
 
         mTagsEditText = (TagsEditText) view.findViewById(R.id.tagsEditText);
 
+        InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
         mTagsEditText.requestFocus();
+
 
         // toolbar = (Toolbar) view.findViewById(R.id.toolbar);
     /*    setSupportActionBar(toolbar);
@@ -140,9 +146,9 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
 
                 }
                 if (String.valueOf(acb).equals("0")) {
-                    txtLocationName.setVisibility(View.GONE);
+                 /*   txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
-                    txtPeopleName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);*/
                 }
                 handler.postDelayed(this, 10);
             }
@@ -241,9 +247,9 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
                                         setmProgressDialog();
                                         ApiCallSearchView(abc2);
                                     }
-                                    txtLocationName.setVisibility(View.GONE);
+                                  /*  txtLocationName.setVisibility(View.GONE);
                                     txtSubjectName.setVisibility(View.GONE);
-                                    txtPeopleName.setVisibility(View.GONE);
+                                    txtPeopleName.setVisibility(View.GONE);*/
                                 }
                             }
 
@@ -252,9 +258,9 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
 
                     } catch (Exception e) {
                         mProgressDialog.dismiss();
-                        txtLocationName.setVisibility(View.GONE);
+                      /*  txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
-                        txtPeopleName.setVisibility(View.GONE);
+                        txtPeopleName.setVisibility(View.GONE);*/
                     }
 
                 } else {
@@ -355,16 +361,8 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
                     mPeopleListSize = response.body().getPeople().size();
                     respoBeans = response.body().getPeople();
 
-                  /*  if (mSubjectListSize >= 10) {
-                        mSubjectListSize = 10;
-                    }
-                    if (mLocationListSize >= 10) {
-                        mLocationListSize = 10;
-                    }
-                    if (mPeopleListSize >= 10) {
-                        mPeopleListSize = 10;
-                    }*/
-                    if (mSubjectListSize >= 0) {
+
+                   /* if (mSubjectListSize >= 0) {
                         txtSubjectName.setVisibility(View.VISIBLE);
                     }
                     if (mLocationListSize >= 0) {
@@ -372,7 +370,11 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
                     }
                     if (mPeopleListSize >= 0) {
                         txtPeopleName.setVisibility(View.VISIBLE);
-                    }
+                    }*/
+                    txtPeopleName.setVisibility(View.VISIBLE);
+                    txtLocationName.setVisibility(View.VISIBLE);
+                    txtSubjectName.setVisibility(View.VISIBLE);
+
                     arryListSubject = new ArrayList<>();
                     arryListLocation = new ArrayList<>();
                     arryListPeople = new ArrayList<>();
@@ -439,9 +441,9 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
                     Log.e(TAG, "PEOPLE: " + mPeople);
                     mStringDataSubject = mStringDataSubject + mFirstName.replaceAll("\\s+", "");
                     mTagsEditText.setText(mFirstName);
-                    txtLocationName.setVisibility(View.GONE);
+                    /*txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
-                    txtPeopleName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);*/
                     Log.e(TAG, "FLAG VLUE" + FLAG);
 
                     mSizeAfter = mTagsEditText.getText().toString().trim().length();
@@ -478,9 +480,9 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
                     Log.e(TAG, "LOCATION: " + mLocation);
                     mStringDataSubject = mStringDataSubject + mLocation.replaceAll("\\s+", "");
                     mTagsEditText.setText(mLocation);
-                    txtLocationName.setVisibility(View.GONE);
+                   /* txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
-                    txtPeopleName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);*/
                     Log.e(TAG, "FLAG VLUE" + FLAG);
                     mSizeAfter = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
                 }
@@ -519,9 +521,9 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
                     mStringDataSubject = mStringDataSubject + mSubject.replaceAll("\\s+", "");
                     mTagsEditText.setText(mSubject);
 
-                    txtLocationName.setVisibility(View.GONE);
+                 /*   txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
-                    txtPeopleName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);*/
                     Log.e(TAG, "FLAG VLUE" + FLAG);
                     mSizeAfter = mTagsEditText.getText().length();
                 }

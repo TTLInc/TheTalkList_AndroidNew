@@ -6,14 +6,17 @@ package com.ttl.project.thetalklist.util;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -26,6 +29,7 @@ import android.util.Patterns;
 
 import com.ttl.project.thetalklist.Config.Config;
 import com.ttl.project.thetalklist.R;
+import com.ttl.project.thetalklist.SplashScreen;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,9 +42,10 @@ import java.util.List;
 
 // Firebase notification util class
 public class NotificationUtils {
-
-
+    public static final String NOTIFICATION_CHANNEL_ID_LOCATION = "notification_channel_location";
+    private NotificationManager notificationManager;
     private final Context mContext;
+    private Context context;
 
     public NotificationUtils(Context mContext) {
         this.mContext = mContext;
@@ -56,7 +61,6 @@ public class NotificationUtils {
             return;
 
 
-        // notification icon
         final int icon = R.mipmap.ic_launcher;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -90,6 +94,8 @@ public class NotificationUtils {
             showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
             playNotificationSound();
         }
+
+
     }
 
 
@@ -196,11 +202,12 @@ public class NotificationUtils {
         return isInBackground;
     }
 
-    // Clears notification tray messages
     public static void clearNotifications(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+
     }
+
 
     public static long getTimeMilliSec(String timeStamp) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

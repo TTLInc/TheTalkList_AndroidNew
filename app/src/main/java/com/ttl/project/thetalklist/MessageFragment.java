@@ -1,6 +1,7 @@
 package com.ttl.project.thetalklist;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -40,6 +41,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.ttl.project.thetalklist.model.MessageGetSet;
+import com.ttl.project.thetalklist.util.Config;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
@@ -124,14 +126,23 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
                             try {
                                 JSONObject object = new JSONObject(response);
+                                Config.msgCount=object.getInt("unread_count");
                                 if (object.getInt("unread_count") > 0) {
-                                    ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setText(String.valueOf(object.getInt("unread_count")));
                                     Log.e(TAG, "MassageFragment Count==1 ");
+
+                                    if (getActivity() != null) {
+                                        ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setText(String.valueOf(object.getInt("unread_count")));
+
+                                    }
                                 }
 
                                 if (object.getInt("unread_count") == 0) {
-                                    getActivity().findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
                                     Log.e(TAG, "MassageFragment Count==0 ");
+                                    if (getActivity() != null) {
+                                        ((RelativeLayout) (getActivity().findViewById(R.id.bottombar_messageCount_layout))).setVisibility(View.GONE);
+
+                                    }
+
 
                                 }
 
@@ -181,6 +192,8 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         preset_call_me = (Button) view.findViewById(R.id.call_me);
         preset_busy = (Button) view.findViewById(R.id.busy_right_now);
         request = (ImageView) view.findViewById(R.id.request);
+        ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
+
         onRequestClicked(request);
         staticMsgClick();
         Log.e(TAG, "initilation: " + count);
@@ -234,8 +247,8 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.message_sendBtn:
-                for (int i = 0; i < arrayList.size(); i++) {
-                    arrayList.remove(i);
+                for (int i = 0; i < 25; i++) {
+                    Log.e(TAG, "onClick: " + arrayList);
                 }
                 sendTextMessage();
                 break;
@@ -296,6 +309,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     class MessageBack extends AsyncTask<String, Void, String> {
         String json_url;
 
@@ -368,10 +382,13 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            if (getActivity() != null) {
+                adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
+                lv.setAdapter(adapter);
+            }
 
-            adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
-            adapter.notifyDataSetChanged();
-            lv.setAdapter(adapter);
+           /* adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
+            lv.setAdapter(adapter);*/
 
         }
     }
@@ -403,6 +420,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             if (getCount() == 0) {
                 return 1;
             } else {
+
                 count = getCount();
                 Log.e(TAG, "getViewTypeCount: " + count + "--" + arrayList.size());
                 return getCount();

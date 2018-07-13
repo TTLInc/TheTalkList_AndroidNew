@@ -238,7 +238,6 @@ public class SettingFlyout extends AppCompatActivity {
         ratingBar = (RatingBar) view1.findViewById(R.id.ratingBar);
 
 
-
         if (preferences.getFloat("avgRate", 0.0f) != 0.0f)
             ratingBar.setRating(preferences.getFloat("avgRate", 0.0f));
 
@@ -1177,7 +1176,14 @@ public class SettingFlyout extends AppCompatActivity {
                     public void onResponse(String response) {
 
                         Log.e("message count res ", response);
-
+                        if (com.ttl.project.thetalklist.util.Config.msgCount > 0) {
+                            findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.VISIBLE);
+                            bottombar_message_count.setText(String.valueOf(com.ttl.project.thetalklist.util.Config.msgCount));
+                        }
+                        if (com.ttl.project.thetalklist.util.Config.msgCount == 0) {
+                            Log.e(TAG, "Gone ");
+                            findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
+                        }
                         try {
                             JSONObject object = new JSONObject(response);
                             if (object.getInt("unread_count") > 0) {
@@ -1185,9 +1191,10 @@ public class SettingFlyout extends AppCompatActivity {
                                 bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
                                 Log.e(TAG, "MsgCountDisplay " + String.valueOf(object.getInt("unread_count")));
                             }
-                            if (object.getInt("unread_count") == 0)
-                                Log.e(TAG, "Gone " );
+                            if (object.getInt("unread_count") == 0) {
+                                Log.e(TAG, "Gone ");
                                 findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
