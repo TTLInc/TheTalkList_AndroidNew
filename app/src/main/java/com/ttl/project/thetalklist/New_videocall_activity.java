@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
@@ -107,9 +108,9 @@ public class New_videocall_activity extends AppCompatActivity
 
         requestPermissions();
 
-      talkNowOff=getSharedPreferences("talknoeoff",MODE_PRIVATE);
-      editoroff=talkNowOff.edit();
-      editoroff.putString("inCall","yes").apply();
+        talkNowOff = getSharedPreferences("talknoeoff", MODE_PRIVATE);
+        editoroff = talkNowOff.edit();
+        editoroff.putString("inCall", "yes").apply();
 
         callEndReceiver = new BroadcastReceiver() {
             @Override
@@ -290,7 +291,7 @@ public class New_videocall_activity extends AppCompatActivity
                 findViewById(R.id.outgoingCallSurfaceView);
 
 
-        final WebServiceCoordinator mWebServiceCoordinator = new WebServiceCoordinator(this,this);
+        final WebServiceCoordinator mWebServiceCoordinator = new WebServiceCoordinator(this, this);
         i = getIntent();
 
         time = i.getIntExtra("min", 0);
@@ -459,7 +460,6 @@ public class New_videocall_activity extends AppCompatActivity
                 onDisconnected(mSession);
 
 
-
 //                mSession.unpublish(mPublisher);
 //                mSession.disconnect();
                 ttl.isCall = false;
@@ -484,15 +484,15 @@ public class New_videocall_activity extends AppCompatActivity
                         public void onResponse(final String response) {
                             Log.e("total cost response", response);
                             try {
-                                JSONObject obj=new JSONObject(response);
+                                JSONObject obj = new JSONObject(response);
 
-                            Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            i.putExtra("name",callerName.getText().toString());
-                            i.putExtra("cost",String.format("%.02f",(Float.parseFloat(obj.getString("amount" )))));
-                            i.putExtra("fromCallActivity","no");
+                                Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                i.putExtra("name", callerName.getText().toString());
+                                i.putExtra("cost", String.format("%.02f", (Float.parseFloat(obj.getString("amount")))));
+                                i.putExtra("fromCallActivity", "no");
 //            i.putExtra("cost",)
-                            startActivity(i);
+                                startActivity(i);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -508,22 +508,21 @@ public class New_videocall_activity extends AppCompatActivity
                     });
                     sr.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                     Volley.newRequestQueue(getApplicationContext()).add(sr);
-                }else {
+                } else {
 
 
                     Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
 
-                    float cost=(getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)/60)*TimeCount;
+                    float cost = (getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f) / 60) * TimeCount;
 
-                    i.putExtra("name",callerName.getText().toString());
-                    i.putExtra("cost",cost*(1.33)-cost);
-                    i.putExtra("fromCallActivity","yes");
+                    i.putExtra("name", callerName.getText().toString());
+                    i.putExtra("cost", cost * (1.33) - cost);
+                    i.putExtra("fromCallActivity", "yes");
 //                    i.putExtra("cost",String.format("%.02f",(Float.parseFloat(obj.getString("amount" )))));
 //            i.putExtra("cost",)
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                 }
-
 
 
             }
@@ -558,7 +557,7 @@ public class New_videocall_activity extends AppCompatActivity
 
     // checks the visibility of the bottom control view
     public void LayoputVisibility() {
-          /*To make the layout invisible after 3 sec and when it touch the main layout it will again visible.*/
+        /*To make the layout invisible after 3 sec and when it touch the main layout it will again visible.*/
 
 
         if (layoutVisibilityBit == 0) {
@@ -639,8 +638,6 @@ public class New_videocall_activity extends AppCompatActivity
     }
 
 
-
-
     @Override
     public void onConnected(Session session) {
 
@@ -651,7 +648,10 @@ public class New_videocall_activity extends AppCompatActivity
         mPublisher.setPublisherListener(this);
         mPublisher.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
-
+        mPublisherViewContainer.addView(mPublisher.getView());
+        if (mPublisher.getView() instanceof GLSurfaceView) {
+            ((GLSurfaceView) mPublisher.getView()).setZOrderOnTop(true);
+        }
         Log.e("initializePublisher", "publisher initialization method");
         mSession.publish(mPublisher);
 
@@ -691,14 +691,14 @@ public class New_videocall_activity extends AppCompatActivity
                     Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-                    float cost=(getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f)/60)*TimeCount;
+                    float cost = (getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f) / 60) * TimeCount;
 
-                    float cost1= (float) (cost*100);
-                    float finalCost= (float) (cost-(cost*0.33));
+                    float cost1 = (float) (cost * 100);
+                    float finalCost = (float) (cost - (cost * 0.33));
                     //Toast.makeText(New_videocall_activity.this, "final cost "+finalCost, Toast.LENGTH_SHORT).show();
-                    i.putExtra("name",callerName.getText().toString());
-                    i.putExtra("cost",String.format("%.02f",finalCost/100));
-                    i.putExtra("fromCallActivity","yes");
+                    i.putExtra("name", callerName.getText().toString());
+                    i.putExtra("cost", String.format("%.02f", finalCost / 100));
+                    i.putExtra("fromCallActivity", "yes");
 //                    i.putExtra("cost",String.format("%.02f",(Float.parseFloat(obj.getString("amount" )))));
 //            i.putExtra("cost",)
                     startActivity(i);
@@ -706,13 +706,14 @@ public class New_videocall_activity extends AppCompatActivity
 //                    new Handler().postDelayed(new Runnable() {
 //                        @Override
 //                        public void run() {
-                            if (mSession != null) {
+                    if (mSession != null) {
 //                                mSession.disconnect();
-                                onDisconnected(mSession);
-                            }videocontrols1.setVisibility(View.GONE);
-                            videocontrols2.setVisibility(View.VISIBLE);
+                        onDisconnected(mSession);
+                    }
+                    videocontrols1.setVisibility(View.GONE);
+                    videocontrols2.setVisibility(View.VISIBLE);
 
-                            new CallActivity().finish();
+                    new CallActivity().finish();
 
                             /*Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -802,10 +803,10 @@ public class New_videocall_activity extends AppCompatActivity
                         @Override
                         public void run() {
                             DecimalFormat formatter = new DecimalFormat("00");
-                            int min=TimeCount/60;
-                            int sec=TimeCount%60;
+                            int min = TimeCount / 60;
+                            int sec = TimeCount % 60;
 
-                            veesession_timer.setText(formatter.format(min)+":"+formatter.format(sec));
+                            veesession_timer.setText(formatter.format(min) + ":" + formatter.format(sec));
                             TimeCount++;
 
                             if (time >= 0) {
@@ -840,7 +841,7 @@ public class New_videocall_activity extends AppCompatActivity
 
             surfaceView.removeAllViews();
 //            mPublisherViewContainer.removeAllViews();
-            mPublisherViewContainer.addView(mPublisher.getView());
+//              mPublisherViewContainer.addView(mPublisher.getView());
             mSubscriberViewContainer.addView(mSubscriber.getView());
         }
     }

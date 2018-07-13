@@ -22,7 +22,7 @@
     <string name="btn_exception_tracking">Track Exception</string>
     <string name="btn_app_crash">Track App Crash</string>
     <string name="btn_load_fragment">Fragment Tracking</string>
-
+    <string name="some_text">Font color is <font fgcolor="#ffff0000">red</font></string>
     <string name="notification_chnnl_location">Location polling</string>
     <string name="notification_chnnl_location_descr">You will see notifications on this channel ONLY during location polling</string>
     <array name="autosize_text_sizes">

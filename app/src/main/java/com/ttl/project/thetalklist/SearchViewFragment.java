@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -18,8 +19,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,9 +44,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 import static android.content.Context.MODE_PRIVATE;
 
-public class SearchViewFragment extends Fragment/* implements View.OnClickListener */ {
+public class SearchViewFragment extends Fragment {
     private static final String TAG = "SearchViewActivity";
     TextView[] myTextViews, myTextViews1, myTextViews2;
 
@@ -121,6 +125,18 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
 
         mTagsEditText.requestFocus();
 
+        mTagsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    Log.e(TAG, "onEditorAction: " );
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
         // toolbar = (Toolbar) view.findViewById(R.id.toolbar);
     /*    setSupportActionBar(toolbar);
@@ -155,15 +171,8 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
         };
 
         handler.postDelayed(r, 10);
-        mTagsEditText.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Toast.makeText(getActivity(), mTagsEditText.getText(), Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mTagsEditText.setImeActionLabel("Search", EditorInfo.IME_ACTION_SEARCH);
+
 
         mTagsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -541,5 +550,6 @@ public class SearchViewFragment extends Fragment/* implements View.OnClickListen
 
         }
     }
+
 
 }

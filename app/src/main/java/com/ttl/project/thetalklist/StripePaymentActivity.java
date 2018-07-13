@@ -1,12 +1,15 @@
 package com.ttl.project.thetalklist;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -217,22 +220,40 @@ public class StripePaymentActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("ResourceAsColor")
     private void displayError(String errorMessage) {
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Oops!");
-        alertDialog.setMessage(errorMessage);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Retry",
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this,R.style.AlertDialog);
+        builder1.setCancelable(true);
+        builder1.setTitle("Oops!");
+        builder1.setMessage(errorMessage);
+        builder1.setInverseBackgroundForced(true);
+        builder1.setNeutralButton("Retry",
                 new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                         Intent intent = getIntent();
                         finish();
                         startActivity(intent);
-                        /*Intent I = new Intent(getApplicationContext(), StripePaymentActivity.class);
-                        startActivity(I);*/
+
                     }
                 });
-        alertDialog.show();
+
+
+        final AlertDialog alert11 = builder1.create();
+        alert11.show();
+        Button neutralButton = alert11.getButton(AlertDialog.BUTTON_NEUTRAL);
+        neutralButton.setTextColor(Color.parseColor("#FFFFFF"));
+        alert11.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert11.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.black));
+            }
+        });
+        Button buttonbackground = alert11.getButton(DialogInterface.BUTTON_NEUTRAL);
+        buttonbackground.setBackgroundColor(getResources().getColor(R.color.orange));
+
+
+
     }
 
 }

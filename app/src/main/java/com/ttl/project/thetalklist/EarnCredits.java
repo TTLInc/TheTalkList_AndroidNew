@@ -3,6 +3,7 @@ package com.ttl.project.thetalklist;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,7 @@ public class EarnCredits extends Fragment {
         // Inflate the layout for this fragment
         final View view=inflater.inflate(R.layout.fragment_earn_credits, container, false);
         ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments_activated));
+        ((TextView) getActivity().findViewById(R.id.txtPayments)).setTextColor(Color.parseColor("#3399CC"));
 
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/GothamBookRegular.ttf");
 

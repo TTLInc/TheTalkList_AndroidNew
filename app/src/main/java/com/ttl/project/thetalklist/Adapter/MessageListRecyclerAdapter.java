@@ -22,6 +22,7 @@ import com.ttl.project.thetalklist.MessageFragment;
 import com.ttl.project.thetalklist.MessageList;
 import com.ttl.project.thetalklist.MessageOneToOne;
 import com.ttl.project.thetalklist.R;
+import com.ttl.project.thetalklist.util.Config;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,8 +54,6 @@ public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageLis
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_message,parent,false);
-
-
         return new MyViewHolder(view);
     }
 
@@ -64,6 +63,10 @@ public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageLis
         final ChatroomModel chatroomModel = chatroomModelList.get(position);
 
         if (chatroomModel.getUnread()>0){
+            holder.senderName.setTextColor(Color.parseColor("#000000"));
+            holder.messagelist_indicator.setVisibility(View.VISIBLE);
+        }
+        if (Config.msgCount > 0) {
             holder.senderName.setTextColor(Color.parseColor("#000000"));
             holder.messagelist_indicator.setVisibility(View.VISIBLE);
         }

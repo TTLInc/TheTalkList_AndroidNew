@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -107,7 +108,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
 
         mTagsEditText = (TagsEditText) findViewById(R.id.tagsEditText);
-
+        mTagsEditText.setImeActionLabel("Search", EditorInfo.IME_ACTION_UNSPECIFIED);
         mTagsEditText.requestFocus();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -134,9 +135,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
                 }
                 if (String.valueOf(acb).equals("0")) {
-                    txtLocationName.setVisibility(View.GONE);
+                 /*   txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
-                    txtPeopleName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);*/
                 }
                 handler.postDelayed(this, 10);
             }
@@ -152,6 +153,17 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                 return false;
             }
         });
+        mTagsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         mTagsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -235,9 +247,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                         setmProgressDialog();
                                         ApiCallSearchView(abc2);
                                     }
-                                    txtLocationName.setVisibility(View.GONE);
+                                   /* txtLocationName.setVisibility(View.GONE);
                                     txtSubjectName.setVisibility(View.GONE);
-                                    txtPeopleName.setVisibility(View.GONE);
+                                    txtPeopleName.setVisibility(View.GONE);*/
                                 }
                             }
 
@@ -246,9 +258,9 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
                     } catch (Exception e) {
                         mProgressDialog.dismiss();
-                        txtLocationName.setVisibility(View.GONE);
+                      /*  txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
-                        txtPeopleName.setVisibility(View.GONE);
+                        txtPeopleName.setVisibility(View.GONE);*/
                     }
 
                 } else {

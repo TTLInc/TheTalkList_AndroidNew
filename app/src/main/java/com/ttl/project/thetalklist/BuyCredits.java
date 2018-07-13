@@ -3,6 +3,7 @@ package com.ttl.project.thetalklist;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -34,7 +35,7 @@ public class BuyCredits extends Fragment {
         buybtn_cr110 = (Button) view.findViewById(R.id.buybtn_cr110);
         buyCredit_currentBalance = (TextView) view.findViewById(R.id.buyCredit_currentBalance);
         ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments_activated));
-
+        ((TextView) getActivity().findViewById(R.id.txtPayments)).setTextColor(Color.parseColor("#3399CC"));
         try {
             Bundle bundle = this.getArguments();
             if (bundle != null) {

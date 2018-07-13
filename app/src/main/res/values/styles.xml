@@ -11,6 +11,10 @@
         <item name="android:typeface">serif</item>
     </style>
 
+
+    <style name="AlertDialog" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/orange</item>
+    </style>
     <style name="TextViewCustomFont">
         <item name="fontPath">fonts/RobotoCondensed-Regular.ttf</item>
     </style>

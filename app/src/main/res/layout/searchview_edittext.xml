@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:TagsEditText="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="35dp"
     android:background="@drawable/searchview_boader"
@@ -34,7 +35,7 @@
             android:gravity="center|left"
             android:hint="Ex: Math, USA, John"
             android:imeActionLabel="Search"
-            android:imeOptions="actionSend"
+            android:imeOptions="flagNoEnterAction"
             android:inputType="text"
             android:singleLine="true"
             TagsEditText:allowSpaceInTag="true"

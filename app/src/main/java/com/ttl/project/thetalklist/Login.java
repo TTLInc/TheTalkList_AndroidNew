@@ -3,13 +3,16 @@ package com.ttl.project.thetalklist;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.text.InputType;
 import android.util.Base64;
@@ -233,7 +236,9 @@ public class Login extends Activity {
         request.executeAsync();
 
     }
-     String url;
+
+    String url;
+
     //Facebook login method
     public void fb_login(JSONObject object, final LoginResult loginResult, String email) throws JSONException {
 
@@ -253,7 +258,7 @@ public class Login extends Activity {
 
         if (object.has("gender")) {
             url = "https://www.thetalklist.com/api/fblogin?email=" + email + "&facebook_id=" + loginResult.getAccessToken().getUserId() + "&firstname=" + first_name + "&lastname=" + last_name + "&gender=" + object.getString("gender") + "&birthdate=" + "";
-        }else {
+        } else {
             url = "https://www.thetalklist.com/api/fblogin?email=" + email + "&facebook_id=" + loginResult.getAccessToken().getUserId() + "&firstname=" + first_name + "&lastname=" + last_name + "&gender=" + "" + "&birthdate=" + "";
         }
 
@@ -436,9 +441,9 @@ public class Login extends Activity {
                                 if (status == 1) {
 
                                     String Err = (String) jsonObject.get("error");
-                                  //  Toast.makeText(Login.this, Err, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(Login.this, "Incorrect credentials entered", Toast.LENGTH_SHORT).show();
-
+                                    //  Toast.makeText(Login.this, Err, Toast.LENGTH_SHORT).show();
+                                    //   Toast.makeText(Login.this, "Incorrect credentials entered", Toast.LENGTH_SHORT).show();
+                                    setAlertDialog();
                                 }/* else if (status == 10 && pref.getString("firebase id","").equals(jsonObject.getString("firebase_id"))){
 
                                 }/**/ else if (status == 10 && !pref.getString("firebase id", "").equals(jsonObject.getString("firebase_id"))) {
@@ -636,6 +641,35 @@ public class Login extends Activity {
 
             }
         });
+
+    }
+
+    private void setAlertDialog() {
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this, R.style.AlertDialog);
+        builder1.setCancelable(true);
+        builder1.setTitle("Oops!");
+        builder1.setMessage("if there is incorrect credentials entered");
+        builder1.setInverseBackgroundForced(true);
+        builder1.setPositiveButton("Retry",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+
+        final AlertDialog alert11 = builder1.create();
+        alert11.show();
+        Button neutralButton = alert11.getButton(AlertDialog.BUTTON_POSITIVE);
+        neutralButton.setTextColor(Color.parseColor("#FFFFFF"));
+        alert11.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert11.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.black));
+            }
+        });
+        Button buttonbackground = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonbackground.setBackgroundColor(getResources().getColor(R.color.orange));
 
     }
 
