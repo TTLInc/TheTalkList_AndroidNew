@@ -235,6 +235,7 @@ public class StripePaymentActivity extends AppCompatActivity {
                         finish();
                         startActivity(intent);
 
+
                     }
                 });
 
