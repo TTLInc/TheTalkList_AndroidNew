@@ -104,6 +104,8 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
+        ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
         lv.invalidateViews();
         // CallAllMessageList();
     }
@@ -174,6 +176,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         getActivity().registerReceiver(appendChatScreenMsgReceiver, new IntentFilter("appendChatScreenMsg"));
 
     }
+
 
     private void initilation() {
         queue = Volley.newRequestQueue(getContext());

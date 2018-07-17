@@ -3,6 +3,7 @@ package com.ttl.project.thetalklist;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -55,8 +56,10 @@ public class MessageList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_message_list, container, false);
-        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
-
+        ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
+        ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
+        ((ImageView) (getActivity().findViewById(R.id.imageView13))).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+        ((TextView) getActivity().findViewById(R.id.txtTutors)).setTextColor(Color.parseColor("#666666"));
         int roleId = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("roleId", 0);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
@@ -171,8 +174,10 @@ public class MessageList extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
-
+        ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
+        ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
+        ((ImageView) (getActivity().findViewById(R.id.imageView13))).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+        ((TextView) getActivity().findViewById(R.id.txtTutors)).setTextColor(Color.parseColor("#666666"));
     }
 
     @Override

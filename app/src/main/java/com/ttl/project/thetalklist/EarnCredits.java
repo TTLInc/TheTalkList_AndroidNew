@@ -89,6 +89,7 @@ public class EarnCredits extends Fragment {
 
             String res="USD $"+String.format("%.02f",preferences.getFloat("hRate", 0.0f) / 25.0f *60)+"/hr ($"+String.format("%.02f",preferences.getFloat("hRate", 0.0f) / 25.0f)+"/min)";
             //earn_credit_ratePerMinute.setText(res);
+//        Log.e("TAG", "Money--??? "+Integer.parseInt(String.valueOf(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0))) );
 
 
 
@@ -101,11 +102,10 @@ public class EarnCredits extends Fragment {
                 final String earn_credit_paypalEmail_str = earn_credit_paypalEmail.getText().toString();
                 final String earn_credit_paypalaamount_float = earn_credit_paypalammount.getText().toString();
                 final String id = String.valueOf(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0));
-//                if (earn_credit_paypalEmail_str.equals("")) {
-
+                if (!earn_credit_paypalEmail_str.equals("")) {
                     if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) >= Float.parseFloat(earn_credit_paypalaamount_float)) {
-
-                        if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("coupon_credits", 0) > 10) {
+                        Log.e("TAG", "Credit--!@ "+getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("coupon_credits", 0) );
+                        if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0) > 10) {
 
 
                             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -184,7 +184,7 @@ public class EarnCredits extends Fragment {
                     } else {
                         Toast.makeText(getContext(), "You don't have enough credits.", Toast.LENGTH_SHORT).show();
                     }
-//                }
+               }
 
             }
         });

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -464,6 +465,8 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
     @Override
     public void onResume() {
         super.onResume();
+        ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
+        ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
         MessageBack bg = new MessageBack();
         bg.execute("17600", "405");
         final Dialog dialog = new Dialog(getContext());
