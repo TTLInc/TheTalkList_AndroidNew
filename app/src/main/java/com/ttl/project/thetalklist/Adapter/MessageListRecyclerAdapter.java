@@ -66,10 +66,7 @@ public class MessageListRecyclerAdapter  extends RecyclerView.Adapter<MessageLis
             holder.senderName.setTextColor(Color.parseColor("#000000"));
             holder.messagelist_indicator.setVisibility(View.VISIBLE);
         }
-        if (Config.msgCount > 0) {
-            holder.senderName.setTextColor(Color.parseColor("#000000"));
-            holder.messagelist_indicator.setVisibility(View.VISIBLE);
-        }
+
 
         holder.senderName.setText(chatroomModel.getSenderName());
         String picPath = chatroomModel.getSenderPic();

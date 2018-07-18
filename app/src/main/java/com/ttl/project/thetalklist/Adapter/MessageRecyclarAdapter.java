@@ -26,6 +26,7 @@ import com.ttl.project.thetalklist.Available_Tutor_Expanded;
 import com.ttl.project.thetalklist.Bean.MessageModel;
 import com.ttl.project.thetalklist.CircleTransform;
 import com.ttl.project.thetalklist.FragmentStack;
+import com.ttl.project.thetalklist.MessageFragment;
 import com.ttl.project.thetalklist.MessageOneToOne;
 import com.ttl.project.thetalklist.R;
 
@@ -158,7 +159,7 @@ public class MessageRecyclarAdapter extends RecyclerView.Adapter<MessageRecyclar
                                 editor.putString("avgRate", o.getString("avgRate"));
                                 editor.putInt("tutorid", messageModel.getSender_id()).apply();
                                 Log.e("TAG", "Tutor_Role_id " + messageModel.getSender_id());
-                                FragmentStack.getInstance().push(new MessageOneToOne());
+                                FragmentStack.getInstance().push(new MessageFragment());
 
                                 Bundle bundle = new Bundle();
                                 int mToturId = messageModel.getSender_id();

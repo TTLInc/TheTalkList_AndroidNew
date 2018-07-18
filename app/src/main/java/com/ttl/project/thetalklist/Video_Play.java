@@ -662,7 +662,7 @@ public class Video_Play extends Fragment {
                             public void onClick(View v) {
 //                                    try {
                                 if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) != uid) {
-                                    MessageOneToOne messageList = new MessageOneToOne();
+                                    MessageFragment messageList = new MessageFragment();
                                     chatPrefEditor.putString("firstName", tutorName);
                                     chatPrefEditor.putInt("receiverId", id).apply();
                                     TTL ttl = (TTL) getContext().getApplicationContext();

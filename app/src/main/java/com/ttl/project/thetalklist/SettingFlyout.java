@@ -1143,7 +1143,15 @@ public class SettingFlyout extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Handler handler1 = new Handler();
+        Runnable r = new Runnable() {
+            public void run() {
 
+            }
+        };
+        handler1.postDelayed(r, 1000);
+        /*FragmentManager mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);*/
         ft = fragmentManager.beginTransaction();
 
         final Handler handler = new Handler();
@@ -1175,23 +1183,26 @@ public class SettingFlyout extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.e("message count res ", response);
-                        if (com.ttl.project.thetalklist.util.Config.msgCount > 0) {
+                        /*if (com.ttl.project.thetalklist.util.Config.msgCount > 0) {
                             findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.VISIBLE);
                             bottombar_message_count.setText(String.valueOf(com.ttl.project.thetalklist.util.Config.msgCount));
                         }
                         if (com.ttl.project.thetalklist.util.Config.msgCount == 0) {
                             Log.e(TAG, "Gone ");
                             findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
-                        }
+                        }*/
                         try {
                             JSONObject object = new JSONObject(response);
+                            Log.e("MsgCountStatus ", response);
+
                             if (object.getInt("unread_count") > 0) {
                                 findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.VISIBLE);
+                                com.ttl.project.thetalklist.util.Config.msgCount = object.getInt("unread_count");
                                 bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
                                 Log.e(TAG, "MsgCountDisplay " + String.valueOf(object.getInt("unread_count")));
-                            }
-                            if (object.getInt("unread_count") == 0) {
+                            } else {
+                                com.ttl.project.thetalklist.util.Config.msgCount = 0;
+
                                 Log.e(TAG, "Gone ");
                                 findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
                             }

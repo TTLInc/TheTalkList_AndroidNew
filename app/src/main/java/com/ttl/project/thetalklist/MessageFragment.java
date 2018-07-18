@@ -106,20 +106,21 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
         ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
+        ((ImageView) (getActivity().findViewById(R.id.imageView13))).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
+        ((TextView) getActivity().findViewById(R.id.txtTutors)).setTextColor(Color.parseColor("#666666"));
+
         lv.invalidateViews();
-        // CallAllMessageList();
     }
 
     private void CreateBoarcastMsg() {
         appendChatScreenMsgReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                refresh = "0";
-                Log.e(TAG, "onReceive:-----> " + refresh);
+
+                Log.e(TAG, "onReceive:----->" + refresh);
                 Bundle b = intent.getExtras();
                 if (b != null) {
-                    //   adapter.clear();
-
+                    refresh = "0";
                     CallAllMessageList();
 
                     String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + loginPref.getInt("id", 0);
@@ -133,26 +134,14 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                             try {
                                 JSONObject object = new JSONObject(response);
                                 Config.msgCount = object.getInt("unread_count");
-                                if (object.getInt("unread_count") > 0) {
-                                    Log.e(TAG, "MassageFragment Count==1 ");
-
-                                    if (getActivity() != null) {
-                                        /*((ImageView) (getActivity().findViewById(R.id.messagelist_indicator))).setVisibility(View.VISIBLE);
-                                        ((TextView) (getActivity().findViewById(R.id.senderName))).setTextColor(Color.parseColor("#000000"));*/
+                                if (getActivity() != null) {
+                                    if (object.getInt("unread_count") > 0) {
+                                        Log.e(TAG, "MassageFragment Count==1 ");
                                         ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setText(String.valueOf(object.getInt("unread_count")));
-
-
-                                    }
-                                }
-
-                                if (object.getInt("unread_count") == 0) {
-                                    Log.e(TAG, "MassageFragment Count==0 ");
-                                    if (getActivity() != null) {
+                                    } else {
+                                        Log.e(TAG, "MassageFragment Count==0 ");
                                         ((RelativeLayout) (getActivity().findViewById(R.id.bottombar_messageCount_layout))).setVisibility(View.GONE);
-
                                     }
-
-
                                 }
 
                             } catch (JSONException e) {
@@ -207,7 +196,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
         onRequestClicked(request);
         staticMsgClick();
-        Log.e(TAG, "initilation: " + count);
     }
 
     private void onRequestClicked(ImageView request) {
@@ -260,7 +248,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             case R.id.message_sendBtn:
                 adapter.notifyDataSetChanged();
                 lv.invalidateViews();
-                Log.e(TAG, "ArrayListSize " + arrayList.size());
                 refresh = "0";
 
                 sendTextMessage();
@@ -379,7 +366,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 mSendImage = jsonObject.getString("tutor_pic");
                 chat_header.setText(jsonObject.getString("tutor_name"));
 
-                Log.e(TAG, "onPostExecute: " + mSendImage);
+                Log.e(TAG, "onPostExecute: " + result);
                 if (refresh.equals("0")) {
 
                     JSONObject jo = jsonArray.getJSONObject(jsonArray.length() - 1);
@@ -407,18 +394,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                     }
 
                 }
-            /*    for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jo = jsonArray.getJSONObject(i);
-                    arrayList.add(new MessageGetSet(
 
-                            jo.getString("message"),
-                            jo.getString("time"),
-                            jo.getString("user_name"),
-                            jo.getString("user_id")
-
-                    ));
-                }
-*/
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -426,10 +402,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
                 lv.setAdapter(adapter);
             }
-
-           /* adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
-            lv.setAdapter(adapter);*/
-
         }
     }
 
@@ -444,8 +416,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
         private MessageAdapter(Context context, int resource, ArrayList<MessageGetSet> objects) {
             super(context, resource, objects);
-            Log.e(TAG, "getViewTypeCount: " + count + "--" + arrayList.get(arrayList.size() - 1).getText());
-
             this.messageGetSets = objects;
             this.context = context;
             this.resources = resource;
@@ -460,7 +430,11 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         @Override
         public int getViewTypeCount() {
 
-            return messageGetSets == null ? 0 : messageGetSets.size();
+            if (getCount() == 0) {
+                return 1;
+            } else {
+                return getCount();
+            }
 
         }
 
@@ -564,8 +538,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
                     senddate.setText(String.valueOf(day) + " " + months[month - 1] + " " + Year + " " + h + ":" + m + " " + a);
                     recd.setText(String.valueOf(day) + " " + months[month - 1] + " " + Year + " " + h + ":" + m + " " + a);
-                    /*senddate.setText(time);
-                    recd.setText(time);*/
                 }
 
             } catch (ParseException e) {
@@ -600,7 +572,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                             editor.putString("avgRate", o.getString("avgRate"));
                             editor.putInt("tutorid", receiver_id).apply();
                             Log.e("TAG", "Tutor_Role_id " + receiver_id);
-                            FragmentStack.getInstance().push(new MessageOneToOne());
+                            FragmentStack.getInstance().push(new MessageFragment());
 
                             Bundle bundle = new Bundle();
                             int mToturId = receiver_id;

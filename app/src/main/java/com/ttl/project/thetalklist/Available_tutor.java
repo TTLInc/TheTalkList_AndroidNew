@@ -53,6 +53,7 @@ import com.ttl.project.thetalklist.Services.LoginService;
 import com.ttl.project.thetalklist.model.SearchTutorsModel;
 import com.ttl.project.thetalklist.retrofit.ApiClient;
 import com.ttl.project.thetalklist.retrofit.ApiInterface;
+import com.ttl.project.thetalklist.util.Config;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -220,15 +221,14 @@ public class Available_tutor extends Fragment {
                     try {
                         JSONObject object = new JSONObject(response);
                         if (object.getInt("unread_count") > 0) {
+
                             msg.setText(String.valueOf(object.getInt("unread_count")));
                             Log.e(TAG, "Available_tutorsMSG==1");
-                        }
-
-
-                        if (object.getInt("unread_count") == 0) {
+                        } else {
                             bottombar_messageCount_layout.setVisibility(View.GONE);
                             Log.e(TAG, "Available_tutorsMSG==0 ");
                         }
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -688,7 +688,6 @@ public class Available_tutor extends Fragment {
     public void onResume() {
 
         super.onResume();
-
 
       /*  getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         searchView.setFocusable(false);*/

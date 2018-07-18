@@ -30,6 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.ttl.project.thetalklist.Adapter.MessageListRecyclerAdapter;
 import com.ttl.project.thetalklist.Bean.ChatroomModel;
 import com.ttl.project.thetalklist.Services.MessageCountService;
+import com.ttl.project.thetalklist.util.Config;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,6 +175,13 @@ public class MessageList extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(Config.msgCount>0){
+            bottombar_message_count.setText(String.valueOf(Config.msgCount));
+
+        }else {
+            bottombar_messageCount_layout.setVisibility(View.GONE);
+        }
+
         ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
         ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
         ((ImageView) (getActivity().findViewById(R.id.imageView13))).setImageDrawable(getResources().getDrawable(R.drawable.tutors));

@@ -288,17 +288,16 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                     Log.e("message count res ", response);
 
                     try {
-                        JSONObject object = new JSONObject(response);
+                      /*  JSONObject object = new JSONObject(response);
                         if (object.getInt("unread_count") > 0) {
                             ((TextView) getActivity().findViewById(R.id.bottombar_message_count)).setText(String.valueOf(object.getInt("unread_count")));
                             Log.e(TAG, "MassageOneToOne==1");
-                        }
-                        if (object.getInt("unread_count") == 0) {
+                        } else {
                             getActivity().findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
                             Log.e(TAG, "MassageOneToOne==0");
 
-                        }
-                    } catch (JSONException e) {
+                        }*/
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -418,12 +417,13 @@ public class MessageOneToOne extends Fragment implements EmojiconGridFragment.On
                                     Log.e("message count res ", response);
 
                                     try {
-                                        JSONObject object = new JSONObject(response);
-                                        if (object.getInt("unread_count") > 0)
+                                      /*  JSONObject object = new JSONObject(response);
+                                        if (object.getInt("unread_count") > 0) {
                                             ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setText(String.valueOf(object.getInt("unread_count")));
-                                        if (object.getInt("unread_count") == 0)
+                                        } else {
                                             getActivity().findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
-                                    } catch (JSONException e) {
+                                        }*/
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
 

@@ -172,7 +172,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginBottom="15dp"
-                                android:layout_marginRight="17dp"
+                                android:layout_marginRight="15dp"
                                 android:layout_marginTop="-2dp"
                                 android:background="@drawable/roundcornered_orange"
                                 android:elevation="10dp"
