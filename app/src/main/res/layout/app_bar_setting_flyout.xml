@@ -117,12 +117,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/settingFlyout_bottomcontrol_videosearch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/settingFlyout_bottomcontrol_videosearchImg"
@@ -168,34 +168,31 @@
 
                             <TextView
                                 android:id="@+id/bottombar_message_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginBottom="15dp"
-                                android:layout_marginRight="15dp"
-                                android:layout_marginTop="-2dp"
+                                android:layout_width="17dp"
+                                android:layout_height="17dp"
+                                android:layout_marginLeft="50dp"
                                 android:background="@drawable/roundcornered_orange"
                                 android:elevation="10dp"
-                                android:padding="4dp"
+                                android:gravity="center"
                                 android:text=""
                                 android:textColor="#ffffff"
                                 android:textSize="8dp"
                                 android:textStyle="bold" />
 
-
+                            <ImageView
+                                android:id="@+id/settingFlyout_bottomcontrol_MessageImg"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="15dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_weight="1"
+                                android:padding="2dp"
+                                android:src="@drawable/messages" />
                         </RelativeLayout>
 
-                        <ImageView
-                            android:id="@+id/settingFlyout_bottomcontrol_MessageImg"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginBottom="12dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_weight="1"
-                            android:padding="2dp"
-                            android:src="@drawable/messages" />
+
                     </FrameLayout>
 
                     <TextView

@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -59,6 +63,8 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 //Videocall Activity
 
@@ -100,6 +106,9 @@ public class New_videocall_activity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_call);
+        mp = MediaPlayer.create(this, R.raw.tring_tring);
+        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mp.start();
 
         // initialize view objects from your layout
         mPublisherViewContainer = (FrameLayout) findViewById(R.id.publisher_container);
@@ -182,7 +191,7 @@ public class New_videocall_activity extends AppCompatActivity
     ImageView callMute;
     ImageView callChangeCamera;
     Timer t;
-
+    private MediaPlayer mp;
     TTL ttl;
 
     int TimeCount;
@@ -191,7 +200,7 @@ public class New_videocall_activity extends AppCompatActivity
     //Opentok connect api call
     public void connectionApiCall(String URL) {
         RequestQueue queue333 = Volley.newRequestQueue(getApplicationContext());
-
+        mp.stop();
 
         Log.e("firebase reject Call", URL);
         StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -310,8 +319,8 @@ public class New_videocall_activity extends AppCompatActivity
         {
             queue111 = Volley.newRequestQueue(getApplicationContext());
 
-            final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
-            SharedPreferences pref = getApplicationContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+            final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE);
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("loginStatus", MODE_PRIVATE);
 
 
             String URL = "https://www.thetalklist.com/api/firebase_call?sender_id=" + pref.getInt("id", 0) + "&receiver_id=" + preferences.getInt("tutorId", 0);
@@ -475,7 +484,7 @@ public class New_videocall_activity extends AppCompatActivity
 
                 if (!i.getStringExtra("from").equalsIgnoreCase("callActivity")) {
 
-                    String URL2 = "https://www.thetalklist.com/api/total_cost?cid=" + preferences.getInt("classId", 0) + "&amount=" + getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f) + "&time=" + TimeCount;
+                    String URL2 = "https://www.thetalklist.com/api/total_cost?cid=" + preferences.getInt("classId", 0) + "&amount=" + getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE).getFloat("hRate", 0.0f) + "&time=" + TimeCount;
 
                     Log.e("total cost url", URL2);
 
@@ -513,7 +522,7 @@ public class New_videocall_activity extends AppCompatActivity
 
                     Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
 
-                    float cost = (getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f) / 60) * TimeCount;
+                    float cost = (getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE).getFloat("hRate", 0.0f) / 60) * TimeCount;
 
                     i.putExtra("name", callerName.getText().toString());
                     i.putExtra("cost", cost * (1.33) - cost);
@@ -691,7 +700,7 @@ public class New_videocall_activity extends AppCompatActivity
                     Intent i = new Intent(getApplicationContext(), Popup_after_veesession.class);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-                    float cost = (getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f) / 60) * TimeCount;
+                    float cost = (getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE).getFloat("hRate", 0.0f) / 60) * TimeCount;
 
                     float cost1 = (float) (cost * 100);
                     float finalCost = (float) (cost - (cost * 0.33));
@@ -785,7 +794,7 @@ public class New_videocall_activity extends AppCompatActivity
 //            if (!i.getStringExtra("from").equalsIgnoreCase("callActivity")) {
 
             final Float money = getApplicationContext().getSharedPreferences("loginStatus", MODE_PRIVATE).getFloat("money", 0.0f);
-            SharedPreferences preferences = getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+            SharedPreferences preferences = getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE);
             Float creditPerMinute = preferences.getFloat("credit", 0.0f);
 
             if (money < 10) {
@@ -893,7 +902,7 @@ public class New_videocall_activity extends AppCompatActivity
         SharedPreferences.Editor totaEditor = totalCostPref.edit();
 
         totaEditor.putString("disconnect", "https://www.thetalklist.com/api/veesession_disconnect?cid=" + preferences.getInt("classId", 0));
-        totaEditor.putString("totalcost", "https://www.thetalklist.com/api/total_cost?cid=" + preferences.getInt("classId", 0) + "&amount=" + getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE).getFloat("hRate", 0.0f) + "&time=" + TimeCount).apply();
+        totaEditor.putString("totalcost", "https://www.thetalklist.com/api/total_cost?cid=" + preferences.getInt("classId", 0) + "&amount=" + getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE).getFloat("hRate", 0.0f) + "&time=" + TimeCount).apply();
 
     }
 

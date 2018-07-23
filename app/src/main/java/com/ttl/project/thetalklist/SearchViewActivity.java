@@ -38,6 +38,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class SearchViewActivity extends AppCompatActivity/* implements View.OnClickListener */ {
     private static final String TAG = "SearchViewActivity";
     TextView[] myTextViews, myTextViews1, myTextViews2;

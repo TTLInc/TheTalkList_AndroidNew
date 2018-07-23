@@ -97,6 +97,8 @@ import java.util.TimerTask;
 
 import me.grantland.widget.AutofitHelper;
 
+import static android.content.Context.MODE_PRIVATE;
+
 //Main Activity where all data fragment attached with
 public class SettingFlyout extends AppCompatActivity {
 
@@ -750,7 +752,7 @@ public class SettingFlyout extends AppCompatActivity {
                 } else {
 
 
-                    SharedPreferences chatPref = getSharedPreferences("chatPref", Context.MODE_PRIVATE);
+                    SharedPreferences chatPref = getSharedPreferences("chatPref", MODE_PRIVATE);
                     final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
 
                     chatPrefEditor.putString("firstName", firstName);
@@ -770,10 +772,10 @@ public class SettingFlyout extends AppCompatActivity {
         }
 
 
-        prefAvailableTutor = getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
+        prefAvailableTutor = getSharedPreferences("AvailableTutorPref", MODE_PRIVATE);
         ed = prefAvailableTutor.edit();
 
-        prefVideoList = getSharedPreferences("videoListResponse", Context.MODE_PRIVATE);
+        prefVideoList = getSharedPreferences("videoListResponse", MODE_PRIVATE);
         edvideo = prefVideoList.edit();
 
 
@@ -1204,7 +1206,7 @@ public class SettingFlyout extends AppCompatActivity {
                                 com.ttl.project.thetalklist.util.Config.msgCount = 0;
 
                                 Log.e(TAG, "Gone ");
-                                findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
+                                findViewById(R.id.bottombar_message_count).setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1462,7 +1464,7 @@ public class SettingFlyout extends AppCompatActivity {
         }
 
         public void selectItem(int position) {
-            SharedPreferences prefAvailableTutor = getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
+            SharedPreferences prefAvailableTutor = getSharedPreferences("AvailableTutorPref", MODE_PRIVATE);
             final SharedPreferences.Editor edavailabe = prefAvailableTutor.edit();
 
             ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
@@ -1475,7 +1477,7 @@ public class SettingFlyout extends AppCompatActivity {
             txtMessages.setTextColor(Color.parseColor("#666666"));
             txtPayment.setTextColor(Color.parseColor("#666666"));
             txtFavorits.setTextColor(Color.parseColor("#666666"));
-            SharedPreferences prefVideoList = getSharedPreferences("videoListResponse", Context.MODE_PRIVATE);
+            SharedPreferences prefVideoList = getSharedPreferences("videoListResponse", MODE_PRIVATE);
             final SharedPreferences.Editor edvideo = prefVideoList.edit();
 
             Fragment fragment = null;
@@ -1521,7 +1523,7 @@ public class SettingFlyout extends AppCompatActivity {
                     break;
                 case 2:
                     fragment = new DesiredTutor();
-                    SharedPreferences pref1 = getSharedPreferences("AvailableTutorPref", Context.MODE_PRIVATE);
+                    SharedPreferences pref1 = getSharedPreferences("AvailableTutorPref", MODE_PRIVATE);
                     SharedPreferences.Editor edi = pref1.edit();
                     edi.clear().apply();
                     drawerItem = new DrawerModel[8];
@@ -1636,17 +1638,17 @@ public class SettingFlyout extends AppCompatActivity {
                                 } else {
 
 
-                                    pref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+                                    pref = getSharedPreferences("loginStatus", MODE_PRIVATE);
 
                                     LoginManager.getInstance().logOut();
-                                    SharedPreferences Desired_pref = getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE);
+                                    SharedPreferences Desired_pref = getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE);
                                     SharedPreferences.Editor desiredEditor = Desired_pref.edit();
                                     desiredEditor.clear().apply();
                                     editor = pref.edit();
                                     editor.clear().apply();
                                     fragmentStack.clear();
                                     ttl.ExitBit = 1;
-                                    SharedPreferences pref11 = getApplicationContext().getSharedPreferences("firstTime", Context.MODE_PRIVATE);
+                                    SharedPreferences pref11 = getApplicationContext().getSharedPreferences("firstTime", MODE_PRIVATE);
                                     final SharedPreferences.Editor ed = pref11.edit();
                                     ed.clear().apply();
 
@@ -1757,8 +1759,8 @@ public class SettingFlyout extends AppCompatActivity {
         ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
 
         FragmentManager fragmentManager1 = getSupportFragmentManager();
-        SharedPreferences chatPref = getSharedPreferences("chatPref", Context.MODE_PRIVATE);
-        SharedPreferences SearchTutorPref = getSharedPreferences("SearchTutorDesiredTutorPreferences", Context.MODE_PRIVATE);
+        SharedPreferences chatPref = getSharedPreferences("chatPref", MODE_PRIVATE);
+        SharedPreferences SearchTutorPref = getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE);
         final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
         final SharedPreferences.Editor SearEditor = SearchTutorPref.edit();
 
@@ -2017,7 +2019,7 @@ public class SettingFlyout extends AppCompatActivity {
             public void onResponse(String s) {
 
                 LoginService loginService = new LoginService();
-                loginService.login(context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("email", ""), context.getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getString("pass", ""), context);
+                loginService.login(context.getSharedPreferences("loginStatus", MODE_PRIVATE).getString("email", ""), context.getSharedPreferences("loginStatus", MODE_PRIVATE).getString("pass", ""), context);
 
 
             }
@@ -2069,7 +2071,7 @@ public class SettingFlyout extends AppCompatActivity {
             } else {
 
 
-                SharedPreferences chatPref = getSharedPreferences("chatPref", Context.MODE_PRIVATE);
+                SharedPreferences chatPref = getSharedPreferences("chatPref", MODE_PRIVATE);
                 final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
 
                 chatPrefEditor.putString("firstName", firstName);

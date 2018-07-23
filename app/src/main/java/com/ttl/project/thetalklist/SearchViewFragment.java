@@ -6,25 +6,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,7 +40,6 @@ import mabbas007.tagsedittext.TagsEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -75,13 +71,13 @@ public class SearchViewFragment extends Fragment {
     int langths;
     int mainString;
     int acb;
+    List<SearchViewModel.PeopleBean> respoBeans;
+    ImageView mClearSearch;
+    View view;
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
     private List<SearchFilterModel> mContactList;
-    List<SearchViewModel.PeopleBean> respoBeans;
-    ImageView mClearSearch;
-    View view;
     private String mSearchKeyWord;
 
     @Nullable
@@ -102,6 +98,20 @@ public class SearchViewFragment extends Fragment {
 
 
     private void initialization() {
+
+
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    startActivity(new Intent(getActivity(), SettingFlyout.class));
+                    return true;
+                }
+                return false;
+            }
+        });
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
         linearLayoutSubjectTextView = (LinearLayout) view.findViewById(R.id.linearLayoutSubjectTextView);
         linearLayoutSubjectImageView = (LinearLayout) view.findViewById(R.id.linearLayoutSubjectImageView);
@@ -119,22 +129,22 @@ public class SearchViewFragment extends Fragment {
 
 
         mTagsEditText = (TagsEditText) view.findViewById(R.id.tagsEditText);
-
+        mTagsEditText.setSingleLine();
+        mTagsEditText.setImeActionLabel("Search", EditorInfo.IME_ACTION_SEARCH);
         InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         mTagsEditText.requestFocus();
 
-        mTagsEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        mTagsEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    Log.e(TAG, "onEditorAction: " );
-                    handled = true;
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    Intent intent = new Intent(getActivity(), SettingFlyout.class);
+                    startActivity(intent);
+                    return true;
                 }
-                return handled;
+                return false;
             }
         });
 

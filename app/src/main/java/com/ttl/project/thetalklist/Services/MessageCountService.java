@@ -44,7 +44,7 @@ public class MessageCountService {
                     if (object.getInt("unread_count") > 0)
                         ((TextView) context.findViewById(R.id.bottombar_message_count)).setText(String.valueOf(object.getInt("unread_count")));
                     if (object.getInt("unread_count") == 0)
-                        context.findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.GONE);
+                        context.findViewById(R.id.bottombar_message_count).setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

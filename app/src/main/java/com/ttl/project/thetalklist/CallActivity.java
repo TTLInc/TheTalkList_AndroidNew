@@ -34,6 +34,8 @@ import com.opentok.android.OpentokError;
 import com.opentok.android.PublisherKit;
 import com.opentok.android.Stream;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class CallActivity extends AppCompatActivity implements PublisherKit.PublisherListener {
 
     ImageView ans, reject;
@@ -81,7 +83,7 @@ ImageView call_activity_image;
 
         incomingCall_CallerName = (TextView) findViewById(R.id.incomingCall_CallerName);
         call_activity_image = (ImageView) findViewById(R.id.call_activity_image);
-        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", Context.MODE_PRIVATE);
+        final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE);
         SharedPreferences.Editor editor=preferences.edit();
         incomingCall_CallerName.setText(preferences.getString("callSenderName", ""));
 

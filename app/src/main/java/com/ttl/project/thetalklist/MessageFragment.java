@@ -140,7 +140,9 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                                         ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setText(String.valueOf(object.getInt("unread_count")));
                                     } else {
                                         Log.e(TAG, "MassageFragment Count==0 ");
-                                        ((RelativeLayout) (getActivity().findViewById(R.id.bottombar_messageCount_layout))).setVisibility(View.GONE);
+                                        ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setVisibility(View.GONE);
+
+                                      //  ((RelativeLayout) (getActivity().findViewById(R.id.bottombar_messageCount_layout))).setVisibility(View.GONE);
                                     }
                                 }
 

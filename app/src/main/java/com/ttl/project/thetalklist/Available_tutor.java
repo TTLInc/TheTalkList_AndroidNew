@@ -26,6 +26,7 @@ import android.transition.Explode;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -225,7 +226,7 @@ public class Available_tutor extends Fragment {
                             msg.setText(String.valueOf(object.getInt("unread_count")));
                             Log.e(TAG, "Available_tutorsMSG==1");
                         } else {
-                            bottombar_messageCount_layout.setVisibility(View.GONE);
+                            msg.setVisibility(View.GONE);
                             Log.e(TAG, "Available_tutorsMSG==0 ");
                         }
 
@@ -489,7 +490,18 @@ public class Available_tutor extends Fragment {
             public void onClick(View v) {
               /*  Intent intent = new Intent(getActivity(), SearchViewActivity.class);
                 startActivity(intent);*/
-                fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment()).commit();
+               // fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment()).commit();
+            }
+        });
+        mTagsEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP){
+
+                    fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment()).addToBackStack("fragment").commit();
+                    return true;
+                }
+                return false;
             }
         });
 

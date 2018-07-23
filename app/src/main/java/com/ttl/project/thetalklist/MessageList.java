@@ -179,7 +179,7 @@ public class MessageList extends Fragment {
             bottombar_message_count.setText(String.valueOf(Config.msgCount));
 
         }else {
-            bottombar_messageCount_layout.setVisibility(View.GONE);
+            bottombar_message_count.setVisibility(View.GONE);
         }
 
         ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));

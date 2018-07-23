@@ -201,7 +201,7 @@
             android:name=".Request_Form"
             android:label="@string/title_activity_request"
             android:theme="@style/AppTheme" />
-        <activity android:name=".SearchViewActivity" />
+
     </application>
 
 </manifest>
