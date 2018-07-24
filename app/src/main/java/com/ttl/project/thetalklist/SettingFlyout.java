@@ -1657,8 +1657,18 @@ public class SettingFlyout extends AppCompatActivity {
                                     dialog.dismiss();
 
                                     try {
-                                        FirebaseInstanceId.getInstance().deleteInstanceId();
-                                    } catch (IOException e) {
+                                      //  FirebaseInstanceId.getInstance().deleteInstanceId();
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    FirebaseInstanceId.getInstance().deleteInstanceId();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }).start();
+                                    } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                     Intent i = new Intent(getApplicationContext(), Login.class);

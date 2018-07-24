@@ -9,13 +9,14 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
@@ -57,27 +58,22 @@ import java.util.Map;
 //Form with registered in registration process
 public class MyDetailsNotRegistered extends AppCompatActivity {
 
+    final int CAMERA_REQUEST = 1323;
+    final int GALLERY_REQUEST = 1342;
+    final int CROP_REQUEST = 1352;
     ImageView myDetailsNotRegisteredTutorImg;
     EditText Age, City, Email;
     Spinner Gender, State, Language1, Language2, Language3, Country;
     Button Submit;
-    private String uploadURL;
-    private Bitmap bitmap;
-
     int gen111;
     String firstName, lastName;
     int id;
-
-
     SessionManager session;
     String UserName;
-
-    final int CAMERA_REQUEST = 1323;
-    final int GALLERY_REQUEST = 1342;
-    final int CROP_REQUEST = 1352;
-
     String userChoosenTask;
     Typeface typeface;
+    private String uploadURL;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,9 +129,6 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
                } else ((LinearLayout)findViewById(R.id.llsec4)).setVisibility(View.GONE);
            }
        });*/
-
-
-
 
 
         String languages[] = getResources().getStringArray(R.array.Language);
@@ -203,7 +196,6 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
             }
             );
             queue.add(getRequest);
-
 
 
         }
@@ -283,9 +275,17 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
 
             data.setEmail(email_id);
             data.setPass(password);
-
+            String URL;
             dialog.show();
-            String URL = "https://www.thetalklist.com/api/login?email=" + email_id + "&password=" + password;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                URL = "https://www.thetalklist.com/api/login?email=" + password + "&password=" + email_id;
+
+            } else {
+                URL = "https://www.thetalklist.com/api/login?email=" + email_id + "&password=" + password;
+            }
+            Log.e("Tall", "Password or Email " + email_id + "password" + password);
+            // String URL = "https://www.thetalklist.com/api/login?email=" + email_id + "&password=" + password;
+            Log.e("TAG", "LoghinUrl " + URL);
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
@@ -387,7 +387,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
                     StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
+//                            Toast.makeText(getApplicationContext(), "Submit", Toast.LENGTH_SHORT).show();
                             Log.e("mysetails not reg resp", response);
 
                             LoginService loginService = new LoginService();
@@ -504,7 +504,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
         }
     }
 
-//Select image from galarry
+    //Select image from galarry
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;

@@ -5,29 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    tools:context="com.ttl.project.thetalklist.MyDetailsNotRegistered"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.ttl.project.thetalklist.MyDetailsNotRegistered">
 
     <LinearLayout
         android:id="@+id/linearnotmyDetails"
-        android:orientation="horizontal"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@drawable/notdetailspatern">
+        android:background="@drawable/notdetailspatern"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@mipmap/notmydetailslogo"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/notmydetailslogo" />
 
         <TextView
-            
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
             android:text="@string/not_details"
+            android:textColor="#ffffff"
 
             />
     </LinearLayout>
@@ -58,8 +58,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="140dp"
-                    android:visibility="gone"
-                    android:src="@drawable/black_person" />
+                    android:src="@drawable/black_person"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -199,8 +199,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -278,8 +278,8 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:gravity="center"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -413,12 +413,13 @@
 
                 <Button
                     android:id="@+id/submitButtonNotmyDetails"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
                     android:layout_height="45dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:background="@drawable/capt"
+                    android:background="@color/orange"
                     android:text="Submit"
                     android:textAllCaps="false"
                     android:textColor="#ffffff"

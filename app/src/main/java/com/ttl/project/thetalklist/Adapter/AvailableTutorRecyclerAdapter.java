@@ -26,11 +26,8 @@ import com.ttl.project.thetalklist.MessageFragment;
 import com.ttl.project.thetalklist.R;
 import com.ttl.project.thetalklist.TTL;
 import com.ttl.project.thetalklist.TabBackStack;
-import com.ttl.project.thetalklist.model.FilterTutorsModel;
 import com.ttl.project.thetalklist.model.SearchTutorsModel;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -554,7 +551,12 @@ public class AvailableTutorRecyclerAdapter extends RecyclerView.Adapter<Availabl
 
     @Override
     public int getItemCount() {
-        return body == null ? 0 : body.size();
+        //return body == null ? 0 : body.size();
+        if (body != null) {
+            return body.size();
+        } else {
+            return 0;
+        }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

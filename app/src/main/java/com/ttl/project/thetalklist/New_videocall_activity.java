@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,27 +8,18 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.opengl.GLSurfaceView;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.annotation.NonNull;
-import android.Manifest;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,16 +32,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.ttl.project.thetalklist.Services.LoginService;
+import com.opentok.android.BaseVideoRenderer;
 import com.opentok.android.Connection;
-import com.opentok.android.Session;
-import com.opentok.android.Stream;
+import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
 import com.opentok.android.PublisherKit;
+import com.opentok.android.Session;
+import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
-import com.opentok.android.BaseVideoRenderer;
-import com.opentok.android.OpentokError;
 import com.opentok.android.SubscriberKit;
+import com.ttl.project.thetalklist.Services.LoginService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +55,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static android.content.Context.AUDIO_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -85,19 +78,39 @@ public class New_videocall_activity extends AppCompatActivity
     @SuppressWarnings("FieldCanBeLocal")
 
     int call_end_bit;
-
-    private Session mSession;
-    private Publisher mPublisher;
-    private Subscriber mSubscriber;
-
-    private FrameLayout mPublisherViewContainer;
-    private FrameLayout mSubscriberViewContainer;
-
     TextView veesession_timer;
-
     BroadcastReceiver callEndReceiver;
     SharedPreferences talkNowOff;
     SharedPreferences.Editor editoroff;
+    SharedPreferences preferences, pref;
+    SharedPreferences.Editor editor;
+    FrameLayout videoCallRootLayout;
+    FrameLayout outgoingCallRootLayout;
+    View videocontrols;
+    View videocontrols2;
+    //    ViewGroup parent;
+    ImageView btn_cutcall;
+    FrameLayout surfaceView;
+    TextView callerName;
+    ImageView callerImg;
+    Intent i;
+    RequestQueue queue111, queue222;
+    String CallerName, CallerPic;
+    ImageView callEnd;
+    ImageView callMute;
+    ImageView callChangeCamera;
+    Timer t;
+    TTL ttl;
+    int TimeCount;
+    int time;
+    int layoutVisibilityBit;
+    int minute;
+    private Session mSession;
+    private Publisher mPublisher;
+    private Subscriber mSubscriber;
+    private FrameLayout mPublisherViewContainer;
+    private FrameLayout mSubscriberViewContainer;
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +119,36 @@ public class New_videocall_activity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_call);
-        mp = MediaPlayer.create(this, R.raw.tring_tring);
+       /* mp = MediaPlayer.create(this, R.raw.tring_tring);
+        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);*//*
+        mp = MediaPlayer.create(this, R.raw.incoming);
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        AudioManager m_amAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        m_amAudioManager.setMode(AudioManager.STREAM_MUSIC);
+        m_amAudioManager.setSpeakerphoneOn(true);
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mp.start();*/
+        mp = MediaPlayer.create(this, R.raw.incoming);
+         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+      //  AudioManager m_amAudioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.STREAM_MUSIC);
+        audioManager.setSpeakerphoneOn(true);
+        mp.setLooping(true);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
+        if (audioManager.isWiredHeadsetOn()) {
+            Toast.makeText(this, "Headset plugged in", Toast.LENGTH_SHORT).show();
+            audioManager.setMode(AudioManager.STREAM_MUSIC);
+            audioManager.setSpeakerphoneOn(false);
+            audioManager.setWiredHeadsetOn(true);
+        } else {
+            audioManager.setWiredHeadsetOn(false);
+            audioManager.setSpeakerphoneOn(true);
+            audioManager.setMode(AudioManager.STREAM_MUSIC);
+        }
+        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
         mp.start();
+
 
         // initialize view objects from your layout
         mPublisherViewContainer = (FrameLayout) findViewById(R.id.publisher_container);
@@ -130,7 +170,7 @@ public class New_videocall_activity extends AppCompatActivity
         };
         registerReceiver(callEndReceiver, new IntentFilter("callEnd"));
 
-        audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        audioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
         audioManager.setMicrophoneMute(false);
        /* msg_during_call= (ImageView) findViewById(R.id.msg_during_call);
         msg_during_call.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +184,6 @@ public class New_videocall_activity extends AppCompatActivity
             }
         });*/
     }
-
 
     @Override
     protected void onPause() {
@@ -165,37 +204,6 @@ public class New_videocall_activity extends AppCompatActivity
 //        callEnd.performClick();
 
     }
-
-
-    SharedPreferences preferences, pref;
-    SharedPreferences.Editor editor;
-
-    FrameLayout videoCallRootLayout;
-    FrameLayout outgoingCallRootLayout;
-
-    View videocontrols;
-    View videocontrols2;
-    //    ViewGroup parent;
-    ImageView btn_cutcall;
-    FrameLayout surfaceView;
-
-    TextView callerName;
-    ImageView callerImg;
-    Intent i;
-
-    RequestQueue queue111, queue222;
-    String CallerName, CallerPic;
-
-
-    ImageView callEnd;
-    ImageView callMute;
-    ImageView callChangeCamera;
-    Timer t;
-    private MediaPlayer mp;
-    TTL ttl;
-
-    int TimeCount;
-    int time;
 
     //Opentok connect api call
     public void connectionApiCall(String URL) {
@@ -561,9 +569,6 @@ public class New_videocall_activity extends AppCompatActivity
         });
     }
 
-
-    int layoutVisibilityBit;
-
     // checks the visibility of the bottom control view
     public void LayoputVisibility() {
         /*To make the layout invisible after 3 sec and when it touch the main layout it will again visible.*/
@@ -619,6 +624,7 @@ public class New_videocall_activity extends AppCompatActivity
         }
     }
 
+    /* Web Service Coordinator delegate methods */
 
     //Initialize the opentok session
     private void initializeSession(String apiKey, String sessionId, String token) {
@@ -627,8 +633,6 @@ public class New_videocall_activity extends AppCompatActivity
         mSession.setSessionListener(this);
         mSession.connect(token);
     }
-
-    /* Web Service Coordinator delegate methods */
 
     @Override
     public void onSessionConnectionDataReady(String apiKey, String sessionId, String token) {
@@ -645,7 +649,6 @@ public class New_videocall_activity extends AppCompatActivity
         finish();
 
     }
-
 
     @Override
     public void onConnected(Session session) {
@@ -736,7 +739,6 @@ public class New_videocall_activity extends AppCompatActivity
         });
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -764,8 +766,6 @@ public class New_videocall_activity extends AppCompatActivity
             startActivity(i);*/
         }
     }
-
-    int minute;
 
     @Override
     public void onStreamReceived(Session session, Stream stream) {

@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ttl.project.thetalklist.model.SearchFilterModel;
 import com.ttl.project.thetalklist.model.SearchViewModel;
@@ -74,12 +73,13 @@ public class SearchViewFragment extends Fragment {
     List<SearchViewModel.PeopleBean> respoBeans;
     ImageView mClearSearch;
     View view;
+    LinearLayout txtPlaceholderSubject, txtPlaceholderLocation, txtPlaceholderPeople;
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
     private List<SearchFilterModel> mContactList;
     private String mSearchKeyWord;
-
+    String SearchKeyword;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -120,6 +120,9 @@ public class SearchViewFragment extends Fragment {
         linearLayoutLocationTextView = (LinearLayout) view.findViewById(R.id.linearLayoutLocationTextView);
         linearLayoutPeopleImageView = (LinearLayout) view.findViewById(R.id.linearLayoutPeopleImageView);
         linearLayoutPeopleTextView = (LinearLayout) view.findViewById(R.id.linearLayoutPeopleTextView);
+        txtPlaceholderLocation = (LinearLayout) view.findViewById(R.id.txtPlaceholderLocation);
+        txtPlaceholderSubject = (LinearLayout) view.findViewById(R.id.txtPlaceholderSubject);
+        txtPlaceholderPeople = (LinearLayout) view.findViewById(R.id.txtPlaceholderPeople);
         //mSearchView = (SearchView) view.findViewById(R.id.tutorsearch_searchView);
         txtLocationName = (TextView) view.findViewById(R.id.locationName);
         txtSubjectName = (TextView) view.findViewById(R.id.subjectName);
@@ -140,6 +143,10 @@ public class SearchViewFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    SharedPreferences.Editor editor = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                    editor.putString("search_keyword", SearchKeyword);
+                    editor.clear();
+                    editor.apply();
                     Intent intent = new Intent(getActivity(), SettingFlyout.class);
                     startActivity(intent);
                     return true;
@@ -192,7 +199,9 @@ public class SearchViewFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                txtPlaceholderLocation.setVisibility(View.GONE);
+                txtPlaceholderSubject.setVisibility(View.GONE);
+                txtPlaceholderPeople.setVisibility(View.GONE);
 
             }
 
@@ -222,6 +231,7 @@ public class SearchViewFragment extends Fragment {
                                 }
                             }
                             if (!abc1.equals("")) {
+
                                 setmProgressDialog();
                                 ApiCallSearchView(abc1);
                             }
@@ -242,6 +252,7 @@ public class SearchViewFragment extends Fragment {
                                 Log.e(TAG, "LOCATIONstringLength:--> " + abc.trim());
                                 Log.e(TAG, "LOCATIONonQueryTextChange-->: " + a);
                                 if (!abc.equals("")) {
+
                                     setmProgressDialog();
                                     ApiCallSearchView(abc);
                                 }
@@ -265,6 +276,7 @@ public class SearchViewFragment extends Fragment {
                                     if (!abc2.equals("")) {
                                         setmProgressDialog();
                                         ApiCallSearchView(abc2);
+
                                     }
                                   /*  txtLocationName.setVisibility(View.GONE);
                                     txtSubjectName.setVisibility(View.GONE);
@@ -315,12 +327,9 @@ public class SearchViewFragment extends Fragment {
                 langths = collection.toString().length();
                 String collectionString = collection.toString();
                 Log.e(TAG, "onTagsChanged: " + collection + "Size-->" + collection.toString().length());
-                String SearchKeyword = collectionString.substring(1, collectionString.length() - 1);
+                SearchKeyword = collectionString.substring(1, collectionString.length() - 1);
                 Log.e(TAG, "final Text: " + SearchKeyword);
-                SharedPreferences.Editor editor = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
-                editor.putString("search_keyword", SearchKeyword);
-                editor.clear();
-                editor.apply();
+
             }
 
             @Override
@@ -466,6 +475,9 @@ public class SearchViewFragment extends Fragment {
                     Log.e(TAG, "FLAG VLUE" + FLAG);
 
                     mSizeAfter = mTagsEditText.getText().toString().trim().length();
+                    txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                    txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                    txtPlaceholderPeople.setVisibility(View.VISIBLE);
                 }
 
             });
@@ -504,6 +516,9 @@ public class SearchViewFragment extends Fragment {
                     txtPeopleName.setVisibility(View.GONE);*/
                     Log.e(TAG, "FLAG VLUE" + FLAG);
                     mSizeAfter = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
+                    txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                    txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                    txtPlaceholderPeople.setVisibility(View.VISIBLE);
                 }
             });
             rowTextView1.setPadding(5, 52, 0, 10);
@@ -545,6 +560,9 @@ public class SearchViewFragment extends Fragment {
                     txtPeopleName.setVisibility(View.GONE);*/
                     Log.e(TAG, "FLAG VLUE" + FLAG);
                     mSizeAfter = mTagsEditText.getText().length();
+                    txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                    txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                    txtPlaceholderPeople.setVisibility(View.VISIBLE);
                 }
             });
 

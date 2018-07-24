@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,6 +103,12 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        Log.e(TAG, "onPause: " +Config.sumbitMsg);
+        if (Config.sumbitMsg == 1) {
+            Log.e(TAG, "Runnnninggg " +Config.sumbitMsg);
+            Config.sumbitMsg = 0;
+            CallAllMessageList();
+        }
         ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
         ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
         ((ImageView) (getActivity().findViewById(R.id.imageView13))).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
@@ -142,7 +147,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                                         Log.e(TAG, "MassageFragment Count==0 ");
                                         ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setVisibility(View.GONE);
 
-                                      //  ((RelativeLayout) (getActivity().findViewById(R.id.bottombar_messageCount_layout))).setVisibility(View.GONE);
+                                        //  ((RelativeLayout) (getActivity().findViewById(R.id.bottombar_messageCount_layout))).setVisibility(View.GONE);
                                     }
                                 }
 
@@ -206,6 +211,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), Request_Form.class);
                 startActivity(intent);
+
             }
         });
     }
@@ -275,7 +281,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     public void sendMessage(final int sender_id, final int receiver_id, String msgTxt, String sender_name) {
 
         String URL = "https://www.thetalklist.com/api/message?sender_id=" + sender_id + "&receiver_id=" + receiver_id + "&message=" + msgTxt.replace(" ", "%20") + "&user_name=" + sender_name;
-        Log.e("send Message list url", URL);
+        Log.e("send Message list url", "send Message list url" + URL);
 
 
         StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -406,6 +412,13 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+    }
+
 
     public class MessageAdapter extends ArrayAdapter<MessageGetSet> {
 

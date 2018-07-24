@@ -97,25 +97,28 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <Button
+
+            <Spinner
                 android:id="@+id/btnPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/buttonboarder"
-                android:text="Price"
-                android:textAllCaps="false"
-                android:textColor="#9E9E9E" />
+                android:entries="@array/Price"
+                android:gravity="center"
+                android:padding="4dp" />
 
-            <Button
+            <Spinner
                 android:id="@+id/btnGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/buttonboarder"
-                android:text="Gender"
-                android:textAllCaps="false"
-                android:textColor="#9E9E9E" />
+                android:entries="@array/SearchGender"
+                android:gravity="center"
+                android:padding="4dp" />
+
+
         </LinearLayout>
 
         <android.support.v4.widget.SwipeRefreshLayout
