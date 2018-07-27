@@ -155,7 +155,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".SettingFlyout"
+            android:name="com.ttl.project.thetalklist.SettingFlyout"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_setting_flyout"
             android:launchMode="singleTop"

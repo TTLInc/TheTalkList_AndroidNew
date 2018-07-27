@@ -2,7 +2,7 @@ package com.ttl.project.thetalklist.retrofit;
 
 
 import com.ttl.project.thetalklist.model.CountyModel;
-import com.ttl.project.thetalklist.model.FilterTutorsModel;
+import com.ttl.project.thetalklist.model.GenderANDPriceFilterModel;
 import com.ttl.project.thetalklist.model.SearchTutorsModel;
 import com.ttl.project.thetalklist.model.SearchViewModel;
 import com.ttl.project.thetalklist.model.SubjectModel;
@@ -26,6 +26,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("tutorsearch_new")
     Call<SearchTutorsModel> searchTutors(@Field("keyword") String keyword);
+
+    @FormUrlEncoded
+    @POST("tutor_search_filter")
+    Call<SearchTutorsModel> searchTutorsGenderANDPrice(@Field("id") String id, @Field("keyword") String keyword, @Field("gender") String gender, @Field("price") String price);
 
 
     @POST("countries")

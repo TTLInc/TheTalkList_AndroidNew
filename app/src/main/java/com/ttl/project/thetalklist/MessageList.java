@@ -57,6 +57,7 @@ public class MessageList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_message_list, container, false);
+
         ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
         ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
         ((ImageView) (getActivity().findViewById(R.id.imageView13))).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
@@ -133,6 +134,7 @@ public class MessageList extends Fragment {
                             Log.e("chatroom list before ", chatroomModelList.toString());
 
                             FragmentManager fragmentManager = getFragmentManager();
+
                             final MessageListRecyclerAdapter messageListRecyclerAdapter = new MessageListRecyclerAdapter(getApplicationContext(), chatroomModelList, fragmentManager);
                             final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
@@ -175,12 +177,12 @@ public class MessageList extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(Config.msgCount>0){
+      /*  if(Config.msgCount>0){
             bottombar_message_count.setText(String.valueOf(Config.msgCount));
 
         }else {
             bottombar_message_count.setVisibility(View.GONE);
-        }
+        }*/
 
         ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
         ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));

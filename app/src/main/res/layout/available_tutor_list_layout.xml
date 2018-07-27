@@ -33,8 +33,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/user2" />
+                    android:scaleType="fitCenter" />
 
                 <LinearLayout
                     android:id="@+id/availableTutorListLayoutFavoriteTag"
@@ -232,7 +231,6 @@
 
         </LinearLayout>
     </LinearLayout>
-
 
 
     <View

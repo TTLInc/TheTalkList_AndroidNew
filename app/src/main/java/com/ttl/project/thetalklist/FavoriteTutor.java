@@ -26,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ttl.project.thetalklist.Adapter.FaoriteAdapter;
 import com.ttl.project.thetalklist.Decorations.DividerItemDecoration;
+import com.ttl.project.thetalklist.util.Config;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +58,14 @@ public class FavoriteTutor extends Fragment {
         view = inflater.inflate(R.layout.favorite_tutor_layout, null);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout_favoritetutor);
         recyclerView = (RecyclerView) view.findViewById(R.id.favoriteTutorList);
+        if (getActivity() != null) {
+            if (Config.msgCount > 0) {
+                Config.bottombar_message_count.setText(String.valueOf(Config.msgCount));
+            } else {
+                Config.bottombar_message_count.setVisibility(View.GONE);
 
+            }
+        }
         recyclerView.removeAllViews();
         fragmentManager = getActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -86,10 +94,10 @@ public class FavoriteTutor extends Fragment {
 
                 resultObj = response;
                 try {
-                    if (resultObj.getInt("status")==0) {
+                    if (resultObj.getInt("status") == 0) {
                         array = response.getJSONArray("result");
                         setRecyclar(array);
-                    }else {
+                    } else {
                         swipeRefreshLayout.setVisibility(View.GONE);
                     }
 
@@ -102,7 +110,7 @@ public class FavoriteTutor extends Fragment {
         }, new com.android.volley.Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "error "+error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "error " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }
         );
@@ -115,7 +123,6 @@ public class FavoriteTutor extends Fragment {
     //Set the recyclaerview
     public void setRecyclar(final JSONArray array) {
         final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
 
 
         FaoriteAdapter = new FaoriteAdapter(getContext(), array, fragmentManager);
@@ -156,8 +163,6 @@ public class FavoriteTutor extends Fragment {
     private void initSwipe() {
 
 
-
-
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             @Override
@@ -177,7 +182,7 @@ public class FavoriteTutor extends Fragment {
                             int tutorId = object.getInt("uid");
 
                             String URL = "https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId;
-                          //  Log.e("Tag", "onSwiped: "+"https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId);
+                            //  Log.e("Tag", "onSwiped: "+"https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId);
                             JsonObjectRequest getRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, URL, null, new com.android.volley.Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
@@ -231,8 +236,6 @@ public class FavoriteTutor extends Fragment {
         super.onDestroyView();
 
     }
-
-
 
 
 }

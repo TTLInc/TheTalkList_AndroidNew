@@ -158,7 +158,6 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_marginBottom="-5dp"
-                        android:layout_marginTop="0dp"
                         android:layout_weight="1">
 
                         <RelativeLayout
@@ -170,7 +169,7 @@
                                 android:id="@+id/bottombar_message_count"
                                 android:layout_width="17dp"
                                 android:layout_height="17dp"
-                                android:layout_marginLeft="50dp"
+                                android:layout_marginLeft="52dp"
                                 android:background="@drawable/roundcornered_orange"
                                 android:elevation="10dp"
                                 android:gravity="center"
@@ -185,8 +184,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginBottom="15dp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginTop="3dp"
+                                android:layout_marginLeft="12dp"
                                 android:layout_weight="1"
                                 android:padding="2dp"
                                 android:src="@drawable/messages" />

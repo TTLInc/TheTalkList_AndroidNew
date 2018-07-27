@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -104,7 +105,7 @@ public class Request_Form extends AppCompatActivity {
                     editor.putString("Time Edit", time);
                     editor.putInt("Request Submitted", 1);
                     editor.apply();
-                   /* FragmentManager manager = getSupportFragmentManager();
+                  /*  FragmentManager manager = getSupportFragmentManager();
                     manager.beginTransaction().replace(R.id.viewpager, new MessageList()).commit();*/
                     Config.sumbitMsg = 1;
                     finish();

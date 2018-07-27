@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.ttl.project.thetalklist.util.Config;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,26 +23,31 @@ import java.util.List;
  */
 
 // Earn credit & cashout credit tab layout
-public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
+public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment {
 
     public ViewPager viewPager;
     public TabLayout tabLayout;
-
+    View convertView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    View convertView;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (convertView==null)
-        convertView = inflater.inflate(R.layout.earn_buy_tablayout, container,false);
+        if (convertView == null)
+            convertView = inflater.inflate(R.layout.earn_buy_tablayout, container, false);
         ((ImageView) getActivity().findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments_activated));
+        if (getActivity() != null) {
+            if (Config.msgCount > 0) {
+                Config.bottombar_message_count.setText(String.valueOf(Config.msgCount));
+            } else {
+                Config.bottombar_message_count.setVisibility(View.GONE);
 
+            }
+        }
         initScreen(convertView);
         return convertView;
     }
@@ -53,9 +60,7 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
     }
 
     // method to initialize to set data in screen
-    public void initScreen(View view){
-
-
+    public void initScreen(View view) {
 
 
         tabLayout = (TabLayout) view.findViewById(R.id.earn_buy_tab);
@@ -72,9 +77,6 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
-
-
 
 
             }
@@ -102,7 +104,7 @@ public class Earn_Buy_tabLayout extends android.support.v4.app.Fragment  {
 
         adapter.addFragment(new BuyCredits(), "Buy Credits");
         adapter.addFragment(new EarnCredits(), "Cashout Credits");
-            viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
 
     }
 

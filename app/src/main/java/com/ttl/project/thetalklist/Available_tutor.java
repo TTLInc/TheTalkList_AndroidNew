@@ -1,6 +1,5 @@
 package com.ttl.project.thetalklist;
 
-import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
@@ -71,10 +70,7 @@ import java.util.Map;
 import mabbas007.tagsedittext.TagsEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import android.widget.ArrayAdapter;
+
 import static android.content.Context.MODE_PRIVATE;
 import static android.util.TypedValue.TYPE_NULL;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -116,6 +112,8 @@ public class Available_tutor extends Fragment {
     TagsEditText mTagsEditText;
     TextView txtNoResultFound;
     Spinner btnGender, btnPrice;
+    String mSelectedGender, mSelectedPrice;
+    int mTutors_id;
     String[] plants = new String[]{
             "Black birch",
             "European weeping birch"
@@ -173,13 +171,14 @@ public class Available_tutor extends Fragment {
 
         btnGender = (Spinner) view.findViewById(R.id.btnGender);
         btnPrice = (Spinner) view.findViewById(R.id.btnPrice);
+        mApiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         spinnerSearch();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         SharedPreferences pref = getContext().getSharedPreferences("fromSignup", MODE_PRIVATE);
         SharedPreferences.Editor editorpref = pref.edit();
-
+        mTutors_id = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
         if (pref.contains("fromSignup")) {
             TextView systemMessageStudent = (TextView) view.findViewById(R.id.systemMsgStudent);
             systemMessageStudent.setVisibility(View.VISIBLE);
@@ -485,9 +484,10 @@ public class Available_tutor extends Fragment {
         });
         String[] animalsArray = mSearch_keyword.split(",");
         Log.e(TAG, "String " + animalsArray.length);
+        Log.e(TAG, "String Keyword " + mSearch_keyword);
         for (int i = 0; i < animalsArray.length; i++) {
             String abc = animalsArray[i].trim();
-            Log.e(TAG, "onCreateView: " + abc);
+            Log.e(TAG, "onCreateView---->>>>: " + abc);
             if (abc.length() > 5) {
                 String charc = abc.substring(0, 5);
                 mTagsEditText.setText(charc + "..");
@@ -655,8 +655,8 @@ public class Available_tutor extends Fragment {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String interesting = btnGender.getItemAtPosition(i).toString();
-                Log.e(TAG, "onItemSelected: " + interesting);
+                mSelectedGender = btnGender.getItemAtPosition(i).toString();
+                Log.e(TAG, "onItemSelected: " + mSelectedGender);
 
                 SharedPreferences pref = getContext().getSharedPreferences("GenderSearch", 0);
                 SharedPreferences.Editor editor = pref.edit();
@@ -665,19 +665,25 @@ public class Available_tutor extends Fragment {
                 editor.apply();
                 Log.e(TAG, "onItemSelected-----: " + pref.getString("Gender", ""));
 
-
-
-                if (interesting.equals("Gender")) {
+                if (mSelectedGender.equals("Gender")) {
+                    mSelectedGender = "";
                     ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.hitTextColor);
                     btnGender.setBackgroundResource(R.drawable.buttonboarder);
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
                 }
-                if (interesting.equals("Male")) {
+                if (mSelectedGender.equals("Male")) {
+                    mSelectedGender = "male";
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnGender.setBackgroundResource(R.drawable.spinner_boared);
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+
                 }
-                if (interesting.equals("Female")) {
+                if (mSelectedGender.equals("Female")) {
+                    mSelectedGender = "female";
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnGender.setBackgroundResource(R.drawable.spinner_boared);
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+
                 }
             }
 
@@ -690,24 +696,36 @@ public class Available_tutor extends Fragment {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String interesting = btnPrice.getItemAtPosition(i).toString();
-                Log.e(TAG, "onItemSelected: " + interesting);
+                mSelectedPrice = btnPrice.getItemAtPosition(i).toString();
+                Log.e(TAG, "onItemSelected: " + mSelectedPrice);
 
-                if (interesting.equals("Price")) {
+                if (mSelectedPrice.equals("Price")) {
+                    mSelectedPrice = "";
                     ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.hitTextColor);
                     btnPrice.setBackgroundResource(R.drawable.buttonboarder);
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedPrice, mSelectedPrice);
                 }
-                if (interesting.equals("Price $")) {
+                if (mSelectedPrice.equals("$")) {
+
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+                    ((TextView) adapterView.getChildAt(0)).setText("Price: $");
+                    btnPrice.setBackgroundResource(R.drawable.spinner_boared);
+                    mSelectedPrice="1";
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+                }
+                if (mSelectedPrice.equals("$$")) {
+                    ((TextView) adapterView.getChildAt(0)).setText("Price: $$");
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnPrice.setBackgroundResource(R.drawable.spinner_boared);
+                    mSelectedPrice="5";
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
                 }
-                if (interesting.equals("Price $$")) {
+                if (mSelectedPrice.equals("$$$")) {
+                    ((TextView) adapterView.getChildAt(0)).setText("Price: $$$");
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnPrice.setBackgroundResource(R.drawable.spinner_boared);
-                }
-                if (interesting.equals("Price $$$")) {
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
-                    btnPrice.setBackgroundResource(R.drawable.spinner_boared);
+                    mSelectedPrice="10";
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
                 }
             }
 
@@ -716,6 +734,53 @@ public class Available_tutor extends Fragment {
 
             }
         });
+    }
+
+    private void ApiCallGender(String s, String s1, String mSelectedGender, String mSelectedPrice) {
+        Log.e(TAG, "ApiCallGender: " + s + "=" + s1 + "=" + mSelectedGender + "=" + mSelectedPrice);
+        Call<SearchTutorsModel> modelCall = mApiInterface.searchTutorsGenderANDPrice(s, s1, mSelectedGender, mSelectedPrice);
+        modelCall.enqueue(new Callback<SearchTutorsModel>() {
+            @Override
+            public void onResponse(Call<SearchTutorsModel> call, retrofit2.Response<SearchTutorsModel> response) {
+                swipeRefreshLayout.setRefreshing(true);
+
+
+                linearLayout.setVisibility(View.VISIBLE);
+                recyclerView.removeAllViews();
+                final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                int mSizeModel = response.body().getTutors() == null ? 0 : response.body().getTutors().size();
+
+                Log.e(TAG, "onResponse---????: " + mSizeModel);
+                if (mSizeModel == 0) {
+                    btnGender.setVisibility(View.GONE);
+                    btnPrice.setVisibility(View.GONE);
+                    txtNoResultFound.setVisibility(View.VISIBLE);
+                    txtNoResultFound.setText("No Results? Check spelling and limit your criteria.");
+                }
+                availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), response.body().getTutors(), fragmentManager);
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setItemAnimator(new DefaultItemAnimator());
+//            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+                recyclerView.setAdapter(availableTutorRecyclerAdapter);
+                availableTutorRecyclerAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+                initSwipe();
+                swipeRefreshLayout.setRefreshing(false);
+
+                availableTutorRecyclerAdapter.notifyDataSetChanged();
+                linearLayout.setVisibility(View.GONE);
+
+                // Log.e("MainActivity ", "Response------>" + result);
+                Log.e("MainActivity ", "Response------>");
+
+            }
+
+            @Override
+            public void onFailure(Call<SearchTutorsModel> call, Throwable t) {
+
+            }
+        });
+
     }
 
 
@@ -733,7 +798,6 @@ public class Available_tutor extends Fragment {
                 linearLayout.setVisibility(View.VISIBLE);
                 recyclerView.removeAllViews();
                 final RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-//                SearchTutorsModel mResponse= (SearchTutorsModel) response.body().getTutors();
                 int mSizeModel = response.body().getTutors() == null ? 0 : response.body().getTutors().size();
 
                 Log.e(TAG, "onResponse---????: " + mSizeModel);

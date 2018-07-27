@@ -95,20 +95,27 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.message_one_to_one, container, false);
-        initilation();
-        CreateBoarcastMsg();
+        Log.e(TAG, "MessageFragmentonCreateView: ");
+        if (getActivity() != null) {
+            initilation();
+            CreateBoarcastMsg();
+        }
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onPause: " +Config.sumbitMsg);
+        Log.e(TAG, "onPause: " + Config.sumbitMsg);
         if (Config.sumbitMsg == 1) {
-            Log.e(TAG, "Runnnninggg " +Config.sumbitMsg);
-            Config.sumbitMsg = 0;
             CallAllMessageList();
+            Log.e(TAG, "Runnnninggg " + Config.sumbitMsg);
+            Config.sumbitMsg = 0;
+
         }
+
+
         ((ImageView) (getActivity().findViewById(R.id.settingFlyout_bottomcontrol_MessageImg))).setImageDrawable(getResources().getDrawable(R.drawable.messages_activated));
         ((TextView) getActivity().findViewById(R.id.txtMessages)).setTextColor(Color.parseColor("#3399CC"));
         ((ImageView) (getActivity().findViewById(R.id.imageView13))).setImageDrawable(getResources().getDrawable(R.drawable.tutors));
@@ -126,8 +133,9 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 Bundle b = intent.getExtras();
                 if (b != null) {
                     refresh = "0";
-                    CallAllMessageList();
-
+                    if (getActivity() != null) {
+                        CallAllMessageList();
+                    }
                     String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + loginPref.getInt("id", 0);
                     Log.e(TAG, "loginId " + loginPref.getInt("id", 0));
                     StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -141,13 +149,12 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                                 Config.msgCount = object.getInt("unread_count");
                                 if (getActivity() != null) {
                                     if (object.getInt("unread_count") > 0) {
-                                        Log.e(TAG, "MassageFragment Count==1 ");
-                                        ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setText(String.valueOf(object.getInt("unread_count")));
+                                        Log.e(TAG, "MassageFragmentCount==1>>>> ");
+                                        Config.bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
                                     } else {
-                                        Log.e(TAG, "MassageFragment Count==0 ");
-                                        ((TextView) (getActivity().findViewById(R.id.bottombar_message_count))).setVisibility(View.GONE);
+                                        Log.e(TAG, "MassageFragmentCount==0>>>> ");
+                                        Config.bottombar_message_count.setVisibility(View.GONE);
 
-                                        //  ((RelativeLayout) (getActivity().findViewById(R.id.bottombar_messageCount_layout))).setVisibility(View.GONE);
                                     }
                                 }
 
@@ -164,7 +171,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                         }
                     });
                     Volley.newRequestQueue(getApplicationContext()).add(sr);
-
 
                 }
             }
@@ -215,6 +221,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
 
     private void CallAllMessageList() {
 
@@ -316,6 +323,10 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
     @SuppressLint("StaticFieldLeak")
     class MessageBack extends AsyncTask<String, Void, String> {
@@ -412,13 +423,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
-    @Override
-    public void onPause() {
-
-        super.onPause();
-    }
-
 
     public class MessageAdapter extends ArrayAdapter<MessageGetSet> {
 

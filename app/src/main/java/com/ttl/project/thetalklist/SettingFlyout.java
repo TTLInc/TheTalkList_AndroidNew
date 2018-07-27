@@ -217,7 +217,7 @@ public class SettingFlyout extends AppCompatActivity {
         TVuserName = (TextView) view1.findViewById(R.id.personTextsettingflyout);
         TVusericon = (ImageView) view1.findViewById(R.id.imagesettingflyoutheader);
         fragmentManager = getSupportFragmentManager();
-        bottombar_message_count = (TextView) findViewById(R.id.bottombar_message_count);
+        com.ttl.project.thetalklist.util.Config.bottombar_message_count = (TextView) findViewById(R.id.bottombar_message_count);
         talkNow = (Switch) toolbar.findViewById(R.id.switch1);
 
         switch_layout = (LinearLayout) findViewById(R.id.switch_layout);
@@ -1198,9 +1198,9 @@ public class SettingFlyout extends AppCompatActivity {
                             Log.e("MsgCountStatus ", response);
 
                             if (object.getInt("unread_count") > 0) {
-                                findViewById(R.id.bottombar_messageCount_layout).setVisibility(View.VISIBLE);
+                                com.ttl.project.thetalklist.util.Config.bottombar_message_count.setVisibility(View.VISIBLE);
                                 com.ttl.project.thetalklist.util.Config.msgCount = object.getInt("unread_count");
-                                bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
+                                com.ttl.project.thetalklist.util.Config.bottombar_message_count.setText(String.valueOf(object.getInt("unread_count")));
                                 Log.e(TAG, "MsgCountDisplay " + String.valueOf(object.getInt("unread_count")));
                             } else {
                                 com.ttl.project.thetalklist.util.Config.msgCount = 0;
@@ -1657,18 +1657,8 @@ public class SettingFlyout extends AppCompatActivity {
                                     dialog.dismiss();
 
                                     try {
-                                      //  FirebaseInstanceId.getInstance().deleteInstanceId();
-                                        new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    FirebaseInstanceId.getInstance().deleteInstanceId();
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        }).start();
-                                    } catch (Exception e) {
+                                        FirebaseInstanceId.getInstance().deleteInstanceId();
+                                    } catch (IOException e) {
                                         e.printStackTrace();
                                     }
                                     Intent i = new Intent(getApplicationContext(), Login.class);

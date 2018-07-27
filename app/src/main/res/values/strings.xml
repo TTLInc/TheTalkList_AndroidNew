@@ -374,9 +374,9 @@
     </string-array>
     <string-array name="Price">
         <item>Price</item>
-        <item>Price $</item>
-        <item>Price $$</item>
-        <item>Price $$$</item>
+        <item>$</item>
+        <item>$$</item>
+        <item>$$$</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
