@@ -85,12 +85,13 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     SharedPreferences chatPref, loginPref;
     String mSenderId, mReceiverId, sender_name;
     TextView chat_header;
+    String mMSGCount;
     Button preset_how_are_you, preset_when_available, preset_tutor_now, preset_call_me, preset_what_subject, preset_busy;
     EmojiconEditText message_editText_msg;
     BroadcastReceiver appendChatScreenMsgReceiver;
     MessageAdapter adapter;
     int count;
-
+    String toServerUnicodeEncoded;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -146,6 +147,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
                             try {
                                 JSONObject object = new JSONObject(response);
+                                Log.e(TAG, "CountDisplayFirst " + object.getInt("unread_count"));
                                 Config.msgCount = object.getInt("unread_count");
                                 if (getActivity() != null) {
                                     if (object.getInt("unread_count") > 0) {
@@ -274,7 +276,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     private void sendTextMessage() {
         String msgTxt = message_editText_msg.getText().toString();
 
-        String toServerUnicodeEncoded = StringEscapeUtils.escapeJava(msgTxt);
+        toServerUnicodeEncoded = StringEscapeUtils.escapeJava(msgTxt);
         message_editText_msg.setText("");
 
         if (!msgTxt.equals(""))
@@ -322,6 +324,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         queue.add(sr);
 
     }
+
 
     @Override
     public void onPause() {
@@ -384,7 +387,8 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 JSONArray jsonArray = jsonObject.getJSONArray("messages");
                 mSendImage = jsonObject.getString("tutor_pic");
                 chat_header.setText(jsonObject.getString("tutor_name"));
-
+                Config.msgCount= Integer.parseInt(jsonObject.getString("unread"));
+                Log.e(TAG, " mMSGCount-->"+mMSGCount );
                 Log.e(TAG, "onPostExecute: " + result);
                 if (refresh.equals("0")) {
 
@@ -418,6 +422,15 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
             if (getActivity() != null) {
+                if (Config.msgCount > 0) {
+                    Log.e(TAG, "CountDisplayLast " + Config.msgCount);
+
+                    Config.bottombar_message_count.setText(String.valueOf(Config.msgCount));
+                } else {
+                    Log.e(TAG, "MassageFragmentCount==0>>>>LST ");
+                    Config.bottombar_message_count.setVisibility(View.GONE);
+
+                }
                 adapter = new MessageAdapter(getActivity(), R.layout.masseage_rowlist, arrayList);
                 lv.setAdapter(adapter);
             }

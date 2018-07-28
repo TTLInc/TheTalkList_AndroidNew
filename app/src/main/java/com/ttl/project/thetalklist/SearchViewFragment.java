@@ -43,7 +43,7 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 public class SearchViewFragment extends Fragment {
-    private static final String TAG = "SearchViewActivity";
+    private static final String TAG = "SearchViewFragment";
     TextView[] myTextViews, myTextViews1, myTextViews2;
 
     ApiInterface mApiInterface;
@@ -149,6 +149,7 @@ public class SearchViewFragment extends Fragment {
                     editor.apply();
                     Intent intent = new Intent(getActivity(), SettingFlyout.class);
                     startActivity(intent);
+                    Log.e(TAG, "Final Text---> "+SearchKeyword );
                     return true;
                 }
                 return false;

@@ -80,12 +80,13 @@ public class Available_tutor extends Fragment {
     private static final String TAG = "Available_tutor";
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    int mSetSelectetionPotion;
     Dialog dialog;
     JSONArray array;
     AvailableTutorRecyclerAdapter availableTutorRecyclerAdapter;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
-    SharedPreferences pref, preference;
+    SharedPreferences pref, preference, GenderSearch, PriceSearch;
     SharedPreferences.Editor editor;
     JSONObject resultObj;
     int flag;
@@ -114,6 +115,8 @@ public class Available_tutor extends Fragment {
     Spinner btnGender, btnPrice;
     String mSelectedGender, mSelectedPrice;
     int mTutors_id;
+    int mPosition;
+    Button btnRetry;
     String[] plants = new String[]{
             "Black birch",
             "European weeping birch"
@@ -168,15 +171,37 @@ public class Available_tutor extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_available_tutor, container, false);
 
         txtNoResultFound = (TextView) view.findViewById(R.id.txtNoResultFound);
-
+        btnRetry = (Button) view.findViewById(R.id.btnRetry);
         btnGender = (Spinner) view.findViewById(R.id.btnGender);
         btnPrice = (Spinner) view.findViewById(R.id.btnPrice);
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        spinnerSearch();
+
+        GenderSearch = getContext().getSharedPreferences("GenderSearch", 0);
+        PriceSearch = getContext().getSharedPreferences("PriceSearch", 0);
+        try {
+
+            btnGender.setSelection(Integer.parseInt(GenderSearch.getString("Gender", "")));
+
+
+        } catch (Exception e) {
+            Log.e(TAG, "onCreateView:-=---" + mPosition);
+            e.printStackTrace();
+        }
+        try {
+            Log.e(TAG, "onCreateView:-=---Price" + mPosition);
+            btnPrice.setSelection(Integer.parseInt(PriceSearch.getString("Price", "")));
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         SharedPreferences pref = getContext().getSharedPreferences("fromSignup", MODE_PRIVATE);
+
+
         SharedPreferences.Editor editorpref = pref.edit();
         mTutors_id = getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
         if (pref.contains("fromSignup")) {
@@ -646,7 +671,8 @@ public class Available_tutor extends Fragment {
             }
         });*/
 
-        APIFilterTutors();
+        //APIFilterTutors();
+        spinnerSearch();
         return view;
     }
 
@@ -657,34 +683,48 @@ public class Available_tutor extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mSelectedGender = btnGender.getItemAtPosition(i).toString();
                 Log.e(TAG, "onItemSelected: " + mSelectedGender);
-
-                SharedPreferences pref = getContext().getSharedPreferences("GenderSearch", 0);
-                SharedPreferences.Editor editor = pref.edit();
+                SharedPreferences.Editor editor = GenderSearch.edit();
                 editor.putString("Gender", String.valueOf(i));
+                editor.putString("Name", mSelectedGender.toLowerCase());
                 editor.clear();
                 editor.apply();
-                Log.e(TAG, "onItemSelected-----: " + pref.getString("Gender", ""));
+
+
+                Log.e(TAG, "TestingShre: " + GenderSearch.getString("Gender", "") + "--->" + GenderSearch.getString("Name", ""));
 
                 if (mSelectedGender.equals("Gender")) {
                     mSelectedGender = "";
+                    mSetSelectetionPotion = 0;
                     ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.hitTextColor);
                     btnGender.setBackgroundResource(R.drawable.buttonboarder);
-                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+                    Log.e(TAG, "onItemSelected:--> " + mSelectedGender + "===" + mSelectedPrice);
                 }
                 if (mSelectedGender.equals("Male")) {
                     mSelectedGender = "male";
+                    mSetSelectetionPotion = 1;
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnGender.setBackgroundResource(R.drawable.spinner_boared);
-                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+                    Log.e(TAG, "onItemSelected:--> " + mSelectedGender + "===" + mSelectedPrice);
 
                 }
                 if (mSelectedGender.equals("Female")) {
                     mSelectedGender = "female";
+                    mSetSelectetionPotion = 2;
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnGender.setBackgroundResource(R.drawable.spinner_boared);
-                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+
+                    Log.e(TAG, "onItemSelected:--> " + mSelectedGender + "---->" + mSelectedPrice);
 
                 }
+                if (GenderSearch.getString("Name", "").equals("gender")) {
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, "", mSelectedPrice);
+                    Log.e(TAG, "Gender: " + mSelectedGender + "=" + mSelectedPrice);
+                } else {
+                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), mSelectedPrice);
+                    Log.e(TAG, "Select Gender: " + mSelectedGender + "=" + mSelectedPrice);
+
+                }
+
             }
 
             @Override
@@ -698,34 +738,67 @@ public class Available_tutor extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mSelectedPrice = btnPrice.getItemAtPosition(i).toString();
                 Log.e(TAG, "onItemSelected: " + mSelectedPrice);
+                SharedPreferences.Editor editor = PriceSearch.edit();
+                editor.putString("Price", String.valueOf(i));
+
 
                 if (mSelectedPrice.equals("Price")) {
                     mSelectedPrice = "";
                     ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.hitTextColor);
                     btnPrice.setBackgroundResource(R.drawable.buttonboarder);
-                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedPrice, mSelectedPrice);
+                    editor.putString("Name", "0");
+                    editor.clear();
+                    editor.apply();
+
                 }
                 if (mSelectedPrice.equals("$")) {
-
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     ((TextView) adapterView.getChildAt(0)).setText("Price: $");
                     btnPrice.setBackgroundResource(R.drawable.spinner_boared);
-                    mSelectedPrice="1";
-                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+                    mSelectedPrice = "1";
+                    editor.putString("Name", "1");
+
+                    editor.clear();
+                    editor.apply();
                 }
                 if (mSelectedPrice.equals("$$")) {
                     ((TextView) adapterView.getChildAt(0)).setText("Price: $$");
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnPrice.setBackgroundResource(R.drawable.spinner_boared);
-                    mSelectedPrice="5";
-                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+                    mSelectedPrice = "5";
+                    editor.putString("Name", "5");
+                    editor.clear();
+                    editor.apply();
                 }
                 if (mSelectedPrice.equals("$$$")) {
                     ((TextView) adapterView.getChildAt(0)).setText("Price: $$$");
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnPrice.setBackgroundResource(R.drawable.spinner_boared);
-                    mSelectedPrice="10";
-                    ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
+                    mSelectedPrice = "10";
+                    editor.putString("Name", "10");
+
+                    editor.clear();
+                    editor.apply();
+                }
+                Log.e(TAG, "Name Selected " + PriceSearch.getString("Name", ""));
+                Log.e(TAG, "Price Selected " + PriceSearch.getString("Price", ""));
+                Log.e(TAG, "Gender SelectItem;;" + GenderSearch.getString("Name", ""));
+                if (PriceSearch.getString("Name", "").equals(PriceSearch.getString("Price", ""))) {
+                    if (GenderSearch.getString("Name", "").equals("gender")) {
+                        ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, "", "");
+                    } else {
+                        ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), "");
+                    }
+
+                    Log.e(TAG, "Price===>: " + mSelectedGender + "=" + mSelectedPrice);
+                } else {
+                    if (GenderSearch.getString("Name", "").equals("gender")) {
+                        ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, "", PriceSearch.getString("Name", ""));
+                    } else {
+                        ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), PriceSearch.getString("Name", ""));
+                    }
+                    //  ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, "male", PriceSearch.getString("Name", ""));
+                    Log.e(TAG, "Select Price: " + mSelectedGender + "=" + mSelectedPrice);
                 }
             }
 
@@ -738,12 +811,11 @@ public class Available_tutor extends Fragment {
 
     private void ApiCallGender(String s, String s1, String mSelectedGender, String mSelectedPrice) {
         Log.e(TAG, "ApiCallGender: " + s + "=" + s1 + "=" + mSelectedGender + "=" + mSelectedPrice);
-        Call<SearchTutorsModel> modelCall = mApiInterface.searchTutorsGenderANDPrice(s, s1, mSelectedGender, mSelectedPrice);
+        Call<SearchTutorsModel> modelCall = mApiInterface.searchTutorsGenderANDPrice(String.valueOf(mTutors_id), s1, mSelectedGender, mSelectedPrice);
         modelCall.enqueue(new Callback<SearchTutorsModel>() {
             @Override
             public void onResponse(Call<SearchTutorsModel> call, retrofit2.Response<SearchTutorsModel> response) {
                 swipeRefreshLayout.setRefreshing(true);
-
 
                 linearLayout.setVisibility(View.VISIBLE);
                 recyclerView.removeAllViews();
@@ -755,7 +827,42 @@ public class Available_tutor extends Fragment {
                     btnGender.setVisibility(View.GONE);
                     btnPrice.setVisibility(View.GONE);
                     txtNoResultFound.setVisibility(View.VISIBLE);
+                    btnRetry.setVisibility(View.VISIBLE);
+                    btnRetry.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            SharedPreferences.Editor editor = PriceSearch.edit();
+                            editor.putString("Price", "0");
+                            editor.putString("Name", "0");
+                            editor.clear();
+                            editor.apply();
+
+                            SharedPreferences.Editor editor2 = GenderSearch.edit();
+                            editor2.putString("Gender", "0");
+                            editor2.putString("Name", "gender");
+                            editor2.clear();
+                            editor2.apply();
+                            btnGender.setSelection(0);
+                            btnPrice.setSelection(0);
+                            btnGender.setVisibility(View.VISIBLE);
+                            btnPrice.setVisibility(View.VISIBLE);
+                            txtNoResultFound.setVisibility(View.GONE);
+                            btnRetry.setVisibility(View.GONE);
+                          /* // Fragment frg = null;
+                            // getSupportFragmentManager().findFragmentByTag("Your_Fragment_TAG");
+                            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(Available_tutor.this);
+                            ft.attach(Available_tutor.this);
+                            ft.commit();*/
+                        }
+                    });
+
+
                     txtNoResultFound.setText("No Results? Check spelling and limit your criteria.");
+                } else {
+                    btnGender.setVisibility(View.VISIBLE);
+                    btnPrice.setVisibility(View.VISIBLE);
+                    txtNoResultFound.setVisibility(View.GONE);
                 }
                 availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), response.body().getTutors(), fragmentManager);
                 recyclerView.setLayoutManager(mLayoutManager);
