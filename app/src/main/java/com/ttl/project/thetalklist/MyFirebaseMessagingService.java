@@ -15,18 +15,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.ttl.project.thetalklist.Config.Config;
-import com.ttl.project.thetalklist.util.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.ttl.project.thetalklist.Config.Config;
+import com.ttl.project.thetalklist.util.NotificationUtils;
 
-import org.apache.http.impl.auth.SPNegoScheme;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * Created by Saubhagyam on 10/04/2017.
@@ -83,9 +83,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             final JSONObject data = json.getJSONObject("data");
 
             String title = data.getString("title");
-            final String message = data.getString("message");
+            final String message = data.getString("message").replace("\\n", System.lineSeparator());
             String imageUrl = data.getString("image");
-            NotificationManager mNotificationManager2 = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager mNotificationManager2 = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
            /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -118,7 +118,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationManager.notify(1, notificationBuilder.build());
             }*/
             Log.e(TAG, "title: " + title);
-            Log.e(TAG, "message: " + message);
+            Log.e(TAG, "message: -->" + message.replace("\\n", ""));
             String id2 = "id_product";
             // The user-visible name of the channel.
 
@@ -158,6 +158,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         }
                     });
                 }
+
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
                 final int icon = R.mipmap.ttlg2;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -176,7 +177,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     // channel, if the device supports this feature.
                     mChannel.setLightColor(Color.RED);
                     notificationManager.createNotificationChannel(mChannel);
-                   // Intent intent1 = new Intent(getApplicationContext(), SplashScreen.class);
+                    // Intent intent1 = new Intent(getApplicationContext(), SplashScreen.class);
                     Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
 
                     notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -190,16 +191,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             .setBadgeIconType(R.mipmap.ttlg2) //your app icon
                             .setChannelId("id_product")
                             .setContentTitle("TheTalkList")
-                            .setAutoCancel(true).setContentIntent(pendingIntent)
+                            .setAutoCancel(true)
+                            .setContentIntent(pendingIntent)
+                            .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                             .setNumber(1)
                             .setColor(255)
-                            .setContentText(data.getString("uname") + " says: " + message)
+                            .setContentText(data.getString("uname") + " says: " + StringEscapeUtils.unescapeJava(message).replace("\n", ""))
                             .setWhen(System.currentTimeMillis());
                     notificationManager.notify(1, notificationBuilder.build());
                 }
                 NotificationManager mNotifyMgr =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
 
 
                 Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
@@ -211,7 +213,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationIntent.putExtra("firstName", data.getString("uname"));
                 PendingIntent contentIntent = PendingIntent.getActivity(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-
+                Log.e(TAG, "handleDataMessage: " + StringEscapeUtils.unescapeJava(message).replace("\n", ""));
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(this)
                                 .setSmallIcon(icon)
@@ -219,19 +221,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 .setAutoCancel(true)
                                 .setContentTitle("TheTalkList")
                                 .setSound(Uri.parse(String.valueOf(android.app.Notification.DEFAULT_SOUND)))
-                                .setStyle(inboxStyle)
+                                //  .setStyle(inboxStyle)
+                                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+
                                 .setContentIntent(contentIntent)
                                 .setWhen(System.currentTimeMillis())
                                 .setSmallIcon(R.mipmap.ttlg2)
                                 .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ttlg2))
-                                .setContentText(data.getString("uname") + " says: " + message);
+                                .setContentText(data.getString("uname") + " says: " + StringEscapeUtils.unescapeJava(message).replace("\n", ""));
                 NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
                 notificationUtils.playNotificationSound();
 
                 android.app.Notification notification = new NotificationCompat.BigTextStyle(mBuilder)
                         .bigText(data.getString("uname") + " says: " + message).build();
 
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotificationManager.notify(100, notification);
                 Intent iq = new Intent();
                 iq.setAction("countrefresh");
@@ -280,7 +284,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 android.app.Notification notification = new NotificationCompat.BigTextStyle(mBuilder)
                         .bigText(data.getString("uname") + " has favorited you. Be the first to Send greetings.").build();
 
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotificationManager.notify(200, notification);
                 Intent iq = new Intent();
                 iq.setAction("countrefresh");
@@ -324,7 +328,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 android.app.Notification notification = new NotificationCompat.BigTextStyle(mBuilder)
                         .bigText(message).build();
 
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotificationManager.notify(100, notification);
             }
             //                }
@@ -436,7 +440,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
                 notificationUtils.playNotificationSound();
 
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotificationManager.notify(100, mBuilder.build());
             }
            /* } else {

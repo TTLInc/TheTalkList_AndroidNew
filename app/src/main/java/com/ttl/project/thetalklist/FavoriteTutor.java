@@ -41,6 +41,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 //Favorited tutor class
 public class FavoriteTutor extends Fragment {
+    private static final String TAG = "FavoriteTutor";
     View view;
     RecyclerView recyclerView;
     JSONObject resultObj;
@@ -85,6 +86,7 @@ public class FavoriteTutor extends Fragment {
 
 
         String URL = "https://www.thetalklist.com/api/list_favourite_tutor?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0);
+        Log.e(TAG, "FavoriteTutor1: " + "https://www.thetalklist.com/api/list_favourite_tutor?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0));
         RequestQueue queue1 = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest getRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, URL, null, new com.android.volley.Response.Listener<JSONObject>() {
             @Override
@@ -182,7 +184,7 @@ public class FavoriteTutor extends Fragment {
                             int tutorId = object.getInt("uid");
 
                             String URL = "https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId;
-                            //  Log.e("Tag", "onSwiped: "+"https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId);
+                              Log.e("Tag", "onSwiped remove "+"https://www.thetalklist.com/api/favourite?student_id=" + getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0) + "&tutor_id=" + tutorId);
                             JsonObjectRequest getRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, URL, null, new com.android.volley.Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {

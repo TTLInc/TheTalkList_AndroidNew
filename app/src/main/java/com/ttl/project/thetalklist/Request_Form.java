@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.FragmentManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -95,11 +95,13 @@ public class Request_Form extends AppCompatActivity {
                                     "I need help at this time: " + time;
 
                     // put texts to shared preferences
-                    Log.e(TAG, "Submit Form: " + send);
                     String toServerUnicodeEncoded = StringEscapeUtils.escapeJava(send);
                     apicall(toServerUnicodeEncoded);
+                    Log.e(TAG, "Submit Form: " + toServerUnicodeEncoded.replaceAll("\\r\\n", ""));
+                    Log.e(TAG, "Submit Form: 1" + toServerUnicodeEncoded.replaceAll("\n", ""));
+
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("Request_Form", send);
+                    editor.putString("Request_Form", toServerUnicodeEncoded);
                     editor.putString("Subject Edit", subject);
                     editor.putString("Level Edit", level);
                     editor.putString("Time Edit", time);
@@ -115,10 +117,12 @@ public class Request_Form extends AppCompatActivity {
     }
 
     private void apicall(String send) {
+        String fromServerUnicodeDecoded = StringEscapeUtils.unescapeJava(send);
 
-        String URL = "https://www.thetalklist.com/api/message?sender_id=" + sender_id + "&receiver_id=" + receiver_id + "&message=" + send/*.replace(" ", "%20")*/ + "&user_name=" + sender_name;
+
+        String URL = "https://www.thetalklist.com/api/message?sender_id=" + sender_id + "&receiver_id=" + receiver_id + "&message=" + send.replace(" ", "%20") + "&user_name=" + sender_name;
         Log.e("send Message list url", "send Message list url" + URL);
-
+        Log.e(TAG, "apicall: " + Html.fromHtml(fromServerUnicodeDecoded));
 
         StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
