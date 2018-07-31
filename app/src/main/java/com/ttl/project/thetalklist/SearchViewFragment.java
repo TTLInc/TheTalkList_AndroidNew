@@ -180,6 +180,9 @@ public class SearchViewFragment extends Fragment {
 
                 }
                 if (String.valueOf(acb).equals("0")) {
+                    txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                    txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                    txtPlaceholderPeople.setVisibility(View.VISIBLE);
                  /*   txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
                     txtPeopleName.setVisibility(View.GONE);*/
@@ -254,7 +257,7 @@ public class SearchViewFragment extends Fragment {
                                 Log.e(TAG, "LOCATIONonQueryTextChange-->: " + a);
                                 if (!abc.equals("")) {
 
-                                    setmProgressDialog();
+                                   setmProgressDialog();
                                     ApiCallSearchView(abc);
                                 }
 
@@ -289,7 +292,7 @@ public class SearchViewFragment extends Fragment {
 
 
                     } catch (Exception e) {
-                        mProgressDialog.dismiss();
+                   mProgressDialog.dismiss();
                       /*  txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
                         txtPeopleName.setVisibility(View.GONE);*/
@@ -297,7 +300,7 @@ public class SearchViewFragment extends Fragment {
 
                 } else {
                     if (!String.valueOf(editable).equals("")) {
-                        setmProgressDialog();
+                    setmProgressDialog();
                         ApiCallSearchView(String.valueOf(editable));
                         Log.e(TAG, "onTextChanged: ");
                     }
@@ -349,7 +352,9 @@ public class SearchViewFragment extends Fragment {
                 mStringDataSubject = "";
                 mStringDataPeople = "";
                 mStringDataPeople = "";
-
+                txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                txtPlaceholderPeople.setVisibility(View.VISIBLE);
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
                 editor.putString("search_keyword", "");
                 editor.clear();

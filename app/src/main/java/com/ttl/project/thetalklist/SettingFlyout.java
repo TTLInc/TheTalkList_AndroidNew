@@ -765,7 +765,7 @@ public class SettingFlyout extends AppCompatActivity {
                 }
             } else if (pref123.getInt("roleId", 0) == 0) {
                 editor123.putInt("roleId", -1).apply();
-                getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new DesiredTutor()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new SearchViewFragment()).commit();
 
             } else
                 fragmentTransaction.replace(R.id.viewpager, new Available_tutor()).commit();

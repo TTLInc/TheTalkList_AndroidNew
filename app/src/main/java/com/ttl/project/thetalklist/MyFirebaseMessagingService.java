@@ -255,6 +255,46 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 NotificationCompat.BigTextStyle inboxStyle = new NotificationCompat.BigTextStyle();
                 final int icon = R.mipmap.ttlg2;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    String id = "id_product";
+                    // The user-visible name of the channel.
+                    CharSequence name = "Product";
+                    // The user-visible description of the channel.
+                    String description = "Notifications regarding our products";
+                    @SuppressLint("WrongConstant")
+                    NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_MAX);
+                    // Configure the notification channel.
+                    mChannel.setDescription(description);
+                    mChannel.enableLights(true);
+                    // Sets the notification light color for notifications posted to this
+                    // channel, if the device supports this feature.
+                    mChannel.setLightColor(Color.RED);
+                    notificationManager.createNotificationChannel(mChannel);
+                    // Intent intent1 = new Intent(getApplicationContext(), SplashScreen.class);
+                    Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
+
+                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    notificationIntent.putExtra("message", "yes");
+                    notificationIntent.putExtra("senderId", data.getInt("uid"));
+                    notificationIntent.putExtra("firstName", data.getString("uname"));
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 123, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "id_product")
+                            .setAutoCancel(true)
+                            .setContentTitle("TheTalkList")
+                            .setSound(Uri.parse(String.valueOf(android.app.Notification.DEFAULT_SOUND)))
+                            .setStyle(inboxStyle)
+                            .setContentIntent(pendingIntent)
+                            .setWhen(System.currentTimeMillis())
+                            .setSmallIcon(R.mipmap.ttlg2)
+                            .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ttlg2))
+                            .setContentText(data.getString("uname") + " has favorited you. Be the first to Send greetings.");
+                    notificationManager.notify(1, notificationBuilder.build());
+
+
+                }
+
 
 
                 Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
