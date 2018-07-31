@@ -5,7 +5,6 @@
     android:orientation="vertical"
     tools:context="com.ttl.project.thetalklist.Available_tutor">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,25 +72,6 @@
             android:layout_height="1dp"
             android:background="#90A4AE" />
 
-        <TextView
-            android:id="@+id/txtNoResultFound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-        <Button
-            android:id="@+id/btnRetry"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:background="@drawable/buttonboarder"
-            android:text="Retry"
-            android:textAllCaps="false"
-            android:visibility="gone"
-            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/systemMsgStudent"
@@ -163,12 +143,55 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNoResultFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No Results?"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/txtNoResultFound1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#000"
+            android:text="Check spelling and limit criteria."
+            android:textSize="20sp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/btnRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@drawable/retry_btn_background"
+            android:text="Retry"
+            android:textAllCaps="false"
+            android:textColor="#FFF"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+
         android:id="@+id/AvailableTutor_ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:background="#80000000"
         android:gravity="center">
+
 
         <pl.droidsonroids.gif.GifImageView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="100dp"

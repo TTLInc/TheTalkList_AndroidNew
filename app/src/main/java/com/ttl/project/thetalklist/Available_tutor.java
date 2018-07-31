@@ -111,7 +111,7 @@ public class Available_tutor extends Fragment {
     SharedPreferences.Editor edi;
     String mSearch_keyword;
     TagsEditText mTagsEditText;
-    TextView txtNoResultFound;
+    TextView txtNoResultFound,txtNoResultFound1;
     Spinner btnGender, btnPrice;
     String mSelectedGender, mSelectedPrice;
     int mTutors_id;
@@ -171,6 +171,7 @@ public class Available_tutor extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_available_tutor, container, false);
 
         txtNoResultFound = (TextView) view.findViewById(R.id.txtNoResultFound);
+        txtNoResultFound1 = (TextView) view.findViewById(R.id.txtNoResultFound1);
         btnRetry = (Button) view.findViewById(R.id.btnRetry);
         btnGender = (Spinner) view.findViewById(R.id.btnGender);
         btnPrice = (Spinner) view.findViewById(R.id.btnPrice);
@@ -878,13 +879,16 @@ public class Available_tutor extends Fragment {
 
                 Log.e(TAG, "onResponse---????: " + mSizeModel);
                 if (mSizeModel == 0) {
+                    linearLayout.setVisibility(View.GONE);
                     btnGender.setVisibility(View.GONE);
                     btnPrice.setVisibility(View.GONE);
                     txtNoResultFound.setVisibility(View.VISIBLE);
+                    txtNoResultFound1.setVisibility(View.VISIBLE);
                     btnRetry.setVisibility(View.VISIBLE);
                     btnRetry.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
                             SharedPreferences.Editor editor = PriceSearch.edit();
                             editor.putString("Price", "0");
                             editor.putString("Name", "0");
@@ -896,12 +900,21 @@ public class Available_tutor extends Fragment {
                             editor2.putString("Name", "gender");
                             editor2.clear();
                             editor2.apply();
+
                             btnGender.setSelection(0);
                             btnPrice.setSelection(0);
                             btnGender.setVisibility(View.VISIBLE);
                             btnPrice.setVisibility(View.VISIBLE);
                             txtNoResultFound.setVisibility(View.GONE);
+                            txtNoResultFound1.setVisibility(View.GONE);
                             btnRetry.setVisibility(View.GONE);
+                            mTagsEditText.setText("");
+                            SharedPreferences.Editor editor3 = getContext().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                            editor3.putString("search_keyword", "");
+                            editor3.clear();
+                            editor3.apply();
+                            Intent intent = new Intent(getContext(), SettingFlyout.class);
+                            startActivity(intent);
                           /* // Fragment frg = null;
                             // getSupportFragmentManager().findFragmentByTag("Your_Fragment_TAG");
                             final FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -912,11 +925,12 @@ public class Available_tutor extends Fragment {
                     });
 
 
-                    txtNoResultFound.setText("No Results? Check spelling and limit your criteria.");
+                   // txtNoResultFound.setText("No Results? Check spelling and limit your criteria.");
                 } else {
                     btnGender.setVisibility(View.VISIBLE);
                     btnPrice.setVisibility(View.VISIBLE);
                     txtNoResultFound.setVisibility(View.GONE);
+                    txtNoResultFound1.setVisibility(View.GONE);
                 }
                 availableTutorRecyclerAdapter = new AvailableTutorRecyclerAdapter(getContext(), response.body().getTutors(), fragmentManager);
                 recyclerView.setLayoutManager(mLayoutManager);

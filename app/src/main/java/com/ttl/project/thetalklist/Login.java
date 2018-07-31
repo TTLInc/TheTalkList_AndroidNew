@@ -648,8 +648,8 @@ public class Login extends Activity {
     private void setAlertDialog() {
         final AlertDialog.Builder builder1 = new AlertDialog.Builder(this, R.style.AlertDialog);
         builder1.setCancelable(true);
-        builder1.setTitle("Oops!");
-        builder1.setMessage("if there is incorrect credentials entered");
+        builder1.setTitle("OOPS!");
+        builder1.setMessage("You entered incorrect login info.");
         builder1.setInverseBackgroundForced(true);
         builder1.setPositiveButton("Retry",
                 new DialogInterface.OnClickListener() {
@@ -663,10 +663,12 @@ public class Login extends Activity {
         alert11.show();
         Button neutralButton = alert11.getButton(AlertDialog.BUTTON_POSITIVE);
         neutralButton.setTextColor(Color.parseColor("#FFFFFF"));
+        neutralButton.setTransformationMethod(null);
         alert11.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface arg0) {
                 alert11.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.black));
+
             }
         });
         Button buttonbackground = alert11.getButton(DialogInterface.BUTTON_POSITIVE);
