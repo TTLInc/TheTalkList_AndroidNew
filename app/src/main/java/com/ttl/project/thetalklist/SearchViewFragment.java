@@ -74,12 +74,13 @@ public class SearchViewFragment extends Fragment {
     ImageView mClearSearch;
     View view;
     LinearLayout txtPlaceholderSubject, txtPlaceholderLocation, txtPlaceholderPeople;
+    String SearchKeyword;
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
     private List<SearchFilterModel> mContactList;
     private String mSearchKeyWord;
-    String SearchKeyword;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -149,7 +150,7 @@ public class SearchViewFragment extends Fragment {
                     editor.apply();
                     Intent intent = new Intent(getActivity(), SettingFlyout.class);
                     startActivity(intent);
-                    Log.e(TAG, "Final Text---> "+SearchKeyword );
+                    Log.e(TAG, "Final Text---> " + SearchKeyword);
                     return true;
                 }
                 return false;
@@ -183,6 +184,12 @@ public class SearchViewFragment extends Fragment {
                     txtPlaceholderLocation.setVisibility(View.VISIBLE);
                     txtPlaceholderSubject.setVisibility(View.VISIBLE);
                     txtPlaceholderPeople.setVisibility(View.VISIBLE);
+                    linearLayoutSubjectTextView.removeAllViews();
+                    linearLayoutSubjectImageView.removeAllViews();
+                    linearLayoutLocationTextView.removeAllViews();
+                    linearLayoutPeopleTextView.removeAllViews();
+                    linearLayoutLocationImageView.removeAllViews();
+                    linearLayoutPeopleImageView.removeAllViews();
                  /*   txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
                     txtPeopleName.setVisibility(View.GONE);*/
@@ -236,7 +243,7 @@ public class SearchViewFragment extends Fragment {
                             }
                             if (!abc1.equals("")) {
 
-                                setmProgressDialog();
+                                //setmProgressDialog();
                                 ApiCallSearchView(abc1);
                             }
 
@@ -257,7 +264,7 @@ public class SearchViewFragment extends Fragment {
                                 Log.e(TAG, "LOCATIONonQueryTextChange-->: " + a);
                                 if (!abc.equals("")) {
 
-                                   setmProgressDialog();
+                                    //setmProgressDialog();
                                     ApiCallSearchView(abc);
                                 }
 
@@ -278,7 +285,7 @@ public class SearchViewFragment extends Fragment {
                                     Log.e(TAG, "PEOPLEonQueryTextChange-->: " + a2);
 
                                     if (!abc2.equals("")) {
-                                        setmProgressDialog();
+                                        //  setmProgressDialog();
                                         ApiCallSearchView(abc2);
 
                                     }
@@ -292,7 +299,7 @@ public class SearchViewFragment extends Fragment {
 
 
                     } catch (Exception e) {
-                   mProgressDialog.dismiss();
+                     //   mProgressDialog.dismiss();
                       /*  txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
                         txtPeopleName.setVisibility(View.GONE);*/
@@ -300,7 +307,7 @@ public class SearchViewFragment extends Fragment {
 
                 } else {
                     if (!String.valueOf(editable).equals("")) {
-                    setmProgressDialog();
+                        // setmProgressDialog();
                         ApiCallSearchView(String.valueOf(editable));
                         Log.e(TAG, "onTextChanged: ");
                     }

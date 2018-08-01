@@ -205,7 +205,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                 }
                             }
                             if (!abc1.equals("")) {
-                                setmProgressDialog();
+                                //setmProgressDialog();
                                 ApiCallSearchView(abc1);
                             }
 
@@ -225,7 +225,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                 Log.e(TAG, "LOCATIONstringLength:--> " + abc.trim());
                                 Log.e(TAG, "LOCATIONonQueryTextChange-->: " + a);
                                 if (!abc.equals("")) {
-                                    setmProgressDialog();
+                                  //  setmProgressDialog();
                                     ApiCallSearchView(abc);
                                 }
 
@@ -246,7 +246,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                     Log.e(TAG, "PEOPLEonQueryTextChange-->: " + a2);
 
                                     if (!abc2.equals("")) {
-                                        setmProgressDialog();
+                                    //    setmProgressDialog();
                                         ApiCallSearchView(abc2);
                                     }
                                    /* txtLocationName.setVisibility(View.GONE);
@@ -259,7 +259,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
 
                     } catch (Exception e) {
-                        mProgressDialog.dismiss();
+                       // mProgressDialog.dismiss();
                       /*  txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
                         txtPeopleName.setVisibility(View.GONE);*/
@@ -267,7 +267,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
                 } else {
                     if (!String.valueOf(editable).equals("")) {
-                        setmProgressDialog();
+                     //   setmProgressDialog();
                         ApiCallSearchView(String.valueOf(editable));
                         Log.e(TAG, "onTextChanged: ");
                     }
