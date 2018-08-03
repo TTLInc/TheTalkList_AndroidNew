@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
@@ -161,6 +162,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
                 final int icon = R.mipmap.ttlg2;
+                Bitmap icon1 = BitmapFactory.decodeResource(getApplicationContext().getResources(), icon);
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                     String id = "id_product";
@@ -187,18 +190,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     notificationIntent.putExtra("firstName", data.getString("uname"));
                     PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 123, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "id_product")
-                            .setSmallIcon(R.mipmap.ic_launcher) //your app icon
+
+                            .setSmallIcon(icon) //your app icon
                             .setBadgeIconType(R.mipmap.ttlg2) //your app icon
+                            .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ttlg2))
                             .setChannelId("id_product")
                             .setContentTitle("TheTalkList")
                             .setAutoCancel(true)
+                            .setSound(Uri.parse(String.valueOf(android.app.Notification.DEFAULT_SOUND)))
                             .setContentIntent(pendingIntent)
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                            .setNumber(1)
+                            //.setPriority(Notification.DEFAULT_VIBRATE)
+                            .setNumber(5)
                             .setColor(255)
                             .setContentText(data.getString("uname") + " says: " + StringEscapeUtils.unescapeJava(message).replace("\n", ""))
                             .setWhen(System.currentTimeMillis());
                     notificationManager.notify(1, notificationBuilder.build());
+                    android.app.Notification notification = new NotificationCompat.BigTextStyle(notificationBuilder)
+                            .bigText(data.getString("uname") + " says: " + message).build();
+
                 }
                 NotificationManager mNotifyMgr =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -294,7 +304,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
                 }
-
 
 
                 Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);

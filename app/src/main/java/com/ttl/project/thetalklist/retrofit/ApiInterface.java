@@ -1,8 +1,8 @@
 package com.ttl.project.thetalklist.retrofit;
 
 
+import com.ttl.project.thetalklist.model.AllSearchDataModel;
 import com.ttl.project.thetalklist.model.CountyModel;
-import com.ttl.project.thetalklist.model.GenderANDPriceFilterModel;
 import com.ttl.project.thetalklist.model.SearchTutorsModel;
 import com.ttl.project.thetalklist.model.SearchViewModel;
 import com.ttl.project.thetalklist.model.SubjectModel;
@@ -34,6 +34,9 @@ public interface ApiInterface {
 
     @POST("countries")
     Call<CountyModel> getCountryList();
+
+    @POST("desired_tutor_search_new")
+    Call<AllSearchDataModel> getAllSearchData();
 
     @POST("subject")
     Call<SubjectModel> getSubjectList();

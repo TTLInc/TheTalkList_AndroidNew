@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ttl.project.thetalklist.model.AllSearchDataModel;
 import com.ttl.project.thetalklist.model.SearchFilterModel;
 import com.ttl.project.thetalklist.model.SearchViewModel;
 import com.ttl.project.thetalklist.retrofit.ApiClient;
@@ -75,18 +76,384 @@ public class SearchViewFragment extends Fragment {
     View view;
     LinearLayout txtPlaceholderSubject, txtPlaceholderLocation, txtPlaceholderPeople;
     String SearchKeyword;
+    int mSizeAllSubjectList, mSizeAllPeopleList, mSizeAllLocationList;
+    int countLocation, countPeople, countSubject;
+    List<AllSearchDataModel.PeopleBean> peopleResponse;
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
     private List<SearchFilterModel> mContactList;
     private String mSearchKeyWord;
+    private ArrayList<String> mAllSubjectList, mAllLocationList, mAllPeopleList, mAllPeopleFirstName;
+    private ArrayList<String> mSelectedPeople, mSelectedSubject, mSelectedLocation, mSelectedPeopleFirstName;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_serchview, container, false);
         initialization();
+        apicallGetAllData();
         return view;
+    }
+
+    private void apicallGetAllData() {
+        setmProgressDialog();
+        Call<AllSearchDataModel> modelCall = mApiInterface.getAllSearchData();
+        modelCall.enqueue(new Callback<AllSearchDataModel>() {
+            @Override
+            public void onResponse(Call<AllSearchDataModel> call, final Response<AllSearchDataModel> response) {
+
+                mAllSubjectList = new ArrayList<>();
+                mAllLocationList = new ArrayList<>();
+                mAllPeopleList = new ArrayList<>();
+                mAllPeopleFirstName = new ArrayList<>();
+                mSelectedPeople = new ArrayList<>();
+                mSelectedLocation = new ArrayList<>();
+                mSelectedSubject = new ArrayList<>();
+                mSelectedPeopleFirstName = new ArrayList<>();
+                peopleResponse = response.body().getPeople();
+                for (int i = 0; i < response.body().getSubject().size(); i++) {
+                    mAllSubjectList.add(response.body().getSubject().get(i).getSubject());
+                }
+
+                for (int i = 0; i < response.body().getLocation().size(); i++) {
+                    mAllLocationList.add(response.body().getLocation().get(i).getCountry());
+                }
+
+                for (int i = 0; i < response.body().getPeople().size(); i++) {
+                    mAllPeopleList.add(response.body().getPeople().get(i).getName().trim());
+                    mAllPeopleFirstName.add(response.body().getPeople().get(i).getFirstName().trim());
+                }
+
+
+                mProgressDialog.dismiss();
+
+                mTagsEditText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(final Editable editable) {
+
+
+                        if (!mStringDataSubject.equals("") || !mStringDataLocation.equals("") || !mStringDataPeople.equals("")) {
+                            try {
+
+                                if (FLAG.equals("0")) {
+
+
+                                    String a1 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
+                                    int b1 = a1.length();
+
+                                    size1 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
+
+                                    String abc1 = a1.substring(size1, b1).trim();
+
+                                    if (!abc1.equals("")) {
+                                        if (mSelectedPeopleFirstName.size() != 0) {
+                                            mSelectedPeopleFirstName.clear();
+                                        }
+                                        filterText(abc1, response.body());
+                                    }
+
+
+                                } else {
+                                    if (FLAG.equals("1")) {
+
+                                        String a = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
+                                        int b = a.length();
+
+                                        int size4 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
+                                        String abc = a.substring(size4, b).trim();
+
+                                        if (!abc.equals("")) {
+                                            if (mSelectedPeopleFirstName.size() != 0) {
+                                                mSelectedPeopleFirstName.clear();
+                                            }
+                                            filterText(abc, response.body());
+
+                                        }
+
+
+                                    } else {
+                                        if (FLAG.equals("2")) {
+
+                                            String a2 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
+                                            int b2 = a2.length();
+
+                                            int size2 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
+                                            String abc2 = a2.substring(size2, b2).trim();
+
+                                            if (!abc2.equals("")) {
+                                                if (mSelectedPeopleFirstName.size() != 0) {
+                                                    mSelectedPeopleFirstName.clear();
+                                                }
+                                                filterText(abc2, response.body());
+
+                                            }
+                                        }
+                                    }
+
+                                }
+
+
+                            } catch (Exception e) {
+
+                            }
+
+                        } else {
+                            if (!String.valueOf(editable).equals("")) {
+                                if (mSelectedPeopleFirstName.size() != 0) {
+                                    mSelectedPeopleFirstName.clear();
+                                }
+                                filterText(String.valueOf(editable), response.body());
+                                Log.e(TAG, "onTextChanged: ");
+                            }
+
+                        }
+
+                    }
+
+
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<AllSearchDataModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void filterText(String editable, AllSearchDataModel body) {
+        int size = editable.length();
+        for (int i = 0; i < body.getSubject().size(); i++) {
+            if (size != 0) {
+                if (mAllSubjectList.get(i).length() >= size) {
+                    if (mAllSubjectList.get(i).substring(0, size).equalsIgnoreCase(editable)) {
+                        Log.e(TAG, "Subject result" + mAllSubjectList.get(i));
+                        mSelectedSubject.add(mAllSubjectList.get(i));
+
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < body.getLocation().size(); i++) {
+            if (mAllLocationList.get(i).length() >= size) {
+                if (size != 0) {
+                    if (mAllLocationList.get(i).substring(0, size).equalsIgnoreCase(editable)) {
+                        Log.e(TAG, "Location result" + mAllLocationList.get(i));
+                        mSelectedLocation.add(mAllLocationList.get(i));
+
+                    }
+                }
+            }
+        }
+        try {
+
+            for (int i = 0; i < body.getPeople().size(); i++) {
+                if (mAllPeopleList.get(i).length() >= size) {
+                    if (size != 0) {
+                        if (mAllPeopleList.get(i).substring(0, size).equalsIgnoreCase(editable)) {
+                            Log.e(TAG, "People result-->" + mAllPeopleList.get(i));
+                            Log.e(TAG, "People result name" + mAllPeopleFirstName.get(i));
+                            mSelectedPeople.add(mAllPeopleList.get(i));
+
+
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < body.getPeople().size(); i++) {
+                if (mAllPeopleFirstName.get(i).length() >= size) {
+                    if (size != 0) {
+                        if (mAllPeopleFirstName.get(i).substring(0, size).equalsIgnoreCase(editable)) {
+                            Log.e(TAG, "People result-->" + mAllPeopleFirstName.get(i));
+                            mSelectedPeopleFirstName.add(mAllPeopleFirstName.get(i));
+
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        countPeople = mSelectedPeople.size();
+        countSubject = mSelectedSubject.size();
+        countLocation = mSelectedLocation.size();
+
+        if (mSelectedSubject.size() >= 10) {
+            countSubject = 10;
+        }
+        if (mSelectedPeople.size() >= 10) {
+            countPeople = 10;
+        }
+        if (mSelectedLocation.size() >= 10) {
+            countLocation = 10;
+            Log.e(TAG, "Count Location" + countLocation);
+        }
+        setSubject(mSelectedSubject, countSubject);
+        setLocation(mSelectedLocation, countLocation);
+        setPeople(mSelectedPeople, mSelectedPeopleFirstName, countPeople);
+        for (int i = 0; i < mSelectedPeople.size(); i++) {
+            Log.e(TAG, "mSelectPersion list " + mSelectedPeople.get(i));
+            Log.e(TAG, "mSelectPersion list  name " + mSelectedPeopleFirstName.get(i));
+        }
+        for (int i = 0; i < mSelectedSubject.size(); i++) {
+            Log.e(TAG, "mSelectSubject list " + mSelectedSubject.get(i));
+        }
+        for (int i = 0; i < mSelectedLocation.size(); i++) {
+            Log.e(TAG, "mSelectLocation list " + mSelectedLocation.get(i));
+
+        }
+    }
+
+    private void setPeople(ArrayList<String> mSelectedPeople, final ArrayList<String> mSelectedPeopleName, int count) {
+        myTextViews2 = new TextView[count];
+        /*for (int i = 0; i < count;i++) {
+            Log.e(TAG, "mSelectPersion list " + mSelectedPeopleName.get(i));
+
+        }*/
+        for (int i = 0; i < count; i++) {
+
+            rowTextView2 = new TextView(getActivity());
+            rowTextView2.setText(mSelectedPeople.get(i));
+
+            myTextViews2[i] = rowTextView2;
+            final int finalI = i;
+           /* SearchFilterModel contactChip = new SearchFilterModel(mSelectedPeople.get(i));
+            mContactList.add(contactChip);*/
+
+                myTextViews2[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FLAG = "2";
+                        mPeople = myTextViews2[finalI].getText().toString();
+                        String mFirstName = mSelectedPeopleName.get(finalI);
+                        Log.e(TAG, "onClick-=--=: " + mFirstName);
+                        Log.e(TAG, "PEOPLE: " + mPeople);
+                        mStringDataSubject = mStringDataSubject + mFirstName.replaceAll("\\s+", "");
+                        Log.e(TAG, "mStringDataSubject----> " + mStringDataSubject);
+                        mTagsEditText.setText(mFirstName);
+                        Log.e(TAG, "FLAG VLUE" + FLAG);
+
+                        mSizeAfter = mTagsEditText.getText().toString().trim().length();
+                        txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                        txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                        txtPlaceholderPeople.setVisibility(View.VISIBLE);
+
+                    }
+
+                });
+
+            rowTextView2.setPadding(5, 52, 0, 10);
+            rowTextView2.setTextColor(Color.parseColor("#000000"));
+            imagePeople = new ImageView(getActivity());
+            imagePeople.setLayoutParams(new ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
+            imagePeople.setPadding(0, 50, 0, 10);
+            imagePeople.setImageResource(R.drawable.people);
+            linearLayoutPeopleTextView.addView(rowTextView2);
+            linearLayoutPeopleImageView.addView(imagePeople);
+        }
+        mSelectedPeople.clear();
+
+    }
+
+    private void setLocation(ArrayList<String> mSelectedLocation, int count) {
+        myTextViews1 = new TextView[count];
+
+        for (int i = 0; i < count; i++) {
+
+            rowTextView1 = new TextView(getActivity());
+            rowTextView1.setText(mSelectedLocation.get(i));
+            myTextViews1[i] = rowTextView1;
+            final int finalI = i;
+            myTextViews1[i].setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceAsColor")
+                @Override
+                public void onClick(View view) {
+                    FLAG = "1";
+                    mLocation = myTextViews1[finalI].getText().toString();
+                    Log.e(TAG, "LOCATION: " + mLocation);
+                    mStringDataSubject = mStringDataSubject + mLocation.replaceAll("\\s+", "");
+                    mTagsEditText.setText(mLocation);
+                   /* txtLocationName.setVisibility(View.GONE);
+                    txtSubjectName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);*/
+                    Log.e(TAG, "FLAG VLUE" + FLAG);
+                    mSizeAfter = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
+                    txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                    txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                    txtPlaceholderPeople.setVisibility(View.VISIBLE);
+                }
+            });
+            rowTextView1.setPadding(5, 52, 0, 10);
+            rowTextView1.setTextColor(Color.parseColor("#000000"));
+            imageLocation = new ImageView(getActivity());
+            imageLocation.setLayoutParams(new ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            imageLocation.setPadding(0, 50, 0, 10);
+            imageLocation.setImageResource(R.drawable.location);
+
+            linearLayoutLocationTextView.addView(rowTextView1);
+            linearLayoutLocationImageView.addView(imageLocation);
+
+        }
+        mSelectedLocation.clear();
+    }
+
+    private void setSubject(ArrayList<String> mSelectedSubject, int count) {
+        myTextViews = new TextView[count];
+
+        for (int i = 0; i < count; i++) {
+            rowTextView = new TextView(getActivity());
+            rowTextView.setText(mSelectedSubject.get(i));
+            rowTextView.setTextColor(Color.parseColor("#000000"));
+            myTextViews[i] = rowTextView;
+            final int finalI = i;
+            myTextViews[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FLAG = "0";
+                    valu = "0";
+                    mSubject = myTextViews[finalI].getText().toString();
+                    Log.e(TAG, "SUBJECT: " + mSubject);
+                    mStringDataSubject = mStringDataSubject + mSubject.replaceAll("\\s+", "");
+                    mTagsEditText.setText(mSubject);
+
+                 /*   txtLocationName.setVisibility(View.GONE);
+                    txtSubjectName.setVisibility(View.GONE);
+                    txtPeopleName.setVisibility(View.GONE);*/
+                    Log.e(TAG, "FLAG VLUE" + FLAG);
+                    mSizeAfter = mTagsEditText.getText().length();
+                    txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                    txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                    txtPlaceholderPeople.setVisibility(View.VISIBLE);
+                }
+            });
+
+            rowTextView.setPadding(5, 50, 0, 10);
+            imageSubject = new ImageView(getActivity());
+            imageSubject.setLayoutParams(new ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
+
+            imageSubject.setPadding(0, 50, 0, 10);
+            imageSubject.setImageResource(R.drawable.notebook);
+
+            linearLayoutSubjectTextView.addView(rowTextView);
+            linearLayoutSubjectImageView.addView(imageSubject);
+
+        }
+        mSelectedSubject.clear();
     }
 
 
@@ -220,7 +587,7 @@ public class SearchViewFragment extends Fragment {
             public void afterTextChanged(final Editable editable) {
 
 
-                Log.e(TAG, " mSubject" + mSubject + "-->" + mSubject.length());
+              /*  Log.e(TAG, " mSubject" + mSubject + "-->" + mSubject.length());
                 if (!mStringDataSubject.equals("") || !mStringDataLocation.equals("") || !mStringDataPeople.equals("")) {
                     try {
 
@@ -229,13 +596,12 @@ public class SearchViewFragment extends Fragment {
 
                             String a1 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                             int b1 = a1.length();
-                            Log.e(TAG, " mSubject-->" + a1 + "-->" + a1.length());
+
                             size1 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
 
                             String abc1 = a1.substring(size1, b1).trim();
 
-                            Log.e(TAG, "mSubjectstringLength:--> " + abc1.trim());
-                            Log.e(TAG, "mSubjectonQueryTextChange-->: " + a1);
+
                             if (mProgressDialog != null) {
                                 if (mProgressDialog.isShowing()) {
                                     mProgressDialog.dismiss();
@@ -244,7 +610,7 @@ public class SearchViewFragment extends Fragment {
                             if (!abc1.equals("")) {
 
                                 //setmProgressDialog();
-                                ApiCallSearchView(abc1);
+                              //  ApiCallSearchView(abc1);
                             }
 
 
@@ -257,15 +623,14 @@ public class SearchViewFragment extends Fragment {
                                 }
                                 String a = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                                 int b = a.length();
-                                Log.e(TAG, " LOCATION-->" + a + "-->" + a.length());
+
                                 int size = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
                                 String abc = a.substring(size, b).trim();
-                                Log.e(TAG, "LOCATIONstringLength:--> " + abc.trim());
-                                Log.e(TAG, "LOCATIONonQueryTextChange-->: " + a);
+
                                 if (!abc.equals("")) {
 
                                     //setmProgressDialog();
-                                    ApiCallSearchView(abc);
+                                  //  ApiCallSearchView(abc);
                                 }
 
 
@@ -278,20 +643,18 @@ public class SearchViewFragment extends Fragment {
                                     }
                                     String a2 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                                     int b2 = a2.length();
-                                    Log.e(TAG, " PEOPLE-->" + a2 + "-->" + a2.length());
+
                                     int size2 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
                                     String abc2 = a2.substring(size2, b2).trim();
-                                    Log.e(TAG, "PEOPLEstringLength:--> " + abc2.trim());
-                                    Log.e(TAG, "PEOPLEonQueryTextChange-->: " + a2);
 
                                     if (!abc2.equals("")) {
                                         //  setmProgressDialog();
-                                        ApiCallSearchView(abc2);
+                                        //ApiCallSearchView(abc2);
 
                                     }
-                                  /*  txtLocationName.setVisibility(View.GONE);
+                                  *//*  txtLocationName.setVisibility(View.GONE);
                                     txtSubjectName.setVisibility(View.GONE);
-                                    txtPeopleName.setVisibility(View.GONE);*/
+                                    txtPeopleName.setVisibility(View.GONE);*//*
                                 }
                             }
 
@@ -299,20 +662,20 @@ public class SearchViewFragment extends Fragment {
 
 
                     } catch (Exception e) {
-                     //   mProgressDialog.dismiss();
-                      /*  txtLocationName.setVisibility(View.GONE);
+                        //   mProgressDialog.dismiss();
+                      *//*  txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
-                        txtPeopleName.setVisibility(View.GONE);*/
+                        txtPeopleName.setVisibility(View.GONE);*//*
                     }
 
                 } else {
                     if (!String.valueOf(editable).equals("")) {
                         // setmProgressDialog();
-                        ApiCallSearchView(String.valueOf(editable));
+                       // ApiCallSearchView(String.valueOf(editable));
                         Log.e(TAG, "onTextChanged: ");
                     }
 
-                }
+                }*/
 
 
                 Log.e(TAG, "onQueryTextChange: " + editable);
@@ -334,7 +697,6 @@ public class SearchViewFragment extends Fragment {
 
                 mmSize = collection.size();
                 mSearchkeyword = new ArrayList<>();
-
                 langths = collection.toString().length();
                 String collectionString = collection.toString();
                 Log.e(TAG, "onTagsChanged: " + collection + "Size-->" + collection.toString().length());
@@ -431,9 +793,9 @@ public class SearchViewFragment extends Fragment {
 
                     }
 
-                    setSubjectListView(mSubjectListSize, arryListSubject);
-                    setLocationListView(mLocationListSize, arryListLocation);
-                    setPeopleListView(mPeopleListSize, arryListPeople);
+                    //setSubjectListView(mSubjectListSize, arryListSubject);
+                    //     setLocationListView(mLocationListSize, arryListLocation);
+                    //  setPeopleListView(mPeopleListSize, arryListPeople);
                     notifyAll();
                     //getContactList(mPeopleListSize, arryListPeople);
                     Log.e(TAG, "onResponse: " + mPeopleListSize + "==" + arryListPeople);
@@ -477,7 +839,7 @@ public class SearchViewFragment extends Fragment {
                 public void onClick(View view) {
                     FLAG = "2";
                     mPeople = myTextViews2[finalI].getText().toString();
-                    String mFirstName = respoBeans.get(finalI).getFirstName();
+                    String mFirstName = peopleResponse.get(finalI).getFirstName();
                     Log.e(TAG, "onClick-=--=: " + mFirstName);
                     Log.e(TAG, "PEOPLE: " + mPeople);
                     mStringDataSubject = mStringDataSubject + mFirstName.replaceAll("\\s+", "");

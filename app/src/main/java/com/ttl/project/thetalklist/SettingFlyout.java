@@ -103,14 +103,19 @@ import static android.content.Context.MODE_PRIVATE;
 public class SettingFlyout extends AppCompatActivity {
 
     private static final String TAG = "SettingFlyout";
+    final FragmentStack fragmentStack = FragmentStack.getInstance();
+    final int CAMERA_REQUEST = 1323;
+    final int GALLERY_REQUEST = 1342;
+    final int CROP_REQUEST = 1352;
+    public Switch talkNow;
+    public NavigationView navigationView;
+    public TextView TVuserName;
+    public int manuallyTurnOn = -1;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-
     String email, pass;
     SharedPreferences preferences;
     DrawerLayout drawer;
-    public Switch talkNow;
-    public NavigationView navigationView;
     LinearLayout viewPager;
     int roleId;
     int status;
@@ -120,21 +125,15 @@ public class SettingFlyout extends AppCompatActivity {
     RatingBar ratingBar;
     DrawerItemCustomAdapter adapter;
     Toolbar toolbar;
-    final FragmentStack fragmentStack = FragmentStack.getInstance();
     TextView credits, num_ttlScore;
     Typeface typeface;
     View v;
-    public TextView TVuserName;
     ImageView TVusericon;
     View view1;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    private ListView mDrawerList;
     LinearLayout return_to_call;
-    private CharSequence mDrawerTitle;
     boolean notification = false;
-    private CharSequence mTitle;
-    private String[] mNavigationDrawerItemTitles;
     ActionBarDrawerToggle mDrawerToggle;
     LinearLayout settingFlyout_bottomcontrol_favorites, settingFlyout_bottomcontrol_videosearch, settingFlyout_bottomcontrol_Message,
             settingFlyout_bottomcontrol_payments, settingFlyout_bottomcontrol_tutorSearch, settingFlyout_bottomcontrol;
@@ -146,6 +145,27 @@ public class SettingFlyout extends AppCompatActivity {
 
     BroadcastReceiver countrefresh;
     int mSelectedItem;
+    RequestQueue queue;
+    Tracker t;
+    RequestQueue queue111;
+    String firebase_regId;
+    int online = 1;
+    FragmentTransaction ft;
+    StringRequest sr;
+    String Cls = " ";
+    SharedPreferences prefAvailableTutor;
+    SharedPreferences.Editor ed;
+    SharedPreferences prefVideoList;
+    SharedPreferences.Editor edvideo;
+    TabBackStack tabBackStack;
+    TTL ttl;
+    int id;
+    String userChoosenTask;
+    private ListView mDrawerList;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    private String[] mNavigationDrawerItemTitles;
+    private Handler mHandler;
 
     public SettingFlyout() {
     }
@@ -160,10 +180,6 @@ public class SettingFlyout extends AppCompatActivity {
         super.onPanelClosed(featureId, menu);
     }
 
-    RequestQueue queue;
-
-    public int manuallyTurnOn = -1;
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -174,9 +190,6 @@ public class SettingFlyout extends AppCompatActivity {
         } catch (Exception e) {
         }
     }
-
-    Tracker t;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,10 +301,10 @@ public class SettingFlyout extends AppCompatActivity {
 
                 if (heightDiff > 250) {
                     settingFlyout_bottomcontrol.setVisibility(View.GONE);
-                    Log.e("MyActivity", "keyboard opened");
+                    // Log.e("MyActivity", "keyboard opened");
                 } else {
                     settingFlyout_bottomcontrol.setVisibility(View.VISIBLE);
-                    Log.e("MyActivity", "keyboard closed");
+                    //  Log.e("MyActivity", "keyboard closed");
                 }
             }
         });
@@ -898,13 +911,18 @@ public class SettingFlyout extends AppCompatActivity {
 
                                 string2 = string2.replace("PM", "");
                             }
-
-
+                            int to = 0;
+                            int from=0;
                             Log.e("day of week", dayOfTheWeek);
                             Log.e("start time", string1);
                             Log.e("end time", string2);
-                            int to = Integer.parseInt(string1.replace(":", ""));
-                            int from = Integer.parseInt(string2.replace(":", ""));
+                            try {
+                                to = Integer.parseInt(string1.replace(":", ""));
+                                from = Integer.parseInt(string2.replace(":", ""));
+                            } catch (Exception e) {
+
+                            }
+
                             Log.e("to", String.valueOf(to));
                             Log.e("from", String.valueOf(from));
                             Date date = new Date();
@@ -1065,16 +1083,11 @@ public class SettingFlyout extends AppCompatActivity {
         }
     }
 
-
     //Set the fragment afte video call
     public void setFragmentByVideoCall(Fragment fragmentByVideoCall) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.viewpager, fragmentByVideoCall).commit();
     }
-
-    RequestQueue queue111;
-    String firebase_regId;
-
 
     //Register firebase id in database
     private void displayFirebaseRegId() {
@@ -1136,11 +1149,6 @@ public class SettingFlyout extends AppCompatActivity {
         super.onStop();
         GoogleAnalytics.getInstance(getApplicationContext()).reportActivityStop(this);
     }
-
-    private Handler mHandler;
-
-    int online = 1;
-    FragmentTransaction ft;
 
     @Override
     protected void onResume() {
@@ -1335,8 +1343,6 @@ public class SettingFlyout extends AppCompatActivity {
         txtFavorits.setTextColor(Color.parseColor("#666666"));
     }
 
-    StringRequest sr;
-
     //Login service
     public void loginService() {
 
@@ -1454,6 +1460,345 @@ public class SettingFlyout extends AppCompatActivity {
         });
         sr.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(sr);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+
+        ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
+        ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
+        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
+
+        FragmentManager fragmentManager1 = getSupportFragmentManager();
+        SharedPreferences chatPref = getSharedPreferences("chatPref", MODE_PRIVATE);
+        SharedPreferences SearchTutorPref = getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE);
+        final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
+        final SharedPreferences.Editor SearEditor = SearchTutorPref.edit();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+
+
+            if (fragmentStack.size() > 0) {
+                Fragment fragment = fragmentStack.pop();
+
+
+                if (fragment != null) {
+                    Cls = fragment.getClass().toString();
+                    Log.e("class Name :- ", fragment.getClass().toString());
+
+                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    fragmentManager.executePendingTransactions();
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, fragment, fragment.getClass().toString()).commit();
+                } else {
+                    if (fragmentStack.size() > 0) {
+
+                        if (fragmentStack.size() == 1) {
+                            Toast.makeText(getApplicationContext(), "Please press once to exit..", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        fragmentStack.setSize(0);
+                        tabBackStack.setTabPosition(0);
+                        if (getSharedPreferences("loginStatus", MODE_PRIVATE).getString("LoginWay", "").equalsIgnoreCase("FacebookLogin")) {
+                            FacebookSdk.sdkInitialize(getApplicationContext());
+                            LoginManager.getInstance().logOut();
+
+                            AccessToken.setCurrentAccessToken(null);
+                        }
+                        finish();
+                        chatPrefEditor.clear().apply();
+                        SearEditor.clear().apply();
+                        ed.clear().apply();
+                        edvideo.putInt("position", 0).apply();
+                        moveTaskToBack(false);
+                        new Login().finish();
+                        ttl.ExitBit = 1;
+                        new Login().onBackPressed();
+                        new SplashScreen().onBackPressed();
+                    }
+                }
+            } else {
+
+
+                if (ttl.ExitBit > 0) {
+                    if (ttl.ExitBit == 1)
+                        Toast.makeText(getApplicationContext(), "Please press once to exit", Toast.LENGTH_SHORT).show();
+                    ttl.ExitBit--;
+                } else {
+                    if (getSharedPreferences("loginStatus", MODE_PRIVATE).getString("LoginWay", "").equalsIgnoreCase("FacebookLogin")) {
+                        FacebookSdk.sdkInitialize(getApplicationContext());
+                        LoginManager.getInstance().logOut();
+
+                        AccessToken.setCurrentAccessToken(null);
+                    }
+                    tabBackStack.setTabPosition(0);
+                    chatPrefEditor.clear().apply();
+                    SearEditor.clear().apply();
+                    ed.putInt("position", 0).apply();
+                    edvideo.putInt("position", 0).apply();
+                    moveTaskToBack(false);
+                    new Login().finish();
+                    ttl.ExitBit = 1;
+                    new Login().onBackPressed();
+                    new SplashScreen().onBackPressed();
+                    finish();
+                }
+
+            }
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    //Select the option for image uploading
+    private void selectImage() {
+        final CharSequence[] items = {"Take Photo", "Choose from Library",
+                "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingFlyout.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask = "Take Photo";
+                    cameraIntent();
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask = "Choose from Library";
+                    galleryIntent();
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    //to get image from camera
+    private void cameraIntent() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA_REQUEST);
+    }
+
+    //To select the image from gallary
+    private void galleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"), GALLERY_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == CAMERA_REQUEST)
+                onCaptureImageResult(data);
+            else if (requestCode == CROP_REQUEST) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
+
+                roundedBitmapDrawable.setCornerRadius(80.0f);
+                roundedBitmapDrawable.setAntiAlias(true);
+                TVusericon.setImageDrawable(roundedBitmapDrawable);
+
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                assert imageBitmap != null;
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                String encodedImageString = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                uploadImage(encodedImageString, imageBitmap, getApplication(), pref.getInt("id", 0));
+            }
+
+        }
+    }
+
+    //Gallary image result
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm = null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        TVusericon.setImageBitmap(bm);
+
+        Bitmap bb = getResizedBitmap(bm, 500);
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+        byte[] byteArray = bStream.toByteArray();
+
+        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
+        ui.putExtra("bitmap", byteArray);
+        startActivity(ui);
+    }
+
+    //Resize the bitmap
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    //Captured image result
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap bb = getResizedBitmap(thumbnail, 500);
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
+        byte[] byteArray = bStream.toByteArray();
+
+
+        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
+        ui.putExtra("bitmap", byteArray);
+        startActivity(ui);
+    }
+
+    //Image upload
+    public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
+
+
+        String uploadURL = "https://www.thetalklist.com/api/profile_pic";
+        Log.e("image uploading url", uploadURL);
+        Log.e("image uploading url", uploadURL);
+        Log.e("encoded image string ", encodedImageString);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+
+
+        //sending image to server
+        StringRequest request = new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+
+                LoginService loginService = new LoginService();
+                loginService.login(context.getSharedPreferences("loginStatus", MODE_PRIVATE).getString("email", ""), context.getSharedPreferences("loginStatus", MODE_PRIVATE).getString("pass", ""), context);
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(context, "Some error occurred -> " + volleyError, Toast.LENGTH_LONG).show();
+            }
+        }) {
+            //adding parameters to send
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters = new HashMap<String, String>();
+                parameters.put("image", encodedImageString);
+                parameters.put("uid", String.valueOf(id));
+                return parameters;
+            }
+        };
+
+        RequestQueue rQueue = Volley.newRequestQueue(context);
+        rQueue.add(request);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String ofMessage = intent.getStringExtra("message");
+        String firstName = intent.getStringExtra("uname");
+        int uid = intent.getIntExtra("senderId", 0);
+
+        SharedPreferences pref = getSharedPreferences("roleChange", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+
+        FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+
+        if (intent.hasExtra("roll")) {
+            talkNow.setChecked(false);
+            talkNow.setClickable(false);
+            talkNow.setFocusable(false);
+        } else if (ofMessage != null) {
+            Log.e("message", ofMessage);
+            Log.e("uid", String.valueOf(uid));
+
+
+            if (ofMessage.equals("no")) {
+                FragmentStack.getInstance().push(new Available_tutor());
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
+            } else {
+
+
+                SharedPreferences chatPref = getSharedPreferences("chatPref", MODE_PRIVATE);
+                final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
+
+                chatPrefEditor.putString("firstName", firstName);
+                chatPrefEditor.putInt("receiverId", uid).apply();
+
+                FragmentStack.getInstance().push(new Available_tutor());
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.viewpager, new MessageFragment()).commit();
+            }
+        } else if (pref.getInt("roleId", 0) == 0) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new Available_tutor()).commit();
+            editor.clear().apply();
+
+        } else if (intent.hasExtra("back")) {
+            if (intent.getBooleanExtra("back", true))
+                onBackPressed();
+        } else
+
+            ft1.replace(R.id.viewpager, new Available_tutor()).commit();
     }
 
     //Drawer item click listener
@@ -1729,369 +2074,6 @@ public class SettingFlyout extends AppCompatActivity {
                 Log.e("MainActivity", "Error in creating fragment");
             }
         }
-    }
-
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    String Cls = " ";
-
-
-    SharedPreferences prefAvailableTutor;
-    SharedPreferences.Editor ed;
-    SharedPreferences prefVideoList;
-    SharedPreferences.Editor edvideo;
-    TabBackStack tabBackStack;
-    TTL ttl;
-
-    @Override
-    public void onBackPressed() {
-
-
-        ((ImageView) findViewById(R.id.imageView11)).setImageDrawable(getResources().getDrawable(R.drawable.favorites));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_videosearchImg)).setImageDrawable(getResources().getDrawable(R.drawable.videos));
-        ((ImageView) findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_payments_Img)).setImageDrawable(getResources().getDrawable(R.drawable.payments));
-        ((ImageView) findViewById(R.id.settingFlyout_bottomcontrol_MessageImg)).setImageDrawable(getResources().getDrawable(R.drawable.messages));
-
-        FragmentManager fragmentManager1 = getSupportFragmentManager();
-        SharedPreferences chatPref = getSharedPreferences("chatPref", MODE_PRIVATE);
-        SharedPreferences SearchTutorPref = getSharedPreferences("SearchTutorDesiredTutorPreferences", MODE_PRIVATE);
-        final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
-        final SharedPreferences.Editor SearEditor = SearchTutorPref.edit();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-
-
-            if (fragmentStack.size() > 0) {
-                Fragment fragment = fragmentStack.pop();
-
-
-                if (fragment != null) {
-                    Cls = fragment.getClass().toString();
-                    Log.e("class Name :- ", fragment.getClass().toString());
-
-                    getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    fragmentManager.executePendingTransactions();
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, fragment, fragment.getClass().toString()).commit();
-                } else {
-                    if (fragmentStack.size() > 0) {
-
-                        if (fragmentStack.size() == 1) {
-                            Toast.makeText(getApplicationContext(), "Please press once to exit..", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } else {
-                        fragmentStack.setSize(0);
-                        tabBackStack.setTabPosition(0);
-                        if (getSharedPreferences("loginStatus", MODE_PRIVATE).getString("LoginWay", "").equalsIgnoreCase("FacebookLogin")) {
-                            FacebookSdk.sdkInitialize(getApplicationContext());
-                            LoginManager.getInstance().logOut();
-
-                            AccessToken.setCurrentAccessToken(null);
-                        }
-                        finish();
-                        chatPrefEditor.clear().apply();
-                        SearEditor.clear().apply();
-                        ed.clear().apply();
-                        edvideo.putInt("position", 0).apply();
-                        moveTaskToBack(false);
-                        new Login().finish();
-                        ttl.ExitBit = 1;
-                        new Login().onBackPressed();
-                        new SplashScreen().onBackPressed();
-                    }
-                }
-            } else {
-
-
-                if (ttl.ExitBit > 0) {
-                    if (ttl.ExitBit == 1)
-                        Toast.makeText(getApplicationContext(), "Please press once to exit", Toast.LENGTH_SHORT).show();
-                    ttl.ExitBit--;
-                } else {
-                    if (getSharedPreferences("loginStatus", MODE_PRIVATE).getString("LoginWay", "").equalsIgnoreCase("FacebookLogin")) {
-                        FacebookSdk.sdkInitialize(getApplicationContext());
-                        LoginManager.getInstance().logOut();
-
-                        AccessToken.setCurrentAccessToken(null);
-                    }
-                    tabBackStack.setTabPosition(0);
-                    chatPrefEditor.clear().apply();
-                    SearEditor.clear().apply();
-                    ed.putInt("position", 0).apply();
-                    edvideo.putInt("position", 0).apply();
-                    moveTaskToBack(false);
-                    new Login().finish();
-                    ttl.ExitBit = 1;
-                    new Login().onBackPressed();
-                    new SplashScreen().onBackPressed();
-                    finish();
-                }
-
-            }
-        }
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) return true;
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    int id;
-
-    String userChoosenTask;
-    final int CAMERA_REQUEST = 1323;
-    final int GALLERY_REQUEST = 1342;
-    final int CROP_REQUEST = 1352;
-
-
-    //Select the option for image uploading
-    private void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Library",
-                "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(SettingFlyout.this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Take Photo")) {
-                    userChoosenTask = "Take Photo";
-                    cameraIntent();
-                } else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask = "Choose from Library";
-                    galleryIntent();
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    //to get image from camera
-    private void cameraIntent() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA_REQUEST);
-    }
-
-    //To select the image from gallary
-    private void galleryIntent() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"), GALLERY_REQUEST);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GALLERY_REQUEST)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == CAMERA_REQUEST)
-                onCaptureImageResult(data);
-            else if (requestCode == CROP_REQUEST) {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-
-                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), imageBitmap);
-
-                roundedBitmapDrawable.setCornerRadius(80.0f);
-                roundedBitmapDrawable.setAntiAlias(true);
-                TVusericon.setImageDrawable(roundedBitmapDrawable);
-
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                assert imageBitmap != null;
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                String encodedImageString = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                uploadImage(encodedImageString, imageBitmap, getApplication(), pref.getInt("id", 0));
-            }
-
-        }
-    }
-
-
-    //Gallary image result
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm = null;
-        if (data != null) {
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        TVusericon.setImageBitmap(bm);
-
-        Bitmap bb = getResizedBitmap(bm, 500);
-        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-        bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
-        byte[] byteArray = bStream.toByteArray();
-
-        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
-        ui.putExtra("bitmap", byteArray);
-        startActivity(ui);
-    }
-
-
-    //Resize the bitmap
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (width / bitmapRatio);
-        } else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(image, width, height, true);
-    }
-
-    //Captured image result
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Bitmap bb = getResizedBitmap(thumbnail, 500);
-        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-        bb.compress(Bitmap.CompressFormat.JPEG, 100, bStream);
-        byte[] byteArray = bStream.toByteArray();
-
-
-        Intent ui = new Intent(getApplicationContext(), Fragment_cropImage.class);
-        ui.putExtra("bitmap", byteArray);
-        startActivity(ui);
-    }
-
-    //Image upload
-    public void uploadImage(final String encodedImageString, final Bitmap bitmap, final Context context, final int id) {
-
-
-        String uploadURL = "https://www.thetalklist.com/api/profile_pic";
-        Log.e("image uploading url", uploadURL);
-        Log.e("image uploading url", uploadURL);
-        Log.e("encoded image string ", encodedImageString);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] imageBytes = baos.toByteArray();
-
-
-        //sending image to server
-        StringRequest request = new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-
-                LoginService loginService = new LoginService();
-                loginService.login(context.getSharedPreferences("loginStatus", MODE_PRIVATE).getString("email", ""), context.getSharedPreferences("loginStatus", MODE_PRIVATE).getString("pass", ""), context);
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Toast.makeText(context, "Some error occurred -> " + volleyError, Toast.LENGTH_LONG).show();
-            }
-        }) {
-            //adding parameters to send
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parameters = new HashMap<String, String>();
-                parameters.put("image", encodedImageString);
-                parameters.put("uid", String.valueOf(id));
-                return parameters;
-            }
-        };
-
-        RequestQueue rQueue = Volley.newRequestQueue(context);
-        rQueue.add(request);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        String ofMessage = intent.getStringExtra("message");
-        String firstName = intent.getStringExtra("uname");
-        int uid = intent.getIntExtra("senderId", 0);
-
-        SharedPreferences pref = getSharedPreferences("roleChange", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-
-        FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-
-        if (intent.hasExtra("roll")) {
-            talkNow.setChecked(false);
-            talkNow.setClickable(false);
-            talkNow.setFocusable(false);
-        } else if (ofMessage != null) {
-            Log.e("message", ofMessage);
-            Log.e("uid", String.valueOf(uid));
-
-
-            if (ofMessage.equals("no")) {
-                FragmentStack.getInstance().push(new Available_tutor());
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.viewpager, new Earn_Buy_tabLayout()).commit();
-            } else {
-
-
-                SharedPreferences chatPref = getSharedPreferences("chatPref", MODE_PRIVATE);
-                final SharedPreferences.Editor chatPrefEditor = chatPref.edit();
-
-                chatPrefEditor.putString("firstName", firstName);
-                chatPrefEditor.putInt("receiverId", uid).apply();
-
-                FragmentStack.getInstance().push(new Available_tutor());
-
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.viewpager, new MessageFragment()).commit();
-            }
-        } else if (pref.getInt("roleId", 0) == 0) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new Available_tutor()).commit();
-            editor.clear().apply();
-
-        } else if (intent.hasExtra("back")) {
-            if (intent.getBooleanExtra("back", true))
-                onBackPressed();
-        } else
-
-            ft1.replace(R.id.viewpager, new Available_tutor()).commit();
     }
 }
 

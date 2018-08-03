@@ -240,9 +240,9 @@ public class Available_tutor extends Fragment {
         SharedPreferences prefs = getContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
 
-        mSearch_keyword = prefs.getString("search_keyword", "");
+        mSearch_keyword = prefs.getString("search_keyword", "").replaceAll("\\s+", "");
 
-        Log.e(TAG, "onCreateView: " + mSearch_keyword);
+        Log.e(TAG, "onCreateView=========>: " + mSearch_keyword);
 
         //  Button available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
 
