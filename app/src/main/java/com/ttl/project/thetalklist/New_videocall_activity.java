@@ -312,11 +312,9 @@ public class New_videocall_activity extends AppCompatActivity
         i = getIntent();
 
         time = i.getIntExtra("min", 0);
-        if (i.getStringExtra("from").
-
-                equalsIgnoreCase("callActivity"))
-
+        if (i.getStringExtra("from").equalsIgnoreCase("callActivity"))
         {
+            mp.stop();
             outgoingCallRootLayout.setVisibility(View.GONE);
             videoCallRootLayout.setVisibility(View.VISIBLE);
 

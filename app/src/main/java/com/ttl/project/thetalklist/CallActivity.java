@@ -54,7 +54,7 @@ public class CallActivity extends AppCompatActivity implements PublisherKit.Publ
 ImageView call_activity_image;
 
     BroadcastReceiver callEnd;
-
+    private static final String TAG = "CallActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,8 +173,9 @@ ImageView call_activity_image;
         ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e(TAG, "Stop Ringing: " );
                 wasActive = 1;
-                mp.stop();
+
                 vib.cancel();
                 Intent i = new Intent("com.example.saubhagyam.thetalklist");
                 i.putExtra("from", "callActivity");
@@ -212,6 +213,7 @@ ImageView call_activity_image;
 
                 String URL = "https://www.thetalklist.com/api/firebase_rejectcall?sender_id=" + pref.getInt("id", 0) + "&receiver_id=" + preferences.getInt("tutorId", 0) + "&cid=" + preferences.getInt("classId", 0);
                 Log.e("firebase reject Call", URL);
+                Log.e(TAG, "Reject Call"+URL );
                 StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

@@ -111,12 +111,13 @@ public class Available_tutor extends Fragment {
     SharedPreferences.Editor edi;
     String mSearch_keyword;
     TagsEditText mTagsEditText;
-    TextView txtNoResultFound,txtNoResultFound1;
+    TextView txtNoResultFound, txtNoResultFound1;
     Spinner btnGender, btnPrice;
     String mSelectedGender, mSelectedPrice;
     int mTutors_id;
     int mPosition;
     Button btnRetry;
+    String mSelectedId;
     String[] plants = new String[]{
             "Black birch",
             "European weeping birch"
@@ -192,13 +193,12 @@ public class Available_tutor extends Fragment {
         }
 
         try {
-            if(GenderSearch.getString("Gender", "").equals("0")){
+            if (GenderSearch.getString("Gender", "").equals("0")) {
                 btnGender.setSelection(0);
-            }else {
-                btnGender.setSelection(Integer.parseInt(GenderSearch.getString("Gender","")));
+            } else {
+                btnGender.setSelection(Integer.parseInt(GenderSearch.getString("Gender", "")));
 
             }
-
 
 
         } catch (Exception e) {
@@ -241,8 +241,9 @@ public class Available_tutor extends Fragment {
 
 
         mSearch_keyword = prefs.getString("search_keyword", "").replaceAll("\\s+", "");
+        mSelectedId = prefs.getString("selectedId", "");
 
-        Log.e(TAG, "onCreateView=========>: " + mSearch_keyword);
+        Log.e(TAG, "onCreateView=========>: " + mSearch_keyword + "slectrd id" + mSelectedId);
 
         //  Button available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
 
@@ -737,30 +738,30 @@ public class Available_tutor extends Fragment {
                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                     btnGender.setBackgroundResource(R.drawable.spinner_boared);
 
-                    Log.e(TAG, "onItemSelected:--> " + GenderSearch.getString("Name","") + "---->" + mSelectedPrice);
+                    Log.e(TAG, "onItemSelected:--> " + GenderSearch.getString("Name", "") + "---->" + mSelectedPrice);
 
                 }
                 if (GenderSearch.getString("Name", "").equals("gender")) {
-                    if(mSelectedPrice.equals("")){
-                        Log.e(TAG, "Princeeeee1: "+mSelectedPrice );
+                    if (mSelectedPrice.equals("")) {
+                        Log.e(TAG, "Princeeeee1: " + mSelectedPrice);
                         ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
-                        Log.e(TAG, "Gender-->1"+mSelectedGender +"-->"+mSelectedPrice);
+                        Log.e(TAG, "Gender-->1" + mSelectedGender + "-->" + mSelectedPrice);
 
-                    }else {
-                        Log.e(TAG, "Princeeeee2: "+mSelectedPrice );
+                    } else {
+                        Log.e(TAG, "Princeeeee2: " + mSelectedPrice);
                         ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, mSelectedPrice);
-                        Log.e(TAG, "Gender-->2"+mSelectedGender +"-->"+mSelectedPrice);
+                        Log.e(TAG, "Gender-->2" + mSelectedGender + "-->" + mSelectedPrice);
 
                     }
                     Log.e(TAG, "Gender: " + mSelectedGender + "=" + mSelectedPrice);
                 } else {
-                    if(mSelectedPrice.equals("")){
+                    if (mSelectedPrice.equals("")) {
                         ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), "");
-                        Log.e(TAG, "Gender-->3"+mSelectedGender +"-->"+mSelectedPrice);
+                        Log.e(TAG, "Gender-->3" + mSelectedGender + "-->" + mSelectedPrice);
 
-                    }else {
-                        ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), PriceSearch.getString("Name",""));
-                        Log.e(TAG, "Gender-->4"+mSelectedGender +"-->"+mSelectedPrice);
+                    } else {
+                        ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), PriceSearch.getString("Name", ""));
+                        Log.e(TAG, "Gender-->4" + mSelectedGender + "-->" + mSelectedPrice);
                     }
                     Log.e(TAG, "Select Gender: " + mSelectedGender + "=" + mSelectedPrice);
 
@@ -835,10 +836,10 @@ public class Available_tutor extends Fragment {
                 if (PriceSearch.getString("Name", "").equals("")) {
                     if (GenderSearch.getString("Name", "").equals("gender")) {
                         ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, "", "");
-                        Log.e(TAG, "Apicall--1" + String.valueOf(mTutors_id) + "==" + mSearch_keyword + mSelectedGender +"=="+ mSelectedPrice);
+                        Log.e(TAG, "Apicall--1" + String.valueOf(mTutors_id) + "==" + mSearch_keyword + mSelectedGender + "==" + mSelectedPrice);
                     } else {
                         ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, mSelectedGender, "");
-                        Log.e(TAG, "Apicall--2" + String.valueOf(mTutors_id) + "==" + mSearch_keyword + "==" + mSelectedGender + "=="+mSelectedPrice);
+                        Log.e(TAG, "Apicall--2" + String.valueOf(mTutors_id) + "==" + mSearch_keyword + "==" + mSelectedGender + "==" + mSelectedPrice);
 
                     }
 
@@ -878,10 +879,11 @@ public class Available_tutor extends Fragment {
                 int mSizeModel = response.body().getTutors() == null ? 0 : response.body().getTutors().size();
 
                 Log.e(TAG, "onResponse---????: " + mSizeModel);
-                if (mSizeModel == 0) {
+                if (mSizeModel == 0 || mSelectedId.equals("0")) {
                     linearLayout.setVisibility(View.GONE);
                     btnGender.setVisibility(View.GONE);
                     btnPrice.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
                     txtNoResultFound.setVisibility(View.VISIBLE);
                     txtNoResultFound1.setVisibility(View.VISIBLE);
                     btnRetry.setVisibility(View.VISIBLE);
@@ -911,6 +913,7 @@ public class Available_tutor extends Fragment {
                             mTagsEditText.setText("");
                             SharedPreferences.Editor editor3 = getContext().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
                             editor3.putString("search_keyword", "");
+                            editor3.putString("selectedId", "1");
                             editor3.clear();
                             editor3.apply();
                             Intent intent = new Intent(getContext(), SettingFlyout.class);
@@ -925,7 +928,7 @@ public class Available_tutor extends Fragment {
                     });
 
 
-                   // txtNoResultFound.setText("No Results? Check spelling and limit your criteria.");
+                    // txtNoResultFound.setText("No Results? Check spelling and limit your criteria.");
                 } else {
                     btnGender.setVisibility(View.VISIBLE);
                     btnPrice.setVisibility(View.VISIBLE);
@@ -1108,7 +1111,7 @@ public class Available_tutor extends Fragment {
                     } else {
 
                         array = resultObj.getJSONArray("tutors");
-                        setRecyclar(array);
+                       // setRecyclar(array);
                         Log.e(TAG, "Array List Tutor " + array);
                     }
                 } catch (JSONException e) {
@@ -1171,7 +1174,9 @@ public class Available_tutor extends Fragment {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
+
                 Log.e(TAG, "onSwiped--->: " + response.body().getTutors().get(position).getId());
+             //   ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), mSelectedPrice);
 
 
                 if (direction == ItemTouchHelper.RIGHT) {
@@ -1305,7 +1310,7 @@ public class Available_tutor extends Fragment {
                     } else {
 
                         array = resultObj.getJSONArray("tutors");
-                        setRecyclar(array);
+                        //setRecyclar(array);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1361,7 +1366,7 @@ public class Available_tutor extends Fragment {
                                 }
                             } else {
                                 array = resultObj.getJSONArray("tutors");
-                                setRecyclar(array);
+                                //setRecyclar(array);
                             }
                         }
                     } catch (JSONException e) {

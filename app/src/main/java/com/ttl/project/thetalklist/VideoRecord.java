@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist;
 
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.pm.PackageManager;
 import android.Manifest;
@@ -273,6 +274,7 @@ public class VideoRecord extends Fragment {
     }
 
     //Check permission
+    @SuppressLint("ObsoleteSdkInt")
     private void checkPermission() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
 

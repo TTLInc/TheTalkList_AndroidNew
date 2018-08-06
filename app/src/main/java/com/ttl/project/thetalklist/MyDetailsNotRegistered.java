@@ -57,7 +57,7 @@ import java.util.Map;
 
 //Form with registered in registration process
 public class MyDetailsNotRegistered extends AppCompatActivity {
-
+    private static final String TAG = "MyDetailsNotRegistered";
     final int CAMERA_REQUEST = 1323;
     final int GALLERY_REQUEST = 1342;
     final int CROP_REQUEST = 1352;
@@ -389,10 +389,10 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
                         public void onResponse(String response) {
 //                            Toast.makeText(getApplicationContext(), "Submit", Toast.LENGTH_SHORT).show();
                             Log.e("mysetails not reg resp", response);
-
+                            Log.e(TAG, "Video Upload : "+response );
                             LoginService loginService = new LoginService();
                             loginService.login(getSharedPreferences("loginStatus", MODE_PRIVATE).getString("email", ""), getSharedPreferences("loginStatus", MODE_PRIVATE).getString("pass", ""), getApplicationContext());
-                            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Saved video", Toast.LENGTH_LONG).show();
                             Intent sta = new Intent(getApplicationContext(), Registration.class);
                             SharedPreferences pref1 = getApplicationContext().getSharedPreferences("firstTime", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = pref1.edit();

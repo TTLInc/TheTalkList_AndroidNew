@@ -102,7 +102,7 @@ public class EarnCredits extends Fragment {
                 final String earn_credit_paypalEmail_str = earn_credit_paypalEmail.getText().toString();
                 final String earn_credit_paypalaamount_float = earn_credit_paypalammount.getText().toString();
                 final String id = String.valueOf(getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("id", 0));
-                if (!earn_credit_paypalEmail_str.equals("")) {
+                if (!earn_credit_paypalEmail_str.equals("")||!earn_credit_paypalaamount_float.equals("")) {
                     if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0.0f) >= Float.parseFloat(earn_credit_paypalaamount_float)) {
                         Log.e("TAG", "Credit--!@ "+getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getInt("coupon_credits", 0) );
                         if (getContext().getSharedPreferences("loginStatus", Context.MODE_PRIVATE).getFloat("money", 0) > 10) {
@@ -176,13 +176,13 @@ public class EarnCredits extends Fragment {
                                     queue1.add(sr);
 
                                 } else
-                                    Toast.makeText(getContext(), "Enter Valid Amount", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Enter Valid Amount", Toast.LENGTH_LONG).show();
                             }
                         } else {
-                            Toast.makeText(getContext(), "You can’t cashout promotional credits.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "You can’t cashout promotional credits.", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(getContext(), "You don't have enough credits.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "You don't have enough credits.", Toast.LENGTH_LONG).show();
                     }
                }
 

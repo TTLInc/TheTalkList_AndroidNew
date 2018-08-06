@@ -194,11 +194,13 @@ public class UploadActivity extends Activity {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode == 200) {
                     responseString = EntityUtils.toString(r_entity);
-                    Log.e("video response", responseString);
+                    Log.e("video respons", responseString);
+                    Log.e(TAG, "uploadFile: "+responseString );
                     bio_Editor.clear().apply();
                 } else {
                     responseString = "Error occurred! Http Status Code: "
                             + statusCode;
+                    Log.e(TAG, "uploadFile: --->errror"+responseString );
                 }
 
             } catch (ClientProtocolException e) {

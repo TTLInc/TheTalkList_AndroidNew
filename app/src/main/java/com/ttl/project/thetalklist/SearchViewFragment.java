@@ -334,27 +334,27 @@ public class SearchViewFragment extends Fragment {
            /* SearchFilterModel contactChip = new SearchFilterModel(mSelectedPeople.get(i));
             mContactList.add(contactChip);*/
 
-                myTextViews2[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FLAG = "2";
-                        mPeople = myTextViews2[finalI].getText().toString();
-                        String mFirstName = mSelectedPeopleName.get(finalI);
-                        Log.e(TAG, "onClick-=--=: " + mFirstName);
-                        Log.e(TAG, "PEOPLE: " + mPeople);
-                        mStringDataSubject = mStringDataSubject + mFirstName.replaceAll("\\s+", "");
-                        Log.e(TAG, "mStringDataSubject----> " + mStringDataSubject);
-                        mTagsEditText.setText(mFirstName);
-                        Log.e(TAG, "FLAG VLUE" + FLAG);
+            myTextViews2[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FLAG = "2";
+                    mPeople = myTextViews2[finalI].getText().toString();
+                    String mFirstName = mSelectedPeopleName.get(finalI);
+                    Log.e(TAG, "onClick-=--=: " + mFirstName);
+                    Log.e(TAG, "PEOPLE: " + mPeople);
+                    mStringDataSubject = mStringDataSubject + mFirstName.replaceAll("\\s+", "");
+                    Log.e(TAG, "mStringDataSubject----> " + mStringDataSubject);
+                    mTagsEditText.setText(mFirstName);
+                    Log.e(TAG, "FLAG VLUE" + FLAG);
 
-                        mSizeAfter = mTagsEditText.getText().toString().trim().length();
-                        txtPlaceholderLocation.setVisibility(View.VISIBLE);
-                        txtPlaceholderSubject.setVisibility(View.VISIBLE);
-                        txtPlaceholderPeople.setVisibility(View.VISIBLE);
+                    mSizeAfter = mTagsEditText.getText().toString().trim().length();
+                    txtPlaceholderLocation.setVisibility(View.VISIBLE);
+                    txtPlaceholderSubject.setVisibility(View.VISIBLE);
+                    txtPlaceholderPeople.setVisibility(View.VISIBLE);
 
-                    }
+                }
 
-                });
+            });
 
             rowTextView2.setPadding(5, 52, 0, 10);
             rowTextView2.setTextColor(Color.parseColor("#000000"));
@@ -513,6 +513,11 @@ public class SearchViewFragment extends Fragment {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
                     SharedPreferences.Editor editor = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
                     editor.putString("search_keyword", SearchKeyword);
+                    if (SearchKeyword != null && !SearchKeyword.isEmpty() && !SearchKeyword.equals("null")) {
+                        editor.putString("selectedId", "1");
+                    } else {
+                        editor.putString("selectedId", "0");
+                    }
                     editor.clear();
                     editor.apply();
                     Intent intent = new Intent(getActivity(), SettingFlyout.class);

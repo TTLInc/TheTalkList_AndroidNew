@@ -897,7 +897,7 @@ public class Biography extends Fragment {
     public void setVideoIn() {
         String url = "http://www.thetalklist.com/api/biography_video?uid=" + uid;
 
-
+        Log.e(TAG, "setVideoIn: "+url );
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

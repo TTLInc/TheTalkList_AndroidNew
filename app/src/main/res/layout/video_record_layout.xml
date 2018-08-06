@@ -1,220 +1,213 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">-->
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--<ScrollView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+     -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <!--<ScrollView
-         android:layout_width="match_parent"
-         android:layout_height="match_parent">
-         -->
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:background="#EAEDED"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/videorecord_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:background="#EAEDED"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/videorecord_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:text="Upload a 1 min video and tell everyone why you are an awesome tutor."
-                    android:textColor="#000000" />
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="Upload a 1 min video and tell everyone why you are an awesome tutor."
+                android:textColor="#000000" />
 
 
+            <TextView
+                android:id="@+id/timeDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-50dp"
+                android:text="00:00"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/timeDuration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-50dp"
-                    android:text="00:00"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-            </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000" />
+
+        <LinearLayout
+            android:id="@+id/video_upload_control"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/videorecoedspnsubject"
+                android:layout_width="match_parent"
+                android:layout_height="53.5dp"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#00000000"
+                android:entries="@array/sub"
+                android:hint="Select Subject"
+                android:padding="11.2dp"
+                android:textSize="15.5dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#000000" />
+
+            <EditText
+                android:id="@+id/videoRecord_title"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="#00000000"
+                android:hint=" Enter Title"
+                android:maxLength="40"
+                android:padding="14dp"
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+
+            <EditText
+                android:id="@+id/videoRecord_desc"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="#00000000"
+                android:hint=" Enter Description"
+                android:padding="15dp"
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000" />
+        </LinearLayout>
+
+
+        <!-- <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/changecamera" />
+        </RelativeLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
             <LinearLayout
-                android:id="@+id/video_upload_control"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-                <Spinner
-                    android:id="@+id/videorecoedspnsubject"
-                    android:layout_width="match_parent"
-                    android:layout_height="53.5dp"
-                    android:layout_marginStart="10dp"
-                    android:backgroundTint="#00000000"
-                    android:entries="@array/sub"
-                    android:hint="Select Subject"
-                    android:padding="11.2dp"
-                    android:textSize="15.5dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <EditText
-                    android:id="@+id/videoRecord_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginLeft="10dp"
-                    android:backgroundTint="#00000000"
-                    android:hint=" Enter Title"
-                    android:maxLength="40"
-                    android:padding="14dp"
-                    android:textSize="14dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-
-                <EditText
-                    android:id="@+id/videoRecord_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_marginLeft="10dp"
-                    android:backgroundTint="#00000000"
-                    android:hint=" Enter Description"
-                    android:padding="15dp"
-                    android:textSize="14dp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#000000" />
-            </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1">
 
 
-
-            <!-- <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/imageView10"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/changecamera" />
-            </RelativeLayout>-->
+                    android:id="@+id/upload_video"
+                    android:layout_width="99dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/video_record" />
+                <!--android:src="@drawable/video_recording_blue_white"-->
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Capture Video"
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:background="#ffffff"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:weightSum="1">
+                android:layout_height="match_parent"
+                android:layout_weight="1"
 
 
-                    <ImageView
-                        android:id="@+id/upload_video"
-                        android:layout_width="99dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/video_record"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1">
 
-                        />
-                    <!--android:src="@drawable/video_recording_blue_white"-->
+                <ImageView
+                    android:id="@+id/upload_video_gallery"
+                    android:layout_width="109dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:src="@drawable/video_upload" />
 
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Capture Video"
-                        android:textColor="#000000"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-
-
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:weightSum="1">
-
-                    <ImageView
-                        android:id="@+id/upload_video_gallery"
-                        android:layout_width="109dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="1dp"
-                        android:src="@drawable/video_upload" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Upload Video"
-                        android:textColor="#000000"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Video"
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
             </LinearLayout>
 
-            <!--   <Button
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginBottom="10dp"
-                   android:layout_marginLeft="80dp"
-                   android:layout_marginRight="80dp"
-                   android:layout_marginTop="10dp"
-                   android:background="@color/orange"
-                   android:text="Upload"
-                   android:textAllCaps="false"
-                   android:textColor="#ffffff" />-->
-
-            <!--  <GridView
-                  android:id="@+id/uploadedVideo"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:numColumns="2">-->
-
-            <!--</GridView>-->
 
         </LinearLayout>
+
+        <!--   <Button
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="10dp"
+               android:layout_marginLeft="80dp"
+               android:layout_marginRight="80dp"
+               android:layout_marginTop="10dp"
+               android:background="@color/orange"
+               android:text="Upload"
+               android:textAllCaps="false"
+               android:textColor="#ffffff" />-->
+
+        <!--  <GridView
+              android:id="@+id/uploadedVideo"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:numColumns="2">-->
+
+        <!--</GridView>-->
+
+    </LinearLayout>
+
     <TextView
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="1 minute max"
-        android:textSize="25dp"
-         />
+        android:textSize="25dp" />
 
-</RelativeLayout>
-    <!--</ScrollView>-->
-    <!--</LinearLayout>-->
-<!--</ScrollView>-->
+</RelativeLayout><!--</ScrollView>--><!--</LinearLayout>--><!--</ScrollView>-->
