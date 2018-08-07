@@ -7,16 +7,14 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.media.AudioManager;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.media.MediaPlayer;
-import android.os.Vibrator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,31 +36,28 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class CallActivity extends AppCompatActivity implements PublisherKit.PublisherListener {
 
-    ImageView ans, reject;
-
-    FrameLayout frameCameraPreview;
-    private Vibrator vib;
-    private MediaPlayer mp;
     private static final String LOG_TAG = New_videocall_activity.class.getSimpleName();
-
+    private static final String TAG = "CallActivity";
+    ImageView ans, reject;
+    FrameLayout frameCameraPreview;
     int wasActive;
     RequestQueue queue111;
     Camera mCamera;
-//    CameraView cameraView;
-
     TextView incomingCall_CallerName;
-ImageView call_activity_image;
-
+//    CameraView cameraView;
+    ImageView call_activity_image;
     BroadcastReceiver callEnd;
-    private static final String TAG = "CallActivity";
+    private Vibrator vib;
+    private MediaPlayer mp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call);
 
-        SharedPreferences p=getSharedPreferences("videocallrole",MODE_PRIVATE);
-        SharedPreferences.Editor ed=p.edit();
-        ed.putString("videocallrole","subscriber").apply();
+        SharedPreferences p = getSharedPreferences("videocallrole", MODE_PRIVATE);
+        SharedPreferences.Editor ed = p.edit();
+        ed.putString("videocallrole", "subscriber").apply();
 
         frameCameraPreview = (FrameLayout) findViewById(R.id.frameCameraPreview);
         wasActive = 0;
@@ -71,43 +66,38 @@ ImageView call_activity_image;
             onBackPressed();
 
 
-
-
-        callEnd=new BroadcastReceiver() {
+        callEnd = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-          finish();
+                finish();
             }
         };
-        registerReceiver(callEnd,new IntentFilter("callEnd"));
+        registerReceiver(callEnd, new IntentFilter("callEnd"));
 
         incomingCall_CallerName = (TextView) findViewById(R.id.incomingCall_CallerName);
         call_activity_image = (ImageView) findViewById(R.id.call_activity_image);
         final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE);
-        SharedPreferences.Editor editor=preferences.edit();
+        SharedPreferences.Editor editor = preferences.edit();
         incomingCall_CallerName.setText(preferences.getString("callSenderName", ""));
 
 
-                if (!preferences.getString("image","").equals("")){
-                    Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + preferences.getString("image",""))
-                            .crossFade()
-                            .thumbnail(0.5f)
-                            .bitmapTransform(new CircleTransform(getApplicationContext()))
-                            .placeholder(R.drawable.process)
-                            .error(R.drawable.black_person)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(call_activity_image);
-                } else {
-                    Glide.with(getApplicationContext()).load("https://www.thetalklist.com/images/header.jpg")
-                            .crossFade()
-                            .thumbnail(0.5f)
-                            .bitmapTransform(new CircleTransform(getApplicationContext()))
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(call_activity_image);
-                }
-
-
-
+        if (!preferences.getString("image", "").equals("")) {
+            Glide.with(getApplicationContext()).load("https://www.thetalklist.com/uploads/images/" + preferences.getString("image", ""))
+                    .crossFade()
+                    .thumbnail(0.5f)
+                    .bitmapTransform(new CircleTransform(getApplicationContext()))
+                    .placeholder(R.drawable.process)
+                    .error(R.drawable.black_person)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(call_activity_image);
+        } else {
+            Glide.with(getApplicationContext()).load("https://www.thetalklist.com/images/header.jpg")
+                    .crossFade()
+                    .thumbnail(0.5f)
+                    .bitmapTransform(new CircleTransform(getApplicationContext()))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(call_activity_image);
+        }
 
 
         mp = MediaPlayer.create(this, R.raw.incoming);
@@ -173,15 +163,15 @@ ImageView call_activity_image;
         ans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "Stop Ringing: " );
+                Log.e(TAG, "Stop Ringing: ");
                 wasActive = 1;
 
                 vib.cancel();
                 Intent i = new Intent("com.example.saubhagyam.thetalklist");
                 i.putExtra("from", "callActivity");
 
-                TTL ttl=new TTL();
-                ttl.Callfrom="callActivity";
+                TTL ttl = new TTL();
+                ttl.Callfrom = "callActivity";
 
                 finish();
 
@@ -199,11 +189,9 @@ ImageView call_activity_image;
 
                 finish();
 
-                Intent i=new Intent();
+                Intent i = new Intent();
                 i.setAction("callEnd");
                 sendBroadcast(i);
-
-
 
 
                 queue111 = Volley.newRequestQueue(getApplicationContext());
@@ -213,7 +201,7 @@ ImageView call_activity_image;
 
                 String URL = "https://www.thetalklist.com/api/firebase_rejectcall?sender_id=" + pref.getInt("id", 0) + "&receiver_id=" + preferences.getInt("tutorId", 0) + "&cid=" + preferences.getInt("classId", 0);
                 Log.e("firebase reject Call", URL);
-                Log.e(TAG, "Reject Call"+URL );
+                Log.e(TAG, "Reject Call" + URL);
                 StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -255,7 +243,7 @@ ImageView call_activity_image;
         mp.stop();
         vib.cancel();
         if (mCamera != null)
-        mCamera.release();
+            mCamera.release();
 
         finish();
 

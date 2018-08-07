@@ -336,7 +336,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:gravity="center"
-
                 android:text=""
                 android:textColor="#ffffff"
                 android:textSize="15dp"

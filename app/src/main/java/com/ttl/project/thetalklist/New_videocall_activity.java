@@ -10,6 +10,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -71,7 +72,7 @@ public class New_videocall_activity extends AppCompatActivity
     private static final String LOG_TAG = New_videocall_activity.class.getSimpleName();
     private static final int RC_SETTINGS_SCREEN_PERM = 123;
     private static final int RC_VIDEO_APP_PERM = 124;
-
+    private static final String TAG = "New_videocall_activity";
 
     AudioManager audioManager;
     // Suppressing this warning. mWebServiceCoordinator will get GarbageCollected if it is local.
@@ -105,6 +106,8 @@ public class New_videocall_activity extends AppCompatActivity
     int time;
     int layoutVisibilityBit;
     int minute;
+
+    Handler handler;
     private Session mSession;
     private Publisher mPublisher;
     private Subscriber mSubscriber;
@@ -117,6 +120,16 @@ public class New_videocall_activity extends AppCompatActivity
 
         Log.d(LOG_TAG, "onCreate");
 
+        handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            public void run() {
+
+                handler.postDelayed(this, 1000);
+            }
+        };
+
+        handler.postDelayed(r, 1000);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_call);
        /* mp = MediaPlayer.create(this, R.raw.tring_tring);
@@ -129,8 +142,8 @@ public class New_videocall_activity extends AppCompatActivity
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mp.start();*/
         mp = MediaPlayer.create(this, R.raw.incoming);
-         audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-      //  AudioManager m_amAudioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        //  AudioManager m_amAudioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);
         audioManager.setMode(AudioManager.STREAM_MUSIC);
         audioManager.setSpeakerphoneOn(true);
         mp.setLooping(true);
@@ -312,8 +325,7 @@ public class New_videocall_activity extends AppCompatActivity
         i = getIntent();
 
         time = i.getIntExtra("min", 0);
-        if (i.getStringExtra("from").equalsIgnoreCase("callActivity"))
-        {
+        if (i.getStringExtra("from").equalsIgnoreCase("callActivity")) {
             mp.stop();
             outgoingCallRootLayout.setVisibility(View.GONE);
             videoCallRootLayout.setVisibility(View.VISIBLE);
@@ -397,12 +409,11 @@ public class New_videocall_activity extends AppCompatActivity
             queue111.add(sr);
 
         }
-        btn_cutcall.setOnClickListener(new View.OnClickListener()
-
-        {
+        btn_cutcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editoroff.clear().apply();
+                mp.stop();
                 if (mSession != null) {
                     mSession.disconnect();
                     onDisconnected(mSession);
