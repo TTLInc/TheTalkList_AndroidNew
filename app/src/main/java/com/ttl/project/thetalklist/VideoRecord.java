@@ -48,7 +48,7 @@ import java.util.Locale;
 
 //Video record class
 public class VideoRecord extends Fragment {
-
+    private static final String TAG = "VideoRecord";
 
     ImageView upload_video, upload_video_gallery;
 
@@ -73,7 +73,7 @@ public class VideoRecord extends Fragment {
     private boolean sentToSettings = false;
 
 
-    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 20000;
+    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 1;
     public static final SettingFlyout ActivityContext = null;
 
 
@@ -175,7 +175,7 @@ public class VideoRecord extends Fragment {
         upload_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.e(TAG, "biography-->: "+bio_videoPref.getBoolean("biography", false) );
                 if (!bio_videoPref.getBoolean("biography", false)) {
 
                     if (subject.getSelectedItem().toString().equalsIgnoreCase("select subject")) {
