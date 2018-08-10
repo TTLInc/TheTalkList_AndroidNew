@@ -1,5 +1,6 @@
 package com.ttl.project.thetalklist;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -36,6 +37,7 @@ public class Tablayout_with_viewpager extends android.support.v4.app.Fragment {
 
     int tab=0;
 
+    @SuppressLint("ValidFragment")
     public Tablayout_with_viewpager(int tab) {
         status = tab;
         //changeTab(tab);

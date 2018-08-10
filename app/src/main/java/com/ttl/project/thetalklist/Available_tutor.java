@@ -118,6 +118,7 @@ public class Available_tutor extends Fragment {
     int mPosition;
     Button btnRetry;
     String mSelectedId;
+    Handler handler;
     String[] plants = new String[]{
             "Black birch",
             "European weeping birch"
@@ -240,10 +241,10 @@ public class Available_tutor extends Fragment {
         SharedPreferences prefs = getContext().getSharedPreferences("MyPref", MODE_PRIVATE);
 
 
-        mSearch_keyword = prefs.getString("search_keyword", "").replaceAll("\\s+", "");
+        mSearch_keyword = prefs.getString("search_keyword", "").replaceAll(",\\s+", ",");
         mSelectedId = prefs.getString("selectedId", "");
 
-        Log.e(TAG, "onCreateView=========>: " + mSearch_keyword + "slectrd id" + mSelectedId);
+        Log.e(TAG, "onCreateView=========>: " + mSearch_keyword );
 
         //  Button available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
 
@@ -546,7 +547,20 @@ public class Available_tutor extends Fragment {
             }
 
         }
+        handler = new Handler();
 
+        final Runnable r = new Runnable() {
+            public void run() {
+                if (mTagsEditText.getText().toString() != null && !mTagsEditText.getText().toString().isEmpty() && !mTagsEditText.getText().toString().equals("null")) {
+                    mClearSearch.setVisibility(View.VISIBLE);
+                }else {
+                    mClearSearch.setVisibility(View.GONE);
+                }
+                handler.postDelayed(this, 1000);
+            }
+        };
+
+        handler.postDelayed(r, 1000);
         mTagsEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -559,8 +573,9 @@ public class Available_tutor extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-
-                    fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment()).addToBackStack("fragment").commit();
+                    FragmentStack fragmentStack=FragmentStack.getInstance();
+                    fragmentStack.push(new Available_tutor());
+                    fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment(),"fragment").addToBackStack("fragment").commit();
                     return true;
                 }
                 return false;
@@ -720,7 +735,7 @@ public class Available_tutor extends Fragment {
                 if (mSelectedGender.equals("Gender")) {
                     mSelectedGender = "";
                     mSetSelectetionPotion = 0;
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.hitTextColor);
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.black);
                     btnGender.setBackgroundResource(R.drawable.buttonboarder);
                     Log.e(TAG, "onItemSelected:--> " + mSelectedGender + "===" + mSelectedPrice);
                 }
@@ -788,7 +803,7 @@ public class Available_tutor extends Fragment {
 
                     mSelectedPrice = "";
 
-                    ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.hitTextColor);
+                    ((TextView) adapterView.getChildAt(0)).setTextColor(R.color.black);
                     btnPrice.setBackgroundResource(R.drawable.buttonboarder);
                     editor.putString("Name", "Price");
                     editor.clear();
@@ -1111,7 +1126,7 @@ public class Available_tutor extends Fragment {
                     } else {
 
                         array = resultObj.getJSONArray("tutors");
-                       // setRecyclar(array);
+                        // setRecyclar(array);
                         Log.e(TAG, "Array List Tutor " + array);
                     }
                 } catch (JSONException e) {
@@ -1176,7 +1191,7 @@ public class Available_tutor extends Fragment {
                 int position = viewHolder.getAdapterPosition();
 
                 Log.e(TAG, "onSwiped--->: " + response.body().getTutors().get(position).getId());
-             //   ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), mSelectedPrice);
+                //   ApiCallGender(String.valueOf(mTutors_id), mSearch_keyword, GenderSearch.getString("Name", ""), mSelectedPrice);
 
 
                 if (direction == ItemTouchHelper.RIGHT) {

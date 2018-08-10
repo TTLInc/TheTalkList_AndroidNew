@@ -1,8 +1,25 @@
 package com.ttl.project.thetalklist;
 
 
-import java.io.File;
-import java.io.IOException;
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
+
+import com.ttl.project.thetalklist.util.AndroidMultiPartEntity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,44 +33,29 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
-
-import com.ttl.project.thetalklist.util.AndroidMultiPartEntity;
+import java.io.File;
+import java.io.IOException;
 
 
 //Video upload activity
-public class UploadActivity extends Activity {
+public class UploadActivity extends AppCompatActivity {
     // LogCat tag
     private static final String TAG = UploadActivity.class.getSimpleName();
-
-    private ProgressBar progressBar;
-    private String filePath = null;
-    private TextView txtPercentage;
-    private VideoView vidPreview;
-    private Button btnUpload;
     long totalSize = 0;
-
     ProgressDialog progressDialog;
-
     int id;
     String subject;
     String title;
     String description;
     String activity;
+    int mRolid;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    private ProgressBar progressBar;
+    private String filePath = null;
+    private TextView txtPercentage;
+    private VideoView vidPreview;
+    private Button btnUpload;
 
     @SuppressLint("ResourceType")
     @Override
@@ -64,7 +66,10 @@ public class UploadActivity extends Activity {
         btnUpload = (Button) findViewById(R.id.btnUpload);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         vidPreview = (VideoView) findViewById(R.id.videoPreview);
-
+        SharedPreferences login = getSharedPreferences("loginStatus", MODE_PRIVATE);
+        SharedPreferences.Editor e = login.edit();
+        mRolid = login.getInt("roleId", 0);
+        Log.e(TAG, "Rolid" + mRolid);
         Intent i = getIntent();
 
         filePath = i.getStringExtra("filePath");
@@ -72,7 +77,7 @@ public class UploadActivity extends Activity {
         subject = i.getStringExtra("subject");
         title = i.getStringExtra("title");
         description = i.getStringExtra("description");
-        activity=i.getStringExtra("activity");
+        activity = i.getStringExtra("activity");
 
 
         previewMedia();
@@ -195,12 +200,12 @@ public class UploadActivity extends Activity {
                 if (statusCode == 200) {
                     responseString = EntityUtils.toString(r_entity);
                     Log.e("video respons", responseString);
-                    Log.e(TAG, "uploadFile: "+responseString );
+                    Log.e(TAG, "uploadFile: " + responseString);
                     bio_Editor.clear().apply();
                 } else {
                     responseString = "Error occurred! Http Status Code: "
                             + statusCode;
-                    Log.e(TAG, "uploadFile: --->errror"+responseString );
+                    Log.e(TAG, "uploadFile: --->errror" + responseString);
                 }
 
             } catch (ClientProtocolException e) {
@@ -236,19 +241,22 @@ public class UploadActivity extends Activity {
                 finish();
             } else {
 
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("RolId", 0);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putInt("RolId", mRolid);
+                editor.apply();
 
                 Intent i = new Intent(getApplicationContext(), SettingFlyout.class);
                 i.putExtra("back", true);
+                i.putExtra("flag","1");
                 startActivity(i);
                 finish();
+
             }
+
             super.onPostExecute(result);
         }
 
     }
-
-    /**
-     * Method to show alert dialog
-     * */
 
 }

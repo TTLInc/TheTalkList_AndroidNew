@@ -1,14 +1,14 @@
 package com.ttl.project.thetalklist;
 
-import android.annotation.SuppressLint;
-import android.app.*;
-import android.content.pm.PackageManager;
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -27,14 +27,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ttl.project.thetalklist.util.Config;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,48 +49,32 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 //Video record class
 public class VideoRecord extends Fragment {
+    public static final SettingFlyout ActivityContext = null;
     private static final String TAG = "VideoRecord";
-
-    ImageView upload_video, upload_video_gallery;
-
-
+    private static final int PERMISSION_CALLBACK_CONSTANT = 100;
+    private static final int REQUEST_PERMISSION_SETTING = 101;
+    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 1;
     final int SELECT_VIDEO = 13210;
-
-
+    final String[] permissionsRequired = new String[]{android.Manifest.permission.CAMERA,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE};
+    ImageView upload_video, upload_video_gallery;
     View view1;
     View view;
     android.widget.VideoView VDOView;
     Dialog dialog;
     SharedPreferences bio_videoPref;
-
-
-    private SharedPreferences permissionStatus;
-
-    final String[] permissionsRequired = new String[]{android.Manifest.permission.CAMERA,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_EXTERNAL_STORAGE};
-    private static final int PERMISSION_CALLBACK_CONSTANT = 100;
-    private static final int REQUEST_PERMISSION_SETTING = 101;
-    private boolean sentToSettings = false;
-
-
-    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 1;
-    public static final SettingFlyout ActivityContext = null;
-
-
     Spinner subject;
-
+    File mediaFile;
     EditText videoRecord_title, videoRecord_desc;
     String current_file_apth;
     TextView timeDuration;
     ProgressBar progressBar;
-
-
+    private SharedPreferences permissionStatus;
+    private boolean sentToSettings = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +86,7 @@ public class VideoRecord extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        createFileSdCard();
 
         View view = inflater.inflate(R.layout.video_record_layout, container, false);
         permissionStatus = getContext().getSharedPreferences("permission status", 0);
@@ -175,7 +166,7 @@ public class VideoRecord extends Fragment {
         upload_video.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "biography-->: "+bio_videoPref.getBoolean("biography", false) );
+                Log.e(TAG, "biography-->: " + bio_videoPref.getBoolean("biography", false));
                 if (!bio_videoPref.getBoolean("biography", false)) {
 
                     if (subject.getSelectedItem().toString().equalsIgnoreCase("select subject")) {
@@ -207,31 +198,17 @@ public class VideoRecord extends Fragment {
                                 "VID_" + timeStamp + ".mp4";
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, mediaFile);
                         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
-                        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                        //  intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
                         startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
                     }
                 } else {
+                    createFileSdCard();
                     Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ns/");
-                    if (!mediaStorageDir.exists()) {
-                        if (!mediaStorageDir.mkdirs()) {
-                            Toast.makeText(ActivityContext, "Failed to create directory MyCameraVideo.",
-                                    Toast.LENGTH_LONG).show();
-                            Log.d("MyCameraVideo", "Failed to create directory MyCameraVideo.");
-                        }
-                    }
-                    java.util.Date date = new java.util.Date();
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
-                            .format(date.getTime());
-                    File mediaFile;
-                    mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                            "VID_" + timeStamp + ".mp4");
-                    current_file_apth = mediaStorageDir.getPath() + File.separator +
-                            "VID_" + timeStamp + ".mp4";
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, mediaFile);
                     intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
-                    intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                    //  intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
                     startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+
                 }
 
             }
@@ -271,6 +248,25 @@ public class VideoRecord extends Fragment {
         SharedPreferences.Editor editor = pref.edit();
 
         return view;
+    }
+
+    private void createFileSdCard() {
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ns/");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Toast.makeText(ActivityContext, "Failed to create directory MyCameraVideo.",
+                        Toast.LENGTH_LONG).show();
+                Log.d("MyCameraVideo", "Failed to create directory MyCameraVideo.");
+            }
+        }
+        java.util.Date date = new java.util.Date();
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(date.getTime());
+
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "VID_" + timeStamp + ".mp4");
+        current_file_apth = mediaStorageDir.getPath() + File.separator +
+                "VID_" + timeStamp + ".mp4";
     }
 
     //Check permission
@@ -343,7 +339,8 @@ public class VideoRecord extends Fragment {
         } else {
         }
     }
-//Method after permission
+
+    //Method after permission
     private void proceedAfterPermission() {
     }
 
@@ -412,7 +409,6 @@ public class VideoRecord extends Fragment {
             final Uri image_uri = data.getData();
             if (requestCode == REQUEST_PERMISSION_SETTING) {
                 if (ActivityCompat.checkSelfPermission(getContext(), permissionsRequired[0]) == PackageManager.PERMISSION_GRANTED) {
-                    //Got Permission
                     proceedAfterPermission();
                 }
             }
@@ -420,14 +416,12 @@ public class VideoRecord extends Fragment {
 
 
                 launchUploadActivity(generatePath(image_uri, getContext()));
-
+                Log.e(TAG, "okkkkkkkkkkkkkkkkkk1");
 
             }
             if (requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
-
-
                 launchUploadActivity(generatePath(image_uri, getContext()));
-
+                Log.e(TAG, "okkkkkkkkkkkkkkkkkk2");
             }
 //            getActivity().onBackPressed();
         }
@@ -445,8 +439,7 @@ public class VideoRecord extends Fragment {
         i.putExtra("description", videoRecord_desc.getText().toString());
         i.putExtra("activity", getActivity().getClass().toString());
 
-        SharedPreferences.Editor editor=bio_videoPref.edit();
-
+        SharedPreferences.Editor editor = bio_videoPref.edit();
 
 
         if (getActivity().getClass().toString().equalsIgnoreCase("class com.ttl.project.thetalklist.Registration")) {
@@ -521,7 +514,6 @@ public class VideoRecord extends Fragment {
         }
         return filePath;
     }
-
 
 
 }

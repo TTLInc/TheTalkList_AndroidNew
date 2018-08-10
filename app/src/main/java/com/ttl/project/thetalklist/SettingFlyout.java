@@ -97,8 +97,6 @@ import java.util.TimerTask;
 
 import me.grantland.widget.AutofitHelper;
 
-import static android.content.Context.MODE_PRIVATE;
-
 //Main Activity where all data fragment attached with
 public class SettingFlyout extends AppCompatActivity {
 
@@ -161,6 +159,7 @@ public class SettingFlyout extends AppCompatActivity {
     TTL ttl;
     int id;
     String userChoosenTask;
+    String mFlag = "0";
     private ListView mDrawerList;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -214,6 +213,7 @@ public class SettingFlyout extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_setting_flyout);
+
         preferences = getSharedPreferences("loginStatus", MODE_PRIVATE);
         v = getLayoutInflater().inflate(R.layout.tutor_actionbar_layout, null);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -247,6 +247,9 @@ public class SettingFlyout extends AppCompatActivity {
         txtPayment = (TextView) findViewById(R.id.txtPayments);
         txtFavorits = (TextView) findViewById(R.id.txtFavorites);
         pref = getSharedPreferences("loginStatus", MODE_PRIVATE);
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        openProfileFragment();
         displayFirebaseRegId();
 
 
@@ -313,8 +316,6 @@ public class SettingFlyout extends AppCompatActivity {
         MessageCountService messageCountService = new MessageCountService();
         messageCountService.MessageCount(this, pref);
 
-        fragmentTransaction = fragmentManager.beginTransaction();
-
 
         FirebaseApp.initializeApp(this);
         FirebaseMessaging.getInstance().subscribeToTopic("global");
@@ -367,6 +368,7 @@ public class SettingFlyout extends AppCompatActivity {
 
             }
         };
+
 
         /*{
             if (pref.getInt("roleId", 0) != 0) {
@@ -780,8 +782,36 @@ public class SettingFlyout extends AppCompatActivity {
                 editor123.putInt("roleId", -1).apply();
                 getSupportFragmentManager().beginTransaction().replace(R.id.viewpager, new Available_tutor()).commit();
 
-            } else
-                fragmentTransaction.replace(R.id.viewpager, new Available_tutor()).commit();
+            } else {
+                Intent intent = getIntent();
+                Bundle extras = intent.getExtras();
+                try {
+                    if (extras != null) {
+                        mFlag = extras.getString("flag");
+                        Log.e(TAG, "FlagValue" + mFlag);
+                        if (mFlag.equals("1")) {
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("RolId", 0);
+                            int Rolid = pref.getInt("RolId", 0);
+                            if (Rolid == 0) {
+                                Tablayout_with_viewpager withViewpager = new Tablayout_with_viewpager();
+                                fragmentTransaction.replace(R.id.viewpager, withViewpager);
+                                fragmentTransaction.commit();
+                            } else {
+                                fragmentTransaction.replace(R.id.viewpager, new Available_tutor()).commit();
+
+                            }
+                        }
+                    } else {
+                        fragmentTransaction.replace(R.id.viewpager, new Available_tutor()).commit();
+                    }
+                } catch (Exception e) {
+                    fragmentTransaction.replace(R.id.viewpager, new Available_tutor()).commit();
+
+                }
+
+            }
+
+
         }
 
 
@@ -824,6 +854,11 @@ public class SettingFlyout extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    private void openProfileFragment() {
 
 
     }
@@ -912,7 +947,7 @@ public class SettingFlyout extends AppCompatActivity {
                                 string2 = string2.replace("PM", "");
                             }
                             int to = 0;
-                            int from=0;
+                            int from = 0;
                             Log.e("day of week", dayOfTheWeek);
                             Log.e("start time", string1);
                             Log.e("end time", string2);

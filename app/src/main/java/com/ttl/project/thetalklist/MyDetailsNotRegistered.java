@@ -392,7 +392,7 @@ public class MyDetailsNotRegistered extends AppCompatActivity {
                             Log.e(TAG, "Video Upload : "+response );
                             LoginService loginService = new LoginService();
                             loginService.login(getSharedPreferences("loginStatus", MODE_PRIVATE).getString("email", ""), getSharedPreferences("loginStatus", MODE_PRIVATE).getString("pass", ""), getApplicationContext());
-                            Toast.makeText(getApplicationContext(), "Saved video", Toast.LENGTH_LONG).show();
+                        //    Toast.makeText(getApplicationContext(), "Saved video", Toast.LENGTH_LONG).show();
                             Intent sta = new Intent(getApplicationContext(), Registration.class);
                             SharedPreferences pref1 = getApplicationContext().getSharedPreferences("firstTime", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = pref1.edit();

@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ttl.project.thetalklist.model.AllSearchDataModel;
@@ -50,8 +51,8 @@ public class SearchViewFragment extends Fragment {
     ApiInterface mApiInterface;
     LinearLayout linearLayoutSubjectTextView, linearLayoutLocationTextView,
             linearLayoutPeopleTextView, linearLayoutSubjectImageView, linearLayoutLocationImageView,
-            linearLayoutPeopleImageView;
-
+            linearLayoutPeopleImageView, viewLayout;
+    RelativeLayout viewLayout1;
     TextView rowTextView, rowTextView1, rowTextView2;
 
     ArrayList<String> arryListSubject, arryListLocation, arryListPeople, mSearchkeyword;
@@ -79,6 +80,7 @@ public class SearchViewFragment extends Fragment {
     int mSizeAllSubjectList, mSizeAllPeopleList, mSizeAllLocationList;
     int countLocation, countPeople, countSubject;
     List<AllSearchDataModel.PeopleBean> peopleResponse;
+    LinearLayout layout2;
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
@@ -91,9 +93,16 @@ public class SearchViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_serchview, container, false);
+        ((ImageView) getActivity().findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
         initialization();
         apicallGetAllData();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        ((ImageView) getActivity().findViewById(R.id.imageView13)).setImageDrawable(getResources().getDrawable(R.drawable.tutors_activated));
+        super.onResume();
     }
 
     private void apicallGetAllData() {
@@ -318,22 +327,24 @@ public class SearchViewFragment extends Fragment {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setPeople(ArrayList<String> mSelectedPeople, final ArrayList<String> mSelectedPeopleName, int count) {
         myTextViews2 = new TextView[count];
-        /*for (int i = 0; i < count;i++) {
-            Log.e(TAG, "mSelectPersion list " + mSelectedPeopleName.get(i));
+        int countLoop = 0;
 
-        }*/
+
+
         for (int i = 0; i < count; i++) {
-
+            Log.e(TAG, "setPeople: full name--> "+mSelectedPeople );
+            Log.e(TAG, "setPeople:name--> "+mSelectedPeopleName );
+            LinearLayout layoutText, layoutImage;
+            layoutText = new LinearLayout(getActivity());
+            layoutImage = new LinearLayout(getActivity());
             rowTextView2 = new TextView(getActivity());
             rowTextView2.setText(mSelectedPeople.get(i));
 
             myTextViews2[i] = rowTextView2;
             final int finalI = i;
-           /* SearchFilterModel contactChip = new SearchFilterModel(mSelectedPeople.get(i));
-            mContactList.add(contactChip);*/
-
             myTextViews2[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -356,25 +367,47 @@ public class SearchViewFragment extends Fragment {
 
             });
 
-            rowTextView2.setPadding(5, 52, 0, 10);
+            rowTextView2.setPadding(5, 27, 0, 25);
             rowTextView2.setTextColor(Color.parseColor("#000000"));
             imagePeople = new ImageView(getActivity());
             imagePeople.setLayoutParams(new ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
-            imagePeople.setPadding(0, 50, 0, 10);
+            imagePeople.setPadding(0, 25, 0, 25);
             imagePeople.setImageResource(R.drawable.people);
+
+            layoutText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+
+            layoutText.setBackgroundColor(R.color.black);
+            layoutImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            layoutImage.setBackgroundColor(R.color.black);
+
+
             linearLayoutPeopleTextView.addView(rowTextView2);
             linearLayoutPeopleImageView.addView(imagePeople);
+            if (count != (countLoop + 1)) {
+                Log.e(TAG, "setPeople:count " + count);
+                Log.e(TAG, "countLoop" + countLoop);
+                for (int j = 0; j < 1; j++) {
+                    linearLayoutPeopleTextView.addView(layoutText);
+                    linearLayoutPeopleImageView.addView(layoutImage);
+                    countLoop = countLoop + 1;
+                }
+            }
+
         }
+
         mSelectedPeople.clear();
 
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setLocation(ArrayList<String> mSelectedLocation, int count) {
         myTextViews1 = new TextView[count];
-
+        int countLoop = 0;
         for (int i = 0; i < count; i++) {
 
             rowTextView1 = new TextView(getActivity());
+            LinearLayout layoutText = new LinearLayout(getActivity());
+            LinearLayout layoutImage = new LinearLayout(getActivity());
             rowTextView1.setText(mSelectedLocation.get(i));
             myTextViews1[i] = rowTextView1;
             final int finalI = i;
@@ -397,25 +430,47 @@ public class SearchViewFragment extends Fragment {
                     txtPlaceholderPeople.setVisibility(View.VISIBLE);
                 }
             });
-            rowTextView1.setPadding(5, 52, 0, 10);
+            rowTextView1.setPadding(5, 27, 0, 25);
             rowTextView1.setTextColor(Color.parseColor("#000000"));
             imageLocation = new ImageView(getActivity());
             imageLocation.setLayoutParams(new ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
 
-            imageLocation.setPadding(0, 50, 0, 10);
+            imageLocation.setPadding(0, 25, 0, 25);
             imageLocation.setImageResource(R.drawable.location);
+
+
+            layoutText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            layoutText.setBackgroundColor(R.color.black);
+            layoutImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            layoutImage.setBackgroundColor(R.color.black);
 
             linearLayoutLocationTextView.addView(rowTextView1);
             linearLayoutLocationImageView.addView(imageLocation);
+            Log.e(TAG, "setLocation: count" + count);
+
+
+            if (count != (countLoop + 1)) {
+                Log.e(TAG, "setPeople:count " + count);
+                Log.e(TAG, "countLoop" + countLoop);
+                for (int j = 0; j < 1; j++) {
+                    linearLayoutLocationTextView.addView(layoutText);
+                    linearLayoutLocationImageView.addView(layoutImage);
+                    countLoop = countLoop + 1;
+                }
+            }
 
         }
         mSelectedLocation.clear();
     }
 
+    @SuppressLint("ResourceAsColor")
     private void setSubject(ArrayList<String> mSelectedSubject, int count) {
         myTextViews = new TextView[count];
-
+        int countLoop = 0;
         for (int i = 0; i < count; i++) {
+            LinearLayout layoutText = new LinearLayout(getActivity());
+            LinearLayout layoutImage = new LinearLayout(getActivity());
+
             rowTextView = new TextView(getActivity());
             rowTextView.setText(mSelectedSubject.get(i));
             rowTextView.setTextColor(Color.parseColor("#000000"));
@@ -442,15 +497,32 @@ public class SearchViewFragment extends Fragment {
                 }
             });
 
-            rowTextView.setPadding(5, 50, 0, 10);
+            rowTextView.setPadding(5, 27, 0, 25);
             imageSubject = new ImageView(getActivity());
             imageSubject.setLayoutParams(new ViewGroup.LayoutParams(80, ViewGroup.LayoutParams.MATCH_PARENT));
 
-            imageSubject.setPadding(0, 50, 0, 10);
+            imageSubject.setPadding(0, 25, 0, 25);
             imageSubject.setImageResource(R.drawable.notebook);
+
+            layoutText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            layoutText.setBackgroundColor(R.color.black);
+            layoutImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            layoutImage.setBackgroundColor(R.color.black);
 
             linearLayoutSubjectTextView.addView(rowTextView);
             linearLayoutSubjectImageView.addView(imageSubject);
+            Log.e(TAG, "setSubject: Count" + count);
+
+
+            if (count != (countLoop + 1)) {
+                Log.e(TAG, "setPeople:count " + count);
+                Log.e(TAG, "countLoop" + countLoop);
+                for (int j = 0; j < 1; j++) {
+                    linearLayoutSubjectTextView.addView(layoutText);
+                    linearLayoutSubjectImageView.addView(layoutImage);
+                    countLoop = countLoop + 1;
+                }
+            }
 
         }
         mSelectedSubject.clear();
@@ -497,7 +569,6 @@ public class SearchViewFragment extends Fragment {
         txtPeopleName = (TextView) view.findViewById(R.id.peopleName);
         mContactList = new ArrayList<>();
         mClearSearch = (ImageView) view.findViewById(R.id.imgeClear);
-
 
         mTagsEditText = (TagsEditText) view.findViewById(R.id.tagsEditText);
         mTagsEditText.setSingleLine();
@@ -553,6 +624,7 @@ public class SearchViewFragment extends Fragment {
 
                 }
                 if (String.valueOf(acb).equals("0")) {
+                    mClearSearch.setVisibility(View.GONE);
                     txtPlaceholderLocation.setVisibility(View.VISIBLE);
                     txtPlaceholderSubject.setVisibility(View.VISIBLE);
                     txtPlaceholderPeople.setVisibility(View.VISIBLE);
@@ -565,6 +637,8 @@ public class SearchViewFragment extends Fragment {
                  /*   txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
                     txtPeopleName.setVisibility(View.GONE);*/
+                } else {
+                    mClearSearch.setVisibility(View.VISIBLE);
                 }
                 handler.postDelayed(this, 10);
             }
