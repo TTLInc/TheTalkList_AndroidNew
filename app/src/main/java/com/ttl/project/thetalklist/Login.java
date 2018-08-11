@@ -74,7 +74,7 @@ public class Login extends Activity {
     String pass;
     Typeface typeface;
     Dialog dialog;
-
+    private static final String TAG = "Login";
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -411,9 +411,11 @@ public class Login extends Activity {
 
                     LoginService loginService = new LoginService();
 
-
+                    Log.e(TAG, "Log in Email And Password -->"+emails+"  "+pass );
+                    pass=pass.replace("#","%23");
+                    Log.e(TAG, "# using Key Password "+pass );
                     String URL = "https://www.thetalklist.com/api/login?email=" + emails + "&password=" + pass;
-
+                    Log.e(TAG, "Login Url"+URL );
 
                     RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 

@@ -3,8 +3,8 @@ package com.ttl.project.thetalklist;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,33 +29,34 @@ import org.json.JSONObject;
 public class ForgetPassword extends AppCompatActivity {
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_password);
-    }
-
     View root;
     TextView textForget;
     EditText sendEmail;
     TextView senderEmail;
     Button resetButton;
     Typeface typeface;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_forget_password);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-         typeface=Typeface.createFromAsset(getAssets(),"fonts/GothamBookRegular.ttf");
+        typeface = Typeface.createFromAsset(getAssets(), "fonts/GothamBookRegular.ttf");
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         resetButton = (Button) findViewById(R.id.forgetPassword_Button);
         resetButton.setTypeface(typeface);
-        root=getLayoutInflater().inflate(R.layout.activity_forget_password,null);
+        root = getLayoutInflater().inflate(R.layout.activity_forget_password, null);
 
 
         textForget = (TextView) findViewById(R.id.textView);
-         sendEmail = (EditText) findViewById(R.id.sendEmail);
+        sendEmail = (EditText) findViewById(R.id.sendEmail);
         sendEmail.setTypeface(typeface);
-         senderEmail = (TextView) findViewById(R.id.textView2);
+        senderEmail = (TextView) findViewById(R.id.textView2);
         senderEmail.setTypeface(typeface);
 
 
@@ -69,28 +70,25 @@ public class ForgetPassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i=new Intent(getApplicationContext(),Login.class);
+                Intent i = new Intent(getApplicationContext(), Login.class);
                 startActivity(i);
             }
         });
-
 
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String email=sendEmail.getText().toString();
+                String email = sendEmail.getText().toString();
                 if (email.equals("")) {
                     sendEmail.setError("Required");
-                }
-                else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     sendEmail.setError("Invalid Email Address..!");
-                }
-                else {
+                } else {
 
-                    final ProgressDialog progressDialog=new ProgressDialog(ForgetPassword.this);
-progressDialog.show();
+                    final ProgressDialog progressDialog = new ProgressDialog(ForgetPassword.this);
+                    progressDialog.show();
                     String URL = "https://www.thetalklist.com/api/resetpassword?email=" + email;
 
 
@@ -105,14 +103,13 @@ progressDialog.show();
 
                             try {
                                 progressDialog.dismiss();
-                                JSONObject obj=new JSONObject(response);
-                                Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                JSONObject obj = new JSONObject(response);
+                                Toast.makeText(getApplicationContext(), "Check email for reset password link.", Toast.LENGTH_SHORT).show();
 
-                                startActivity(new Intent(getApplicationContext(),Login.class));
+                                startActivity(new Intent(getApplicationContext(), Login.class));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
 
 
                         }
@@ -126,12 +123,6 @@ progressDialog.show();
                     sr.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                     queue.add(sr);
                 }
-
-
-
-
-
-
 
 
             }
