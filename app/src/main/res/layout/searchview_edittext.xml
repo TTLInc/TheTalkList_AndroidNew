@@ -37,7 +37,7 @@
             android:imeActionLabel="Search"
             android:imeOptions="actionSearch"
             android:singleLine="true"
-            TagsEditText:allowSpaceInTag="true"
+            TagsEditText:allowSpaceInTag="false"
             TagsEditText:tagsBackground="@drawable/square"
             TagsEditText:tagsCloseImagePadding="@dimen/defaultTagsCloseImagePadding"
             TagsEditText:tagsCloseImageRight="@drawable/tag_close"

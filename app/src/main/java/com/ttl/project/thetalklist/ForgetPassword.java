@@ -104,7 +104,7 @@ public class ForgetPassword extends AppCompatActivity {
                             try {
                                 progressDialog.dismiss();
                                 JSONObject obj = new JSONObject(response);
-                                Toast.makeText(getApplicationContext(), "Check email for reset password link.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Check email for reset password link.", Toast.LENGTH_LONG).show();
 
                                 startActivity(new Intent(getApplicationContext(), Login.class));
                             } catch (JSONException e) {

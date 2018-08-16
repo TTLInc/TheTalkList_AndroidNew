@@ -81,6 +81,11 @@ public class SearchViewFragment extends Fragment {
     int countLocation, countPeople, countSubject;
     List<AllSearchDataModel.PeopleBean> peopleResponse;
     LinearLayout layout2;
+    String mEditableText = "";
+    String removeSpace;
+    String mUnselectedKeyword = "";
+    boolean userPressedKey = false;
+    String mSpaceSepretString = "";
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
@@ -136,6 +141,23 @@ public class SearchViewFragment extends Fragment {
 
 
                 mProgressDialog.dismiss();
+             /*   InputFilter filter = new InputFilter() {
+                    public CharSequence filter(CharSequence source, int start, int end,
+                                               Spanned dest, int dstart, int dend) {
+                        for (int i = start; i < end; i++) {
+                            if (Character.isWhitespace(source.charAt(i))) {
+
+                                Toast.makeText(getActivity(), "dsdsds", Toast.LENGTH_SHORT).show();
+                                mTagsEditText.setText("");
+                                return "";
+                            }
+                        }
+                        return null;
+                    }
+
+                };
+                mTagsEditText.setFilters(new InputFilter[] { filter });*/
+
 
                 mTagsEditText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -145,15 +167,101 @@ public class SearchViewFragment extends Fragment {
 
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                        Log.e(TAG, "onTextChanged: " + charSequence + "././." + i + "./././." + i1 + "././." + i2);
                     }
 
                     @Override
                     public void afterTextChanged(final Editable editable) {
+                        String temp1 = null;
+
+
+                        try {
+
+                            if (mSpaceSepretString.equals(editable.toString())) {
+                                temp1 = editable.toString().replaceAll(" ", "");
+
+                            } else {
+                                temp1 = editable.toString().substring(editable.length() - 1, editable.length());
+                            }
+                            if (temp1.equals(" ")) {
+                                String temp = String.valueOf(editable).replace(" ", "");
+                                mSpaceSepretString = editable.toString().replaceAll(" ", "");
+
+                                Log.e(TAG, "text dfff" + temp.length());
+                                mStringDataSubject = mStringDataSubject + mSpaceSepretString;
+                                FLAG = "5";
+                                if (mSpaceSepretString.equals(editable.toString().trim().replaceAll(" ", ""))) {
+                                    FLAG = "5";
+                                } else {
+                                    mTagsEditText.setText(mSpaceSepretString);
+
+                                }
+
+
+                            }
+                        } catch (Exception e) {
+
+
+                        }
+                        if (String.valueOf(editable).contains(",")) {
+
+                            if (!mEditableText.equals("null") && !mEditableText.isEmpty() && !mEditableText.equals("")) {
+                                Log.e(TAG, "Spacesss" + mStringDataSubject.length());
+
+                                String temp = String.valueOf(editable).replace(",", "");
+                                String removeSpace = temp.replaceAll(" ", "");
+                                String mTagString = mTagsEditText.getText().toString().replaceAll(" ", "");
+                                Log.e(TAG, "afterTextChanged: ./././." + mTagString);
+                                String SubKeyword = mTagString.substring(mStringDataSubject.length(), removeSpace.length());
+                                mTagsEditText.setText(SubKeyword);
+                                mStringDataSubject = mStringDataSubject + removeSpace;
+                                mEditableText = removeSpace;
+                                FLAG = "4";
+                            } else {
+                                mEditableText = String.valueOf(editable);
+                                Log.e(TAG, "Spacesss" + mEditableText);
+                                String temp = String.valueOf(editable).replace(",", "");
+                                mTagsEditText.setText(temp);
+                                mStringDataSubject = mStringDataSubject + temp;
+                                FLAG = "4";
+                            }
+                        }
 
 
                         if (!mStringDataSubject.equals("") || !mStringDataLocation.equals("") || !mStringDataPeople.equals("")) {
+
                             try {
+                                if (FLAG.equals("4")) {
+                                    String a1 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
+                                    int b1 = a1.length();
+
+                                    size1 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
+
+                                    String abc1 = a1.substring(size1, b1).trim();
+
+                                    if (!abc1.equals("")) {
+                                        if (mSelectedPeopleFirstName.size() != 0) {
+                                            mSelectedPeopleFirstName.clear();
+                                        }
+                                        filterText(abc1, response.body());
+                                    }
+                                }
+                                if (FLAG.equals("5")) {
+                                    String a1 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
+                                    int b1 = a1.length();
+
+                                    size1 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
+
+                                    String abc1 = a1.substring(size1, b1).trim();
+
+                                    if (!abc1.equals("")) {
+                                        if (mSelectedPeopleFirstName.size() != 0) {
+                                            mSelectedPeopleFirstName.clear();
+                                        }
+                                        filterText(abc1, response.body());
+                                    }
+                                }
+
 
                                 if (FLAG.equals("0")) {
 
@@ -241,6 +349,7 @@ public class SearchViewFragment extends Fragment {
             }
         });
     }
+
 
     private void filterText(String editable, AllSearchDataModel body) {
         int size = editable.length();
@@ -333,10 +442,9 @@ public class SearchViewFragment extends Fragment {
         int countLoop = 0;
 
 
-
         for (int i = 0; i < count; i++) {
-            Log.e(TAG, "setPeople: full name--> "+mSelectedPeople );
-            Log.e(TAG, "setPeople:name--> "+mSelectedPeopleName );
+            Log.e(TAG, "setPeople: full name--> " + mSelectedPeople);
+            Log.e(TAG, "setPeople:name--> " + mSelectedPeopleName);
             LinearLayout layoutText, layoutImage;
             layoutText = new LinearLayout(getActivity());
             layoutImage = new LinearLayout(getActivity());
@@ -354,6 +462,8 @@ public class SearchViewFragment extends Fragment {
                     Log.e(TAG, "onClick-=--=: " + mFirstName);
                     Log.e(TAG, "PEOPLE: " + mPeople);
                     mStringDataSubject = mStringDataSubject + mFirstName.replaceAll("\\s+", "");
+                    mEditableText = mStringDataSubject;
+
                     Log.e(TAG, "mStringDataSubject----> " + mStringDataSubject);
                     mTagsEditText.setText(mFirstName);
                     Log.e(TAG, "FLAG VLUE" + FLAG);
@@ -419,6 +529,8 @@ public class SearchViewFragment extends Fragment {
                     mLocation = myTextViews1[finalI].getText().toString();
                     Log.e(TAG, "LOCATION: " + mLocation);
                     mStringDataSubject = mStringDataSubject + mLocation.replaceAll("\\s+", "");
+                    mEditableText = mStringDataSubject;
+
                     mTagsEditText.setText(mLocation);
                    /* txtLocationName.setVisibility(View.GONE);
                     txtSubjectName.setVisibility(View.GONE);
@@ -483,7 +595,8 @@ public class SearchViewFragment extends Fragment {
                     valu = "0";
                     mSubject = myTextViews[finalI].getText().toString();
                     Log.e(TAG, "SUBJECT: " + mSubject);
-                    mStringDataSubject = mStringDataSubject + mSubject.replaceAll("\\s+", "");
+                    mStringDataSubject = mEditableText + mStringDataSubject + mSubject.replaceAll("\\s+", "");
+                    mEditableText = mStringDataSubject;
                     mTagsEditText.setText(mSubject);
 
                  /*   txtLocationName.setVisibility(View.GONE);
@@ -581,8 +694,14 @@ public class SearchViewFragment extends Fragment {
         mTagsEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                Log.e(TAG, "All text  " + mTagsEditText.getText().toString());
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
                     SharedPreferences.Editor editor = getActivity().getSharedPreferences("MyPref", MODE_PRIVATE).edit();
+                    if (!mUnselectedKeyword.equals("")) {
+                        SearchKeyword = SearchKeyword + "," + mUnselectedKeyword;
+                    }
+
+                    Log.e(TAG, "./../...//./." + SearchKeyword);
                     editor.putString("search_keyword", SearchKeyword);
                     if (SearchKeyword != null && !SearchKeyword.isEmpty() && !SearchKeyword.equals("null")) {
                         editor.putString("selectedId", "1");
@@ -600,30 +719,67 @@ public class SearchViewFragment extends Fragment {
             }
         });
 
-        // toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-    /*    setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
-        FilterData();
+        Cancel();
         ClearData();
 
         handler = new Handler();
 
         final Runnable r = new Runnable() {
+            String temp2;
+            String temp1;
+
             public void run() {
+               /* try {
+                    Log.e(TAG, "press space " + mTagsEditText.getText().toString() + "==" + mTagsEditText.getText().toString().length());
+                    temp1 = mTagsEditText.getText().toString();
+                    temp2 = temp1.substring(temp1.length() - 1, temp1.length());
+                    if (temp2.equals(" ")) {
+                        temp1 = "";
+                        if(temp2.equals(" ")){
+
+                        }else {
+
+                            mTagsEditText.setText("keshu");
+                        }
+
+                    }
+                } catch (Exception e) {
+                }*/
+              /*  if (mSpaceSepretString != null && !mSpaceSepretString.isEmpty() && !mSpaceSepretString.equals("null")) {
+                    mTagsEditText.setText(mSpaceSepretString.replace(" ", ""));
+                }*/
                 mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
                 acb = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
-                //  Log.e(TAG, "onTextChanged-->: " + acb + "--->" + mainString);
+                Log.e(TAG, "abababab" + removeSpace);
+                if (removeSpace == null || removeSpace.isEmpty() || removeSpace.equals("null")) {
+                    SearchKeyword = mTagsEditText.getText().toString().trim();
+                }
+
+                String temp = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
+                try {
+                    Log.e(TAG, "All text././././" + removeSpace.length() + "./././." + acb);
+
+                    Log.e(TAG, "doneeeeeeeee" + mTagsEditText.getText().toString().substring(removeSpace.length(), acb));
+
+                    mUnselectedKeyword = temp.substring(removeSpace.length(), acb);
+                    if (removeSpace.length() == acb) {
+                        mUnselectedKeyword = "";
+                        Log.e(TAG, "clear dataaaaa ");
+
+                        Log.e(TAG, "mUnselectedKeyword" + mUnselectedKeyword);
+                    }
+                } catch (Exception e) {
+
+                }
+
                 if (acb < mainString) {
 
                     mStringDataSubject = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
-                    // InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    //        imm.showSoftInput(mTagsEditText, InputMethodManager.SHOW_IMPLICIT);    Log.e(TAG, "run: " + mStringDataSubject);
-
                 }
                 if (String.valueOf(acb).equals("0")) {
+                    mEditableText = "";
                     mClearSearch.setVisibility(View.GONE);
                     txtPlaceholderLocation.setVisibility(View.VISIBLE);
                     txtPlaceholderSubject.setVisibility(View.VISIBLE);
@@ -666,97 +822,6 @@ public class SearchViewFragment extends Fragment {
             public void afterTextChanged(final Editable editable) {
 
 
-              /*  Log.e(TAG, " mSubject" + mSubject + "-->" + mSubject.length());
-                if (!mStringDataSubject.equals("") || !mStringDataLocation.equals("") || !mStringDataPeople.equals("")) {
-                    try {
-
-                        if (FLAG.equals("0")) {
-
-
-                            String a1 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
-                            int b1 = a1.length();
-
-                            size1 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
-
-                            String abc1 = a1.substring(size1, b1).trim();
-
-
-                            if (mProgressDialog != null) {
-                                if (mProgressDialog.isShowing()) {
-                                    mProgressDialog.dismiss();
-                                }
-                            }
-                            if (!abc1.equals("")) {
-
-                                //setmProgressDialog();
-                              //  ApiCallSearchView(abc1);
-                            }
-
-
-                        } else {
-                            if (FLAG.equals("1")) {
-                                if (mProgressDialog != null) {
-                                    if (mProgressDialog.isShowing()) {
-                                        mProgressDialog.dismiss();
-                                    }
-                                }
-                                String a = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
-                                int b = a.length();
-
-                                int size = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
-                                String abc = a.substring(size, b).trim();
-
-                                if (!abc.equals("")) {
-
-                                    //setmProgressDialog();
-                                  //  ApiCallSearchView(abc);
-                                }
-
-
-                            } else {
-                                if (FLAG.equals("2")) {
-                                    if (mProgressDialog != null) {
-                                        if (mProgressDialog.isShowing()) {
-                                            mProgressDialog.dismiss();
-                                        }
-                                    }
-                                    String a2 = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
-                                    int b2 = a2.length();
-
-                                    int size2 = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
-                                    String abc2 = a2.substring(size2, b2).trim();
-
-                                    if (!abc2.equals("")) {
-                                        //  setmProgressDialog();
-                                        //ApiCallSearchView(abc2);
-
-                                    }
-                                  *//*  txtLocationName.setVisibility(View.GONE);
-                                    txtSubjectName.setVisibility(View.GONE);
-                                    txtPeopleName.setVisibility(View.GONE);*//*
-                                }
-                            }
-
-                        }
-
-
-                    } catch (Exception e) {
-                        //   mProgressDialog.dismiss();
-                      *//*  txtLocationName.setVisibility(View.GONE);
-                        txtSubjectName.setVisibility(View.GONE);
-                        txtPeopleName.setVisibility(View.GONE);*//*
-                    }
-
-                } else {
-                    if (!String.valueOf(editable).equals("")) {
-                        // setmProgressDialog();
-                       // ApiCallSearchView(String.valueOf(editable));
-                        Log.e(TAG, "onTextChanged: ");
-                    }
-
-                }*/
-
-
                 Log.e(TAG, "onQueryTextChange: " + editable);
                 linearLayoutSubjectTextView.removeAllViews();
                 linearLayoutSubjectImageView.removeAllViews();
@@ -778,10 +843,13 @@ public class SearchViewFragment extends Fragment {
                 mSearchkeyword = new ArrayList<>();
                 langths = collection.toString().length();
                 String collectionString = collection.toString();
-                Log.e(TAG, "onTagsChanged: " + collection + "Size-->" + collection.toString().length());
+                String temp = collectionString.replaceAll(" ", "").trim();
+                String temp2 = temp.substring(1, temp.length() - 1);
+                removeSpace = temp2.replaceAll(",", "");
+                Log.e(TAG, "onTagsChanged: " + removeSpace + "Size-->" + removeSpace.length());
                 SearchKeyword = collectionString.substring(1, collectionString.length() - 1);
                 Log.e(TAG, "final Text: " + SearchKeyword);
-
+                Log.e(TAG, "onTagsChanged:/./././. " + mTagsEditText.getText().toString().trim() + "Size-->" + mTagsEditText.getText().toString().trim().length());
             }
 
             @Override
@@ -812,7 +880,7 @@ public class SearchViewFragment extends Fragment {
     }
 
 
-    private void FilterData() {
+    private void Cancel() {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

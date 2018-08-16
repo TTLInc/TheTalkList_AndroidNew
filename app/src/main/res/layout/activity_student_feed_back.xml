@@ -56,13 +56,12 @@
 
             <RatingBar
                 android:id="@+id/student_feedback_ratingBar"
-                style="?android:attr/ratingBarStyleSmall"
+                style="?android:attr/ratingBarStyleIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:isIndicator="false"
-                android:maxHeight="30dp"
-                android:minHeight="10dp"
+
                 android:numStars="5"
                 android:progressTint="@color/yellow"/>
 

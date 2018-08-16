@@ -397,7 +397,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         this.sendBroadcast(ie);
                     } else {
 
-
                         this.sendBroadcast(ie);
                     }
                     Log.e("title is rejectCall ", "in if condition");

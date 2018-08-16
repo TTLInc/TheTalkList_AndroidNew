@@ -49,18 +49,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Hi, I'm"
-                        android:textSize="16dp"
                         android:layout_marginLeft="12dp"
-                        />
+                        android:text="Hi, I'm"
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/expandedToolbartutorName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
                         android:text="Denial"
                         android:textSize="20dp"
-                        android:layout_marginLeft="12dp"
                         android:textStyle="bold" />
 
                     <RatingBar
@@ -111,11 +110,11 @@
                         android:weightSum="2">
 
                         <ImageButton
-                            android:layout_weight="1"
                             android:id="@+id/imageButton3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:adjustViewBounds="true"
                             android:background="#00000000"
                             android:scaleType="fitCenter"
@@ -123,15 +122,14 @@
 
                         <LinearLayout
                             android:layout_width="5dp"
-                            android:layout_height="wrap_content">
-                        </LinearLayout>
+                            android:layout_height="wrap_content"></LinearLayout>
 
                         <ImageButton
-                            android:layout_weight="1"
                             android:id="@+id/imageButton6"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
+                            android:layout_weight="1"
                             android:adjustViewBounds="true"
                             android:background="#00000000"
                             android:scaleType="fitCenter"
@@ -213,8 +211,8 @@
                     android:id="@+id/expanded_fullscreen"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_gravity="right"
                     android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
                     android:src="@mipmap/ic_full_screen"
                     android:textAlignment="viewEnd" />
 
@@ -229,8 +227,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:padding="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -243,8 +241,8 @@
                         android:layout_marginTop="5dp"
                         android:text="About Me"
                         android:textColor="#616A6B"
-                        android:textStyle="bold"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
                 <!--<TextView-->
 
@@ -283,17 +281,19 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
-                        android:text="more..."
+                        android:text="MOREs..."
+                        android:textAllCaps="false"
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/eduLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
 
                 <!--<TextView-->
@@ -303,8 +303,8 @@
                     android:layout_marginTop="-3dp"
                     android:text="Educational"
                     android:textColor="#616A6B"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <at.blogc.android.views.ExpandableTextView
                     android:id="@+id/TutorExpanded_educational"
@@ -339,19 +339,21 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
-                        android:text="more..."
+                        android:text="MOREs..."
+                        android:textAllCaps="false"
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
                 </LinearLayout>
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/proLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
 
                 <!--<TextView-->
@@ -362,8 +364,8 @@
                     android:layout_marginTop="5dp"
                     android:text="Professional"
                     android:textColor="#616A6B"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <at.blogc.android.views.ExpandableTextView
                     android:id="@+id/TutorExpanded_professional"
@@ -399,7 +401,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
-                        android:text="more..."
+                        android:text="MOREs..."
+                        android:textAllCaps="false"
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -413,22 +416,22 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:id="@+id/ratingLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="0dp">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/Review_heading_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content">
 
                         <me.grantland.widget.AutofitTextView
-
-                            android:layout_width="274dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reviews"
                             android:textColor="#616A6B"
@@ -436,16 +439,17 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true">
 
 
                             <Button
                                 android:id="@+id/moreList"
                                 android:layout_width="wrap_content"
+                                android:textAllCaps="false"
                                 android:layout_height="26dp"
-                                android:layout_weight="1"
                                 android:background="#00000000"
-                                android:text="See All"
+                                android:text="MOREs..."
                                 android:textColor="#03A9F4"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -459,9 +463,10 @@
                             android:src="@drawable/minus"
                             android:visibility="gone" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <LinearLayout
+                        android:padding="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -489,6 +494,7 @@
                         android:textAlignment="viewStart"
                         android:textColor="#616A6B"
                         android:visibility="gone" />
+
                     <LinearLayout
                         android:id="@+id/review_root_expanded"
                         android:layout_width="match_parent"

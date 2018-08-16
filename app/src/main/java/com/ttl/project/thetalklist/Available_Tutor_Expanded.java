@@ -480,13 +480,13 @@ public class Available_Tutor_Expanded extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (morelist.getText().equals("MORE...")) {
+                if (morelist.getText().equals("MOREs...")) {
 
                     review_root_biography.setVisibility(View.VISIBLE);
                     morelist.setText("LESS...");
                 } else {
                     review_root_biography.setVisibility(View.GONE);
-                    morelist.setText("MORE...");
+                    morelist.setText("MOREs...");
                 }
 
 
@@ -619,7 +619,7 @@ public class Available_Tutor_Expanded extends Fragment {
         buttonTogglepro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "MORE" : "LESS");
+                buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "MOREs..." : "LESS...");
                 expandableTextViewpro.toggle();
             }
         });
@@ -630,10 +630,10 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onClick(final View v) {
                 if (expandableTextViewpro.isExpanded()) {
                     expandableTextViewpro.collapse();
-                    buttonTogglepro.setText("MORE");
+                    buttonTogglepro.setText("MOREs...");
                 } else {
                     expandableTextViewpro.expand();
-                    buttonTogglepro.setText("LESS");
+                    buttonTogglepro.setText("LESS...");
                 }
             }
         });
@@ -663,7 +663,7 @@ public class Available_Tutor_Expanded extends Fragment {
         buttonToggleedu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                buttonToggleedu.setText(expandableTextViewedu.isExpanded() ? "MORE" : "LESS");
+                buttonToggleedu.setText(expandableTextViewedu.isExpanded() ? "MOREs..." : "LESS...");
                 expandableTextViewedu.toggle();
             }
         });
@@ -674,10 +674,10 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onClick(final View v) {
                 if (expandableTextViewedu.isExpanded()) {
                     expandableTextViewedu.collapse();
-                    buttonToggleedu.setText("MORE");
+                    buttonToggleedu.setText("MOREs...");
                 } else {
                     expandableTextViewedu.expand();
-                    buttonToggleedu.setText("LESS");
+                    buttonToggleedu.setText("LESS...");
                 }
             }
         });
@@ -708,7 +708,7 @@ public class Available_Tutor_Expanded extends Fragment {
         buttonToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                buttonToggle.setText(expandableTextView.isExpanded() ? "MORE" : "LESS");
+                buttonToggle.setText(expandableTextView.isExpanded() ? "MOREs..." : "LESS...");
                 expandableTextView.toggle();
             }
         });
@@ -719,10 +719,10 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onClick(final View v) {
                 if (expandableTextView.isExpanded()) {
                     expandableTextView.collapse();
-                    buttonToggle.setText("MORE");
+                    buttonToggle.setText("MOREs...");
                 } else {
                     expandableTextView.expand();
-                    buttonToggle.setText("LESS");
+                    buttonToggle.setText("LESS...");
                 }
             }
         });

@@ -56,9 +56,6 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static android.content.Context.AUDIO_SERVICE;
-import static android.content.Context.MODE_PRIVATE;
-
 
 //Videocall Activity
 
@@ -309,9 +306,7 @@ public class New_videocall_activity extends AppCompatActivity
 
 
         videoCallRootLayout.setVisibility(View.GONE);
-        btn_cutcall = (ImageView)
-
-                findViewById(R.id.outgoing_cutcall);
+        btn_cutcall = (ImageView) findViewById(R.id.outgoing_cutcall);
 
         callerName = (TextView) outgoingCallRootLayout.findViewById(R.id.callerName);
         callerImg = (ImageView) outgoingCallRootLayout.findViewById(R.id.callerImg);

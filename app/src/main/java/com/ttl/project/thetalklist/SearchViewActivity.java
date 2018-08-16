@@ -38,8 +38,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class SearchViewActivity extends AppCompatActivity/* implements View.OnClickListener */ {
     private static final String TAG = "SearchViewActivity";
     TextView[] myTextViews, myTextViews1, myTextViews2;
@@ -68,13 +66,12 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
     int langths;
     int mainString;
     int acb;
+    List<SearchViewModel.PeopleBean> respoBeans;
+    ImageView mClearSearch;
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
     private List<SearchFilterModel> mContactList;
-    List<SearchViewModel.PeopleBean> respoBeans;
-    ImageView mClearSearch;
-
     private String mSearchKeyWord;
 
     @Override
@@ -225,7 +222,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                 Log.e(TAG, "LOCATIONstringLength:--> " + abc.trim());
                                 Log.e(TAG, "LOCATIONonQueryTextChange-->: " + a);
                                 if (!abc.equals("")) {
-                                  //  setmProgressDialog();
+                                    //  setmProgressDialog();
                                     ApiCallSearchView(abc);
                                 }
 
@@ -246,7 +243,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
                                     Log.e(TAG, "PEOPLEonQueryTextChange-->: " + a2);
 
                                     if (!abc2.equals("")) {
-                                    //    setmProgressDialog();
+                                        //    setmProgressDialog();
                                         ApiCallSearchView(abc2);
                                     }
                                    /* txtLocationName.setVisibility(View.GONE);
@@ -259,7 +256,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
 
                     } catch (Exception e) {
-                       // mProgressDialog.dismiss();
+                        // mProgressDialog.dismiss();
                       /*  txtLocationName.setVisibility(View.GONE);
                         txtSubjectName.setVisibility(View.GONE);
                         txtPeopleName.setVisibility(View.GONE);*/
@@ -267,7 +264,7 @@ public class SearchViewActivity extends AppCompatActivity/* implements View.OnCl
 
                 } else {
                     if (!String.valueOf(editable).equals("")) {
-                     //   setmProgressDialog();
+                        //   setmProgressDialog();
                         ApiCallSearchView(String.valueOf(editable));
                         Log.e(TAG, "onTextChanged: ");
                     }
