@@ -8,6 +8,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrollViewTutor"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -281,7 +282,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
-                        android:text="MOREs..."
+                        android:text="More..."
                         android:textAllCaps="false"
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
@@ -339,7 +340,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
-                        android:text="MOREs..."
+                        android:text="More..."
                         android:textAllCaps="false"
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
@@ -401,7 +402,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00000000"
-                        android:text="MOREs..."
+                        android:text="More..."
                         android:textAllCaps="false"
                         android:textColor="#03A9F4"
                         android:textSize="12sp" />
@@ -430,9 +431,9 @@
                         android:layout_height="wrap_content">
 
                         <me.grantland.widget.AutofitTextView
-                            android:layout_marginLeft="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
                             android:text="Reviews"
                             android:textColor="#616A6B"
                             android:textSize="20sp" />
@@ -446,10 +447,10 @@
                             <Button
                                 android:id="@+id/moreList"
                                 android:layout_width="wrap_content"
-                                android:textAllCaps="false"
                                 android:layout_height="26dp"
                                 android:background="#00000000"
-                                android:text="MOREs..."
+                                android:text="More..."
+                                android:textAllCaps="false"
                                 android:textColor="#03A9F4"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -466,10 +467,10 @@
                     </RelativeLayout>
 
                     <LinearLayout
-                        android:padding="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                         <TextView
                             android:id="@+id/rating_textview"

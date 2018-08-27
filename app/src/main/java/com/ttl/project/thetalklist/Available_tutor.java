@@ -119,6 +119,7 @@ public class Available_tutor extends Fragment {
     Button btnRetry;
     String mSelectedId;
     Handler handler;
+    ImageView imgSearchIcon;
     String[] plants = new String[]{
             "Black birch",
             "European weeping birch"
@@ -179,7 +180,12 @@ public class Available_tutor extends Fragment {
         btnPrice = (Spinner) view.findViewById(R.id.btnPrice);
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-
+        imgSearchIcon=(ImageView)view.findViewById(R.id.imgSearchIcon);
+        imgSearchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
         GenderSearch = getContext().getSharedPreferences("GenderSearch", 0);
         PriceSearch = getContext().getSharedPreferences("PriceSearch", 0);
         try {
@@ -576,6 +582,18 @@ public class Available_tutor extends Fragment {
                     FragmentStack fragmentStack=FragmentStack.getInstance();
                     fragmentStack.push(new Available_tutor());
                     fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment(),"fragment").addToBackStack("fragment").commit();
+                    return true;
+                }
+                return false;
+            }
+        });
+        imgSearchIcon.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    FragmentStack fragmentStack = FragmentStack.getInstance();
+                    fragmentStack.push(new Available_tutor());
+                    fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment(), "fragment").addToBackStack("fragment").commit();
                     return true;
                 }
                 return false;

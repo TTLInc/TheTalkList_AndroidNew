@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,6 +116,7 @@ public class Available_Tutor_Expanded extends Fragment {
     int tutorId;
     View convertView;
     TextView firstNameTV;
+    ScrollView scrollView;
     TextView availableTutorListCPS;
     TextView rating_textview;
     //Exo player initialization
@@ -233,6 +235,7 @@ public class Available_Tutor_Expanded extends Fragment {
 //        view.findViewById(R.id.studentToolbar).setVisibility(View.GONE);
 //        view.findViewById(R.id.expandableToolbar).setVisibility(View.VISIBLE);
         firstNameTV = (TextView) convertView.findViewById(R.id.expandedToolbartutorName);
+        scrollView = (ScrollView) convertView.findViewById(R.id.scrollViewTutor);
         review_root_biography = (LinearLayout) convertView.findViewById(R.id.review_root_expanded);
 
         expandableTextView = (ExpandableTextView) convertView.findViewById(R.id.TutorExpanded_personal);
@@ -480,13 +483,21 @@ public class Available_Tutor_Expanded extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (morelist.getText().equals("MOREs...")) {
+                if (morelist.getText().equals("More...")) {
 
                     review_root_biography.setVisibility(View.VISIBLE);
+
+                    scrollView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, 2100);
+                        }
+                    },500);
                     morelist.setText("LESS...");
+
                 } else {
                     review_root_biography.setVisibility(View.GONE);
-                    morelist.setText("MOREs...");
+                    morelist.setText("More...");
                 }
 
 
@@ -619,7 +630,7 @@ public class Available_Tutor_Expanded extends Fragment {
         buttonTogglepro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "MOREs..." : "LESS...");
+                buttonTogglepro.setText(expandableTextViewpro.isExpanded() ? "More..." : "LESS...");
                 expandableTextViewpro.toggle();
             }
         });
@@ -630,7 +641,7 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onClick(final View v) {
                 if (expandableTextViewpro.isExpanded()) {
                     expandableTextViewpro.collapse();
-                    buttonTogglepro.setText("MOREs...");
+                    buttonTogglepro.setText("More...");
                 } else {
                     expandableTextViewpro.expand();
                     buttonTogglepro.setText("LESS...");
@@ -663,7 +674,7 @@ public class Available_Tutor_Expanded extends Fragment {
         buttonToggleedu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                buttonToggleedu.setText(expandableTextViewedu.isExpanded() ? "MOREs..." : "LESS...");
+                buttonToggleedu.setText(expandableTextViewedu.isExpanded() ? "More..." : "LESS...");
                 expandableTextViewedu.toggle();
             }
         });
@@ -674,7 +685,7 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onClick(final View v) {
                 if (expandableTextViewedu.isExpanded()) {
                     expandableTextViewedu.collapse();
-                    buttonToggleedu.setText("MOREs...");
+                    buttonToggleedu.setText("More...");
                 } else {
                     expandableTextViewedu.expand();
                     buttonToggleedu.setText("LESS...");
@@ -708,7 +719,7 @@ public class Available_Tutor_Expanded extends Fragment {
         buttonToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                buttonToggle.setText(expandableTextView.isExpanded() ? "MOREs..." : "LESS...");
+                buttonToggle.setText(expandableTextView.isExpanded() ? "More..." : "LESS...");
                 expandableTextView.toggle();
             }
         });
@@ -719,7 +730,7 @@ public class Available_Tutor_Expanded extends Fragment {
             public void onClick(final View v) {
                 if (expandableTextView.isExpanded()) {
                     expandableTextView.collapse();
-                    buttonToggle.setText("MOREs...");
+                    buttonToggle.setText("More...");
                 } else {
                     expandableTextView.expand();
                     buttonToggle.setText("LESS...");
@@ -833,6 +844,15 @@ public class Available_Tutor_Expanded extends Fragment {
         if (videoUrlHandler != null)
             videoUrlHandler.cancel(true);
 
+    }
+
+    public void hideProgessbar() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                convertView.findViewById(R.id.TutorExpanded_tutorin_languages_progress).setVisibility(View.GONE);
+            }
+        }, 7000);
     }
 
     private class ComponentListener implements ExoPlayer.EventListener, VideoRendererEventListener, AudioRendererEventListener {
@@ -961,15 +981,6 @@ public class Available_Tutor_Expanded extends Fragment {
         public void onAudioDisabled(DecoderCounters decoderCounters) {
 
         }
-    }
-
-    public void hideProgessbar() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                convertView.findViewById(R.id.TutorExpanded_tutorin_languages_progress).setVisibility(View.GONE);
-            }
-        }, 7000);
     }
 
     private class subjectHandler extends AsyncTask<Void, Void, Void> {

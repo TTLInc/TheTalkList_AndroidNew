@@ -86,6 +86,7 @@ public class SearchViewFragment extends Fragment {
     String mUnselectedKeyword = "";
     boolean userPressedKey = false;
     String mSpaceSepretString = "";
+    String removeSpace1;
     private ProgressDialog mProgressDialog;
     private String mSubject = "", mLocation = "", mPeople = "";
     private int mSubjectListSize, mLocationListSize, mPeopleListSize;
@@ -141,15 +142,12 @@ public class SearchViewFragment extends Fragment {
 
 
                 mProgressDialog.dismiss();
-             /*   InputFilter filter = new InputFilter() {
+               /* InputFilter filter = new InputFilter() {
                     public CharSequence filter(CharSequence source, int start, int end,
                                                Spanned dest, int dstart, int dend) {
                         for (int i = start; i < end; i++) {
                             if (Character.isWhitespace(source.charAt(i))) {
-
-                                Toast.makeText(getActivity(), "dsdsds", Toast.LENGTH_SHORT).show();
-                                mTagsEditText.setText("");
-                                return "";
+                                return " ";
                             }
                         }
                         return null;
@@ -172,18 +170,73 @@ public class SearchViewFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(final Editable editable) {
+                     
+                            if (String.valueOf(editable).contains(",")) {
+
+                                if (!mEditableText.equals("null") && !mEditableText.isEmpty() && !mEditableText.equals("")) {
+                                    Log.e(TAG, "Spacesss" + mStringDataSubject.length());
+
+                                    String temp = String.valueOf(editable).replace(",", "");
+                                    removeSpace1 = temp.replaceAll(" ", "");
+                                    String mTagString = mTagsEditText.getText().toString().replaceAll(" ", "");
+                                    Log.e(TAG, "afterTextChanged: ./././." + mTagString);
+                                    String SubKeyword = mTagString.substring(mStringDataSubject.length(), removeSpace1.length());
+                                    mTagsEditText.setText(SubKeyword);
+                                    mStringDataSubject = mStringDataSubject + removeSpace1;
+                                    mEditableText = removeSpace1;
+                                    FLAG = "4";
+                                } else {
+                                    if (!mStringDataSubject.equals("")) {
+
+                                        String temp = String.valueOf(editable).replace(",", "");
+                                        removeSpace1 = temp.replaceAll(" ", "");
+                                        String mTagString = mTagsEditText.getText().toString().replaceAll(" ", "");
+                                        Log.e(TAG, "afterTextChanged: ./././." + mTagString);
+                                        String SubKeyword = mTagString.substring(mStringDataSubject.length(), removeSpace1.length());
+                                        mTagsEditText.setText(SubKeyword);
+                                        mStringDataSubject = mStringDataSubject + removeSpace1;
+                                        mEditableText = removeSpace1;
+                                        FLAG = "4";
+                                    } else {
+                                        mEditableText = String.valueOf(editable);
+                                        Log.e(TAG, "Spacesss" + mEditableText);
+                                        String temp = String.valueOf(editable).replace(",", "");
+                                        mTagsEditText.setText(temp);
+                                        mStringDataSubject = mStringDataSubject + temp;
+                                        FLAG = "4";
+                                    }
+
+                                }
+                            }
+
                         String temp1 = null;
-
-
                         try {
 
                             if (mSpaceSepretString.equals(editable.toString())) {
                                 temp1 = editable.toString().replaceAll(" ", "");
 
                             } else {
-                                temp1 = editable.toString().substring(editable.length() - 1, editable.length());
+                                if (editable.toString().contains(",")) {
+
+                                    Log.e(TAG, "Spacesss" + mStringDataSubject.length());
+
+                                    String temp = String.valueOf(editable).replace(",", "");
+                                    removeSpace1 = temp.replaceAll(" ", "");
+                                    String mTagString = mTagsEditText.getText().toString().replaceAll(" ", "");
+                                    Log.e(TAG, "afterTextChanged: ./././." + mTagString);
+                                    String SubKeyword = mTagString.substring(mStringDataSubject.length(), removeSpace1.length());
+                                    mTagsEditText.setText(SubKeyword);
+                                    mStringDataSubject = mStringDataSubject + removeSpace1;
+                                    mEditableText = removeSpace1;
+                                    FLAG = "4";
+
+
+                                } else {
+                                    temp1 = editable.toString().substring(editable.length() - 1, editable.length());
+                                }
                             }
-                            if (temp1.equals(" ")) {
+
+                            if (temp1.equals(" ") && !temp1.contains(",")) {
                                 String temp = String.valueOf(editable).replace(" ", "");
                                 mSpaceSepretString = editable.toString().replaceAll(" ", "");
 
@@ -202,29 +255,6 @@ public class SearchViewFragment extends Fragment {
                         } catch (Exception e) {
 
 
-                        }
-                        if (String.valueOf(editable).contains(",")) {
-
-                            if (!mEditableText.equals("null") && !mEditableText.isEmpty() && !mEditableText.equals("")) {
-                                Log.e(TAG, "Spacesss" + mStringDataSubject.length());
-
-                                String temp = String.valueOf(editable).replace(",", "");
-                                String removeSpace = temp.replaceAll(" ", "");
-                                String mTagString = mTagsEditText.getText().toString().replaceAll(" ", "");
-                                Log.e(TAG, "afterTextChanged: ./././." + mTagString);
-                                String SubKeyword = mTagString.substring(mStringDataSubject.length(), removeSpace.length());
-                                mTagsEditText.setText(SubKeyword);
-                                mStringDataSubject = mStringDataSubject + removeSpace;
-                                mEditableText = removeSpace;
-                                FLAG = "4";
-                            } else {
-                                mEditableText = String.valueOf(editable);
-                                Log.e(TAG, "Spacesss" + mEditableText);
-                                String temp = String.valueOf(editable).replace(",", "");
-                                mTagsEditText.setText(temp);
-                                mStringDataSubject = mStringDataSubject + temp;
-                                FLAG = "4";
-                            }
                         }
 
 
@@ -731,25 +761,7 @@ public class SearchViewFragment extends Fragment {
             String temp1;
 
             public void run() {
-               /* try {
-                    Log.e(TAG, "press space " + mTagsEditText.getText().toString() + "==" + mTagsEditText.getText().toString().length());
-                    temp1 = mTagsEditText.getText().toString();
-                    temp2 = temp1.substring(temp1.length() - 1, temp1.length());
-                    if (temp2.equals(" ")) {
-                        temp1 = "";
-                        if(temp2.equals(" ")){
 
-                        }else {
-
-                            mTagsEditText.setText("keshu");
-                        }
-
-                    }
-                } catch (Exception e) {
-                }*/
-              /*  if (mSpaceSepretString != null && !mSpaceSepretString.isEmpty() && !mSpaceSepretString.equals("null")) {
-                    mTagsEditText.setText(mSpaceSepretString.replace(" ", ""));
-                }*/
                 mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
                 acb = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
                 Log.e(TAG, "abababab" + removeSpace);
