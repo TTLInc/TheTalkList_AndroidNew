@@ -72,7 +72,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.util.TypedValue.TYPE_NULL;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Available_tutor extends Fragment {
@@ -180,7 +179,7 @@ public class Available_tutor extends Fragment {
         btnPrice = (Spinner) view.findViewById(R.id.btnPrice);
         mApiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        imgSearchIcon=(ImageView)view.findViewById(R.id.imgSearchIcon);
+        imgSearchIcon = (ImageView) view.findViewById(R.id.imgSearchIcon);
         imgSearchIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,7 +249,7 @@ public class Available_tutor extends Fragment {
         mSearch_keyword = prefs.getString("search_keyword", "").replaceAll(",\\s+", ",");
         mSelectedId = prefs.getString("selectedId", "");
 
-        Log.e(TAG, "onCreateView=========>: " + mSearch_keyword );
+        Log.e(TAG, "onCreateView=========>: " + mSearch_keyword);
 
         //  Button available_tutor_filter = (Button) view.findViewById(R.id.available_tutor_filter);
 
@@ -525,8 +524,8 @@ public class Available_tutor extends Fragment {
         preference = getApplicationContext().getSharedPreferences("AvailableTutorPref", MODE_PRIVATE);
         edi = preference.edit();
         mTagsEditText = (TagsEditText) view.findViewById(R.id.tagsEditText);
-        mTagsEditText.setInputType(TYPE_NULL);
         mClearSearch = (ImageView) view.findViewById(R.id.imgeClear);
+        mClearSearch.setOnClickListener(null);
         mClearSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -559,7 +558,7 @@ public class Available_tutor extends Fragment {
             public void run() {
                 if (mTagsEditText.getText().toString() != null && !mTagsEditText.getText().toString().isEmpty() && !mTagsEditText.getText().toString().equals("null")) {
                     mClearSearch.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     mClearSearch.setVisibility(View.GONE);
                 }
                 handler.postDelayed(this, 1000);
@@ -579,9 +578,9 @@ public class Available_tutor extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    FragmentStack fragmentStack=FragmentStack.getInstance();
+                    FragmentStack fragmentStack = FragmentStack.getInstance();
                     fragmentStack.push(new Available_tutor());
-                    fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment(),"fragment").addToBackStack("fragment").commit();
+                    fragmentManager.beginTransaction().replace(R.id.viewpager, new SearchViewFragment(), "fragment").addToBackStack("fragment").commit();
                     return true;
                 }
                 return false;

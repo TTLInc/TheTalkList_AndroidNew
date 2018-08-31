@@ -806,7 +806,7 @@ public class New_videocall_activity extends AppCompatActivity
                 minute = (int) (money / creditPerMinute);
 
             }
-//            Toast.makeText(getApplicationContext(), "mins "+time, Toast.LENGTH_SHORT).show();
+
 
             t = new Timer();
             t.scheduleAtFixedRate(new TimerTask() {
