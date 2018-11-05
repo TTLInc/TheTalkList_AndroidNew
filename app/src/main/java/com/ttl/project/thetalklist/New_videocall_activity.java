@@ -1,6 +1,7 @@
 package com.ttl.project.thetalklist;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -111,7 +113,7 @@ public class New_videocall_activity extends AppCompatActivity
     private FrameLayout mPublisherViewContainer;
     private FrameLayout mSubscriberViewContainer;
     private MediaPlayer mp;
-
+    PowerManager.WakeLock wl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -120,15 +122,24 @@ public class New_videocall_activity extends AppCompatActivity
         handler = new Handler();
 
         final Runnable r = new Runnable() {
+            @SuppressLint("InvalidWakeLockTag")
             public void run() {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-                handler.postDelayed(this, 1000);
+                Log.e(TAG, "run:okkkkkkkkkkkkkkkkkk " );
+                PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+                assert powerManager != null;
+                PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                        "MyApp::MyWakelockTag");
+                wakeLock.acquire(6000 /*10 minutes*/);
+                handler.postDelayed(this, 100);
             }
         };
-
-        handler.postDelayed(r, 1000);
+        Log.e(TAG, "onCreate: "+"testing on date" );
+        handler.postDelayed(r, 100);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_call);
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
        /* mp = MediaPlayer.create(this, R.raw.tring_tring);
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);*//*
         mp = MediaPlayer.create(this, R.raw.incoming);
@@ -196,9 +207,15 @@ public class New_videocall_activity extends AppCompatActivity
     }
 
     @Override
+    protected void onStop() {
+        Log.e(TAG, "onStop: new Call Acivity " );
+        super.onStop();
+    }
+
+    @Override
     protected void onPause() {
 
-        Log.d(LOG_TAG, "onPause");
+        Log.d(LOG_TAG, "onPause: new Call Acivity ");
         audioManager.setMicrophoneMute(false);
         super.onPause();
 
@@ -211,7 +228,7 @@ public class New_videocall_activity extends AppCompatActivity
         }
 
         unregisterReceiver(callEndReceiver);
-//        callEnd.performClick();
+     //   callEnd.performClick();
 
     }
 
@@ -294,7 +311,7 @@ public class New_videocall_activity extends AppCompatActivity
 
         preferences = getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE);
         pref = getSharedPreferences("loginStatus", MODE_PRIVATE);
-
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final Window win = getWindow();
         win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
@@ -335,6 +352,7 @@ public class New_videocall_activity extends AppCompatActivity
             final SharedPreferences preferences = getApplicationContext().getSharedPreferences("videoCallTutorDetails", MODE_PRIVATE);
             SharedPreferences pref = getApplicationContext().getSharedPreferences("loginStatus", MODE_PRIVATE);
 
+            //win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
             String URL = "https://www.thetalklist.com/api/firebase_call?sender_id=" + pref.getInt("id", 0) + "&receiver_id=" + preferences.getInt("tutorId", 0);
             Log.e("firebase Call url", URL);
@@ -389,6 +407,16 @@ public class New_videocall_activity extends AppCompatActivity
                             finish();
                             onBackPressed();
                         }
+                        mPublisher = new Publisher(getApplicationContext());
+                        mPublisher.setPublisherListener(New_videocall_activity.this);
+                        mPublisher.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
+                                BaseVideoRenderer.STYLE_VIDEO_FILL);
+                        mPublisherViewContainer.addView(mPublisher.getView());
+                        if (mPublisher.getView() instanceof GLSurfaceView) {
+                            ((GLSurfaceView) mPublisher.getView()).setZOrderOnTop(true);
+                        }
+                        Log.e("initializePublisher", "publisher initialization method");
+//                        mSession.publish(mPublisher);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -426,13 +454,13 @@ public class New_videocall_activity extends AppCompatActivity
                 StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Log.e(TAG, "onResponse: "+response );
                         finish();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.e(TAG, "onErrorResponse: "+error.getMessage() );
                     }
                 });
                 queue222.add(sr);

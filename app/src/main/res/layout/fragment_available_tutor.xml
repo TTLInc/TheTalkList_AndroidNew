@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.ttl.project.thetalklist.Available_tutor">
 
@@ -29,16 +30,6 @@
                 android:layout_below="@id/toolbar" />
 
         </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/systemMsgStudent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="Nice! You've got 10 free credits. Click any tutor to talk now. Or swipe right to add to Favorites."
-            android:textSize="13dp"
-            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,6 +72,16 @@
 
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/systemMsgStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Nice! You've got 10 free credits. Click any tutor to talk now. Or swipe right to add to Favorites."
+            android:textSize="13dp"
+            android:visibility="gone" />
+
+
 
         <View
             android:layout_width="match_parent"

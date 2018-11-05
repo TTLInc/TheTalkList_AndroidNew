@@ -1,6 +1,7 @@
 package com.ttl.project.thetalklist;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,9 +16,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.ttl.project.thetalklist.Config.Config;
@@ -27,7 +34,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
  * Created by Saubhagyam on 10/04/2017.
@@ -36,14 +43,17 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 //Messaging service of firebase
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    final static String GROUP_KEY_EMAILS = "group_key_emails";
     private static final String TAG = "MyFirebaseMsgService";
-
+    private static int mMsgCount;
     public String msg;
+    SharedPreferences loginPref;
+    int NOTIFICATION_ID;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.getFrom());
-
+        MsgCountApi();
         if (remoteMessage == null) {
             Log.e("xyz                    ", "message null");
             return;
@@ -75,6 +85,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void handleDataMessage(JSONObject json) {
         Log.e(TAG, "push json: " + json.toString());
 
+        MsgCountApi();
 
         SharedPreferences NotificationPref = getSharedPreferences("NotificationPref", Context.MODE_PRIVATE);
         SharedPreferences LoginPref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
@@ -164,50 +175,52 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 final int icon = R.mipmap.ttlg2;
                 Bitmap icon1 = BitmapFactory.decodeResource(getApplicationContext().getResources(), icon);
 
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    ShortcutBadger.applyCount(getApplication(), mMsgCount); //for 1.1.4+
+
                     NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                     String id = "id_product";
-                    // The user-visible name of the channel.
                     CharSequence name = "Product";
-                    // The user-visible description of the channel.
                     String description = "Notifications regarding our products";
-                    @SuppressLint("WrongConstant")
+
                     NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_MAX);
-                    // Configure the notification channel.
+
+                    Log.e(TAG, "handleDataMessage: -NOtifation Count" + com.ttl.project.thetalklist.util.Config.msgCount);
+
                     mChannel.setDescription(description);
                     mChannel.enableLights(true);
-                    // Sets the notification light color for notifications posted to this
-                    // channel, if the device supports this feature.
+                    mChannel.setShowBadge(true);
                     mChannel.setLightColor(Color.RED);
                     notificationManager.createNotificationChannel(mChannel);
-                    // Intent intent1 = new Intent(getApplicationContext(), SplashScreen.class);
                     Intent notificationIntent = new Intent(getApplication(), SettingFlyout.class);
 
-                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     notificationIntent.putExtra("message", "yes");
                     notificationIntent.putExtra("senderId", data.getInt("uid"));
                     notificationIntent.putExtra("firstName", data.getString("uname"));
                     PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 123, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "id_product")
+                    Notification notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "id_product")
 
-                            .setSmallIcon(icon) //your app icon
-                            .setBadgeIconType(R.mipmap.ttlg2) //your app icon
-                            .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ttlg2))
+                            .setSmallIcon(icon)
+                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+                            .setLargeIcon(icon1)
                             .setChannelId("id_product")
                             .setContentTitle("TheTalkList")
                             .setAutoCancel(true)
-                            .setSound(Uri.parse(String.valueOf(android.app.Notification.DEFAULT_SOUND)))
+                            .setSound(Uri.parse(String.valueOf(Notification.DEFAULT_SOUND)))
                             .setContentIntent(pendingIntent)
                             .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                            //.setPriority(Notification.DEFAULT_VIBRATE)
-                            .setNumber(5)
+                            .setNumber(mMsgCount)
                             .setColor(255)
                             .setContentText(data.getString("uname") + " says: " + StringEscapeUtils.unescapeJava(message).replace("\n", ""))
-                            .setWhen(System.currentTimeMillis());
-                    notificationManager.notify(1, notificationBuilder.build());
-                    android.app.Notification notification = new NotificationCompat.BigTextStyle(notificationBuilder)
-                            .bigText(data.getString("uname") + " says: " + message).build();
+                            .setWhen(System.currentTimeMillis())
+                            /*   .setGroup(GROUP_KEY_EMAILS)
+                               .setGroupSummary(true)*/
+                            .build();
+                    NotificationManagerCompat notificationManager1 =
+                            NotificationManagerCompat.from(this);
+                    notificationManager1.notify(NOTIFICATION_ID, notificationBuilder);
 
                 }
                 NotificationManager mNotifyMgr =
@@ -233,11 +246,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 .setSound(Uri.parse(String.valueOf(android.app.Notification.DEFAULT_SOUND)))
                                 //  .setStyle(inboxStyle)
                                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-
+                                .setPriority(Notification.PRIORITY_MAX)
+                                .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
                                 .setContentIntent(contentIntent)
                                 .setWhen(System.currentTimeMillis())
-                                .setSmallIcon(R.mipmap.ttlg2)
-                                .setLargeIcon(BitmapFactory.decodeResource(getApplicationContext().getResources(), R.mipmap.ttlg2))
+                                // .setSmallIcon(R.mipmap.ttlg2)
+                                .setLargeIcon(icon1)
                                 .setContentText(data.getString("uname") + " says: " + StringEscapeUtils.unescapeJava(message).replace("\n", ""));
                 NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
                 notificationUtils.playNotificationSound();
@@ -268,6 +282,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                     String id = "id_product";
+
+
                     // The user-visible name of the channel.
                     CharSequence name = "Product";
                     // The user-visible description of the channel.
@@ -381,7 +397,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 mNotificationManager.notify(100, notification);
             }
             //                }
-            else if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
+            else if (!NotificationUtils.isAppIsInBackground(getApplicationContext())||title.equalsIgnoreCase("callEnd")) {
                 // app is in foreground, broadcast the push message
                 Intent ie = new Intent();
                 ie.setAction("callEnd");
@@ -522,6 +538,37 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } else {
             // If the app is in background, firebase itself handles the notification
         }
+    }
+
+    private void MsgCountApi() {
+        loginPref = getSharedPreferences("loginStatus", Context.MODE_PRIVATE);
+        String URL = "https://www.thetalklist.com/api/count_messages?sender_id=" + loginPref.getInt("id", 0);
+        Log.e(TAG, "loginId " + loginPref.getInt("id", 0));
+        StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.e("message count res ", response);
+
+                try {
+                    JSONObject object = new JSONObject(response);
+                    Log.e(TAG, "CountDisplayFirstNotifationClass " + object.getInt("unread_count"));
+                    mMsgCount = object.getInt("unread_count") + 1;
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        Volley.newRequestQueue(getApplicationContext()).add(sr);
     }
 
 

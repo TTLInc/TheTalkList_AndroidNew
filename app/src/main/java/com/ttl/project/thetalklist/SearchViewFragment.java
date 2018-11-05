@@ -515,8 +515,8 @@ public class SearchViewFragment extends Fragment {
             imagePeople.setImageResource(R.drawable.people);
 
             layoutText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
-
             layoutText.setBackgroundColor(R.color.black);
+
             layoutImage.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
             layoutImage.setBackgroundColor(R.color.black);
 
@@ -764,23 +764,23 @@ public class SearchViewFragment extends Fragment {
 
                 mainString = mStringDataSubject.length() + mStringDataLocation.length() + mStringDataPeople.length();
                 acb = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "").length();
-                Log.e(TAG, "abababab" + removeSpace);
+               // Log.e(TAG, "abababab" + removeSpace);
                 if (removeSpace == null || removeSpace.isEmpty() || removeSpace.equals("null")) {
                     SearchKeyword = mTagsEditText.getText().toString().trim();
                 }
 
                 String temp = mTagsEditText.getText().toString().trim().replaceAll("\\s+", "");
                 try {
-                    Log.e(TAG, "All text././././" + removeSpace.length() + "./././." + acb);
+                  //  Log.e(TAG, "All text././././" + removeSpace.length() + "./././." + acb);
 
-                    Log.e(TAG, "doneeeeeeeee" + mTagsEditText.getText().toString().substring(removeSpace.length(), acb));
+                   // Log.e(TAG, "doneeeeeeeee" + mTagsEditText.getText().toString().substring(removeSpace.length(), acb));
 
                     mUnselectedKeyword = temp.substring(removeSpace.length(), acb);
                     if (removeSpace.length() == acb) {
                         mUnselectedKeyword = "";
                         Log.e(TAG, "clear dataaaaa ");
 
-                        Log.e(TAG, "mUnselectedKeyword" + mUnselectedKeyword);
+                    //    Log.e(TAG, "mUnselectedKeyword" + mUnselectedKeyword);
                     }
                 } catch (Exception e) {
 

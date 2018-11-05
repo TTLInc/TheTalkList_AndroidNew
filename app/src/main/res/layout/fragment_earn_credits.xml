@@ -260,9 +260,7 @@
                         android:padding="10dp"
                         android:textColor="#000000"
                         android:textColorHint="#AEB6BF"
-                        android:textSize="15sp"
-
-                        />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -391,7 +389,7 @@
                             android:layout_marginLeft="30dp"
                             android:layout_marginRight="30dp"
                             android:layout_marginTop="30dp"
-                            android:background="@drawable/capt"
+                            android:background="#ff6634"
                             android:text="Submit"
                             android:textAllCaps="false"
                             android:textColor="#ffffff"

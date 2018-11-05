@@ -1,7 +1,6 @@
 package com.ttl.project.thetalklist;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -331,7 +330,6 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         super.onPause();
     }
 
-    @SuppressLint("StaticFieldLeak")
     class MessageBack extends AsyncTask<String, Void, String> {
         String json_url;
 
@@ -387,9 +385,14 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 JSONArray jsonArray = jsonObject.getJSONArray("messages");
                 mSendImage = jsonObject.getString("tutor_pic");
                 chat_header.setText(jsonObject.getString("tutor_name"));
-                Config.msgCount= Integer.parseInt(jsonObject.getString("unread"));
-                Log.e(TAG, " mMSGCount-->"+mMSGCount );
-                Log.e(TAG, "onPostExecute: " + result);
+                try {
+                    Config.msgCount= Integer.parseInt(jsonObject.getString("unread"));
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+  //              Log.e(TAG, " mMSGCount-->"+mMSGCount );
+//                Log.e(TAG, "onPostExecute: " + result);
                 if (refresh.equals("0")) {
 
                     JSONObject jo = jsonArray.getJSONObject(jsonArray.length() - 1);

@@ -248,7 +248,8 @@ public class Available_Tutor_Expanded extends Fragment {
         buttonToggleedu = (Button) convertView.findViewById(R.id.moreedu);
         buttonTogglepro = (Button) convertView.findViewById(R.id.moreprof);
         expanded_fullscreen = (ImageView) convertView.findViewById(R.id.expanded_fullscreen);
-
+        https:
+//www.thetalklist.com/api/tutoring_subject?tutor_id=
         personalLinearLayout = (LinearLayout) convertView.findViewById(R.id.personalLinearLayout);
         eduLinearLayout = (LinearLayout) convertView.findViewById(R.id.eduLinearLayout);
         proLinearLayout = (LinearLayout) convertView.findViewById(R.id.proLinearLayout);
@@ -492,7 +493,7 @@ public class Available_Tutor_Expanded extends Fragment {
                         public void run() {
                             scrollView.scrollTo(0, 2100);
                         }
-                    },500);
+                    }, 500);
                     morelist.setText("LESS...");
 
                 } else {
@@ -990,7 +991,7 @@ public class Available_Tutor_Expanded extends Fragment {
         protected Void doInBackground(Void... params) {
             String URL = "https://www.thetalklist.com/api/tutoring_subject?tutor_id=" + tutorId;
             RequestQueue queue = Volley.newRequestQueue(getContext());
-
+            Log.e(TAG, "tutoring subject List Name " + URL);
             StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -1007,7 +1008,8 @@ public class Available_Tutor_Expanded extends Fragment {
                             expandableTextViewpro.setText(obj.getString("professional"));
 
                             final String htmlText = " %s ";
-
+                            String subjectList = obj.getString("tutoring_subjects");
+                            Log.e(TAG, "onResponse:->subjectList " + subjectList);
 
                             if (obj.getString("tutoring_subjects").equalsIgnoreCase("")) {
                                 TutorExpanded_tutorin_languages_webview.setVisibility(View.VISIBLE);
@@ -1015,18 +1017,26 @@ public class Available_Tutor_Expanded extends Fragment {
                                 convertView.findViewById(R.id.TutorExpanded_tutorin_languages_progress).setVisibility(View.GONE);
                             } else {
 
-
-                                String nativeLang = obj.getString("tutoring_subjects");
                                 String sub = "";
-                                JSONArray ar = new JSONArray(nativeLang);
-                                for (int i = 0; i < ar.length(); i++) {
-                                    if (sub.equals("")) {
-                                        sub = ar.getString(i);
-                                    } else {
-                                        sub = sub + ", " + ar.getString(i);
+                                String nativeLang = obj.getString("tutoring_subjects");
+                                char mStringFristChar = nativeLang.charAt(0);
+                                if (String.valueOf(mStringFristChar).equals("[")) {
+                                    Log.e(TAG, "onResponse: .//././././." + nativeLang);
+
+                                    JSONArray ar = new JSONArray(nativeLang);
+                                    for (int i = 0; i < ar.length(); i++) {
+                                        if (sub.equals("")) {
+                                            sub = ar.getString(i);
+                                        } else {
+                                            sub = sub + ", " + ar.getString(i);
+                                        }
                                     }
+                                }else {
+                                    String temp=obj.getString("tutoring_subjects");
+                                    sub=temp.replace(",",",%20");
                                 }
 //                                TutorExpanded_tutorin_languages.setText(sub);
+                                Log.e(TAG, "subjectList-----....>>>>"+sub );
                                 TutorExpanded_tutorin_languages_webview.setVisibility(View.VISIBLE);
                                 TutorExpanded_tutorin_languages_webview.loadData(String.format(htmlText, "<html><head><style type=\\\"text/css\\\">  @font-face {  font-family: MyFont;      src: url(\\\"file:///android_asset/fonts/GothamBookRegular.ttf\\\")  }    body { font-family: MyFont; font-color:#616A6B;  font-size: 12px;  text-align: justify;   }   </style> </head>\n" +
                                         "\t<body >"/*style=\"text-align:justify; font-size: 13px;\"*/ +

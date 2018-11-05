@@ -172,6 +172,8 @@ public class Available_tutor extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_available_tutor, container, false);
 
+
+
         txtNoResultFound = (TextView) view.findViewById(R.id.txtNoResultFound);
         txtNoResultFound1 = (TextView) view.findViewById(R.id.txtNoResultFound1);
         btnRetry = (Button) view.findViewById(R.id.btnRetry);
@@ -732,6 +734,8 @@ public class Available_tutor extends Fragment {
         spinnerSearch();
         return view;
     }
+
+
 
     private void spinnerSearch() {
         btnGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

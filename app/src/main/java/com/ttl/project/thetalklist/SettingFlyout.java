@@ -21,6 +21,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -194,6 +195,7 @@ public class SettingFlyout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+
 
 
         TTL app = (TTL) getApplication();
@@ -1126,7 +1128,8 @@ public class SettingFlyout extends AppCompatActivity {
 
     //Register firebase id in database
     private void displayFirebaseRegId() {
-
+        String android_id = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         MyFirebaseInstanceIDService myFirebaseInstanceIDService = new MyFirebaseInstanceIDService();
@@ -1137,8 +1140,8 @@ public class SettingFlyout extends AppCompatActivity {
         SharedPreferences.Editor prefEdit = pref.edit();
         prefEdit.putString("firebase id", refreshedToken).apply();
         firebase_regId = refreshedToken;
-        Log.e("firebase reg id 1111111", "Firebase reg id: " + refreshedToken);
-        String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + refreshedToken;
+        Log.e("firebase reg id 1111111", "Firebase reg id: " + refreshedToken + "--->Device Id<----" + android_id);
+        String URL = "https://www.thetalklist.com/api/firebase_register?user_id=" + getSharedPreferences("loginStatus", MODE_PRIVATE).getInt("id", 0) + "&reg_id=" + refreshedToken + "&device_id=" + android_id;
         StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

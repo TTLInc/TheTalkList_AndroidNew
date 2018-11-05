@@ -326,7 +326,7 @@
                     android:id="@+id/signupButton"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:background="@drawable/capt"
+                    android:background="#ff6634"
                     android:text="Sign Up"
                     android:textAllCaps="false"
                     android:textColor="#fff"

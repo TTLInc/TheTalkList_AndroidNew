@@ -7,10 +7,10 @@
     tools:context="com.ttl.project.thetalklist.New_videocall_activity">
 
     <FrameLayout
+        android:keepScreenOn="true"
         android:id="@+id/videoCallRootLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 

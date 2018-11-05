@@ -32,8 +32,6 @@ import com.opentok.android.OpentokError;
 import com.opentok.android.PublisherKit;
 import com.opentok.android.Stream;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class CallActivity extends AppCompatActivity implements PublisherKit.PublisherListener {
 
     private static final String LOG_TAG = New_videocall_activity.class.getSimpleName();
@@ -56,9 +54,9 @@ public class CallActivity extends AppCompatActivity implements PublisherKit.Publ
         setContentView(R.layout.activity_call);
 
         SharedPreferences p = getSharedPreferences("videocallrole", MODE_PRIVATE);
-        SharedPreferences.Editor ed = p.edit();
+        final SharedPreferences.Editor ed = p.edit();
         ed.putString("videocallrole", "subscriber").apply();
-
+        Log.e(TAG, "onCreate: "+"callActivity is runnig" );
         frameCameraPreview = (FrameLayout) findViewById(R.id.frameCameraPreview);
         wasActive = 0;
 
@@ -205,12 +203,12 @@ public class CallActivity extends AppCompatActivity implements PublisherKit.Publ
                 StringRequest sr = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Log.e(TAG, "onResponse: ->callAcivity"+response );
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.e(TAG, "onErrorResponse: ->callAcivity"+error.getMessage() );
                     }
                 });
                 queue111.add(sr);

@@ -27,8 +27,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_marginTop="10dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
                     <!--autofit:minTextSize="16sp"-->
                     <me.grantland.widget.AutofitTextView
@@ -179,7 +179,7 @@
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="23dp"
-                                android:background="@drawable/capt"
+                                android:background="#ff6634"
                                 android:gravity="center"
                                 android:text="Buy"
                                 android:textAllCaps="false"
@@ -265,7 +265,7 @@
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="23dp"
-                                android:background="@drawable/capt"
+                                android:background="#ff6634"
                                 android:gravity="center"
                                 android:text="Buy"
                                 android:textAllCaps="false"
@@ -296,8 +296,8 @@
                         <LinearLayout
                             android:layout_width="167dp"
                             android:layout_height="79dp"
-                            android:layout_marginLeft="10dp"
                             android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
                             android:gravity="center">
 
                             <LinearLayout
@@ -365,7 +365,7 @@
                                 android:layout_height="30dp"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="23dp"
-                                android:background="@drawable/capt"
+                                android:background="#ff6634"
                                 android:gravity="center"
                                 android:text="Buy"
                                 android:textAllCaps="false"
