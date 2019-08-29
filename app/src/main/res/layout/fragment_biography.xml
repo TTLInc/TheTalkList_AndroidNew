@@ -254,8 +254,13 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:orientation="horizontal"
+<<<<<<< HEAD
+                    android:paddingLeft="10dp"
+                    android:weightSum="1">
+=======
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp">
+>>>>>>> master
 
                     <TextView
                         android:layout_width="match_parent"
@@ -277,9 +282,14 @@
 
                     <TextView
                         android:layout_width="wrap_content"
+<<<<<<< HEAD
+                        android:layout_height="39dp"
+=======
                         android:layout_height="match_parent"
                         android:id="@+id/biography_rate_textview"
+>>>>>>> master
                         android:layout_gravity="center"
+                        android:layout_weight="0.04"
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="6"
@@ -305,6 +315,93 @@
                         android:textSize="12sp"/>
                     
                     <RelativeLayout
+<<<<<<< HEAD
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:orientation="vertical"
+                        android:weightSum="2">
+
+                        <ImageView
+                            android:id="@+id/biography_rate_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/side_aerrow" />
+                </LinearLayout>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/rateLinearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+
+                <TextView
+                    android:id="@+id/as"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:text="$"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/biography_rate_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:text="00"
+                    android:textSize="13dp" />
+
+                <EditText
+                    android:id="@+id/biography_rate_edittext"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:inputType="numberDecimal"
+                    android:maxLength="6"
+                    android:text=""
+                    android:textSize="12dp"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:inputType="numberDecimal"
+                    android:text=""
+                    android:textSize="12dp" />
+
+
+=======
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <Button
@@ -321,11 +418,18 @@
                     </RelativeLayout>
 
                 </LinearLayout>
+>>>>>>> master
             </LinearLayout>
+    </LinearLayout>
 
 
+<<<<<<< HEAD
+
+    <View
+=======
             <!-- Line dividing Tutoring Rate and Tutoring Subjects -->
             <View
+>>>>>>> master
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
@@ -378,9 +482,12 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginLeft="-13dp"
                             android:textAlignment="viewStart" />
+<<<<<<< HEAD
+=======
                         <!--android:layout_marginLeft="-3dp"
                         android:layout_gravity="fill_vertical"
                         android:gravity="start"-->
+>>>>>>> master
 
 
                         <TextView
@@ -395,6 +502,9 @@
                             android:text=""
                             android:textSize="12dp"
                             android:visibility="gone" />
+<<<<<<< HEAD
+
+=======
                         <!-- android:textSize="12dp"
                          android:layout_alignParentRight="true"
                          />-->
@@ -410,6 +520,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center" />
                         </LinearLayout>-->
+>>>>>>> master
                     </RelativeLayout>
 
                     <LinearLayout
@@ -500,7 +611,11 @@
                     </LinearLayout>
                 </LinearLayout>
 
+<<<<<<< HEAD
+
+=======
                 <!-- Collapsable part of the Video Section -->
+>>>>>>> master
                 <LinearLayout
                     android:id="@+id/biography_video"
                     android:layout_width="wrap_content"
@@ -635,7 +750,10 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp">
+<<<<<<< HEAD
+=======
                     <!--android:padding="10dp">-->
+>>>>>>> master
 
                     <TextView
                         android:id="@+id/textView4"
@@ -996,7 +1114,11 @@
                     android:background="#BDBDBD" />
             </LinearLayout>
 
+<<<<<<< HEAD
+
+=======
             <!-- Reviews Section-->
+>>>>>>> master
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
